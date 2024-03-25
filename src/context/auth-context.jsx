@@ -9,9 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
     const [tokenExpiry, setTokenExpiry] = useState(null);
-    const [authenticating, setAuthenticating] = useState(false);
-
-    console.log({ user, token });
+    // const [authenticating, setAuthenticating] = useState(false);
 
     // Load token from local storage on component mount
     useEffect(() => {
