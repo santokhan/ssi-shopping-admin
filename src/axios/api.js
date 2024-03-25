@@ -1,5 +1,3 @@
-'use client';
-
 import API_URL from '../utils/API_URL';
 import axios from 'axios';
 
