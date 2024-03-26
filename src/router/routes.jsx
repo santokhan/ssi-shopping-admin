@@ -1,6 +1,7 @@
 import Index from '../pages/Index.jsx'
 import NotFoundPage from '../pages/404.jsx'
 import SignInPage from '../pages/SignIn.jsx'
+import ForgotPage from '../pages/auth/Forgot.jsx'
 
 const authRoutes = [
     {
@@ -17,7 +18,7 @@ const authRoutes = [
     },
     {
         path: "forgot",
-        element: <Index />
+        element: <ForgotPage />
     },
 ]
 
