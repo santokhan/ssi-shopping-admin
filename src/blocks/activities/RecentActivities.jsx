@@ -22,7 +22,7 @@ const Notification = () => {
     ]
 
     return (
-        <div className="rounded-xl bg-white p-4 space-y-4 mt-8 shadow">
+        <div className="rounded-xl bg-white p-4 sm:p-6 lg:p-8 space-y-4 mt-8 shadow">
             <div className="text-md font-semibold text-gray-700">Notifications</div>
             <div className="space-y-3">
                 {notifications.map((notification, index) => (

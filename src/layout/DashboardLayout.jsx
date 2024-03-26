@@ -1,10 +1,9 @@
 import { twMerge } from "tailwind-merge";
 import NavBar from "../blocks/navbar/NavBar";
 import Sidebar from "./Sidebar";
-import DashboardContent from "./DashboardContent";
 import { useEffect, useState } from "react";
 
-const Dashboard = () => {
+const DashboardLayout = ({ children }) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
 
     function onSidebarToggle() {
@@ -53,11 +52,11 @@ const Dashboard = () => {
 
                 {/* Dashboard Content */}
                 <div className="flex-grow min-h-screen p-8 bg-gray-50 rounded-2xl">
-                    <DashboardContent />
+                    {children}
                 </div>
             </div>
         </main>
     );
 };
 
-export default Dashboard;
+export default DashboardLayout;

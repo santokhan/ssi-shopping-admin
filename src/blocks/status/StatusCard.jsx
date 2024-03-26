@@ -4,7 +4,7 @@ import React from 'react';
 const Card = ({ property }) => {
     const { title, amount, icon } = property
     return (
-        <div className="flex min-w-[260px] flex-1 items-center justify-between gap-8 rounded-lg bg-white p-8 shadow">
+        <div className="flex min-w-[260px] flex-1 items-center justify-between gap-8 rounded-lg bg-white p-4 sm:p-6 lg:p-8 shadow">
             <div>
                 <p className="mt-0.5 line-clamp-1 text-lg">{title}</p>
                 <h2 className="line-clamp-1 text-4xl font-bold text-slate-900">{amount}</h2>

@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
-import Dashboard from "../layout/Dashboard";
+import DashboardLayout from "../layout/DashboardLayout";
 import { useEffect } from "react";
+import DashboardContent from "../blocks/DashboardContent";
 
 const Index = () => {
     const { isAuthenticated } = useAuth();
@@ -16,7 +17,9 @@ const Index = () => {
 
     return (
         authorized &&
-        <Dashboard />
+        <DashboardLayout>
+            <DashboardContent />
+        </DashboardLayout>
     );
 };
 
