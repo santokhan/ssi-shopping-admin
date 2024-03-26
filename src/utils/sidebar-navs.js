@@ -1,7 +1,7 @@
 export const sidebarNavs = [
     {
         label: "Dashboard",
-        to: "dashboard"
+        to: "/"
     },
     {
         label: "Agents",

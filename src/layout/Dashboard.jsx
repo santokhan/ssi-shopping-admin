@@ -2,14 +2,32 @@ import { twMerge } from "tailwind-merge";
 import NavBar from "../blocks/navbar/NavBar";
 import Sidebar from "./Sidebar";
 import DashboardContent from "./DashboardContent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
 
     function onSidebarToggle() {
         setSidebarIsOpen(!sidebarIsOpen);
     }
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isSmaller = window.innerWidth < 992
+            setSidebarIsOpen(!isSmaller);
+        };
+
+        // Initial check
+        handleResize();
+
+        // Event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // Empty dependency array to run effect only once
 
     return (
         <main className="bg-white">
@@ -24,12 +42,14 @@ const Dashboard = () => {
 
             <div className="flex">
                 {/* Sidebar */}
-                <aside className={twMerge(
-                    "w-60 flex-shrink-0",
-                    "sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[1]",
-                    "p-4",
-                    sidebarIsOpen ? "" : "hidden"
-                )}><Sidebar /></aside>
+                {
+                    sidebarIsOpen &&
+                    <aside className={twMerge(
+                        "w-60 flex-shrink-0",
+                        "sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[1]",
+                        "p-4",
+                    )}><Sidebar /></aside>
+                }
 
                 {/* Dashboard Content */}
                 <div className="flex-grow min-h-screen p-8 bg-gray-50 rounded-2xl">

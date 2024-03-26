@@ -8,7 +8,8 @@ const NavBar = ({ onSidebarToggle, sidebarIsOpen }) => {
     return (
         <div className={twMerge("sticky top-0 z-[2] flex h-16 w-full items-center")}>
             <div className="mx-auto flex w-full flex-1 items-center justify-between h-full">
-                {sidebarIsOpen &&
+                {
+                    sidebarIsOpen &&
                     <div className="w-56 flex-shrink-0 flex">
                         <Link to="/" className="router-link-active router-link-exact-active">
                             <Logo />
