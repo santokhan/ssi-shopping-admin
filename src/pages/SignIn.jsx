@@ -1,10 +1,11 @@
 import SignInForm from "../blocks/SignIn";
+import AuthLayout from "../layout/AuthLayout";
 
 const SignInPage = () => {
     return (
-        <div className="bg-login min-h-screen bg-gray-50">
+        <AuthLayout>
             <SignInForm />
-        </div>
+        </AuthLayout>
     );
 };
 
