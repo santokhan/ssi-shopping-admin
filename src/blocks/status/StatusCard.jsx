@@ -9,7 +9,7 @@ const Card = ({ property }) => {
                 <p className="mt-0.5 line-clamp-1 text-lg">{title}</p>
                 <h2 className="line-clamp-1 text-4xl font-bold text-slate-900">{amount}</h2>
             </div>
-            <div className="relative cursor-pointer">
+            <div className="">
                 <div className="grid h-20 w-20 place-items-center rounded-full bg-slate-50 p-0 font-medium">
                     {icon}
                 </div>
