@@ -88,7 +88,7 @@ const SignInForm = () => {
                                 required
                             />
                             <div className="flex justify-end">
-                                <a href="/auth/forgot" className="text-dark-blue-500 hover:text-dark-blue-400 text-xs font-medium hover:underline">Forgot password?</a>
+                                <a href="/forgot" className="text-dark-blue-500 hover:text-dark-blue-400 text-xs font-medium hover:underline">Forgot password?</a>
                             </div>
                         </div>
                         <div className="w-full">
