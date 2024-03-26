@@ -51,7 +51,7 @@ const DashboardLayout = ({ children }) => {
                 }
 
                 {/* Dashboard Content */}
-                <div className="flex-grow min-h-screen p-8 bg-gray-50 rounded-2xl">
+                <div className="flex-grow w-full min-h-screen p-4 lg:p-8 bg-gray-50 rounded-2xl overflow-x-hidden">
                     {children}
                 </div>
             </div>

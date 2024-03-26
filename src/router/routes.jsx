@@ -2,6 +2,7 @@ import Index from '../pages/Index.jsx'
 import NotFoundPage from '../pages/404.jsx'
 import SignInPage from '../pages/SignIn.jsx'
 import ForgotPage from '../pages/auth/Forgot.jsx'
+import Agents from '../pages/Agents.jsx'
 
 const authRoutes = [
     {
@@ -29,6 +30,11 @@ export const routes = [
             {
                 path: "",
                 element: <Index />,
+                index: true
+            },
+            {
+                path: "agents",
+                element: <Agents />,
                 index: true
             },
             ...authRoutes
