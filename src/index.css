@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .bg-login {
+        background-image: url("./assets/images/login/bg-login.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-size: 100vw;
+    }
+
+    @media (min-width: 992px) {
+        .bg-login {
+            background-size: 75vw;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .bg-login {
+            background-size: 60vw;
+        }
+    }
+}

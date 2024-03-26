@@ -3,6 +3,8 @@ import { useNavigate, redirect } from 'react-router-dom';
 import { useAuth } from '../context/auth-context';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Logo from '../components/Logo';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline'
 
 const SignInForm = () => {
     const [state, setState] = useState({
@@ -52,35 +54,47 @@ const SignInForm = () => {
     console.log(state);
 
     return (
-        <div className="w-full flex flex-wrap items-center gap-8 rounded-xl bg-white p-4 sm:p-6 lg:flex-nowrap lg:p-12">
-            <div className="bg-white relative mx-auto grid w-96 max-w-md place-items-center lg:flex-shrink-0">
+        <div className="w-full max-w-screen-xl mx-auto rounded-xl p-4 sm:p-6 lg:p-12">
+            <div className="bg-white relative grid w-full max-w-md place-items-center lg:flex-shrink-0 shadow p-10 rounded-xl">
                 <div className="w-full space-y-8 text-center">
-                    <h1 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">Login</h1>
+                    <div className="flex justify-center">
+                        <Logo />
+                    </div>
+                    <div>
+                        <h5 className="text-xl font-semibold text-center">Sign in</h5>
+                        <p className="text-center mt-1 text-sm">Sign in with this account across the following sites.</p>
+                    </div>
                     <form className="w-full" onSubmit={handleSignIn}>
                         <div className="mb-5 space-y-2">
+                            <label htmlFor="username" className='text-start font-medium block'>Email</label>
                             <input
                                 type="text"
                                 name="username"
-                                placeholder="Username"
-                                className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md bg-slate-100 px-4 py-3 text-sm font-medium outline-none focus-visible:shadow-none lg:py-4 lg:text-base"
+                                id="username"
+                                placeholder="Enter Username"
+                                className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md px-4 py-2.5 border text-sm outline-none focus-visible:shadow-none lg:text-base"
                                 spellCheck="false"
                                 required
                             />
                         </div>
                         <div className="mb-5 space-y-2">
+                            <label htmlFor="password" className='text-start font-medium block'>Password</label>
                             <input
                                 type="password"
+                                id="password"
                                 name="password"
-                                placeholder="Password"
-                                className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md bg-slate-100 px-4 py-3 text-sm font-medium outline-none focus-visible:shadow-none lg:py-4 lg:text-base"
+                                placeholder="Enter Password"
+                                className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md px-4 py-2.5 border text-sm outline-none focus-visible:shadow-none lg:text-base"
                                 required
                             />
                             <div className="flex justify-end">
-                                {/* <a href="/auth/forgot" className="text-blue-400 text-xs font-medium hover:underline">Forgot password?</a> */}
+                                <a href="/auth/forgot" className="text-dark-blue-500 hover:text-dark-blue-400 text-xs font-medium hover:underline">Forgot password?</a>
                             </div>
                         </div>
                         <div className="w-full">
-                            <button className="w-full rounded-md bg-blue-500 px-12 py-3 text-sm font-medium text-white transition hover:bg-opacity-90 lg:text-base">Login</button>
+                            <button className="w-full rounded-md bg-dark-blue-500 hover:bg-dark-blue-400 px-12 py-3 text-sm font-medium text-white transition hover:bg-opacity-90 lg:text-base">
+                                Sign in<ArrowUpRightIcon className="inline-block ml-2 h-5 w-5" />
+                            </button>
                         </div>
                     </form>
                     {/* <p className="font-medium text-gray-800">Don&apos;t have an account? <a href="/auth/register" className="text-blue-400 hover:text-blue inline-block text-base hover:underline">Register</a></p> */}
