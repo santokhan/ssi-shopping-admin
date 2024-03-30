@@ -5,7 +5,7 @@ const ProductDropdown = () => {
         <div className="border-secondary-800 bg-secondary-900 shadow-secondary-950 absolute left-1/2 top-full hidden w-[60rem] -translate-x-1/2 rounded-xl border p-4 shadow backdrop-blur-xl group-hover:block">
             <div className="flex gap-6">
                 <ul className="w-1/3 space-y-6">
-                    <li className>
+                    <li className="">
                         <a aria-current="page" href="#/" className="router-link-active router-link-exact-active hover:bg-secondary-800 text-secondary-400 hover:text-gray-800 flex gap-3 rounded-md px-3 py-3"><div className="bg-secondary-800 flex h-8 w-8 flex-shrink-0 items-center justify-center gap-4 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="text-default-400 h-6 w-6">
                                 <path d="M17.004 10.407c.138.435-.216.842-.672.842h-3.465a.75.75 0 0 1-.65-.375l-1.732-3c-.229-.396-.053-.907.393-1.004a5.252 5.252 0 0 1 6.126 3.537ZM8.12 8.464c.307-.338.838-.235 1.066.16l1.732 3a.75.75 0 0 1 0 .75l-1.732 3c-.229.397-.76.5-1.067.161A5.23 5.23 0 0 1 6.75 12a5.23 5.23 0 0 1 1.37-3.536ZM10.878 17.13c-.447-.098-.623-.608-.394-1.004l1.733-3.002a.75.75 0 0 1 .65-.375h3.465c.457 0 .81.407.672.842a5.252 5.252 0 0 1-6.126 3.539Z" />
@@ -17,7 +17,7 @@ const ProductDropdown = () => {
                                 <p className="text-secondary-400">Brainstorming and general AI usage. Similar to ChatGPT but a bit slower for now. Engage the AI in general knowledge and search the web for current information on work related topics.</p>
                             </div></a>
                     </li>
-                    <li className>
+                    <li className="">
                         <a aria-current="page" href="#/" className="router-link-active router-link-exact-active hover:bg-secondary-800 text-secondary-400 hover:text-gray-800 flex gap-3 rounded-md px-3 py-3"><div className="bg-secondary-800 flex h-8 w-8 flex-shrink-0 items-center justify-center gap-4 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="text-default-400 h-6 w-6">
                                 <path d="M17.004 10.407c.138.435-.216.842-.672.842h-3.465a.75.75 0 0 1-.65-.375l-1.732-3c-.229-.396-.053-.907.393-1.004a5.252 5.252 0 0 1 6.126 3.537ZM8.12 8.464c.307-.338.838-.235 1.066.16l1.732 3a.75.75 0 0 1 0 .75l-1.732 3c-.229.397-.76.5-1.067.161A5.23 5.23 0 0 1 6.75 12a5.23 5.23 0 0 1 1.37-3.536ZM10.878 17.13c-.447-.098-.623-.608-.394-1.004l1.733-3.002a.75.75 0 0 1 .65-.375h3.465c.457 0 .81.407.672.842a5.252 5.252 0 0 1-6.126 3.539Z" />
@@ -31,7 +31,7 @@ const ProductDropdown = () => {
                     </li>
                 </ul>
                 <ul className="w-1/3 space-y-6">
-                    <li className>
+                    <li className="">
                         <a aria-current="page" href="#/" className="router-link-active router-link-exact-active hover:bg-secondary-800 text-secondary-400 hover:text-gray-800 flex gap-3 rounded-md px-3 py-3"><div className="bg-secondary-800 flex h-8 w-8 flex-shrink-0 items-center justify-center gap-4 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="text-default-400 h-6 w-6">
                                 <path d="M17.004 10.407c.138.435-.216.842-.672.842h-3.465a.75.75 0 0 1-.65-.375l-1.732-3c-.229-.396-.053-.907.393-1.004a5.252 5.252 0 0 1 6.126 3.537ZM8.12 8.464c.307-.338.838-.235 1.066.16l1.732 3a.75.75 0 0 1 0 .75l-1.732 3c-.229.397-.76.5-1.067.161A5.23 5.23 0 0 1 6.75 12a5.23 5.23 0 0 1 1.37-3.536ZM10.878 17.13c-.447-.098-.623-.608-.394-1.004l1.733-3.002a.75.75 0 0 1 .65-.375h3.465c.457 0 .81.407.672.842a5.252 5.252 0 0 1-6.126 3.539Z" />
@@ -43,7 +43,7 @@ const ProductDropdown = () => {
                                 <p className="text-secondary-400">Knowledge library to make your information easily accessible. You can upload documents in PDF reports, MS Word, Google docs. Then chat with your documents to find information easily.</p>
                             </div></a>
                     </li>
-                    <li className>
+                    <li className="">
                         <a aria-current="page" href="#/" className="router-link-active router-link-exact-active hover:bg-secondary-800 text-secondary-400 hover:text-gray-800 flex gap-3 rounded-md px-3 py-3"><div className="bg-secondary-800 flex h-8 w-8 flex-shrink-0 items-center justify-center gap-4 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="text-default-400 h-6 w-6">
                                 <path d="M17.004 10.407c.138.435-.216.842-.672.842h-3.465a.75.75 0 0 1-.65-.375l-1.732-3c-.229-.396-.053-.907.393-1.004a5.252 5.252 0 0 1 6.126 3.537ZM8.12 8.464c.307-.338.838-.235 1.066.16l1.732 3a.75.75 0 0 1 0 .75l-1.732 3c-.229.397-.76.5-1.067.161A5.23 5.23 0 0 1 6.75 12a5.23 5.23 0 0 1 1.37-3.536ZM10.878 17.13c-.447-.098-.623-.608-.394-1.004l1.733-3.002a.75.75 0 0 1 .65-.375h3.465c.457 0 .81.407.672.842a5.252 5.252 0 0 1-6.126 3.539Z" />

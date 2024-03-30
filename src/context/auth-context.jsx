@@ -1,28 +1,17 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import api from '../axios/api';
 
-const tokenAge = 60 * 60 * 24 * 2 * 1000; // 2 days
+const tokenAge = 1000 * 60 * 5;
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
-    const [tokenExpiry, setTokenExpiry] = useState(null);
-    // const [authenticating, setAuthenticating] = useState(false);
-
-    // Load token from local storage on component mount
-    useEffect(() => {
-        const storedToken = localStorage.getItem('accessToken');
-        const storedExpiry = localStorage.getItem('tokenExpiry');
-        if (storedToken) {
-            setToken(prev => ({ ...prev, access: storedToken }));
-            if (storedExpiry) {
-                setTokenExpiry(Number(storedExpiry))
-            }
-        }
-
-    }, [])
+    const [token, setToken] = useState({
+        access: localStorage.getItem('accessToken'),
+        refresh: localStorage.getItem('refreshToken'),
+    });
+    const [tokenExpiry, setTokenExpiry] = useState(localStorage.getItem('tokenExpiry'));
 
     const signin = (user, token, expiresIn = tokenAge) => {
         // Save user and token
@@ -59,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         // Implement logic to refresh the token from your backend
         // For example, make a request to your backend to obtain a new token
         // Update the token and expiry accordingly
-        api.post('token/refresh', { refresh: token.refresh }).then((res) => {
+        api.post('token/refresh/', { refresh: token.refresh }).then((res) => {
             if (res) {
                 signin(null, res.data);
             }

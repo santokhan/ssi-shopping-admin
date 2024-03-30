@@ -17,9 +17,7 @@ const Index = () => {
 
     return (
         authorized &&
-        <DashboardLayout>
-            <DashboardContent />
-        </DashboardLayout>
+        <DashboardContent />
     );
 };
 

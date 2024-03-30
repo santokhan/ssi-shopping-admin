@@ -3,6 +3,9 @@ import NotFoundPage from '../pages/404.jsx'
 import SignInPage from '../pages/SignIn.jsx'
 import ForgotPage from '../pages/auth/Forgot.jsx'
 import Agents from '../pages/Agents.jsx'
+import DashboardLayout from '../layout/DashboardLayout.jsx'
+import AgentLayout from '../layout/AgentLayout.jsx'
+import CreateAgent from '../pages/agent/CreateAgent.jsx'
 
 const authRoutes = [
     {
@@ -26,6 +29,7 @@ const authRoutes = [
 export const routes = [
     {
         path: "/",
+        element: <DashboardLayout />,
         children: [
             {
                 path: "",
@@ -34,12 +38,22 @@ export const routes = [
             },
             {
                 path: "agents",
-                element: <Agents />,
-                index: true
+                element: <AgentLayout />,
+                children: [
+                    {
+                        path: "",
+                        element: <Agents />,
+                        index: true
+                    },
+                    {
+                        path: "create",
+                        element: <CreateAgent />
+                    }
+                ]
             },
-            ...authRoutes
         ],
     },
+    ...authRoutes,
     {
         path: "*",
         element: <NotFoundPage />,

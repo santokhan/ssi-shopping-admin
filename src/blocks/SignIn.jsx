@@ -52,7 +52,7 @@ const SignInForm = () => {
     }, [authorized, navigate])
 
     return (
-        <div className="bg-white relative grid w-full max-w-md place-items-center lg:flex-shrink-0 shadow p-10 rounded-xl">
+        <div className="bg-white relative grid w-full max-w-md place-items-center lg:flex-shrink-0 shadow p-4 lg:p-10 rounded-xl">
             <div className="w-full space-y-8">
                 <div className="flex justify-center">
                     <Logo />

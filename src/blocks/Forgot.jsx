@@ -47,7 +47,7 @@ const ForgotForm = () => {
 
 
     return (
-        <div className="bg-white relative w-full max-w-md shadow p-10 rounded-xl">
+        <div className="bg-white relative w-full max-w-md shadow p-4 lg:p-10 rounded-xl">
             <div className="w-full space-y-8">
                 <div className="flex justify-center">
                     <Logo />
