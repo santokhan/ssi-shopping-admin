@@ -1,10 +1,9 @@
-const Label = ({ label }) => {
+const Label = ({ children }) => {
     return (
         <label
-            htmlFor={label}
-            className="font-semibold capitalize"
+            className="space-y-2"
         >
-            {label}
+            {children}
         </label>
     );
 };

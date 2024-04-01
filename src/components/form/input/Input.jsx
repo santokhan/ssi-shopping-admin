@@ -15,8 +15,10 @@ export const InputElement = ({ label, type = "text", ...props }) => {
 const Input = ({ label, type = "text", className = "", ...props }) => {
     return (
         <InputBox className={twMerge(className)}>
-            <Label label={label} />
-            <InputElement label={label} type={type} {...props} />
+            <Label>
+                <span className="font-semibold capitalize">{label}</span>
+                <InputElement label={label} type={type} {...props} />
+            </Label>
         </InputBox>
     );
 };
