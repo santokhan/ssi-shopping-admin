@@ -15,7 +15,7 @@ const SubmitButton = ({ children }) => {
 
 export const FinalSubmitButton = () => {
     return (
-        <div className={twMerge('flex justify-between gap-2 mt-4')}>
+        <div className={twMerge('col-span-full flex justify-between gap-2 mt-4')}>
             <div className=""></div>
             <SubmitButton />
         </div>

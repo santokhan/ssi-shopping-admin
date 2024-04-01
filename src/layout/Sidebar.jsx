@@ -19,13 +19,13 @@ const Sidebar = () => {
 
     return (
         <div>
-            <ul>
+            <ul className='space-y-1'>
                 {sidebarNavs.map((item, index) => {
                     const { label, to } = item;
                     return (
                         <li key={index}>
                             <Link to={to} className={twMerge(
-                                'block py-2.5 px-4 rounded-lg font-medium',
+                                'block py-2.5 px-4 rounded-lg font-semibold',
                                 matcher(to) ? 'bg-gray-800 text-gray-50' : "text-gray-800 hover:bg-gray-100"
                             )}>{label}</Link>
                         </li>

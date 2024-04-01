@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from "../../components/table/AddButton";
+import TableTitle from '../../components/table/TableTitle'
 
 const AgentTableDetailsField = ({ agent }) => {
     if (!agent) {
@@ -105,17 +106,17 @@ const AgentTableRow = ({ agent }) => {
     )
 }
 
-const tableTitle = "All Agents";
+const tableTitle = "All Properties";
 
 const TableTopSection = () => {
     return (
         <div className="relative flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">
             <div className="w-full md:w-1/2">
-                <h2 className="text-2xl lg:text-3xl font-medium text-gray-900">{tableTitle}</h2>
+                <TableTitle>{tableTitle}</TableTitle>
             </div>
             <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
                 <TableSearch />
-                <AddButton>Add new property</AddButton>
+                <AddButton to="create">Add new property</AddButton>
             </div>
         </div>
     );

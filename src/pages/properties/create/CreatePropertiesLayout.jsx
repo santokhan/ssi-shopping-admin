@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
+import TableTitle from '../../../components/table/TableTitle'
 
 const tabList = [
     {
@@ -49,8 +50,8 @@ const Tabs = () => {
                     to={tab.to}
                     className={
                         twMerge(
-                            "whitespace-nowrap py-3 text-base font-medium border-b-2 border-transparent hover:outline-none",
-                            pathMatcher(tab.to) ? "border-gray-900" : "border-transparent"
+                            "whitespace-nowrap py-3 text-base font-semibold border-b-2 border-transparent hover:outline-none text-gray-700",
+                            pathMatcher(tab.to) ? "border-gray-900 text-gray-900" : "border-transparent"
                         )
                     }
                 >
@@ -64,9 +65,9 @@ const Tabs = () => {
 const CreatePropertiesLayout = () => {
     return (
         <div className='space-y-6'>
-            <div>
-                <h2 className="text-2xl lg:text-3xl font-medium text-gray-900">All Properties</h2>
-                <p>We are glad to see you again!</p>
+            <div className='space-y-1'>
+                <TableTitle>Add New Properties</TableTitle>
+                <p className='font-medium text-gray-600'>We are glad to see you again!</p>
             </div>
             <div className="bg-white rounded-xl overflow-hidden shadow">
                 <Tabs />

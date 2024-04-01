@@ -1,14 +1,13 @@
-const SelectInput = (props) => {
-    const { label, options } = props;
-    
+import InputBox from "../InputBox";
+import Label from "./Label";
+
+const Select = ({ label, options, className = "", ...props }) => {
     return (
-        <div className="flex flex-col gap-2">
-            <label htmlFor={label} className="font-medium">
-                {label}
-            </label>
+        <InputBox>
+            <Label label={label} />
             <select
                 {...props}
-                className="w-full border rounded-lg px-2 py-2"
+                className="w-full border rounded-lg px-3 py-3"
             >
                 {options.map((option, index) => (
                     <option key={index} value={option.value}>
@@ -16,8 +15,8 @@ const SelectInput = (props) => {
                     </option>
                 ))}
             </select>
-        </div>
+        </InputBox>
     );
 };
 
-export default SelectInput;
+export default Select;

@@ -113,7 +113,7 @@ const TableTopSection = () => {
             </div>
             <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
                 <TableSearch />
-                <AddButton>Add new agent</AddButton>
+                <AddButton to="create">Add new agent</AddButton>
             </div>
         </div>
     );
