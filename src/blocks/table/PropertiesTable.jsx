@@ -114,7 +114,7 @@ const TableTopSection = () => {
             </div>
             <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
                 <TableSearch />
-                <Link to='create' className="flex items-center gap-1 justify-center rounded-lg bg-dark-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-dark-blue-800 focus:outline-none focus:ring-4 focus:ring-dark-blue-300">
+                <Link to='create' className="flex items-center gap-1 justify-center rounded-lg bg-dark-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-dark-blue-600">
                     <Add className="h-4 w-4" />Add new property
                 </Link>
             </div>
@@ -122,40 +122,43 @@ const TableTopSection = () => {
     );
 };
 
-const AgentTable = ({ agents }) => {
+const PropertiesTable = ({ agents }) => {
     return (
         <div className="space-y-4">
             <TableTopSection />
-            <div className="bg-white p-4 space-y-4">
-                <div className="w-full overflow-x-auto">
-                    <table className="w-full text-sm text-gray-500 rtl:text-right">
-                        <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-                            <tr>
-                                <th scope="col" className="text-start rounded-l-lg px-6 py-3">Property Name</th>
-                                <th scope="col" className="text-start px-6 py-3">Date Added</th>
-                                <th scope="col" className="text-start px-6 py-3">Status</th>
-                                <th scope="col" className="text-start px-6 py-3">Properties</th>
-                                <th scope="col" className="text-start rounded-r-lg px-6 py-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                agents.map((agent, i) => {
-                                    return (
-                                        <Fragment key={i}>
-                                            <AgentTableRow agent={agent} />
-                                        </Fragment>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+            {
+                agents &&
+                <div className="bg-white p-4 space-y-4">
+                    <div className="w-full overflow-x-auto">
+                        <table className="w-full text-sm text-gray-500 rtl:text-right">
+                            <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+                                <tr>
+                                    <th scope="col" className="text-start rounded-l-lg px-6 py-3">Property Name</th>
+                                    <th scope="col" className="text-start px-6 py-3">Date Added</th>
+                                    <th scope="col" className="text-start px-6 py-3">Status</th>
+                                    <th scope="col" className="text-start px-6 py-3">Properties</th>
+                                    <th scope="col" className="text-start rounded-r-lg px-6 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    agents.map((agent, i) => {
+                                        return (
+                                            <Fragment key={i}>
+                                                <AgentTableRow agent={agent} />
+                                            </Fragment>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <Pagination totalPages={[1, 2, 3, 4, 5]} currentPage={1} />
+                    <TableSummary />
                 </div>
-                <Pagination totalPages={[1, 2, 3, 4, 5]} currentPage={1} />
-                <TableSummary />
-            </div>
+            }
         </div>
     )
 }
 
-export default AgentTable;
+export default PropertiesTable;

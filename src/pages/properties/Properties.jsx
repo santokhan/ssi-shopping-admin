@@ -25,10 +25,11 @@ const Agents = () => {
 
     return (
         <>
-            {loading && <Spinner />}
             {
-                agents &&
-                <PropertiesTable agents={agents} />
+                loading ?
+                    <Spinner />
+                    :
+                    <PropertiesTable agents={agents} />
             }
         </>
     )

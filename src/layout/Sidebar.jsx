@@ -13,7 +13,7 @@ const Sidebar = () => {
         if (path == '/') {
             return pathName === path;
         } else {
-            return pathName.includes(path)
+            return pathName.split("/")[1].includes(path)
         }
     }
 

@@ -1,7 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import api from '../axios/api';
 
-const tokenAge = 1000 * 60 * 30;
+const sec = 1000; // 1s from millisecond
+const min = 60 * sec; // 1m from second
+const tokenAge = (min * 30) - sec; // 30m - 1s
 
 export const AuthContext = createContext(null);
 

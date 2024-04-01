@@ -7,6 +7,12 @@ import Properties from '../pages/properties/Properties.jsx'
 import DashboardLayout from '../layout/DashboardLayout.jsx'
 import AgentLayout from '../pages/agents/AgentsLayout.jsx'
 import PropertiesLayout from '../pages/properties/PropertiesLayout.jsx'
+import CreatePropertiesLayout from '../pages/properties/create/CreatePropertiesLayout.jsx'
+import PDescription from '../pages/properties/create/description/Description.jsx'
+import PLocation from '../pages/properties/create/location/Location.jsx'
+import PMedia from '../pages/properties/create/media/Media.jsx'
+import PAmenities from '../pages/properties/create/amenities/Amenities.jsx'
+import PDetails from '../pages/properties/create/details/Details.jsx'
 import CreateAgent from '../pages/agents/create/CreateAgent.jsx'
 
 const authRoutes = [
@@ -64,7 +70,30 @@ export const routes = [
                     },
                     {
                         path: "create",
-                        element: <CreateAgent />
+                        element: <CreatePropertiesLayout />,
+                        children: [
+                            {
+                                path: "",
+                                element: <PDescription />,
+                                index: true
+                            },
+                            {
+                                path: "details",
+                                element: <PDetails />,
+                            },
+                            {
+                                path: "amenities",
+                                element: <PAmenities />,
+                            },
+                            {
+                                path: "location",
+                                element: <PLocation />,
+                            },
+                            {
+                                path: "media",
+                                element: <PMedia />,
+                            },
+                        ]
                     }
                 ]
             },

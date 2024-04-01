@@ -3,10 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../components/Button';
-
-const InputBox = ({ children, className }) => {
-    return <div className={twMerge('space-y-1', className)}>{children}</div>;
-};
+import InputBox from '../../components/form/InputBox';
 
 const ImageInput = ({ agent }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -71,51 +68,51 @@ const AgentForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                     <InputBox>
                         <label className="block font-medium">Display Name</label>
-                        <input type="text" name="displayName" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="displayName" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Email</label>
-                        <input type="email" name="email" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="email" name="email" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Phone</label>
-                        <input type="text" name="phone" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="phone" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">First Name</label>
-                        <input type="text" name="firstName" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="firstName" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Last Name</label>
-                        <input type="text" name="lastName" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="lastName" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">WhatsApp Number</label>
-                        <input type="text" name="whatsAppNumber" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="whatsAppNumber" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Speaks</label>
-                        <input type="text" name="speaks" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="speaks" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Location</label>
-                        <input type="text" name="location" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="location" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Years of Expertise</label>
-                        <input type="number" name="yearsOfExpertise" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="number" name="yearsOfExpertise" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Category</label>
-                        <input type="text" name="category" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="category" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Nationality</label>
-                        <input type="text" name="nationality" className='w-full border rounded-lg px-2 py-1.5' />
+                        <input type="text" name="nationality" className='w-full border rounded-lg px-2 py-2' />
                     </InputBox>
                     <InputBox>
                         <label className="block font-medium">Status</label>
-                        <select name="status" className='w-full border rounded-lg px-2 py-1.5'>
+                        <select name="status" className='w-full border rounded-lg px-2 py-2'>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -123,7 +120,7 @@ const AgentForm = () => {
                 </div>
                 <InputBox className={'mt-4'}>
                     <label className="block font-medium">About</label>
-                    <textarea className='w-full border rounded-lg px-2 py-1.5' cols={2} rows={5}></textarea>
+                    <textarea className='w-full border rounded-lg px-2 py-2' cols={2} rows={5}></textarea>
                 </InputBox>
                 <div className={twMerge('flex justify-end gap-2 mt-4')}>
                     <Button variant="outline">Cancel</Button>
