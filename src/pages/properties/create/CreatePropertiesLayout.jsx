@@ -42,7 +42,7 @@ const Tabs = () => {
     }
 
     return (
-        <div className="items-center bg-white flex gap-12 px-4 lg:px-6">
+        <div className="items-center bg-white flex gap-6 lg:gap-12 px-4 lg:px-6 overflow-x-auto">
             {/* <pre>{JSON.stringify(pathList, null, 2)}</pre> */}
             {tabList.map((tab, index) => (
                 <Link
