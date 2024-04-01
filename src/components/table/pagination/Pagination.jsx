@@ -9,12 +9,12 @@ const Pagination = (props) => {
 
     return (
         <div className="w-full flex justify-center">
-            <ul className="flex -space-x-px">
+            <ul className="flex gap-1 font-medium">
                 <li>
                     <button
                         type="button"
                         onClick={onBack}
-                        className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 h-full"
+                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white shadow rounded-full hover:text-gray-700"
                     >
                         <ArrowLeft2 className='w-4 h-4' />
                     </button>
@@ -24,7 +24,7 @@ const Pagination = (props) => {
                         <button
                             type="button"
                             onClick={() => onChange(pageNumber)}
-                            className={`px-3 py-2 ml-0 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentPage === pageNumber ? 'bg-dark-blue-500 text-white' : 'text-gray-500'}`}
+                            className={`p-2 min-w-12 min-h-12 flex-grow min-leading-tight rounded-full hover:bg-gray-100 hover:text-gray-700 ${currentPage === pageNumber ? 'bg-dark-blue-500 text-white' : 'text-gray-600'}`}
                         >
                             {pageNumber}
                         </button>
@@ -34,7 +34,7 @@ const Pagination = (props) => {
                     <button
                         type="button"
                         onClick={onNext}
-                        className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 h-full"
+                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white shadow rounded-full hover:text-gray-700"
                     >
                         <ArrowRight2 className='w-4 h-4' />
                     </button>
