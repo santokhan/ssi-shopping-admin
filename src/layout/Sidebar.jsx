@@ -3,7 +3,7 @@ import { sidebarNavs } from '../utils/sidebar-navs';
 import { Link, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
-const Sidebar = ({ routePrefix = '' }) => {
+const Sidebar = () => {
     const location = useLocation();
     const pathName = location.pathname;
 
@@ -13,8 +13,7 @@ const Sidebar = ({ routePrefix = '' }) => {
         if (path == '/') {
             return pathName === path;
         } else {
-            console.log({ pathName, path });
-            return pathName == '/' + path
+            return pathName.includes(path)
         }
     }
 

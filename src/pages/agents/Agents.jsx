@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import AgentTable from "../blocks/table/AgentTable";
-import api from "../axios/api";
-import Spinner from "../components/loader/Spinner";
+import api from "../../axios/api";
+import Spinner from "../../components/loader/Spinner";
+import AgentTable from "../../blocks/table/AgentTable";
+
 
 const Agents = () => {
     const [agents, setAgents] = useState(null);

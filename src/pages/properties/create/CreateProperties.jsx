@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateAgentForm from '../../blocks/form/AgentForm.jsx';
+import CreateAgentForm from '../../../blocks/form/AgentForm.jsx';
 
 const CreateAgent = () => {
     return (

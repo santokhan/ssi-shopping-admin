@@ -1,11 +1,13 @@
 import Index from '../pages/Index.jsx'
 import NotFoundPage from '../pages/404.jsx'
-import SignInPage from '../pages/SignIn.jsx'
+import SignInPage from '../pages/auth/SignIn.jsx'
 import ForgotPage from '../pages/auth/Forgot.jsx'
-import Agents from '../pages/Agents.jsx'
+import Agents from '../pages/agents/Agents.jsx'
+import Properties from '../pages/properties/Properties.jsx'
 import DashboardLayout from '../layout/DashboardLayout.jsx'
-import AgentLayout from '../layout/AgentLayout.jsx'
-import CreateAgent from '../pages/agent/CreateAgent.jsx'
+import AgentLayout from '../pages/agents/AgentsLayout.jsx'
+import PropertiesLayout from '../pages/properties/PropertiesLayout.jsx'
+import CreateAgent from '../pages/agents/create/CreateAgent.jsx'
 
 const authRoutes = [
     {
@@ -43,6 +45,21 @@ export const routes = [
                     {
                         path: "",
                         element: <Agents />,
+                        index: true
+                    },
+                    {
+                        path: "create",
+                        element: <CreateAgent />
+                    }
+                ]
+            },
+            {
+                path: "properties",
+                element: <PropertiesLayout />,
+                children: [
+                    {
+                        path: "",
+                        element: <Properties />,
                         index: true
                     },
                     {

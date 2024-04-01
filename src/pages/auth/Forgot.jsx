@@ -1,6 +1,6 @@
 import React from 'react';
 import ForgotForm from '../../blocks/Forgot';
-import AuthLayout from '../../layout/AuthLayout';
+import AuthLayout from './AuthLayout';
 
 const ForgotPage = () => {
     return (

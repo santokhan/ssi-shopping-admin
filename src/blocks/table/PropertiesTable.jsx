@@ -124,7 +124,7 @@ const TableTopSection = () => {
                     </div>
                 </form>
                 <Link to='create' className="flex items-center gap-1 justify-center rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                    <Add className="h-4 w-4" />Add new agent
+                    <Add className="h-4 w-4" />Add new property
                 </Link>
             </div>
         </div>
@@ -140,7 +140,7 @@ const AgentTable = ({ agents }) => {
                     <table className="w-full text-sm text-gray-500 rtl:text-right">
                         <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                             <tr>
-                                <th scope="col" className="text-start rounded-l-lg px-6 py-3">Agent Name</th>
+                                <th scope="col" className="text-start rounded-l-lg px-6 py-3">Property Name</th>
                                 <th scope="col" className="text-start px-6 py-3">Date Added</th>
                                 <th scope="col" className="text-start px-6 py-3">Status</th>
                                 <th scope="col" className="text-start px-6 py-3">Properties</th>

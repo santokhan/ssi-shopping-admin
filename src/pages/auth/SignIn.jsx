@@ -1,5 +1,6 @@
-import SignInForm from "../blocks/SignIn";
-import AuthLayout from "../layout/AuthLayout";
+import SignInForm from "../../blocks/SignIn";
+import AuthLayout from "./AuthLayout";
+
 
 const SignInPage = () => {
     return (
