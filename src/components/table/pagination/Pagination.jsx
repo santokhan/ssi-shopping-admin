@@ -14,7 +14,7 @@ const Pagination = (props) => {
                     <button
                         type="button"
                         onClick={onBack}
-                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white shadow rounded-full hover:text-gray-700"
+                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white hover:bg-gray-100 shadow rounded-full hover:text-gray-700"
                     >
                         <ArrowLeft2 className='w-4 h-4' />
                     </button>
@@ -34,7 +34,7 @@ const Pagination = (props) => {
                     <button
                         type="button"
                         onClick={onNext}
-                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white shadow rounded-full hover:text-gray-700"
+                        className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white hover:bg-gray-100 shadow rounded-full hover:text-gray-700"
                     >
                         <ArrowRight2 className='w-4 h-4' />
                     </button>

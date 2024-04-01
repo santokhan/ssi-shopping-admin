@@ -6,6 +6,7 @@ import { Add } from "iconsax-react";
 import { Link } from "react-router-dom";
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
+import AddButton from "../../components/table/AddButton";
 
 const AgentTableDetailsField = ({ agent }) => {
     if (!agent) {
@@ -114,9 +115,7 @@ const TableTopSection = () => {
             </div>
             <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
                 <TableSearch />
-                <Link to='create' className="flex items-center gap-1 justify-center rounded-lg bg-dark-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-dark-blue-600">
-                    <Add className="h-4 w-4" />Add new property
-                </Link>
+                <AddButton>Add new property</AddButton>
             </div>
         </div>
     );
