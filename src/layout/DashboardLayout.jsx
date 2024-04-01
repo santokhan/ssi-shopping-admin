@@ -44,7 +44,7 @@ const DashboardLayout = () => {
                 {
                     sidebarIsOpen &&
                     <aside className={twMerge(
-                        "w-60 flex-shrink-0",
+                        "w-full lg:w-60 flex-shrink-0",
                         "fixed sm:sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[2] bg-white",
                         "p-4",
                     )}><Sidebar /></aside>

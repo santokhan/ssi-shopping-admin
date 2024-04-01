@@ -18,7 +18,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div>
+        <>
             <ul className='space-y-1'>
                 {sidebarNavs.map((item, index) => {
                     const { label, to } = item;
@@ -32,7 +32,7 @@ const Sidebar = () => {
                     );
                 })}
             </ul>
-        </div>
+        </>
     );
 };
 

@@ -3,6 +3,8 @@ import NavList from "./NavList"
 import { twMerge } from "tailwind-merge"
 import { LoginButton } from "./LoginButton"
 import { Link } from 'react-router-dom'
+import { Add } from 'iconsax-react'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Bar2 = () => {
     return (
@@ -28,8 +30,13 @@ const NavBar = ({ onSidebarToggle, sidebarIsOpen }) => {
                 }
                 <div className="flex-grow flex justify-between">
                     <div className="flex items-center justify-center gap-3">
-                        <button type="button" onClick={onSidebarToggle} className={twMerge("text-gray-500 hover:text-gray-800")}>
-                            <Bar2 />
+                        <button type="button" onClick={onSidebarToggle} className={twMerge("text-gray-500 hover:text-gray-800 w-8 h-8")}>
+                            {
+                                sidebarIsOpen ?
+                                    <PlusIcon className="w-full h-full rotate-45" />
+                                    :
+                                    <Bar2 className="h-full w-full" />
+                            }
                         </button>
                         <Link to="/" className="router-link-active router-link-exact-active block sm:hidden">
                             <Logo />
