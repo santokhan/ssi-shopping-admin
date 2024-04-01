@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import api from '../axios/api';
 
-const tokenAge = 1000 * 60 * 5;
+const tokenAge = 1000 * 60 * 30;
 
 export const AuthContext = createContext(null);
 
@@ -44,29 +44,42 @@ export const AuthProvider = ({ children }) => {
         return false;
     }, [token]);
 
-    const rotateToken = () => {
-        // Implement logic to refresh the token from your backend
-        // For example, make a request to your backend to obtain a new token
-        // Update the token and expiry accordingly
-        api.post('token/refresh/', { refresh: token.refresh }).then((res) => {
-            if (res) {
-                signin(null, res.data);
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-    };
-
     // Automatically rotate token before expiry
     useEffect(() => {
-        const tokenRefreshInterval = setInterval(() => {
-            // generate new token if user already logged in
-            if (token) {
-                rotateToken();
-            }
-        }, tokenAge); // Rotate token every minute, adjust as needed
+        const rotateToken = () => {
+            // Implement logic to refresh the token from your backend
+            // For example, make a request to your backend to obtain a new token
+            // Update the token and expiry accordingly
+            api.post('token/refresh/', { refresh: token.refresh }).then((res) => {
+                console.log('Token rotation in progress...');
+                if (res) {
+                    console.log(res.data)
+                    signin(null, res.data);
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        };
 
-        return () => clearInterval(tokenRefreshInterval);
+        let timeOutId;
+        const tokenRotationInterval = () => {
+
+            timeOutId = setTimeout(() => {
+                // generate new token if user already logged in
+                if (token.refresh) {
+                    rotateToken();
+                    tokenRotationInterval();
+                }
+            }, tokenAge)
+        }; // Rotate token every 5 minutes
+
+        tokenRotationInterval();
+
+        return () => {
+            if (timeOutId) {
+                clearInterval(timeOutId)
+            }
+        };
     }, []);
 
     return (
