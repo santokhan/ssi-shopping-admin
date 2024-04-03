@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import CancelOrSubmit from "../../../components/form/CancelOrSubmit";
-import InputBox from "../../../components/form/InputBox";
 import { useNavigate } from "react-router-dom";
 import Select from "../../../components/form/input/SelectOption";
 import Input from "../../../components/form/input/Input";
 import Textarea from "../../../components/form/input/Textarea";
+import MediaInput from "../../../components/form/input/MediaInput";
+import ResponsiveForm from "../../../components/form/ResponsiveForm";
+import PropertiesFormTitle from "../../../components/form/PropertiesFormTitle";
 
 const MediaForm = () => {
     const { register, handleSubmit, errors } = useForm();
@@ -17,112 +19,48 @@ const MediaForm = () => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 lg:gap-x-6 mt-8"
-        >
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={"col-span-full"}
-                label={"title"}
-            />
-            <Textarea
-                label={"description"}
-                name="description"
-                register={register}
-                className="sm:cols-span-2 lg:col-span-3"
-            />
+        <ResponsiveForm onSubmit={handleSubmit(onSubmit)}>
+            <MediaInput className="col-span-full" />
+            <div className="col-span-full pt-3">
+                <PropertiesFormTitle>Video Option</PropertiesFormTitle>
+            </div>
             <Select
-                name="category"
+                name="videoFrom"
                 register={register}
                 options={[
                     {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
+                        label: "youtube",
+                        value: "youtube",
                     },
                     {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
+                        label: "youtube",
+                        value: "youtube",
                     },
                 ]}
-                label="Category"
-                className=""
-            />
-            <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Category"
-                className=""
-            />
-            <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Category"
-                className=""
-            />
-            <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Category"
+                label="video from"
                 className=""
             />
             <Input
                 type="number"
-                name="price"
+                name="embed_video_id"
                 register={register}
                 className={""}
-                label={"price"}
+                placeholder="Your Name"
+                label={"Embed Video id"}
             />
-            <Select
-                name="category"
+            <div className="col-span-full pt-3">
+                <PropertiesFormTitle>Virtual Tour</PropertiesFormTitle>
+            </div>
+            <Input
+                type="text"
+                name="virtual_tour"
                 register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Category"
-                className=""
+                className={""}
+                placeholder="Your Name"
+                label={"virtual tour"}
             />
             <CancelOrSubmit />
-        </form>
+        </ResponsiveForm>
     );
 };
 

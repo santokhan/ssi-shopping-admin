@@ -8,7 +8,7 @@ const Select = ({ label, options, className = "", ...props }) => {
                 <span className="font-semibold capitalize">{label}</span>
                 <select
                     {...props}
-                    className="w-full border rounded-lg px-3 py-3 bg-transparent"
+                    className="w-full border rounded-lg px-3 py-3 bg-transparent capitalize"
                 >
                     {options.map((option, index) => (
                         <option key={index} value={option.value}>
