@@ -1,58 +1,15 @@
-import { Trash } from 'iconsax-react';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-import Button from '../../components/Button';
 import InputBox from '../../components/form/InputBox';
-import ResponsiveForm from '../../components/form/ResponsiveForm'
+import ResponsiveForm from '../../components/form/ResponsiveForm';
 import Textarea from '../../components/form/input/Textarea'
 import FormTitle from '../../components/form/FormTitle';
 import Input from '../../components/form/input/Input';
 import Select from '../../components/form/input/SelectOption';
 import SubmitButton from '../../components/form/SubmitButton';
+import AgentImageInput from '../../components/form/input/AgentImageInput';
 
-const ImageInput = ({ agent }) => {
-    const [selectedFile, setSelectedFile] = useState(null);
-    const fileInputRef = useRef(null);
-
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-        // Your file upload handling logic here
-        console.log(event.target.files[0]);
-    };
-
-    const handleButtonClick = () => {
-        fileInputRef.current.click();
-    };
-    
-    if (!agent) {
-        return null;
-    }
-
-    return (
-        <div className="flex items-end gap-4 rounded-lg text-gray-800">
-            <div className="h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0 relative">
-                <button className="absolute top-1 sm:top-2 left-1 sm:left-2 w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-md flex justify-center items-center hover:text-red-500">
-                    <Trash className="w-3 sm:w-4 h-3 sm:h-4" />
-                </button>
-                <img src={agent.photo} alt="" className="w-full h-full object-cover rounded-xl border bg-gray-50" />
-            </div>
-            <div className='space-y-2'>
-                <div>
-                    <Button onClick={handleButtonClick} variant="outline" withIcon={true}>Upload Profile</Button>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        accept=".png,.jpg,.jpeg,.webp,.giff"
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-                </div>
-                <p>{"Photos must be JPEG or PNG format and least 2048x2048"}</p>
-            </div>
-        </div>
-    )
-}
 
 const AgentForm = () => {
     const { register, handleSubmit, errors } = useForm();
@@ -66,11 +23,7 @@ const AgentForm = () => {
             <ResponsiveForm onSubmit={handleSubmit(onSubmit)} className='!mt-0'>
                 <InputBox className={"col-span-full pb-2"}>
                     <FormTitle>Photo</FormTitle>
-                    <ImageInput agent={{
-                        photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-                        display_name: 'Jane Cooper',
-                        category: 'Real Estate Agent',
-                    }} />
+                    <AgentImageInput />
                 </InputBox>
                 <Input
                     label="Display Name"
