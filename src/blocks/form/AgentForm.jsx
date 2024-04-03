@@ -4,14 +4,16 @@ import { useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../components/Button';
 import InputBox from '../../components/form/InputBox';
+import ResponsiveForm from '../../components/form/ResponsiveForm'
+import Textarea from '../../components/form/input/Textarea'
+import FormTitle from '../../components/form/FormTitle';
+import Input from '../../components/form/input/Input';
+import Select from '../../components/form/input/SelectOption';
+import SubmitButton from '../../components/form/SubmitButton';
 
 const ImageInput = ({ agent }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
-
-    if (!agent) {
-        return null;
-    }
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -22,6 +24,10 @@ const ImageInput = ({ agent }) => {
     const handleButtonClick = () => {
         fileInputRef.current.click();
     };
+    
+    if (!agent) {
+        return null;
+    }
 
     return (
         <div className="flex items-end gap-4 rounded-lg text-gray-800">
@@ -57,76 +63,129 @@ const AgentForm = () => {
 
     return (
         <div className="bg-white rounded-xl p-4 lg:p-6">
-            <form className='' onSubmit={handleSubmit(onSubmit)}>
-                <InputBox>
+            <ResponsiveForm onSubmit={handleSubmit(onSubmit)} className='!mt-0'>
+                <InputBox className={"col-span-full pb-2"}>
+                    <FormTitle>Photo</FormTitle>
                     <ImageInput agent={{
                         photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
                         display_name: 'Jane Cooper',
                         category: 'Real Estate Agent',
                     }} />
                 </InputBox>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-                    <InputBox>
-                        <label className="block font-medium">Display Name</label>
-                        <input type="text" name="displayName" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Email</label>
-                        <input type="email" name="email" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Phone</label>
-                        <input type="text" name="phone" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">First Name</label>
-                        <input type="text" name="firstName" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Last Name</label>
-                        <input type="text" name="lastName" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">WhatsApp Number</label>
-                        <input type="text" name="whatsAppNumber" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Speaks</label>
-                        <input type="text" name="speaks" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Location</label>
-                        <input type="text" name="location" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Years of Expertise</label>
-                        <input type="number" name="yearsOfExpertise" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Category</label>
-                        <input type="text" name="category" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Nationality</label>
-                        <input type="text" name="nationality" className='w-full border rounded-lg px-2 py-2' />
-                    </InputBox>
-                    <InputBox>
-                        <label className="block font-medium">Status</label>
-                        <select name="status" className='w-full border rounded-lg px-2 py-2'>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </InputBox>
+                <Input
+                    label="Display Name"
+                    type="text"
+                    name="display_name"
+                    className=''
+                    placeholder=""
+                />
+                <Input
+                    label="Email"
+                    type="email"
+                    name="email"
+                    className=''
+                    placeholder="Enter Email"
+                />
+                <Input
+                    label="phone"
+                    type="text"
+                    name="phone"
+                    className=''
+                    placeholder=""
+                />
+                <Input
+                    label="first name"
+                    type="text"
+                    name="first_name"
+                    className=''
+                    placeholder=""
+                />
+                <Input
+                    label="last name"
+                    type="text"
+                    name="last_name"
+                    className=''
+                    placeholder=""
+                />
+                <Input
+                    label="whatsapp number"
+                    type="text"
+                    name="whatsapp"
+                    className=''
+                    placeholder=""
+                />
+                <Input
+                    label="speaks"
+                    type="text"
+                    name="speaks"
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="location"
+                    type="text"
+                    name="location"
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="location"
+                    type="text"
+                    name="location"
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="Years of Expertise"
+                    type="text"
+                    name=""
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="Category"
+                    type="text"
+                    name=""
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="Nationality"
+                    type="text"
+                    name=""
+                    className=""
+                    placeholder=""
+                />
+                <Input
+                    label="Status"
+                    type="text"
+                    name=""
+                    className=""
+                    placeholder=""
+                />
+                <Select
+                    name="status"
+                    options={[
+                        {
+                            label: "Active",
+                            value: "active",
+                        },
+                        {
+                            label: "Inactive",
+                            value: "inactive",
+                        },
+                    ]}
+                    label="Status"
+                />
+                <Textarea
+                    label="About"
+                    name="about"
+                    className="col-span-full"
+                />
+                <div className={twMerge('col-span-full flex justify-end gap-2')}>
+                    <SubmitButton>Submit</SubmitButton>
                 </div>
-                <InputBox className={'mt-4'}>
-                    <label className="block font-medium">About</label>
-                    <textarea className='w-full border rounded-lg px-2 py-2' cols={2} rows={5}></textarea>
-                </InputBox>
-                <div className={twMerge('flex justify-end gap-2 mt-4')}>
-                    <Button variant="outline">Cancel</Button>
-                    <Button variant="primary">Submit</Button>
-                </div>
-            </form>
+            </ResponsiveForm>
         </div>
     );
 };
