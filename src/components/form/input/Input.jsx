@@ -7,7 +7,7 @@ export const InputElement = ({ label, type = "text", ...props }) => {
         <input
             type={type}
             {...props}
-            className='w-full border rounded-lg px-4 py-2.5'
+            className='w-full border rounded-lg px-4 py-2.5 placeholder:capitalize'
         />
     );
 };

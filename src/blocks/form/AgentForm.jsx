@@ -9,6 +9,7 @@ import Input from '../../components/form/input/Input';
 import Select from '../../components/form/input/SelectOption';
 import SubmitButton from '../../components/form/SubmitButton';
 import AgentImageInput from '../../components/form/input/AgentImageInput';
+import MultipleSelect, { initialCategory } from '../../components/form/input/MultipleSelect';
 
 
 const AgentForm = () => {
@@ -23,117 +24,105 @@ const AgentForm = () => {
             <ResponsiveForm onSubmit={handleSubmit(onSubmit)} className='!mt-0'>
                 <InputBox className={"col-span-full pb-2"}>
                     <FormTitle>Photo</FormTitle>
-                    <AgentImageInput />
+                    <AgentImageInput src={"https://picsum.photos/200"} />
                 </InputBox>
                 <Input
-                    label="Display Name"
+                    label="display name"
                     type="text"
                     name="display_name"
                     className=''
-                    placeholder=""
+                    placeholder="display name"
                 />
                 <Input
-                    label="Email"
+                    label="email"
                     type="email"
                     name="email"
                     className=''
-                    placeholder="Enter Email"
+                    placeholder="someone@gmail.com"
                 />
                 <Input
                     label="phone"
                     type="text"
                     name="phone"
-                    className=''
-                    placeholder=""
+                    className=""
+                    placeholder="phone"
                 />
                 <Input
                     label="first name"
                     type="text"
                     name="first_name"
                     className=''
-                    placeholder=""
+                    placeholder="first name"
                 />
                 <Input
                     label="last name"
                     type="text"
                     name="last_name"
-                    className=''
-                    placeholder=""
+                    className=""
+                    placeholder="last name"
                 />
                 <Input
                     label="whatsapp number"
                     type="text"
-                    name="whatsapp"
-                    className=''
-                    placeholder=""
+                    name="whatsapp_number"
+                    className=""
+                    placeholder="whatsapp number"
                 />
                 <Input
                     label="speaks"
                     type="text"
                     name="speaks"
                     className=""
-                    placeholder=""
+                    placeholder="speaks"
                 />
                 <Input
                     label="location"
                     type="text"
                     name="location"
                     className=""
-                    placeholder=""
+                    placeholder="dubai"
                 />
                 <Input
-                    label="location"
-                    type="text"
-                    name="location"
+                    label="years of expertise"
+                    type="number"
+                    name="years_of_expertise"
                     className=""
-                    placeholder=""
+                    placeholder="10"
+                />
+                <MultipleSelect
+                    name="category"
+                    label="category"
+                    categories={initialCategory}
+                    onSelect={(category) => { 
+                        // append to FormData object
+                    }}
                 />
                 <Input
-                    label="Years of Expertise"
+                    label="nationality"
                     type="text"
-                    name=""
+                    name="nationality"
                     className=""
-                    placeholder=""
-                />
-                <Input
-                    label="Category"
-                    type="text"
-                    name=""
-                    className=""
-                    placeholder=""
-                />
-                <Input
-                    label="Nationality"
-                    type="text"
-                    name=""
-                    className=""
-                    placeholder=""
-                />
-                <Input
-                    label="Status"
-                    type="text"
-                    name=""
-                    className=""
-                    placeholder=""
+                    placeholder="indian"
                 />
                 <Select
                     name="status"
                     options={[
                         {
-                            label: "Active",
+                            label: "active",
                             value: "active",
                         },
                         {
-                            label: "Inactive",
+                            label: "inactive",
                             value: "inactive",
                         },
                     ]}
-                    label="Status"
+                    label="status"
                 />
                 <Textarea
-                    label="About"
+                    label="about"
                     name="about"
                     className="col-span-full"
+                    placeholder="There are many variations of passages."
                 />
                 <div className={twMerge('col-span-full flex justify-end gap-2')}>
                     <SubmitButton>Submit</SubmitButton>

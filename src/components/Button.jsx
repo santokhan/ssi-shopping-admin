@@ -2,7 +2,7 @@ import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const Button = ({ variant = 'primary', onClick, children, withIcon = false, type = 'button' }) => {
-    let commonClasses = "relative flex items-center justify-center gap-1 rounded-xl px-5 py-2.5 font-medium";
+    let commonClasses = "relative flex items-center justify-center gap-1 text-sm lg:text-base rounded-xl px-4 lg:px-5 py-2 lg:py-2.5 font-medium";
 
     let buttonClassName = "";
     switch (variant) {

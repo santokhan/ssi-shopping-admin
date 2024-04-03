@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import Button from "../../Button";
 import RemoveImage from "../../action-buttons/RemoveImage";
+import { User } from "iconsax-react";
 
-const PreviewImage = ({ src }) => {
+const PreviewImage = ({ src = "" }) => {
     return (
         <img
             src={src}
@@ -12,26 +13,63 @@ const PreviewImage = ({ src }) => {
     );
 }
 
-const AgentImageInput = ({ agentPhoto = null }) => {
-    const [image, setImage] = useState(agentPhoto);
+const AgentImageInput = ({ src = '', onChangeImage }) => {
+    const [imageSrc, setImageSrc] = useState(src);
+    const [inputImage, setInputImage] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleFileChange = (event) => {
-        setImage(event.target.files[0]);
-        // Your file upload handling logic here
-        console.log(event.target.files[0]);
+        const file = event.target.files[0];
+        if (file) {
+            if (!isValidFileType(file)) {
+                alert("Invalid file type. Please select a JPEG or PNG file.");
+                return;
+            }
+            if (!isValidFileSize(file)) {
+                alert("File size exceeds limit. Please select a file smaller than 5MB.");
+                return;
+            }
+            setInputImage(file);
+            setImageSrc(URL.createObjectURL(file));
+            onChangeImage(file);
+        }
+    };
+
+    const isValidFileType = (file) => {
+        const acceptedTypes = [
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+        ];
+        return acceptedTypes.includes(file.type);
+    };
+
+    const isValidFileSize = (file) => {
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        return file.size <= maxSize;
     };
 
     const handleButtonClick = () => {
         fileInputRef.current.click();
     };
 
+    const handleRemoveClick = () => {
+        setInputImage(null);
+        setImageSrc(null);
+    };
+
     return (
         <div className="flex items-end gap-4 rounded-lg text-gray-800">
-            <div className="h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0 relative bg-gray-50 rounded-xl border">
-                <RemoveImage />
-                {agentPhoto && <PreviewImage src={agentPhoto} />}
-                {image && <PreviewImage src={URL.createObjectURL(image)} />}
+            <div className="h-28 w-28 sm:h-32 sm:w-32 flex-shrink-0 relative bg-gray-50 rounded-xl border grid place-items-center">
+                {inputImage || src ? <RemoveImage onRemove={handleRemoveClick} /> : ""}
+                {
+                    imageSrc ?
+                    <PreviewImage src={imageSrc} />
+                    :
+                    <User className="w-16 lg:w-20 h-16 lg:h-20 m-auto text-gray-400" />
+                }
             </div>
             <div className='space-y-2'>
                 <div>
@@ -39,7 +77,7 @@ const AgentImageInput = ({ agentPhoto = null }) => {
                     <input
                         type="file"
                         ref={fileInputRef}
-                        accept=".png,.jpg,.jpeg,.webp,.giff"
+                        accept=".png,.jpg,.jpeg,.webp,.gif"
                         onChange={handleFileChange}
                         style={{ display: 'none' }}
                     />
@@ -47,7 +85,7 @@ const AgentImageInput = ({ agentPhoto = null }) => {
                 <p>{"Photos must be JPEG or PNG format and least 2048x2048"}</p>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AgentImageInput
+export default AgentImageInput;
