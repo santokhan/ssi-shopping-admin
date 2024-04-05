@@ -5,7 +5,7 @@ const ResponsiveForm = ({ onSubmit, children, className = "" }) => {
     return (
         <form
             onSubmit={onSubmit}
-            className={twMerge("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 lg:gap-x-6 mt-8", className)}
+            className={twMerge("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-5 lg:gap-x-6 mt-8", className)}
         >
             {children}
         </form>

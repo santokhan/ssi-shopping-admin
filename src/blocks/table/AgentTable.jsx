@@ -5,6 +5,7 @@ import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from "./TableSearch";
 import AddButton from '../../components/table/AddButton';
+import api from "../../axios/api";
 
 const AgentTableDetailsField = ({ agent }) => {
     if (!agent) {
@@ -13,8 +14,8 @@ const AgentTableDetailsField = ({ agent }) => {
 
     return (
         <div className="flex w-72 flex-row items-center space-x-2 rounded-lg text-gray-800">
-            <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl border bg-gray-50">
-                <img src={agent.photo} alt="" className="w-full h-full object-contain" />
+            <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+                <img src={agent.photo} alt={agent.photo} className="w-full h-full object-cover rounded-full overflow-hidden" />
             </div>
             <div>
                 <h3 className="text-base font-semibold leading-relaxed">{agent.display_name}</h3>
@@ -62,10 +63,16 @@ const AgentTableAction = ({ agent }) => {
     }
 
     function onEdit() {
-
+        // will redirect to agent edit page
     }
-    function onDelete() {
 
+    function onDelete() {
+        api.delete(`agents/${agent.id}/`).then((res) => {
+            console.log(res);
+            
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     return (

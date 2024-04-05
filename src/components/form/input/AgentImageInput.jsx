@@ -66,20 +66,21 @@ const AgentImageInput = ({ src = '', onChangeImage }) => {
                 {inputImage || src ? <RemoveImage onRemove={handleRemoveClick} /> : ""}
                 {
                     imageSrc ?
-                    <PreviewImage src={imageSrc} />
-                    :
-                    <User className="w-16 lg:w-20 h-16 lg:h-20 m-auto text-gray-400" />
+                        <PreviewImage src={imageSrc} />
+                        :
+                        <User className="w-16 lg:w-20 h-16 lg:h-20 m-auto text-gray-400" />
                 }
             </div>
             <div className='space-y-2'>
-                <div>
-                    <Button onClick={handleButtonClick} variant="outline" withIcon={true}>Upload Profile</Button>
+                <div className="relative">
+                    <Button onClick={handleButtonClick} variant="outline" withIcon={true}>Upload Photo</Button>
                     <input
                         type="file"
                         ref={fileInputRef}
+                        name="photo"
                         accept=".png,.jpg,.jpeg,.webp,.gif"
                         onChange={handleFileChange}
-                        style={{ display: 'none' }}
+                        className="opacity-0 absolute inset-0"
                     />
                 </div>
                 <p>{"Photos must be JPEG or PNG format and least 2048x2048"}</p>

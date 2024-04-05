@@ -1,11 +1,13 @@
+import replace_ from "../../../utils/levelSplitter";
 import InputBox from "../InputBox";
+import InputError from "../InputError";
 import Label from "./Label";
 
-const Select = ({ label, options, className = "", ...props }) => {
+const Select = ({ label = "", error = "", options = [], className = "", ...props }) => {
     return (
         <InputBox>
             <Label>
-                <span className="font-semibold capitalize">{label}</span>
+                <span className="font-semibold capitalize">{replace_(label)}</span>
                 <select
                     {...props}
                     className="w-full border rounded-lg px-3 py-3 bg-transparent capitalize"
@@ -17,6 +19,7 @@ const Select = ({ label, options, className = "", ...props }) => {
                     ))}
                 </select>
             </Label>
+            <InputError error={error} />
         </InputBox>
     );
 };
