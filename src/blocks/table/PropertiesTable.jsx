@@ -2,8 +2,6 @@ import { Fragment } from "react"
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
-import { Add } from "iconsax-react";
-import { Link } from "react-router-dom";
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from "../../components/table/AddButton";
@@ -16,13 +14,13 @@ const AgentTableDetailsField = ({ agent }) => {
 
     return (
         <div className="flex w-72 flex-row items-center space-x-2 rounded-lg text-gray-800">
-            <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl border bg-gray-50">
-                <img src={agent.photo} alt="" className="w-full h-full object-contain" />
+            <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+                <img src={agent.photo} alt={agent.photo} className="w-full h-full object-cover rounded-full overflow-hidden" />
             </div>
             <div>
                 <h3 className="text-base font-semibold leading-relaxed">{agent.display_name}</h3>
-                <p className="text-sm text-gray-400 font-normal">{agent.category}</p>
-                <p className="text-sm font-medium">{agent.phone}</p>
+                <p className="text-sm text-gray-500 font-normal">{agent.location}</p>
+                <p className="text-sm font-medium mt-2">{agent.phone}</p>
             </div>
         </div>
     )
@@ -127,7 +125,8 @@ const PropertiesTable = ({ agents }) => {
         <div className="space-y-4">
             <TableTopSection />
             {
-                agents &&
+                // replace agent with your needle
+                agents ?
                 <div className="bg-white p-4 space-y-4">
                     <div className="w-full overflow-x-auto">
                         <table className="w-full text-sm text-gray-500 rtl:text-right">
@@ -156,6 +155,8 @@ const PropertiesTable = ({ agents }) => {
                     <Pagination totalPages={[1, 2, 3, 4, 5]} currentPage={1} />
                     <TableSummary />
                 </div>
+                :
+                <p>No properties found</p>
             }
         </div>
     )

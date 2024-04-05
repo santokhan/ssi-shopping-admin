@@ -246,7 +246,6 @@ const AgentForm = () => {
                     className=""
                     required={true}
                     min={0}
-                    max={20}
                     value={formState.years_of_expertise}
                     onChange={(e) => {
                         setValue(inputs.years_of_expertise, e.target.value);
