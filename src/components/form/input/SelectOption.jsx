@@ -3,13 +3,14 @@ import InputBox from "../InputBox";
 import InputError from "../InputError";
 import Label from "./Label";
 
-const Select = ({ label = "", error = "", options = [], className = "", ...props }) => {
+const Select = ({ label = "", error = "", options = [], className = "", value = "", ...props }) => {
     return (
         <InputBox>
             <Label>
                 <span className="font-semibold capitalize">{replace_(label)}</span>
                 <select
                     {...props}
+                    value={value}
                     className="w-full border rounded-lg px-3 py-3 bg-transparent capitalize"
                 >
                     {options.map((option, index) => (

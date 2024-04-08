@@ -1,179 +1,225 @@
-import { useForm } from "react-hook-form";
-import CancelOrSubmit from "../../../components/form/CancelOrSubmit";
-import { useNavigate } from "react-router-dom";
-import Select from "../../../components/form/input/SelectOption";
-import Input from "../../../components/form/input/Input";
-import Textarea from "../../../components/form/input/Textarea";
-import ResponsiveForm from "../../../components/form/ResponsiveForm";
+import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import Input from '../../../components/form/input/Input';
+import Textarea from '../../../components/form/input/Textarea';
+import Select from '../../../components/form/input/SelectOption';
+import ResponsiveForm from '../../../components/form/ResponsiveForm';
+import CancelOrSubmit from '../../../components/form/CancelOrSubmit';
+import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
+import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context';
 
 const DetailsForm = () => {
-    const { register, handleSubmit, errors } = useForm();
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [error, setError] = useState({});
+  const [formState, setFormState] = useState({});
+  const { storeFormData } = useContext(PropertyFormContext);
 
-    const onSubmit = (data) => {
-        console.log(data); // Handle form submission here
+  const inputs = [
+    {
+      name: 'size_in_ft',
+      label: 'Size in ft',
+      type: 'number',
+    },
+    {
+      name: 'suitable',
+      label: 'Suitable',
+      type: 'text',
+    },
+    {
+      name: 'type',
+      label: 'Type',
+      type: 'text',
+    },
+    {
+      name: 'bedrooms',
+      label: 'Bedrooms',
+      type: 'number',
+    },
+    {
+      name: 'bathrooms',
+      label: 'Bathrooms',
+      type: 'number',
+    },
+    {
+      name: 'parking',
+      label: 'Parking',
+      type: 'text',
+    },
+    {
+      name: 'number_of_parking',
+      label: 'Parking',
+      type: 'number',
+    },
+    {
+      name: 'garage_size',
+      label: 'Garage size',
+      type: 'number',
+    },
+    {
+      name: 'year_built',
+      label: 'Year built (numeric)',
+      type: 'number',
+    },
+    {
+      name: 'available_from',
+      label: 'Available from (date)',
+      type: 'date',
+    },
+    { name: 'basement', label: 'Basement', type: 'text' },
+    { name: 'extra_details', label: 'Extra details', type: 'text' },
+    { name: 'roofing', label: 'Roofing', type: 'text' },
+    {
+      name: 'exterior_material',
+      label: 'Exterior Material',
+      type: 'text',
+    },
+    { name: 'structure_type', label: 'Structure type', type: 'select' },
+    { name: 'floors_no', label: 'Floors no', type: 'select' },
+    {
+      name: 'owner',
+      label: 'Owner/ Agent nots (not visible on front end)',
+      type: 'textareas',
+    },
+  ];
 
-        navigate("/properties/create/amenities")
-    };
+  const energyInputs = [
+    {
+      name: 'energy_class',
+      label: 'Energy Class',
+      type: 'select',
+    },
+    {
+      name: 'energy_index',
+      label: 'Energy index in kWh/m2a',
+      type: 'select',
+    },
+  ];
 
-    return (
-        <ResponsiveForm onSubmit={handleSubmit(onSubmit)}>
+  const options = {
+    structure_type: [
+      {
+        label: 'Yes',
+        value: 'yes',
+      },
+      {
+        label: 'No',
+        value: 'no',
+      },
+    ],
+    floors_no: [
+      {
+        label: 'Yes',
+        value: 'yes',
+      },
+      {
+        label: 'No',
+        value: 'no',
+      },
+    ],
+    energy_class: [
+      {
+        label: 'Yes',
+        value: 'yes',
+      },
+      {
+        label: 'No',
+        value: 'no',
+      },
+    ],
+    energy_index: [
+      {
+        label: 'Yes',
+        value: 'yes',
+      },
+      {
+        label: 'No',
+        value: 'no',
+      },
+    ],
+  };
+
+  const setValue = (key, value) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    storeFormData('details', formData);
+
+    navigate('/properties/create/amenities');
+  };
+
+  return (
+    <ResponsiveForm onSubmit={onSubmit}>
+      {inputs.map(({ name, label, type }) => {
+        if (['text', 'number', 'date'].includes(type)) {
+          return (
             <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Size in ft (only numbers)"}
+              key={name}
+              type={type}
+              name={name}
+              label={label}
+              value={formState[name] || ''}
+              onChange={(e) => setValue(name, e.target.value)}
+              required
             />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Suitable"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Type"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Bedrooms"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Bathrooms"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Parking"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Garage size"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Year built (numeric)"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Available from (date)"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Basement"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Extra details"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Roofing"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Exterior Material"}
-            />
-            <Input
-                type="text"
-                name="title"
-                register={register}
-                className={""}
-                label={"Structure type"}
-            />
+          );
+        }
+
+        if (type === 'select') {
+          return (
             <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Floors no"
-                className=""
+              key={name}
+              name={name}
+              label={label}
+              options={options[name]}
+              value={formState[name] || ''}
+              onChange={(e) => setValue(name, e.target.value)}
+              required
             />
+          );
+        }
+
+        if (type === 'textarea') {
+          return (
             <Textarea
-                label={"Owner/ Agent nots (not visible on front end)"}
-                name="description"
-                register={register}
-                placeholder="There are many variations of passages."
-                className="sm:cols-span-2 lg:col-span-3"
+              key={name}
+              name={name}
+              label={label}
+              value={formState[name] || ''}
+              onChange={(e) => setValue(name, e.target.value)}
+              className="col-span-full"
             />
-             <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Energy Class"
-                className=""
-            />
+          );
+        }
+      })}
+
+      <div className="col-span-full">
+        <PropertiesFormTitle>Select Energy Class</PropertiesFormTitle>
+      </div>
+      {energyInputs.map(({ name, label, type }) => {
+        if (type === 'select') {
+          return (
             <Select
-                name="category"
-                register={register}
-                options={[
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                    {
-                        label: "Real Estate Agent",
-                        value: "Real Estate Agent",
-                    },
-                ]}
-                label="Energy index in kWh/m2a"
-                className=""
+              key={name}
+              name={name}
+              label={label}
+              options={options[name]}
+              value={formState[name] || ''}
+              onChange={(e) => setValue(name, e.target.value)}
+              required
             />
-            <CancelOrSubmit />
-        </ResponsiveForm>
-    );
+          );
+        }
+      })}
+      <CancelOrSubmit />
+      {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
+    </ResponsiveForm>
+  );
 };
 
 export default DetailsForm;
