@@ -1,12 +1,11 @@
-import { useForm } from 'react-hook-form';
-import CancelOrSubmit from '../../../components/form/CancelOrSubmit';
+import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Select from '../../../components/form/input/SelectOption';
 import Textarea from '../../../components/form/input/Textarea';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
-import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context';
+import { formNext } from '../../../utils/form-steps';
 
 const inputList = [
   'title',
@@ -24,27 +23,9 @@ const inputs = inputList.reduce((obj, item) => {
   return obj;
 }, {});
 
-const DescriptionForm = () => {
-  const [formState, setFormState] = useState({
-    title: '',
-    description: '',
-    category: '',
-    listed_in: '',
-    agent: '',
-    status: '',
-    price: 0,
-    featured: '',
-  });
+const DescriptionForm = ({ value, setValue }) => {
   const [error, setError] = useState({});
   const navigate = useNavigate();
-  const { storeFormData } = useContext(PropertyFormContext);
-
-  function setValue(key, value) {
-    if (key === '') return;
-
-    const changed = { ...formState, [key.trim()]: value };
-    setFormState(changed);
-  }
 
   function validateInput() {
     let isValid = true;
@@ -52,34 +33,31 @@ const DescriptionForm = () => {
     return isValid;
   }
 
-  function onSubmit(e) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    if (validateInput()) {
-      storeFormData('description', formData);
-      navigate('/properties/create/media');
-    }
-  }
   return (
-    <ResponsiveForm onSubmit={onSubmit}>
+    <ResponsiveForm
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        navigate(formNext(''));
+      }}
+    >
       <Input
         name={inputs.title}
         label={inputs.title}
         type="text"
         required
-        value={formState.title}
+        value={value.title}
         maxLength={255}
         onChange={(e) => {
           setValue(inputs.title, e.target.value);
         }}
         error={error.title}
+        className="col-span-full"
       />
       <Textarea
         label={inputs.description}
         name={inputs.description}
-        value={formState.description}
+        value={value.description}
         onChange={(e) => {
           setValue(inputs.description, e.target.value);
         }}
@@ -92,14 +70,14 @@ const DescriptionForm = () => {
         options={[
           {
             label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
+            value: '1',
           },
           {
             label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
+            value: '2',
           },
         ]}
-        value={formState.category}
+        value={value.category}
         onChange={(e) => {
           setValue(inputs.category, e.target.value);
         }}
@@ -112,54 +90,47 @@ const DescriptionForm = () => {
         options={[
           {
             label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
+            value: '1',
           },
           {
             label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
+            value: '2',
           },
         ]}
-        value={formState.listed_in}
+        value={value.listed_in}
         onChange={(e) => {
           setValue(inputs.listed_in, e.target.value);
         }}
         error={error.title}
         required
       />
-      <Select
+      <Input
         name={inputs.agent}
         label={inputs.agent}
-        options={[
-          {
-            label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
-          },
-          {
-            label: 'Real Estate Agent',
-            value: 'Real Estate Agent',
-          },
-        ]}
-        value={formState.agent}
+        type="number"
+        required
+        value={value.agent}
+        maxLength={255}
         onChange={(e) => {
-          setValue(inputs.agent, e.target.value);
+          setValue(inputs.agent, parseInt(e.target.value));
         }}
         error={error.title}
-        required
+        className=""
       />
       <Select
         name={inputs.status}
         label={inputs.status}
         options={[
           {
-            label: 'Real Estate status',
-            value: 'Real Estate status',
+            label: 'Active',
+            value: 'true',
           },
           {
-            label: 'Real Estate status',
-            value: 'Real Estate status',
+            label: 'Inactive',
+            value: 'false',
           },
         ]}
-        value={formState.status}
+        value={value.status}
         onChange={(e) => {
           setValue(inputs.status, e.target.value);
         }}
@@ -171,9 +142,9 @@ const DescriptionForm = () => {
         label={inputs.price}
         type="number"
         onChange={(e) => {
-          setValue(inputs.price, e.target.value);
+          setValue(inputs.price, parseInt(e.target.value));
         }}
-        value={formState.price || 0}
+        value={value.price || 0}
         error={error.price}
         required
       />
@@ -182,25 +153,25 @@ const DescriptionForm = () => {
         label={inputs.featured}
         options={[
           {
-            label: 'Real Estate featured',
-            value: 'Real Estate featured',
+            label: 'Yes',
+            value: 'true',
           },
           {
-            label: 'Real Estate featured',
-            value: 'Real Estate featured',
+            label: 'No',
+            value: 'false',
           },
         ]}
-        value={formState.featured}
+        value={value.featured}
         onChange={(e) => {
           setValue(inputs.featured, e.target.value);
         }}
         error={error.title}
-        required
       />
-
-      <CancelOrSubmit />
-      {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
-      {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
+      <PrevAndNext
+        onBack={() => {
+          navigate('/properties');
+        }}
+      />
     </ResponsiveForm>
   );
 };

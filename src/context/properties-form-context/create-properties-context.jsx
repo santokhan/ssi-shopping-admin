@@ -1,40 +1,69 @@
 import React, { useState, useContext, useEffect } from 'react';
 import api from '../../axios/api';
 
-// Create a context to manage form state
 export const PropertyFormContext = React.createContext();
 
-// Custom hook to consume the form context
-// export const useCreatedPropertyContext = () => {
-//   return useContext(PropertyFormContext);
-// };
-
-function combineFormData(...formDatas) {
-  // Create a new FormData instance to combine all data
-  const combinedFormData = new FormData();
-
-  // Iterate over each FormData object passed as arguments
-  formDatas.forEach((formData) => {
-    // Iterate over each entry (key-value pair) in the current FormData
-    for (const [key, value] of formData.entries()) {
-      // Append each entry to the combined FormData
-      combinedFormData.append(key, value);
-    }
-  });
-
-  // Return the combined FormData
-  return combinedFormData;
-}
+const INITIAL = {
+  // description
+  description: {
+    title: '',
+    description: '',
+    category: '',
+    listed_in: '',
+    agent: 2,
+    status: false,
+    price: 0,
+    featured: '',
+  },
+  // media
+  media: {
+    images: [],
+    video_from: '',
+    embed_video_id: '',
+    virtual_tour: '',
+  },
+  // location
+  location: {
+    address: '',
+    country: '',
+    city: '',
+    area: '',
+    latitude: '',
+    longitude: '',
+  },
+  // details
+  details: {
+    size: '',
+    suitable: '',
+    type: '',
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 0,
+    garage_size: 0,
+    year_built: 0,
+    available_from: 0,
+    basement: '',
+    extra_detail: '',
+    roofing: '',
+    exterior_material: '',
+    structure_type: '',
+    floor_no: 0,
+    energy_class: 0,
+    energy_index: 0,
+  },
+  // amenities
+  amenities: [],
+};
 
 const CreatePropertyProvider = ({ children }) => {
-  const [formData, setFormData] = useState({
-    description: null,
-    media: null,
-    location: null,
-    details: null,
-    amenities: null,
-  });
+  const [formData, setFormData] = useState(INITIAL);
 
+  /**
+   * A function that stores form data.
+   *
+   * @param {string} formName - the name of the form
+   * @param {object} formData - the data to be stored
+   */
   function storeFormData(formName, formData) {
     const newFormData = {
       [formName]: formData,
@@ -43,73 +72,12 @@ const CreatePropertyProvider = ({ children }) => {
     setFormData((prev) => ({ ...prev, ...newFormData }));
   }
 
-  function postData(amenities) {
-    const data = { ...formData };
-    if (!data.amenities) {
-      data['amenities'] = amenities;
-    }
-
-    const merged = new FormData();
-
-    for (const key in data) {
-      if (Object.hasOwnProperty.call(data, key)) {
-        const fData = data[key];
-        if (fData instanceof FormData) {
-          const fd_to_list = Array.from(fData);
-          merged.append(key, fd_to_list);
-        }
-      }
-    }
-
-    // send to server
-    // api
-    //   .post('/properties/create/', data, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    // fetch('http://localhost:5000/', {
-    //   method: 'POST',
-    //   body: merged,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    console.log(Array.from(merged));
-  }
-
   useEffect(() => {
-    // only for check
-    function testInput() {
-      for (const key in formData) {
-        if (Object.hasOwnProperty.call(formData, key)) {
-          const data = formData[key];
-          if (data) {
-            console.log({ [key]: [...data] });
-          }
-        }
-      }
-    }
-
-    // testInput();
+    console.log(formData);
   }, [formData]);
 
   return (
-    <PropertyFormContext.Provider value={{ formData, storeFormData, postData }}>
+    <PropertyFormContext.Provider value={{ formData, storeFormData }}>
       {children}
     </PropertyFormContext.Provider>
   );

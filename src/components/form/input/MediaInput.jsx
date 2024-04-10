@@ -1,25 +1,68 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInput';
 
-const MediaInput = ({ className = '' }) => {
-  const [selectedFiles, setSelectedFiles] = React.useState([]);
+// Example function to remove a file from FileList
+function removeFileFromFileList(fileList, fileToRemove) {
+  const newFileList = new DataTransfer(); // Create a new DataTransfer object
+
+  for (let i = 0; i < fileList.length; i++) {
+    const file = fileList[i];
+
+    // Add files to the new DataTransfer object except the file to be removed
+    if (file !== fileToRemove) {
+      newFileList.items.add(file);
+    }
+  }
+
+  return newFileList.files; // Return the new FileList from the DataTransfer object
+}
+
+// Function to add a file to a FileList
+function addToFileList(fileList, inputFiles) {
+  const newFileList = new DataTransfer(); // Create a new DataTransfer object
+
+  // Add existing files from original FileList to the new DataTransfer object
+  for (let i = 0; i < fileList.length; i++) {
+    const file = fileList[i];
+    newFileList.items.add(file);
+  }
+  // Add existing files from input Files to the new DataTransfer object
+  for (let i = 0; i < inputFiles.length; i++) {
+    const file = inputFiles[i];
+    newFileList.items.add(file);
+  }
+
+  return newFileList.files; // Return the new FileList from the DataTransfer object
+}
+
+const MediaInput = ({ value, setValue, className = '' }) => {
+  const inputName = 'images';
+  const [selectedFiles, setSelectedFiles] = React.useState(
+    value[inputName] || [],
+  );
   const fileInputRef = useRef(null);
 
   const handleFileSelect = (e) => {
-    const filesArray = Array.from(e.target.files);
+    // const filesArray = Array.from(e.target.files);
 
     // Update selectedFiles state with the new files
-    setSelectedFiles((prev) => [...prev, ...filesArray]);
+    setSelectedFiles((prev) => {
+      return addToFileList(prev, e.target.files);
+    });
   };
 
   const handleRemoveImage = (index) => {
-    const newImages = [...selectedFiles];
-    newImages.splice(index, 1);
-    setSelectedFiles(newImages);
+    setSelectedFiles((prev) => {
+      return removeFileFromFileList(prev, prev[index]);
+    });
   };
+
+  useEffect(() => {
+    setValue(inputName, selectedFiles);
+  }, [selectedFiles]);
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>

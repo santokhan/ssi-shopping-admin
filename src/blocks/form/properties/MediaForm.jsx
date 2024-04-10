@@ -1,12 +1,11 @@
-import CancelOrSubmit from '../../../components/form/CancelOrSubmit';
+import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
 import MediaInput from '../../../components/form/input/MediaInput';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
-import { useContext, useState } from 'react';
-import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context';
+import { formBack, formNext } from '../../../utils/form-steps';
 
 const inputList = ['video_from', 'embed_video_id', 'virtual_tour'];
 
@@ -15,35 +14,19 @@ const inputs = inputList.reduce((obj, item) => {
   return obj;
 }, {});
 
-const MediaForm = () => {
-  const [formState, setFormState] = useState({
-    video_from: '',
-    embed_video_id: '',
-    virtual_tour: '',
-  });
+const MediaForm = ({ value, setValue }) => {
   const navigate = useNavigate();
-  const { storeFormData } = useContext(PropertyFormContext);
-  const [error, setError] = useState({});
-
-  const setValue = (key, value) => {
-    if (key === '') return;
-    const newState = { [key.trim()]: value };
-    setFormState((prev) => ({ ...prev, ...newState }));
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    storeFormData('media', formData);
-
-    navigate('/properties/create/location');
-  };
+  const thisFormName = 'media';
 
   return (
-    <ResponsiveForm onSubmit={onSubmit}>
-      <MediaInput className="col-span-full" />
+    <ResponsiveForm
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        navigate(formNext(thisFormName));
+      }}
+    >
+      <MediaInput className="col-span-full" value={value} setValue={setValue} />
       <div className="col-span-full pt-3">
         <PropertiesFormTitle>Video Option</PropertiesFormTitle>
       </div>
@@ -54,13 +37,9 @@ const MediaForm = () => {
             label: 'youtube',
             value: 'youtube',
           },
-          {
-            label: 'youtube',
-            value: 'youtube',
-          },
         ]}
         label={inputs.video_from}
-        value={formState.video_from}
+        value={value.video_from}
         onChange={(e) => {
           setValue(inputs.video_from, e.target.value);
         }}
@@ -70,7 +49,7 @@ const MediaForm = () => {
         type="text"
         name={inputs.embed_video_id}
         label={inputs.embed_video_id}
-        value={formState.embed_video_id}
+        value={value.embed_video_id}
         onChange={(e) => {
           setValue(inputs.embed_video_id, e.target.value);
         }}
@@ -80,16 +59,20 @@ const MediaForm = () => {
         <PropertiesFormTitle>Virtual Tour</PropertiesFormTitle>
       </div>
       <Input
-        type="text"
+        type="url"
         name={inputs.virtual_tour}
         label={inputs.virtual_tour}
-        value={formState.virtual_tour}
+        value={value.virtual_tour}
         onChange={(e) => {
           setValue(inputs.virtual_tour, e.target.value);
         }}
         required
       />
-      <CancelOrSubmit />
+      <PrevAndNext
+        onBack={() => {
+          navigate(formBack(thisFormName));
+        }}
+      />
     </ResponsiveForm>
   );
 };

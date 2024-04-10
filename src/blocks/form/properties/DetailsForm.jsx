@@ -1,23 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Textarea from '../../../components/form/input/Textarea';
 import Select from '../../../components/form/input/SelectOption';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
-import CancelOrSubmit from '../../../components/form/CancelOrSubmit';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
-import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context';
+import PrevAndNext from '../../../components/form/CancelOrSubmit';
+import { formBack, formNext } from '../../../utils/form-steps';
 
-const DetailsForm = () => {
+const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
-  const [formState, setFormState] = useState({});
-  const { storeFormData } = useContext(PropertyFormContext);
+  const thisFormName = 'details';
 
   const inputs = [
     {
-      name: 'size_in_ft',
+      name: 'size',
       label: 'Size in ft',
       type: 'number',
     },
@@ -44,11 +42,6 @@ const DetailsForm = () => {
     {
       name: 'parking',
       label: 'Parking',
-      type: 'text',
-    },
-    {
-      name: 'number_of_parking',
-      label: 'Parking',
       type: 'number',
     },
     {
@@ -67,7 +60,6 @@ const DetailsForm = () => {
       type: 'date',
     },
     { name: 'basement', label: 'Basement', type: 'text' },
-    { name: 'extra_details', label: 'Extra details', type: 'text' },
     { name: 'roofing', label: 'Roofing', type: 'text' },
     {
       name: 'exterior_material',
@@ -75,11 +67,11 @@ const DetailsForm = () => {
       type: 'text',
     },
     { name: 'structure_type', label: 'Structure type', type: 'select' },
-    { name: 'floors_no', label: 'Floors no', type: 'select' },
+    { name: 'floor_no', label: 'Floors no', type: 'select' },
     {
-      name: 'owner',
+      name: 'extra_detail',
       label: 'Owner/ Agent nots (not visible on front end)',
-      type: 'textareas',
+      type: 'textarea',
     },
   ];
 
@@ -107,14 +99,14 @@ const DetailsForm = () => {
         value: 'no',
       },
     ],
-    floors_no: [
+    floor_no: [
       {
-        label: 'Yes',
-        value: 'yes',
+        label: '5',
+        value: '5',
       },
       {
-        label: 'No',
-        value: 'no',
+        label: '10',
+        value: '10',
       },
     ],
     energy_class: [
@@ -139,37 +131,52 @@ const DetailsForm = () => {
     ],
   };
 
-  const setValue = (key, value) => {
-    setFormState((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    storeFormData('details', formData);
-
-    navigate('/properties/create/amenities');
-  };
-
   return (
-    <ResponsiveForm onSubmit={onSubmit}>
+    <ResponsiveForm
+      onSubmit={(e) => {
+        e.preventDefault();
+        navigate(formNext(thisFormName));
+      }}
+    >
       {inputs.map(({ name, label, type }) => {
-        if (['text', 'number', 'date'].includes(type)) {
+        if (['text', 'number'].includes(type)) {
           return (
             <Input
               key={name}
               type={type}
               name={name}
               label={label}
-              value={formState[name] || ''}
-              onChange={(e) => setValue(name, e.target.value)}
+              value={value[name]}
+              onChange={(e) => {
+                let v = e.target.value;
+                if (type === 'number') {
+                  v = parseInt(v);
+                }
+                setValue(name, v);
+              }}
               required
             />
           );
         }
-
+        if (type == 'date') {
+          return (
+            <Input
+              key={name}
+              type={type}
+              name={name}
+              label={label}
+              value={value[name]}
+              onChange={(e) => {
+                setValue(name, e.target.value);
+              }}
+              placeholder={type === 'date' && 'YYYY'}
+              min={(type = 'date' && 1900)}
+              max={(type = 'date' && 2100)}
+              step={(type = 'date' && 1)}
+              required
+            />
+          );
+        }
         if (type === 'select') {
           return (
             <Select
@@ -177,20 +184,19 @@ const DetailsForm = () => {
               name={name}
               label={label}
               options={options[name]}
-              value={formState[name] || ''}
+              value={value[name]}
               onChange={(e) => setValue(name, e.target.value)}
               required
             />
           );
         }
-
         if (type === 'textarea') {
           return (
             <Textarea
               key={name}
               name={name}
               label={label}
-              value={formState[name] || ''}
+              value={value[name]}
               onChange={(e) => setValue(name, e.target.value)}
               className="col-span-full"
             />
@@ -209,15 +215,18 @@ const DetailsForm = () => {
               name={name}
               label={label}
               options={options[name]}
-              value={formState[name] || ''}
+              value={value[name]}
               onChange={(e) => setValue(name, e.target.value)}
               required
             />
           );
         }
       })}
-      <CancelOrSubmit />
-      {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
+      <PrevAndNext
+        onBack={() => {
+          navigate(formBack(thisFormName));
+        }}
+      />
     </ResponsiveForm>
   );
 };

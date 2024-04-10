@@ -2,29 +2,9 @@ import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import TableTitle from '../../../components/table/TableTitle';
+import { formSteps } from '../../../utils/form-steps';
 
-const tabList = [
-  {
-    name: 'Description',
-    to: '',
-  },
-  {
-    name: 'Media',
-    to: 'media',
-  },
-  {
-    name: 'Location',
-    to: 'location',
-  },
-  {
-    name: 'Details',
-    to: 'details',
-  },
-  {
-    name: 'Amenities',
-    to: 'amenities',
-  },
-];
+const tabList = formSteps;
 
 const Tabs = () => {
   const location = useLocation();
@@ -43,7 +23,6 @@ const Tabs = () => {
 
   return (
     <div className="items-center bg-white flex gap-6 lg:gap-12 px-4 lg:px-6 overflow-x-auto">
-      {/* <pre>{JSON.stringify(pathList, null, 2)}</pre> */}
       {tabList.map((tab, index) => (
         <Link
           key={index}

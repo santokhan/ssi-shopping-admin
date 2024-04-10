@@ -1,43 +1,42 @@
-import { useForm } from 'react-hook-form';
-import CancelOrSubmit from '../../../components/form/CancelOrSubmit';
+import PrevAndNext from '../../../components/form/CancelOrSubmit.jsx';
 import { useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
 import GoogleMapInput from '../../../components/form/input/GoogleMapInput.jsx';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm.jsx';
-import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context.jsx';
+import { formBack, formNext } from '../../../utils/form-steps.js';
 
 const selectOptions = {
   country: [
-    { label: 'USA', value: 'USA' },
-    { label: 'Canada', value: 'Canada' },
-    { label: 'UK', value: 'UK' },
+    { label: 'USA', value: '1' },
+    { label: 'Canada', value: '2' },
+    { label: 'UK', value: '3' },
   ],
   city: [
-    { label: 'New York', value: 'New York' },
-    { label: 'Los Angeles', value: 'Los Angeles' },
-    { label: 'London', value: 'London' },
+    { label: 'New York', value: '1' },
+    { label: 'Los Angeles', value: '2' },
+    { label: 'London', value: '3' },
   ],
   area: [
-    { label: 'Manhattan', value: 'Manhattan' },
-    { label: 'Brooklyn', value: 'Brooklyn' },
-    { label: 'West Hollywood', value: 'West Hollywood' },
+    { label: 'Manhattan', value: '1' },
+    { label: 'Brooklyn', value: '2' },
+    { label: 'West Hollywood', value: '3' },
   ],
   custom_1: [
-    { label: 'Option 1', value: 'Option 1' },
-    { label: 'Option 2', value: 'Option 2' },
-    { label: 'Option 3', value: 'Option 3' },
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' },
   ],
   custom_2: [
-    { label: 'Choice A', value: 'Choice A' },
-    { label: 'Choice B', value: 'Choice B' },
-    { label: 'Choice C', value: 'Choice C' },
+    { label: 'Choice A', value: 'a' },
+    { label: 'Choice B', value: 'b' },
+    { label: 'Choice C', value: 'c' },
   ],
   custom_3: [
-    { label: 'Item X', value: 'Item X' },
-    { label: 'Item Y', value: 'Item Y' },
-    { label: 'Item Z', value: 'Item Z' },
+    { label: 'Item X', value: 'X' },
+    { label: 'Item Y', value: 'Y' },
+    { label: 'Item Z', value: 'Z' },
   ],
 };
 
@@ -53,46 +52,25 @@ const inputList = [
   'longitude',
 ];
 
-const inputs = inputList.reduce((obj, item) => {
-  obj[item] = item;
-  return obj;
-}, {});
+const inputs = inputList.reduce((obj, item) => ({ ...obj, [item]: item }), {});
 
-const LocationForm = () => {
+const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
-  const [formState, setFormState] = useState(
-    inputList.reduce((obj, item) => {
-      obj[item] = '';
-      return obj;
-    }, {}),
-  );
   const [error, setError] = useState({});
-  const { storeFormData } = useContext(PropertyFormContext);
-
-  function setValue(key, value) {
-    if (typeof key == 'string' && !key) return;
-
-    const changed = { ...formState, [key.trim()]: value };
-    setFormState(changed);
-  }
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    storeFormData('location', formData);
-
-    navigate('/properties/create/details');
-  };
+  const thisFormName = 'location';
 
   return (
-    <ResponsiveForm onSubmit={onSubmit}>
+    <ResponsiveForm
+      onSubmit={(e) => {
+        e.preventDefault();
+        navigate(formNext(thisFormName));
+      }}
+    >
       <Input
         type="text"
         name={inputs.address}
         label={inputs.address}
-        value={formState.address}
+        value={value.address}
         onChange={(e) => {
           setValue(inputs.address, e.target.value);
         }}
@@ -106,6 +84,7 @@ const LocationForm = () => {
         onChange={(e) => {
           setValue(inputs.country, e.target.value);
         }}
+        value={value.country}
         required
       />
       <Select
@@ -115,15 +94,17 @@ const LocationForm = () => {
         onChange={(e) => {
           setValue(inputs.city, e.target.value);
         }}
+        value={value.city}
         required
       />
       <Select
         name={inputs.area}
         options={selectOptions[inputs.area] || []}
-        label={inputs.city}
+        label={inputs.area}
         onChange={(e) => {
-          setValue(inputs.city, e.target.value);
+          setValue(inputs.area, e.target.value);
         }}
+        value={value.area}
         required
       />
       <Select
@@ -133,50 +114,36 @@ const LocationForm = () => {
         onChange={(e) => {
           setValue(inputs.custom_1, e.target.value);
         }}
-        required
-      />
-      <Select
-        name={inputs.custom_2}
-        options={selectOptions[inputs.custom_2] || []}
-        label={inputs.custom_2}
-        onChange={(e) => {
-          setValue(inputs.custom_2, e.target.value);
-        }}
-        required
-      />
-      <Select
-        name={inputs.custom_3}
-        options={selectOptions[inputs.custom_3] || []}
-        label={inputs.custom_3}
-        onChange={(e) => {
-          setValue(inputs.custom_3, e.target.value);
-        }}
+        value={value.custom_1}
         required
       />
       <div className="col-span-full py-2">
         <GoogleMapInput />
       </div>
+
       <Input
         type="text"
         name={inputs.latitude}
         label={inputs.latitude}
-        value={formState.latitude}
+        value={value.latitude}
         onChange={(e) => {
           setValue(inputs.latitude, e.target.value);
         }}
-        required
       />
       <Input
         type="text"
         name={inputs.longitude}
         label={inputs.longitude}
-        value={formState.longitude}
+        value={value.longitude}
         onChange={(e) => {
           setValue(inputs.longitude, e.target.value);
         }}
-        required
       />
-      <CancelOrSubmit />
+      <PrevAndNext
+        onBack={() => {
+          navigate(formBack(thisFormName));
+        }}
+      />
     </ResponsiveForm>
   );
 };
