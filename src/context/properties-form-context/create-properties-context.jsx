@@ -10,7 +10,7 @@ const INITIAL = {
     description: '',
     category: '',
     listed_in: '',
-    agent: 2,
+    agent: '',
     status: false,
     price: 0,
     featured: '',

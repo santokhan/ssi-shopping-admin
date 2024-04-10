@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Select from '../../../components/form/input/SelectOption';
 import Textarea from '../../../components/form/input/Textarea';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formNext } from '../../../utils/form-steps';
+import { getAgent, getCategories } from '../../../axios/property/get';
+import api from '../../../axios/api';
 
 const inputList = [
   'title',
@@ -24,14 +26,31 @@ const inputs = inputList.reduce((obj, item) => {
 }, {});
 
 const DescriptionForm = ({ value, setValue }) => {
+  const [agent, setAgent] = useState('');
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
-  function validateInput() {
-    let isValid = true;
+  useEffect(() => {
+    getAgent().then((res) => {
+      if (res.data) {
+        const data = res.data;
+        const results = data.results;
 
-    return isValid;
-  }
+        setAgent(results[0]);
+        setValue(inputs.agent, results[0].id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getCategories().then((res) => {
+      if (res.data) {
+        const data = res.data;
+        setCategories(data);
+      }
+    });
+  }, []);
 
   return (
     <ResponsiveForm
@@ -67,22 +86,17 @@ const DescriptionForm = ({ value, setValue }) => {
       <Select
         name={inputs.category}
         label={inputs.category}
-        options={[
-          {
-            label: 'Real Estate Agent',
-            value: '1',
-          },
-          {
-            label: 'Real Estate Agent',
-            value: '2',
-          },
-        ]}
+        options={categories.map((c) => ({
+          label: c.title,
+          value: c.id,
+        }))}
         value={value.category}
         onChange={(e) => {
           setValue(inputs.category, e.target.value);
         }}
         error={error.title}
         required
+        disabled={categories.length === 0}
       />
       <Select
         name={inputs.listed_in}
@@ -109,13 +123,14 @@ const DescriptionForm = ({ value, setValue }) => {
         label={inputs.agent}
         type="number"
         required
-        value={value.agent}
+        value={value[inputs.agent]}
         maxLength={255}
         onChange={(e) => {
           setValue(inputs.agent, parseInt(e.target.value));
         }}
         error={error.title}
         className=""
+        disabled
       />
       <Select
         name={inputs.status}
@@ -146,6 +161,7 @@ const DescriptionForm = ({ value, setValue }) => {
         }}
         value={value.price || 0}
         error={error.price}
+        min={0}
         required
       />
       <Select
