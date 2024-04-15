@@ -1,91 +1,88 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import api from '../axios/api';
+import { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import API_URL from '../utils/API_URL';
+import { jwtDecode } from 'jwt-decode';
+import Logo from '../components/Logo';
 
 const sec = 1000; // 1s from millisecond
 const min = 60 * sec; // 1m from second
 const tokenAge = min * 30 - sec; // 30m - 1s
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext({
+  access: null,
+  refresh: null,
+});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState({
-    access: localStorage.getItem('accessToken'),
-    refresh: localStorage.getItem('refreshToken'),
+    access: null,
+    refresh: null,
   });
-  const [tokenExpiry, setTokenExpiry] = useState(
-    localStorage.getItem('tokenExpiry'),
-  );
+  const [loading, setLoading] = useState(true);
 
   const signin = (user, token, expiresIn = tokenAge) => {
-    // Save user and token
-    // Save token to local storage
-
-    // setUser(user);
-
     setToken(token);
-    setTokenExpiry(Date.now() + expiresIn); // Convert expiresIn to milliseconds
-
-    localStorage.setItem('accessToken', token.access);
     localStorage.setItem('refreshToken', token.refresh);
-    localStorage.setItem('tokenExpiry', String(Date.now() + expiresIn));
   };
-
-  const signout = () => {
-    setToken(null);
-    setTokenExpiry(null);
-
-    // Clear token from local storage
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenExpiry');
-  };
-
-  const isAuthenticated = useCallback(() => {
-    if (token?.access /**&& Date.now() < tokenExpiry */) {
-      return true;
-    }
-    return false;
-  }, [token]);
 
   // Automatically rotate token before expiry
   useEffect(() => {
-    const rotateToken = () => {
-      // Implement logic to refresh the token from your backend
-      // For example, make a request to your backend to obtain a new token
-      // Update the token and expiry accordingly
-      api
-        .post('token/refresh/', { refresh: token.refresh })
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    function rotateToken() {
+      axios
+        .post(`${API_URL}token/refresh/`, { refresh: refreshToken })
         .then((res) => {
           console.log('Token rotation in progress...');
           if (res) {
-            // console.log(res.data)
             signin(null, res.data);
           }
         })
         .catch((err) => {
           console.log(err);
         });
-    };
+    }
+
+    function generateToken() {
+      axios
+        .post(`${API_URL}token/refresh/`, { refresh: refreshToken })
+        .then((res) => {
+          console.log(`Generating new token`);
+          if (res) {
+            signin(null, res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
 
     let timeOutId;
     const tokenRotationInterval = () => {
       timeOutId = setTimeout(() => {
-        // generate new token if user already logged in
-        if (token.refresh) {
-          rotateToken();
-          tokenRotationInterval();
-        }
+        rotateToken(refreshToken);
+        tokenRotationInterval();
       }, tokenAge);
-    }; // Rotate token every 5 minutes
+    };
 
-    tokenRotationInterval();
+    if (refreshToken) {
+      if (token.access) {
+        const decoded = jwtDecode(token.access);
+        const exp = decoded.exp;
+        if (exp < Date.now() / 1000) {
+          generateToken();
+        }
+        tokenRotationInterval();
+      } else {
+        generateToken();
+      }
+    } else {
+      setLoading(false);
+    }
 
     return () => {
       if (timeOutId) {
@@ -94,8 +91,33 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex w-full h-screen flex-col justify-center items-center">
+        <Logo />
+        <span className="text-gray-600">Authenticating...</span>
+      </div>
+    );
+  }
+
   return (
-    <AuthContext.Provider value={{ token, signin, signout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        signin,
+        signout() {
+          setToken(null);
+
+          // Clear token from local storage
+          localStorage.removeItem('refreshToken');
+
+          window.location.href = '/signin';
+        },
+        isAuthenticated() {
+          return Boolean(token?.access);
+        },
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

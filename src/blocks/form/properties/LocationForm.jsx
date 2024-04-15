@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
 import GoogleMapInput from '../../../components/form/input/GoogleMapInput.jsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm.jsx';
 import { formBack, formNext } from '../../../utils/form-steps.js';
 
@@ -18,11 +18,7 @@ const selectOptions = {
     { label: 'Los Angeles', value: '2' },
     { label: 'London', value: '3' },
   ],
-  area: [
-    { label: 'Manhattan', value: '1' },
-    { label: 'Brooklyn', value: '2' },
-    { label: 'West Hollywood', value: '3' },
-  ],
+  area: [],
   custom_1: [
     { label: 'Option 1', value: '1' },
     { label: 'Option 2', value: '2' },
@@ -57,7 +53,21 @@ const inputs = inputList.reduce((obj, item) => ({ ...obj, [item]: item }), {});
 const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
+  const [countries, setCountries] = useState([]);
   const thisFormName = 'location';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      fetch('/api/country-cities.json')
+        .then((res) => res.json())
+        .then((data) => {
+          setCountries(data);
+          const UAEIndex = data.findIndex((c) => c.iso3 === 'ARE');
+          setValue('country', data[UAEIndex].iso3);
+        });
+    };
+    fetchData();
+  }, []);
 
   return (
     <ResponsiveForm
@@ -79,7 +89,7 @@ const LocationForm = ({ value, setValue }) => {
       />
       <Select
         name={inputs.country}
-        options={selectOptions[inputs.country] || []}
+        options={countries.map((c) => ({ label: c.name, value: c.iso3 }))}
         label={inputs.country}
         onChange={(e) => {
           setValue(inputs.country, e.target.value);
@@ -89,7 +99,11 @@ const LocationForm = ({ value, setValue }) => {
       />
       <Select
         name={inputs.city}
-        options={selectOptions[inputs.city] || []}
+        options={
+          countries
+            .find((c) => c.iso3.toLowerCase() === value.country.toLowerCase())
+            ?.states.map((o) => ({ label: o.name, value: o.id })) || []
+        }
         label={inputs.city}
         onChange={(e) => {
           setValue(inputs.city, e.target.value);
@@ -105,9 +119,8 @@ const LocationForm = ({ value, setValue }) => {
           setValue(inputs.area, e.target.value);
         }}
         value={value.area}
-        required
       />
-      <Select
+      {/* <Select
         name={inputs.custom_1}
         options={selectOptions[inputs.custom_1] || []}
         label={inputs.custom_1}
@@ -116,7 +129,7 @@ const LocationForm = ({ value, setValue }) => {
         }}
         value={value.custom_1}
         required
-      />
+      /> */}
       <div className="col-span-full py-2">
         <GoogleMapInput />
       </div>

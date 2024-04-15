@@ -66,7 +66,7 @@ const MediaForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.virtual_tour, e.target.value);
         }}
-        required
+        placeholder="https://www.youtube.com/channel/UCwvj_fVMtGYk8J5-8bhmH8A"
       />
       <PrevAndNext
         onBack={() => {

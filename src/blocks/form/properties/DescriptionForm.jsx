@@ -6,8 +6,7 @@ import Textarea from '../../../components/form/input/Textarea';
 import { useEffect, useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formNext } from '../../../utils/form-steps';
-import { getAgent, getCategories } from '../../../axios/property/get';
-import api from '../../../axios/api';
+import useAxios from '../../../context/useAxios';
 
 const inputList = [
   'title',
@@ -30,8 +29,19 @@ const DescriptionForm = ({ value, setValue }) => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState({});
   const navigate = useNavigate();
+  const { api } = useAxios();
 
   useEffect(() => {
+    async function getAgent() {
+      try {
+        const res = await api.get('agents/');
+
+        return res;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getAgent().then((res) => {
       if (res.data) {
         const data = res.data;
@@ -44,6 +54,16 @@ const DescriptionForm = ({ value, setValue }) => {
   }, []);
 
   useEffect(() => {
+    async function getCategories() {
+      try {
+        const res = await api.get('categories/');
+
+        return res;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getCategories().then((res) => {
       if (res.data) {
         const data = res.data;

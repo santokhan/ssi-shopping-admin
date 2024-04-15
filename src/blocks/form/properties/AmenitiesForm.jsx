@@ -5,6 +5,7 @@ import { PropertyFormContext } from '../../../context/properties-form-context/cr
 import { formBack } from '../../../utils/form-steps';
 import api from '../../../axios/api';
 import { getAmenities } from '../../../axios/property/get';
+import { toast } from 'react-toastify';
 // import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
@@ -80,6 +81,7 @@ const AmenitiesForm = ({ value, setValue }) => {
       })
       .then((res) => {
         if (res.data) {
+          toast('Property created successfully!');
           navigate('/properties');
         }
       });

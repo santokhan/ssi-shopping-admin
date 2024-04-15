@@ -6,15 +6,20 @@ import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import TableTitle from '../../components/table/TableTitle';
+import useAxios from '../../context/useAxios';
+import { toast } from 'react-toastify';
+import { getStatus } from '../../utils/status';
+import formatDate from '../../utils/formatDate';
+import { twMerge } from 'tailwind-merge';
 
-const AgentTableDetailsField = ({ agent }) => {
+const PropertiesTableDetailsField = ({ agent }) => {
   if (!agent) {
     return null;
   }
 
   return (
-    <div className="flex w-72 flex-row items-center space-x-2 rounded-lg text-gray-800">
-      <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+    <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
+      <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
         <img
           src={agent.photo}
           alt={agent.photo}
@@ -22,56 +27,41 @@ const AgentTableDetailsField = ({ agent }) => {
         />
       </div>
       <div>
-        <h3 className="text-base font-semibold leading-relaxed">
-          {agent.display_name}
-        </h3>
-        <p className="text-sm text-gray-500 font-normal">{agent.location}</p>
-        <p className="text-sm font-medium mt-2">{agent.phone}</p>
+        <h3 className="text-lg font-bold leading-relaxed">{agent.title}</h3>
+        <p className="text-sm text-gray-500 font-normal">{agent.address}</p>
+        <strong className="text-sm font-bold mt-2">
+          AED {Intl.NumberFormat().format(agent.price)}
+        </strong>
       </div>
     </div>
   );
 };
 
-const AgentStatusIndicator = ({ status }) => {
-  if (!status) {
+const PropertiesTableAction = ({ property, refetch }) => {
+  const { api } = useAxios();
+
+  if (!property) {
     return null;
   }
 
-  let backgroundColor, textColor, labelText;
+  const id = property.id;
 
-  switch (status.toLowerCase()) {
-    case 'active':
-      backgroundColor = 'bg-green-100';
-      textColor = 'text-green-600';
-      labelText = 'Active';
-      break;
-    case 'inactive':
-      backgroundColor = 'bg-red-100';
-      textColor = 'text-red-600';
-      labelText = 'Inactive';
-      break;
-    default:
-      backgroundColor = 'bg-gray-100';
-      textColor = 'text-gray-600';
-      labelText = 'Unknown';
+  function onEdit() {
+    // will redirect to properties edit page
   }
-
-  return (
-    <span
-      className={`inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold ${backgroundColor} ${textColor} hover:bg-${status}-200`}
-    >
-      {labelText}
-    </span>
-  );
-};
-
-const AgentTableAction = ({ agent }) => {
-  if (!agent) {
-    return null;
+  function onDelete() {
+    api
+      .delete('properties/' + id + '/')
+      .then((res) => {
+        toast(`Deleted`, {
+          type: 'success',
+        });
+        refetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
-  function onEdit() {}
-  function onDelete() {}
 
   return (
     <div className="flex gap-3">
@@ -81,26 +71,24 @@ const AgentTableAction = ({ agent }) => {
   );
 };
 
-const AgentTableRow = ({ agent }) => {
-  if (!agent) {
+const PropertiesTableRow = ({ property, refetch }) => {
+  if (!property) {
     return null;
   }
 
   return (
-    <tr className="border-b bg-white">
-      <td className="px-6 py-4 font-medium text-gray-900">
-        <AgentTableDetailsField agent={agent} />
+    <tr className="border-b bg-white text-gray-800">
+      <td className="px-6 py-4 font-medium">
+        <PropertiesTableDetailsField agent={property} />
       </td>
       {/* created on */}
-      <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
-        {new Date(agent.created_on).toLocaleString()}
+      <td className="whitespace-nowrap px-6 py-4 font-medium">
+        {formatDate(property.created_on)}
       </td>
+      <td className="px-6 py-4 font-medium">{property.type}</td>
+      <td className="px-6 py-4 font-medium">{property.agent}</td>
       <td className="px-6 py-4">
-        <AgentStatusIndicator status={agent.status} />
-      </td>
-      <td className="px-6 py-4">{null}</td>
-      <td className="px-6 py-4">
-        <AgentTableAction agent={agent} />
+        <PropertiesTableAction property={property} refetch={refetch} />
       </td>
     </tr>
   );
@@ -122,54 +110,74 @@ const TableTopSection = () => {
   );
 };
 
-const PropertiesTable = ({ agents }) => {
+const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
+  properties = properties?.results;
+
+  const headList = [
+    'Listing Title',
+    'Date Published',
+    'Type',
+    'Agent',
+    'Action',
+  ];
+
+  const TH = ({ children, className = '', ...props }) => (
+    <th className={twMerge('text-start px-6 py-3', className)} {...props}>
+      {children}
+    </th>
+  );
+
   return (
     <div className="space-y-4">
       <TableTopSection />
       {
         // replace agent with your needle
-        agents ? (
+        properties ? (
           <div className="bg-white p-4 space-y-4">
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-gray-500 rtl:text-right">
                 <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                   <tr>
-                    <th
-                      scope="col"
-                      className="text-start rounded-l-lg px-6 py-3"
-                    >
-                      Property Name
-                    </th>
-                    <th scope="col" className="text-start px-6 py-3">
-                      Date Added
-                    </th>
-                    <th scope="col" className="text-start px-6 py-3">
-                      Status
-                    </th>
-                    <th scope="col" className="text-start px-6 py-3">
-                      Properties
-                    </th>
-                    <th
-                      scope="col"
-                      className="text-start rounded-r-lg px-6 py-3"
-                    >
-                      Action
-                    </th>
+                    <TH scope="col" className="rounded-l-lg">
+                      {headList[0]}
+                    </TH>
+                    <TH scope="col" className="">
+                      {headList[1]}
+                    </TH>
+                    <TH scope="col" className="">
+                      {headList[2]}
+                    </TH>
+                    <TH scope="col" className="">
+                      {headList[3]}
+                    </TH>
+                    <TH scope="col" className="rounded-r-lg">
+                      {headList[4]}
+                    </TH>
                   </tr>
                 </thead>
                 <tbody>
-                  {agents.map((agent, i) => {
+                  {properties.map((property, i) => {
                     return (
                       <Fragment key={i}>
-                        <AgentTableRow agent={agent} />
+                        <PropertiesTableRow
+                          property={property}
+                          refetch={refetch}
+                        />
                       </Fragment>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-            <Pagination totalPages={[1, 2, 3, 4, 5]} currentPage={1} />
-            <TableSummary />
+            <Pagination
+              totalPages={new Array(Math.ceil(properties.length / page_size))
+                .fill()
+                .map((_, i) => i + 1)}
+              currentPage={1}
+              setPageNumber={setPageNumber}
+              isNextExist={Boolean(properties.next)}
+            />
+            <TableSummary totalData={properties.length} />
           </div>
         ) : (
           <p className="px-4">No properties found</p>

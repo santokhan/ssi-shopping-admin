@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
-import MediaInputIcon from '../../icons/MediaInput';
+import MediaInputIcon from '../../icons/MediaInputIcon';
 
 // Example function to remove a file from FileList
 function removeFileFromFileList(fileList, fileToRemove) {
@@ -96,7 +96,6 @@ const MediaInput = ({ value, setValue, className = '' }) => {
           ref={fileInputRef}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}
-          required
         />
       </label>
       <div className="flex gap-4 flex-wrap">

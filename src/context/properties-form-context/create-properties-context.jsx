@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import api from '../../axios/api';
 
 export const PropertyFormContext = React.createContext();
 
@@ -72,9 +71,9 @@ const CreatePropertyProvider = ({ children }) => {
     setFormData((prev) => ({ ...prev, ...newFormData }));
   }
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log(formData);
+  // }, [formData]);
 
   return (
     <PropertyFormContext.Provider value={{ formData, storeFormData }}>

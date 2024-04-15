@@ -9,12 +9,12 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         // Get the token from local storage or wherever you have stored it
-        const token = localStorage.getItem('accessToken');
+        // const token = localStorage.getItem('accessToken');
 
-        // If a token exists, add it to the Authorization header
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
+        // // If a token exists, add it to the Authorization header
+        // if (token) {
+        //     config.headers.Authorization = `Bearer ${token}`;
+        // }
 
         return config;
     },

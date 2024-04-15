@@ -5,7 +5,8 @@ import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
-import api from '../../axios/api';
+import useAxios from '../../context/useAxios';
+import { useNavigate } from 'react-router-dom';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -66,6 +67,9 @@ const AgentStatusIndicator = ({ status }) => {
 };
 
 const AgentTableAction = ({ agent }) => {
+  const { api } = useAxios();
+  const navigate = useNavigate();
+
   if (!agent) {
     return null;
   }
@@ -78,7 +82,7 @@ const AgentTableAction = ({ agent }) => {
     api
       .delete(`agents/${agent.id}/`)
       .then((res) => {
-        console.log(res);
+        navigate('/agents');
       })
       .catch((err) => {
         console.log(err);
@@ -136,7 +140,9 @@ const TableTopSection = () => {
   );
 };
 
-const AgentTable = ({ agents }) => {
+const AgentTable = ({ agents, setPageNumber, page_size }) => {
+  agents = agents?.results;
+
   return (
     <div className="space-y-4">
       <TableTopSection />
@@ -174,8 +180,17 @@ const AgentTable = ({ agents }) => {
               </tbody>
             </table>
           </div>
-          <Pagination totalPages={[1, 2, 3, 4, 5]} currentPage={1} />
-          <TableSummary />
+          <Pagination
+            totalPages={new Array(Math.ceil(agents.length / page_size))
+              .fill()
+              .map((_, i) => i + 1)}
+            currentPage={1}
+            setPageNumber={setPageNumber}
+          />
+          <TableSummary
+            totalData={Math.ceil(agents.length / page_size)}
+            dataPerPage={10}
+          />
         </div>
       ) : (
         <p className="px-4">No properties found</p>
