@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const signin = (user, token, expiresIn = tokenAge) => {
     setToken(token);
+    console.log(token);
     localStorage.setItem('refreshToken', token.refresh);
   };
 

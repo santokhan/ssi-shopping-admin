@@ -3,19 +3,19 @@ import SubmitButton from '../../../components/form/SubmitButton';
 import Input from '../../../components/form/input/Input';
 import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
-import { AmenitiesContext } from '../../../context/amenities/amenities-context';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
+import { FeaturesContext } from '../../../context/features/features-context';
 
 const inputs = {
   title: 'title',
   icon: 'icon',
 };
 
-export const CreateAmenities = () => {
-  const { value, setValue, refetch } = useContext(AmenitiesContext);
+export const CreateFeatures = () => {
+  const { value, setValue, refetch } = useContext(FeaturesContext);
   const { api } = useAxios();
 
   const handleSubmit = (e) => {
@@ -74,13 +74,15 @@ export const CreateAmenities = () => {
   );
 };
 
-export const EditAmenities = () => {
-  const { value, setValue, refetch } = useContext(AmenitiesContext);
+export const EditFeatures = () => {
+  const { value, setValue, refetch } = useContext(FeaturesContext);
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // setValue(inputs.title, 'edit_title');
+    // setValue(inputs.icon, 'edit_icon');
     api
       .get(`amenities/${id}/`)
       .then((res) => {

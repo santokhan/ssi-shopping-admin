@@ -5,28 +5,24 @@ import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
-import { AmenitiesContext } from '../../context/amenities/amenities-context';
 import { twMerge } from 'tailwind-merge';
+import { FeaturesContext } from '../../context/features/features-context';
 
-const AmenitiesTableAction = ({ amenities, refetch }) => {
+const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
-  const { setValue } = useContext(AmenitiesContext);
   const navigate = useNavigate();
 
-  if (!amenities) {
+  if (!feature) {
     return null;
   }
 
   function onEdit() {
-    // setValue('title', amenities.title);
-    // setValue('icon', amenities.icon);
-    // set form type on context or on route path
-    navigate(`/amenities/${amenities.id}/edit`);
+    navigate(`/amenities/${feature.id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`amenities/${amenities.id}/`)
+      .delete(`amenities/${feature.id}/`)
       .then((res) => {
         refetch();
       })
@@ -43,8 +39,8 @@ const AmenitiesTableAction = ({ amenities, refetch }) => {
   );
 };
 
-const AmenitiesTableRow = ({ amenities, refetch }) => {
-  if (!amenities) {
+const FeaturesTableRow = ({ feature, refetch }) => {
+  if (!feature) {
     return null;
   }
 
@@ -52,38 +48,38 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
     <tr className="border-b bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
-          {amenities.title}
+          {feature.title}
         </h3>
       </td>
       <td className="px-6 py-4">
         <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
           <img
-            src={amenities.icon}
-            alt={amenities.icon}
+            src={feature.icon}
+            alt={feature.icon}
             className="w-full h-full object-cover rounded-full overflow-hidden"
           />
         </div>
       </td>
       <td className="px-6 py-4">
-        <AmenitiesTableAction amenities={amenities} refetch={refetch} />
+        <FeaturesTableAction feature={feature} refetch={refetch} />
       </td>
     </tr>
   );
 };
 
-const AmenitiesTable = ({ className = '' }) => {
-  const { amenities, setPageNumber, page_size, refetch } =
-    useContext(AmenitiesContext);
+const FeaturesTable = ({ className = '' }) => {
+  const { features, setPageNumber, page_size, refetch } =
+    useContext(FeaturesContext);
 
-  if (!amenities) {
+  if (!features) {
     return null;
   }
 
-  const headList = ['amenities title', 'amenities image', 'action'];
+  const headList = ['locations title', 'locations image', 'action'];
 
   return (
     <>
-      {amenities.length > 0 ? (
+      {features.length > 0 ? (
         <div
           className={twMerge(
             className,
@@ -105,37 +101,34 @@ const AmenitiesTable = ({ className = '' }) => {
               </tr>
             </thead>
             <tbody>
-              {amenities.map((amenities, i) => {
+              {features.map((location, i) => {
                 return (
                   <Fragment key={i}>
-                    <AmenitiesTableRow
-                      amenities={amenities}
-                      refetch={refetch}
-                    />
+                    <FeaturesTableRow location={location} refetch={refetch} />
                   </Fragment>
                 );
               })}
             </tbody>
           </table>
           <Pagination
-            totalPages={new Array(Math.ceil(amenities.length / page_size))
+            totalPages={new Array(Math.ceil(features.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
             currentPage={1}
             setPageNumber={setPageNumber}
           />
           <TableSummary
-            totalData={Math.ceil(amenities.length / page_size)}
+            totalData={Math.ceil(features.length / page_size)}
             dataPerPage={10}
           />
         </div>
       ) : (
         <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
-          No amenities found
+          No locations found
         </p>
       )}
     </>
   );
 };
 
-export default AmenitiesTable;
+export default FeaturesTable;

@@ -5,28 +5,24 @@ import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
-import { AmenitiesContext } from '../../context/amenities/amenities-context';
 import { twMerge } from 'tailwind-merge';
+import { LocationsContext } from '../../context/locations/locations-context';
 
-const AmenitiesTableAction = ({ amenities, refetch }) => {
+const LocationsTableAction = ({ Locations, refetch }) => {
   const { api } = useAxios();
-  const { setValue } = useContext(AmenitiesContext);
   const navigate = useNavigate();
 
-  if (!amenities) {
+  if (!Locations) {
     return null;
   }
 
   function onEdit() {
-    // setValue('title', amenities.title);
-    // setValue('icon', amenities.icon);
-    // set form type on context or on route path
-    navigate(`/amenities/${amenities.id}/edit`);
+    navigate(`/locations/${Locations.id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`amenities/${amenities.id}/`)
+      .delete(`locations/${Locations.id}/`)
       .then((res) => {
         refetch();
       })
@@ -43,8 +39,8 @@ const AmenitiesTableAction = ({ amenities, refetch }) => {
   );
 };
 
-const AmenitiesTableRow = ({ amenities, refetch }) => {
-  if (!amenities) {
+const LocationsTableRow = ({ location, refetch }) => {
+  if (!location) {
     return null;
   }
 
@@ -52,38 +48,38 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
     <tr className="border-b bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
-          {amenities.title}
+          {location.title}
         </h3>
       </td>
       <td className="px-6 py-4">
         <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
           <img
-            src={amenities.icon}
-            alt={amenities.icon}
+            src={location.icon}
+            alt={location.icon}
             className="w-full h-full object-cover rounded-full overflow-hidden"
           />
         </div>
       </td>
       <td className="px-6 py-4">
-        <AmenitiesTableAction amenities={amenities} refetch={refetch} />
+        <LocationsTableAction locations={location} refetch={refetch} />
       </td>
     </tr>
   );
 };
 
-const AmenitiesTable = ({ className = '' }) => {
-  const { amenities, setPageNumber, page_size, refetch } =
-    useContext(AmenitiesContext);
+const LocationsTable = ({ className = '' }) => {
+  const { locations, setPageNumber, page_size, refetch } =
+    useContext(LocationsContext);
 
-  if (!amenities) {
+  if (!locations) {
     return null;
   }
 
-  const headList = ['amenities title', 'amenities image', 'action'];
+  const headList = ['locations title', 'locations image', 'action'];
 
   return (
     <>
-      {amenities.length > 0 ? (
+      {locations.length > 0 ? (
         <div
           className={twMerge(
             className,
@@ -105,37 +101,34 @@ const AmenitiesTable = ({ className = '' }) => {
               </tr>
             </thead>
             <tbody>
-              {amenities.map((amenities, i) => {
+              {locations.map((location, i) => {
                 return (
                   <Fragment key={i}>
-                    <AmenitiesTableRow
-                      amenities={amenities}
-                      refetch={refetch}
-                    />
+                    <LocationsTableRow location={location} refetch={refetch} />
                   </Fragment>
                 );
               })}
             </tbody>
           </table>
           <Pagination
-            totalPages={new Array(Math.ceil(amenities.length / page_size))
+            totalPages={new Array(Math.ceil(locations.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
             currentPage={1}
             setPageNumber={setPageNumber}
           />
           <TableSummary
-            totalData={Math.ceil(amenities.length / page_size)}
+            totalData={Math.ceil(locations.length / page_size)}
             dataPerPage={10}
           />
         </div>
       ) : (
         <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
-          No amenities found
+          No locations found
         </p>
       )}
     </>
   );
 };
 
-export default AmenitiesTable;
+export default LocationsTable;

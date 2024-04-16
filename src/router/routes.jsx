@@ -16,6 +16,21 @@ import PDetails from '../pages/properties/create/details/Details.jsx';
 import CreateAgent from '../pages/agents/create/CreateAgent.jsx';
 import Amenities from '../pages/amenities/Amenities.jsx';
 import PrivateRoute from './private.jsx';
+import AmenitiesLayout from '../pages/amenities/Amenities.jsx';
+import {
+  CreateAmenities,
+  EditAmenities,
+} from '../blocks/form/amenities/Amenities.jsx';
+import LocationsLayout from '../pages/locations/Locations.jsx';
+import {
+  CreateLocations,
+  EditLocations,
+} from '../blocks/form/locations/Locations.jsx';
+import FeaturesLayout from '../pages/features/FeaturesLayout.jsx';
+import {
+  CreateFeatures,
+  EditFeatures,
+} from '../blocks/form/features/Features.jsx';
 
 const authRoutes = [
   {
@@ -107,9 +122,51 @@ export const routes = [
       },
       {
         path: 'amenities',
-        element: <Amenities />,
-        index: true,
-        children: [],
+        element: <AmenitiesLayout />,
+        children: [
+          {
+            path: '',
+            element: <CreateAmenities />,
+            index: true,
+          },
+          {
+            path: ':id/edit',
+            element: <EditAmenities />,
+            index: true,
+          },
+        ],
+      },
+      {
+        path: 'locations',
+        element: <LocationsLayout />,
+        children: [
+          {
+            path: '',
+            element: <CreateLocations />,
+            index: true,
+          },
+          {
+            path: ':id/edit',
+            element: <EditLocations />,
+            index: true,
+          },
+        ],
+      },
+      {
+        path: 'features',
+        element: <FeaturesLayout />,
+        children: [
+          {
+            path: '',
+            element: <CreateFeatures />,
+            index: true,
+          },
+          {
+            path: ':id/edit',
+            element: <EditFeatures />,
+            index: true,
+          },
+        ],
       },
     ],
   },
