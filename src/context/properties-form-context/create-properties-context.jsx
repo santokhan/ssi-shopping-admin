@@ -33,7 +33,7 @@ const INITIAL = {
   // details
   details: {
     total_area: '',
-    built_top_size: '',
+    built_up_size: '',
     bedrooms: '',
     bathrooms: '',
     parking: '',

@@ -43,7 +43,6 @@ const MediaForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.video_from, e.target.value);
         }}
-        required
       />
       <Input
         type="text"
@@ -53,7 +52,6 @@ const MediaForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.embed_video_id, e.target.value);
         }}
-        required
       />
       <div className="col-span-full pt-3">
         <PropertiesFormTitle>Virtual Tour</PropertiesFormTitle>

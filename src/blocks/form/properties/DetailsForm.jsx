@@ -21,8 +21,8 @@ const DetailsForm = ({ value, setValue }) => {
       type: 'number',
     },
     {
-      name: 'built_top_size',
-      label: 'built top size (in FT)',
+      name: 'built_up_size',
+      label: 'Built Up Size (In FT',
       type: 'number',
     },
     {

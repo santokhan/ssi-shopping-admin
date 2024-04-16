@@ -10,13 +10,17 @@ import { twMerge } from 'tailwind-merge';
 
 const AmenitiesTableAction = ({ amenities, refetch }) => {
   const { api } = useAxios();
-  const navigate = useNavigate();
+  const { setValue } = useContext(AmenitiesContext);
 
   if (!amenities) {
     return null;
   }
 
-  function onEdit() {}
+  function onEdit() {
+    setValue('title', amenities.title);
+    setValue('icon', amenities.icon);
+    // set form type on context or on route path
+  }
 
   function onDelete() {
     api

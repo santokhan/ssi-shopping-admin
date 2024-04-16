@@ -40,10 +40,12 @@ export const routes = [
   {
     path: '/',
     element: (
+      // All children's are wrapped by PrivateRoute
       <PrivateRoute>
         <DashboardLayout />
       </PrivateRoute>
     ),
+    // All children's are wrapped by PrivateRoute
     children: [
       {
         path: '',
@@ -107,6 +109,7 @@ export const routes = [
         path: 'amenities',
         element: <Amenities />,
         index: true,
+        children: [],
       },
     ],
   },

@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import Spinner from '../../components/loader/Spinner';
-import useAxios from '../../context/useAxios';
 import AmenitiesTable from '../../blocks/table/AmenitiesTable';
 import * as Page from '../../components/page-header/PageHeader';
 import AmenitiesForm from '../../blocks/form/amenities/Amenities';
