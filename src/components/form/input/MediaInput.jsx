@@ -38,8 +38,13 @@ function addToFileList(fileList, inputFiles) {
   return newFileList.files; // Return the new FileList from the DataTransfer object
 }
 
-const MediaInput = ({ value, setValue, className = '' }) => {
-  const inputName = 'images';
+const MediaInput = ({
+  value,
+  setValue,
+  required = false,
+  inputName = 'images',
+  className = '',
+}) => {
   const [selectedFiles, setSelectedFiles] = React.useState(
     value[inputName] || [],
   );
@@ -89,13 +94,14 @@ const MediaInput = ({ value, setValue, className = '' }) => {
           </Button>
         </div>
         <input
-          name="media"
+          name={inputName}
           type="file"
           accept="image/*"
           multiple
           ref={fileInputRef}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}
+          required={required}
         />
       </label>
       <div className="flex gap-4 flex-wrap">

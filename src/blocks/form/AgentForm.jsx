@@ -16,6 +16,7 @@ import { nationalityList } from '../../utils/nationality';
 import * as validy from '../../lib/submit-validation/agent-form-schema';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const inputs = {
   display_name: 'display_name',
@@ -128,6 +129,16 @@ const AgentForm = () => {
           navigate('/agents');
         })
         .catch((err) => {
+          toast(err.message, {
+            type: 'error',
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           console.log(err);
         });
     }

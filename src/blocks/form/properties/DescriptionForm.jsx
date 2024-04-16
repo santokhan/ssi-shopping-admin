@@ -7,6 +7,11 @@ import { useEffect, useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formNext } from '../../../utils/form-steps';
 import useAxios from '../../../context/useAxios';
+import { propertyCategories } from '../../../utils/categories';
+import {
+  activeInActiveOptions,
+  yesNoOptions,
+} from '../../../utils/yes-no-options';
 
 const inputList = [
   'title',
@@ -25,7 +30,7 @@ const inputs = inputList.reduce((obj, item) => {
 }, {});
 
 const DescriptionForm = ({ value, setValue }) => {
-  const [agent, setAgent] = useState('');
+  const [agents, setAgents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState({});
   const navigate = useNavigate();
@@ -46,9 +51,7 @@ const DescriptionForm = ({ value, setValue }) => {
       if (res.data) {
         const data = res.data;
         const results = data.results;
-
-        setAgent(results[0]);
-        setValue(inputs.agent, results[0].id);
+        setAgents(results);
       }
     });
   }, []);
@@ -67,7 +70,11 @@ const DescriptionForm = ({ value, setValue }) => {
     getCategories().then((res) => {
       if (res.data) {
         const data = res.data;
-        setCategories(data);
+        const trimmed = data.map((c) => ({
+          value: c.id,
+          label: c.title,
+        }));
+        setCategories(trimmed);
       }
     });
   }, []);
@@ -102,14 +109,12 @@ const DescriptionForm = ({ value, setValue }) => {
         }}
         error={error.title}
         className="col-span-full"
+        required
       />
       <Select
         name={inputs.category}
         label={inputs.category}
-        options={categories.map((c) => ({
-          label: c.title,
-          value: c.id,
-        }))}
+        options={categories}
         value={value.category}
         onChange={(e) => {
           setValue(inputs.category, e.target.value);
@@ -123,11 +128,11 @@ const DescriptionForm = ({ value, setValue }) => {
         label={inputs.listed_in}
         options={[
           {
-            label: 'Real Estate Agent',
+            label: 'For Sale',
             value: '1',
           },
           {
-            label: 'Real Estate Agent',
+            label: 'For Rent',
             value: '2',
           },
         ]}
@@ -138,33 +143,24 @@ const DescriptionForm = ({ value, setValue }) => {
         error={error.title}
         required
       />
-      <Input
+      <Select
         name={inputs.agent}
         label={inputs.agent}
-        type="number"
-        required
-        value={value[inputs.agent]}
-        maxLength={255}
+        options={agents.map((a) => ({
+          value: a.id,
+          label: [a.first_name, a.last_name].join(' '),
+        }))}
+        value={value.agent}
         onChange={(e) => {
-          setValue(inputs.agent, parseInt(e.target.value));
+          setValue(inputs.agent, e.target.value);
         }}
         error={error.title}
-        className=""
-        disabled
+        required
       />
       <Select
         name={inputs.status}
         label={inputs.status}
-        options={[
-          {
-            label: 'Active',
-            value: 'true',
-          },
-          {
-            label: 'Inactive',
-            value: 'false',
-          },
-        ]}
+        options={activeInActiveOptions}
         value={value.status}
         onChange={(e) => {
           setValue(inputs.status, e.target.value);
@@ -174,7 +170,7 @@ const DescriptionForm = ({ value, setValue }) => {
       />
       <Input
         name={inputs.price}
-        label={inputs.price}
+        label={value.listed_in === '1' ? 'Price' : 'Rent Price/year'}
         type="number"
         onChange={(e) => {
           setValue(inputs.price, parseInt(e.target.value));
@@ -187,16 +183,7 @@ const DescriptionForm = ({ value, setValue }) => {
       <Select
         name={inputs.featured}
         label={inputs.featured}
-        options={[
-          {
-            label: 'Yes',
-            value: 'true',
-          },
-          {
-            label: 'No',
-            value: 'false',
-          },
-        ]}
+        options={yesNoOptions}
         value={value.featured}
         onChange={(e) => {
           setValue(inputs.featured, e.target.value);

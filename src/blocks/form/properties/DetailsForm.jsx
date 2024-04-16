@@ -7,6 +7,7 @@ import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { formBack, formNext } from '../../../utils/form-steps';
+import { yesNoOptions } from '../../../utils/yes-no-options';
 
 const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
@@ -15,19 +16,14 @@ const DetailsForm = ({ value, setValue }) => {
 
   const inputs = [
     {
-      name: 'size',
-      label: 'Size in ft',
+      name: 'total_area',
+      label: 'total area (in ft)',
       type: 'number',
     },
     {
-      name: 'suitable',
-      label: 'Suitable',
-      type: 'text',
-    },
-    {
-      name: 'type',
-      label: 'Type',
-      type: 'text',
+      name: 'built_top_size',
+      label: 'built top size (in FT)',
+      type: 'number',
     },
     {
       name: 'bedrooms',
@@ -54,20 +50,7 @@ const DetailsForm = ({ value, setValue }) => {
       label: 'Year built (numeric)',
       type: 'number',
     },
-    {
-      name: 'available_from',
-      label: 'Available from (date)',
-      type: 'date',
-    },
-    { name: 'basement', label: 'Basement', type: 'text' },
-    { name: 'roofing', label: 'Roofing', type: 'text' },
-    {
-      name: 'exterior_material',
-      label: 'Exterior Material',
-      type: 'text',
-    },
-    { name: 'structure_type', label: 'Structure type', type: 'select' },
-    { name: 'floor_no', label: 'Floors no', type: 'select' },
+    { name: 'basement', label: 'Basement', type: 'yes/no' },
     {
       name: 'extra_detail',
       label: 'Owner/ Agent nots (not visible on front end)',
@@ -76,11 +59,6 @@ const DetailsForm = ({ value, setValue }) => {
   ];
 
   const energyInputs = [
-    {
-      name: 'energy_class',
-      label: 'Energy Class',
-      type: 'select',
-    },
     {
       name: 'energy_index',
       label: 'Energy index in kWh/m2a',
@@ -190,6 +168,18 @@ const DetailsForm = ({ value, setValue }) => {
             />
           );
         }
+        if (type === 'yes/no') {
+          return (
+            <Select
+              key={name}
+              name={name}
+              label={label}
+              options={yesNoOptions}
+              value={value[name]}
+              onChange={(e) => setValue(name, e.target.value)}
+            />
+          );
+        }
         if (type === 'textarea') {
           return (
             <Textarea
@@ -207,20 +197,18 @@ const DetailsForm = ({ value, setValue }) => {
       <div className="col-span-full">
         <PropertiesFormTitle>Select Energy Class</PropertiesFormTitle>
       </div>
-      {energyInputs.map(({ name, label, type }) => {
-        if (type === 'select') {
-          return (
-            <Select
-              key={name}
-              name={name}
-              label={label}
-              options={options[name]}
-              value={value[name]}
-              onChange={(e) => setValue(name, e.target.value)}
-              required
-            />
-          );
-        }
+      {energyInputs.map(({ name, label }) => {
+        return (
+          <Select
+            key={name}
+            name={name}
+            label={label}
+            options={yesNoOptions}
+            value={value[name]}
+            onChange={(e) => setValue(name, e.target.value)}
+            required
+          />
+        );
       })}
       <PrevAndNext
         onBack={() => {

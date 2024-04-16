@@ -28,7 +28,9 @@ const PropertiesTableDetailsField = ({ agent }) => {
       </div>
       <div>
         <h3 className="text-lg font-bold leading-relaxed">{agent.title}</h3>
-        <p className="text-sm text-gray-500 font-normal">{agent.address}</p>
+        <p className="text-sm text-gray-500 font-normal">
+          {agent.city}, {agent.country}
+        </p>
         <strong className="text-sm font-bold mt-2">
           AED {Intl.NumberFormat().format(agent.price)}
         </strong>

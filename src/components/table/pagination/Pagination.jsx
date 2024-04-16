@@ -43,7 +43,7 @@ const Pagination = ({
             </button>
           </li>
         ))}
-        {isNextExist && (
+        {totalPages.length > 1 && (
           <li>
             <button
               type="button"

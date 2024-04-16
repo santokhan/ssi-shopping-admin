@@ -31,3 +31,7 @@ dist-ssr
 *.txt
 
 test.js
+
+cspell.json
+.cspell
+.vercel
