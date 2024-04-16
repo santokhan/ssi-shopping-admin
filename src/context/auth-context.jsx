@@ -91,6 +91,20 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  const value = {
+    token,
+    signin,
+    signout() {
+      setToken(null);
+
+      // Clear token from local storage
+      localStorage.removeItem('refreshToken');
+
+      window.location.href = '/signin';
+    },
+    isAuthenticated: Boolean(token?.access),
+  };
+
   if (loading) {
     return (
       <div className="flex w-full h-screen flex-col justify-center items-center">
@@ -98,27 +112,9 @@ export const AuthProvider = ({ children }) => {
         <span className="text-gray-600">Authenticating...</span>
       </div>
     );
+  } else {
+    return (
+      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    );
   }
-
-  return (
-    <AuthContext.Provider
-      value={{
-        token,
-        signin,
-        signout() {
-          setToken(null);
-
-          // Clear token from local storage
-          localStorage.removeItem('refreshToken');
-
-          window.location.href = '/signin';
-        },
-        isAuthenticated() {
-          return Boolean(token?.access);
-        },
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
 };

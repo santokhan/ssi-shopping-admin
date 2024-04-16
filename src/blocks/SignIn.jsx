@@ -15,7 +15,6 @@ const SignInForm = () => {
 
   const { signin, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
-  const authorized = isAuthenticated();
 
   function handleSignIn(e) {
     e.preventDefault();
@@ -48,10 +47,10 @@ const SignInForm = () => {
   }
 
   useEffect(() => {
-    if (authorized) {
+    if (isAuthenticated) {
       navigate('/');
     }
-  }, [authorized, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="bg-white relative grid w-full max-w-md place-items-center lg:flex-shrink-0 shadow p-4 lg:p-10 rounded-xl">

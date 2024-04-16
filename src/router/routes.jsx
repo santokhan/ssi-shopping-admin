@@ -15,6 +15,7 @@ import PAmenities from '../pages/properties/create/amenities/Amenities.jsx';
 import PDetails from '../pages/properties/create/details/Details.jsx';
 import CreateAgent from '../pages/agents/create/CreateAgent.jsx';
 import Amenities from '../pages/amenities/Amenities.jsx';
+import PrivateRoute from './private.jsx';
 
 const authRoutes = [
   {
@@ -38,7 +39,11 @@ const authRoutes = [
 export const routes = [
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: '',

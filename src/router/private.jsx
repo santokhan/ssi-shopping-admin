@@ -1,19 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/auth-context';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
-const PrivateRoutes = ({ children }) => {
-  const { isAuthenticated, signout } = useContext(AuthContext);
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log(isAuthenticated);
-
   if (!isAuthenticated) {
-    signout();
-    navigate('/signin');
+    console.log(`Private Route`, isAuthenticated);
+    return <Navigate to="/signin" replace />;
   } else {
     return children;
   }
 };
 
-export default PrivateRoutes;
+export default PrivateRoute;

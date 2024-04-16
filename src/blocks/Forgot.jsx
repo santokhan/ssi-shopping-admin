@@ -14,7 +14,6 @@ const ForgotForm = () => {
 
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
-  const authorized = isAuthenticated();
 
   function handleForgot(e) {
     e.preventDefault();
@@ -42,10 +41,10 @@ const ForgotForm = () => {
   }
 
   useEffect(() => {
-    if (authorized) {
+    if (isAuthenticated) {
       navigate('/');
     }
-  }, [authorized, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="bg-white relative w-full max-w-md shadow p-4 lg:p-10 rounded-xl">

@@ -16,9 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AxiosProvider>
         <CreatePropertyProvider>
           <RouterProvider router={router}>
-            <PrivateRoutes>
-              <App />
-            </PrivateRoutes>
+            <App />
           </RouterProvider>
         </CreatePropertyProvider>
       </AxiosProvider>
