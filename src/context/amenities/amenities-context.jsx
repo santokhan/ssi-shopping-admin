@@ -51,7 +51,7 @@ const AmenitiesProvider = ({ children }) => {
   return (
     <AmenitiesContext.Provider
       value={{
-        amenities: amenities,
+        amenities,
         setPageNumber,
         page,
         page_size,

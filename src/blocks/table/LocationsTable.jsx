@@ -8,21 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { LocationsContext } from '../../context/locations/locations-context';
 
-const LocationsTableAction = ({ Locations, refetch }) => {
+const LocationsTableAction = ({ location, refetch }) => {
   const { api } = useAxios();
   const navigate = useNavigate();
 
-  if (!Locations) {
+  if (!location) {
     return null;
   }
 
   function onEdit() {
-    navigate(`/locations/${Locations.id}/edit`);
+    navigate(`/locations/${location.id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`locations/${Locations.id}/`)
+      .delete(`locations/${location.id}/`)
       .then((res) => {
         refetch();
       })
@@ -61,7 +61,7 @@ const LocationsTableRow = ({ location, refetch }) => {
         </div>
       </td>
       <td className="px-6 py-4">
-        <LocationsTableAction locations={location} refetch={refetch} />
+        <LocationsTableAction location={location} refetch={refetch} />
       </td>
     </tr>
   );

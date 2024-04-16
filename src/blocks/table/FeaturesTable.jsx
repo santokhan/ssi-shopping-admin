@@ -101,10 +101,10 @@ const FeaturesTable = ({ className = '' }) => {
               </tr>
             </thead>
             <tbody>
-              {features.map((location, i) => {
+              {features.map((feature, i) => {
                 return (
                   <Fragment key={i}>
-                    <FeaturesTableRow location={location} refetch={refetch} />
+                    <FeaturesTableRow feature={feature} refetch={refetch} />
                   </Fragment>
                 );
               })}
