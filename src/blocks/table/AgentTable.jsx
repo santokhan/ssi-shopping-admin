@@ -70,14 +70,6 @@ const AgentTableAction = ({ agent }) => {
   const { api } = useAxios();
   const navigate = useNavigate();
 
-  if (!agent) {
-    return null;
-  }
-
-  function onEdit() {
-    // will redirect to agent edit page
-  }
-
   function onDelete() {
     api
       .delete(`agents/${agent.id}/`)
@@ -89,12 +81,16 @@ const AgentTableAction = ({ agent }) => {
       });
   }
 
-  return (
-    <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
-    </div>
-  );
+  if (!agent) {
+    return null;
+  } else {
+    return (
+      <div className="flex gap-3">
+        <ActionEdit to={`/agents/${agent.id}/edit`} />
+        <ActionDelete onDelete={onDelete} />
+      </div>
+    );
+  }
 };
 
 const AgentTableRow = ({ agent }) => {

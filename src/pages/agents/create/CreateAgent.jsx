@@ -5,7 +5,7 @@ const CreateAgent = () => {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl lg:text-3xl font-medium text-gray-900">
-        All Agents
+        Create New Agents
       </h2>
       <CreateAgentForm />
     </div>

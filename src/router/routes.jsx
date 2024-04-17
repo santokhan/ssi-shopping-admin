@@ -14,7 +14,7 @@ import PMedia from '../pages/properties/create/media/Media.jsx';
 import PAmenities from '../pages/properties/create/amenities/Amenities.jsx';
 import PDetails from '../pages/properties/create/details/Details.jsx';
 import CreateAgent from '../pages/agents/create/CreateAgent.jsx';
-import Amenities from '../pages/amenities/Amenities.jsx';
+import EditAgent from '../pages/agents/edit/EditAgent.jsx';
 import PrivateRoute from './private.jsx';
 import AmenitiesLayout from '../pages/amenities/Amenities.jsx';
 import {
@@ -79,6 +79,10 @@ export const routes = [
           {
             path: 'create',
             element: <CreateAgent />,
+          },
+          {
+            path: ':id/edit',
+            element: <EditAgent />,
           },
         ],
       },
