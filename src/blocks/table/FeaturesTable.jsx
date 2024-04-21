@@ -1,30 +1,20 @@
 import { Fragment, useContext } from 'react';
-import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { FeaturesContext } from '../../context/features/features-context';
 import EllipseImagePreview from '../../components/EllipseImagePreview';
+import DeleteModal from '../../components/DeleteModal';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
-  const navigate = useNavigate();
-
-  if (!feature) {
-    return null;
-  }
-
-  function onEdit() {
-    navigate(`/features/${feature.id}/edit`);
-  }
 
   function onDelete() {
     api
       .delete(`features/${feature.id}/`)
-      .then((res) => {
+      .then(() => {
         refetch();
       })
       .catch((err) => {
@@ -32,12 +22,16 @@ const FeaturesTableAction = ({ feature, refetch }) => {
       });
   }
 
-  return (
-    <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
-    </div>
-  );
+  if (!feature) {
+    return null;
+  } else {
+    return (
+      <div className="flex gap-3">
+        <ActionEdit to={`/features/${feature.id}/edit`} />
+        <DeleteModal onDelete={onDelete} />
+      </div>
+    );
+  }
 };
 
 const FeaturesTableRow = ({ feature, refetch }) => {

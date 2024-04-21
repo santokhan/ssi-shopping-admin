@@ -27,7 +27,7 @@ export const CreateFeatures = () => {
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
@@ -79,12 +79,14 @@ export const EditFeatures = () => {
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [preview, setPreview] = useState('');
 
   useEffect(() => {
     api
-      .get(`amenities/${id}/`)
+      .get(`features/${id}/`)
       .then((res) => {
         setValue(inputs.name, res.data.name);
+        setValue(preview, res.data.name);
       })
       .catch((err) => {
         console.log(err);
@@ -97,13 +99,13 @@ export const EditFeatures = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .patch(`amenities/${id}/`, new FormData(e.target), {
+      .patch(`features/${id}/`, new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
@@ -146,7 +148,6 @@ export const EditFeatures = () => {
                 setValue(name, value);
               }}
               className=""
-              required={true}
             />
             <div className="">
               <SubmitButton type="submit" className="" />

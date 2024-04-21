@@ -3,42 +3,9 @@ import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
+import { addToFileList, removeFileFromFileList } from './MediaInput';
 
-// Example function to remove a file from FileList
-function removeFileFromFileList(fileList, fileToRemove) {
-  const newFileList = new DataTransfer(); // Create a new DataTransfer object
-
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList[i];
-
-    // Add files to the new DataTransfer object except the file to be removed
-    if (file !== fileToRemove) {
-      newFileList.items.add(file);
-    }
-  }
-
-  return newFileList.files; // Return the new FileList from the DataTransfer object
-}
-
-// Function to add a file to a FileList
-function addToFileList(fileList, inputFiles) {
-  const newFileList = new DataTransfer(); // Create a new DataTransfer object
-
-  // Add existing files from original FileList to the new DataTransfer object
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList[i];
-    newFileList.items.add(file);
-  }
-  // Add existing files from input Files to the new DataTransfer object
-  for (let i = 0; i < inputFiles.length; i++) {
-    const file = inputFiles[i];
-    newFileList.items.add(file);
-  }
-
-  return newFileList.files; // Return the new FileList from the DataTransfer object
-}
-
-const MediaInput = ({
+export const MediaInput = ({
   value,
   setValue,
   required = false,
@@ -48,10 +15,12 @@ const MediaInput = ({
   const [selectedFiles, setSelectedFiles] = React.useState(
     value[inputName] || [],
   );
+  const [input, setInput] = React.useState('');
+  const fileInputRef = useRef(null);
 
   const handleFileSelect = (e) => {
     // const filesArray = Array.from(e.target.files);
-
+    // setInput(e.target.files);
     // Update selectedFiles state with the new files
     setSelectedFiles((prev) => {
       return addToFileList(prev, e.target.files);
@@ -92,15 +61,16 @@ const MediaInput = ({
             Browse Files
           </Button>
         </div>
-        {/* read-only don't set value */}
         <input
           name={inputName}
           type="file"
           accept="image/*"
           multiple
+          ref={fileInputRef}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}
           required={required}
+          value={input}
         />
       </label>
       <div className="flex gap-4 flex-wrap">
@@ -117,5 +87,3 @@ const MediaInput = ({
     </div>
   );
 };
-
-export default MediaInput;

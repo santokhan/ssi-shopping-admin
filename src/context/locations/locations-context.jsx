@@ -30,7 +30,7 @@ const LocationsProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('amenities/')
+      .get('areas/')
       .then((res) => {
         if (res.data) {
           setLocations(res.data);
