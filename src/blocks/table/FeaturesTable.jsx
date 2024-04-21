@@ -7,6 +7,7 @@ import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { FeaturesContext } from '../../context/features/features-context';
+import EllipseImagePreview from '../../components/EllipseImagePreview';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
@@ -17,12 +18,12 @@ const FeaturesTableAction = ({ feature, refetch }) => {
   }
 
   function onEdit() {
-    navigate(`/amenities/${feature.id}/edit`);
+    navigate(`/features/${feature.id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`amenities/${feature.id}/`)
+      .delete(`features/${feature.id}/`)
       .then((res) => {
         refetch();
       })
@@ -48,17 +49,11 @@ const FeaturesTableRow = ({ feature, refetch }) => {
     <tr className="border-b bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
-          {feature.title}
+          {feature.name}
         </h3>
       </td>
       <td className="px-6 py-4">
-        <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
-          <img
-            src={feature.icon}
-            alt={feature.icon}
-            className="w-full h-full object-cover rounded-full overflow-hidden"
-          />
-        </div>
+        <EllipseImagePreview src={feature.image} />
       </td>
       <td className="px-6 py-4">
         <FeaturesTableAction feature={feature} refetch={refetch} />

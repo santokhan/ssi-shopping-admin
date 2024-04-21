@@ -10,8 +10,8 @@ import Spinner from '../../../components/loader/Spinner';
 import { FeaturesContext } from '../../../context/features/features-context';
 
 const inputs = {
-  title: 'title',
-  icon: 'icon',
+  name: 'name',
+  image: 'image',
 };
 
 export const CreateFeatures = () => {
@@ -21,7 +21,7 @@ export const CreateFeatures = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .post('amenities/', new FormData(e.target), {
+      .post('features/', new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
@@ -35,8 +35,8 @@ export const CreateFeatures = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
-        setValue(inputs.icon, '');
+        setValue(inputs.name, '');
+        setValue(inputs.image, '');
       })
       .catch((err) => {
         console.log(err);
@@ -47,19 +47,19 @@ export const CreateFeatures = () => {
     <div className={twMerge('bg-white p-4 lg:p-6')}>
       <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
         <Input
-          label={inputs.title}
+          label={inputs.name}
           type="text"
           className="w-full"
           onChange={(e) => {
-            setValue(inputs.title, e.target.value);
+            setValue(inputs.name, e.target.value);
           }}
-          value={value[inputs.title]}
-          name={inputs.title}
+          value={value[inputs.name]}
+          name={inputs.name}
           required
         />
         <MediaInput
           value={value}
-          inputName="icon"
+          inputName="image"
           setValue={(name, value) => {
             setValue(name, value);
           }}
@@ -81,12 +81,10 @@ export const EditFeatures = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // setValue(inputs.title, 'edit_title');
-    // setValue(inputs.icon, 'edit_icon');
     api
       .get(`amenities/${id}/`)
       .then((res) => {
-        setValue(inputs.title, res.data.title);
+        setValue(inputs.name, res.data.name);
       })
       .catch((err) => {
         console.log(err);
@@ -113,8 +111,8 @@ export const EditFeatures = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
-        setValue(inputs.icon, '');
+        setValue(inputs.name, '');
+        setValue(inputs.image, '');
       })
       .catch((err) => {
         console.log(err);
@@ -131,19 +129,19 @@ export const EditFeatures = () => {
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input
-              label={inputs.title}
+              label={inputs.name}
               type="text"
               className="w-full"
               onChange={(e) => {
-                setValue(inputs.title, e.target.value);
+                setValue(inputs.name, e.target.value);
               }}
-              value={value[inputs.title]}
-              name={inputs.title}
+              value={value[inputs.name]}
+              name={inputs.name}
               required
             />
             <MediaInput
               value={value}
-              inputName="icon"
+              inputName="image"
               setValue={(name, value) => {
                 setValue(name, value);
               }}

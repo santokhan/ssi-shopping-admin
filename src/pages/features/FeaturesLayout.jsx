@@ -8,7 +8,7 @@ const FeaturesLayout = () => {
     <FeaturesProvider>
       <div className="space-y-4">
         <Page.Top>
-          <Page.Title>Locations</Page.Title>
+          <Page.Title>Features</Page.Title>
           <Page.Desc>Add or edit locations</Page.Desc>
         </Page.Top>
 

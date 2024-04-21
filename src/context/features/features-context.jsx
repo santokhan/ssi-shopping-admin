@@ -30,7 +30,7 @@ const FeaturesProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('amenities/')
+      .get('features/')
       .then((res) => {
         if (res.data) {
           setFeatures(res.data);

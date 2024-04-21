@@ -102,6 +102,7 @@ const MediaInput = ({
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}
           required={required}
+          value={selectedFiles}
         />
       </label>
       <div className="flex gap-4 flex-wrap">
