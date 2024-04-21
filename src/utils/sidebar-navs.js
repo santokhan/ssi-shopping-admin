@@ -28,7 +28,15 @@ export const sidebarNavs = [
         to: "enquiries"
     },
     {
-        label: "Static pages",
+        label: "Developers",
+        to: "developers"
+    },
+    {
+        label: "Projects",
+        to: "projects"
+    },
+    {
+        label: "Static Pages",
         to: "static pages"
     },
     {

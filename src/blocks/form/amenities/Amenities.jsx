@@ -8,6 +8,7 @@ import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
+import BackAnchor from '../../../components/BackAnchor';
 
 const inputs = {
   title: 'title',
@@ -125,7 +126,10 @@ export const EditAmenities = () => {
         <Spinner />
       ) : (
         <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-          <h5 className="text-lg font-semibold">Edit Form</h5>
+          <div className="flex items-center gap-2">
+            <BackAnchor to="/amenities" />
+            <h5 className="text-lg font-semibold">Edit Form</h5>
+          </div>
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input

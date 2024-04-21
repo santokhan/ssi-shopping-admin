@@ -31,6 +31,13 @@ import {
   CreateFeatures,
   EditFeatures,
 } from '../blocks/form/features/Features.jsx';
+import EnquiriesLayout from '../pages/inquiries/EnquiriesLayout.jsx';
+import DevelopersLayout from '../pages/developers/DevelopersLayout.jsx';
+import {
+  CreateDevelopers,
+  EditDevelopers,
+} from '../blocks/form/developers/Developers.jsx';
+import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
 
 const authRoutes = [
   {
@@ -122,6 +129,33 @@ export const routes = [
               },
             ],
           },
+          {
+            path: ':id/edit',
+            element: <EditPropertiesLayout />,
+            children: [
+              {
+                path: '',
+                element: <PDescription />,
+                index: true,
+              },
+              {
+                path: 'details',
+                element: <PDetails />,
+              },
+              {
+                path: 'amenities',
+                element: <PAmenities />,
+              },
+              {
+                path: 'location',
+                element: <PLocation />,
+              },
+              {
+                path: 'media',
+                element: <PMedia />,
+              },
+            ],
+          },
         ],
       },
       {
@@ -172,7 +206,93 @@ export const routes = [
           },
         ],
       },
+      {
+        path: 'enquiries',
+        element: <EnquiriesLayout />,
+      },
+      {
+        path: 'developers',
+        element: <DevelopersLayout />,
+        children: [
+          {
+            path: '',
+            element: <CreateDevelopers />,
+            index: true,
+          },
+          {
+            path: ':id/edit',
+            element: <EditDevelopers />,
+            index: true,
+          },
+        ],
+      },
+      {
+        path: 'projects',
+        element: <PropertiesLayout />,
+        children: [
+          {
+            path: '',
+            element: <Properties />,
+            index: true,
+          },
+          {
+            path: 'create',
+            element: <CreatePropertiesLayout />,
+            children: [
+              {
+                path: '',
+                element: <PDescription />,
+                index: true,
+              },
+              {
+                path: 'details',
+                element: <PDetails />,
+              },
+              {
+                path: 'amenities',
+                element: <PAmenities />,
+              },
+              {
+                path: 'location',
+                element: <PLocation />,
+              },
+              {
+                path: 'media',
+                element: <PMedia />,
+              },
+            ],
+          },
+          {
+            path: ':id/edit',
+            element: <EditPropertiesLayout />,
+            children: [
+              {
+                path: '',
+                element: <PDescription />,
+                index: true,
+              },
+              {
+                path: 'details',
+                element: <PDetails />,
+              },
+              {
+                path: 'amenities',
+                element: <PAmenities />,
+              },
+              {
+                path: 'location',
+                element: <PLocation />,
+              },
+              {
+                path: 'media',
+                element: <PMedia />,
+              },
+            ],
+          },
+        ],
+      },
     ],
+    // All children's are wrapped by PrivateRoute
   },
   ...authRoutes,
   {

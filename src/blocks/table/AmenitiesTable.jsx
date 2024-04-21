@@ -7,6 +7,7 @@ import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { AmenitiesContext } from '../../context/amenities/amenities-context';
 import { twMerge } from 'tailwind-merge';
+import DeleteModal from '../../components/DeleteModal';
 
 const AmenitiesTableAction = ({ amenities, refetch }) => {
   const { api } = useAxios();
@@ -17,17 +18,10 @@ const AmenitiesTableAction = ({ amenities, refetch }) => {
     return null;
   }
 
-  function onEdit() {
-    // setValue('title', amenities.title);
-    // setValue('icon', amenities.icon);
-    // set form type on context or on route path
-    navigate(`/amenities/${amenities.id}/edit`);
-  }
-
   function onDelete() {
     api
       .delete(`amenities/${amenities.id}/`)
-      .then((res) => {
+      .then(() => {
         refetch();
       })
       .catch((err) => {
@@ -37,8 +31,8 @@ const AmenitiesTableAction = ({ amenities, refetch }) => {
 
   return (
     <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
+      <ActionEdit to={`/amenities/${amenities.id}/edit`} />
+      <DeleteModal onDelete={onDelete} />
     </div>
   );
 };
