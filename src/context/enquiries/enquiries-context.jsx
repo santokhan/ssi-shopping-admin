@@ -29,29 +29,27 @@ const EnquiriesProvider = ({ children }) => {
 
   function fetchData() {
     setLoading(true);
-    // api
-    //   .get('amenities/')
-    //   .then((res) => {
-    //     if (res.data) {
-    //       setState(res.data);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
-    fetch('/api/enquiries.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setState(data);
+    api
+      .get('enqueries/' /**enquiries */)
+      .then((res) => {
+        if (res.data) {
+          setState(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);
       });
-
-    return () => {};
+    // fetch('/api/enquiries.json')
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setState(data);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   }
 
   useEffect(fetchData, [page]);
