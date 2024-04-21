@@ -30,7 +30,7 @@ const DevelopersProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('amenities/')
+      .get('developers/')
       .then((res) => {
         if (res.data) {
           setDevelopers(res.data);

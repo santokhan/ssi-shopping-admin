@@ -21,13 +21,13 @@ export const CreateDevelopers = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .post('amenities/', new FormData(e.target), {
+      .post('developers/', new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
@@ -82,7 +82,7 @@ export const EditDevelopers = () => {
 
   useEffect(() => {
     api
-      .get(`amenities/${id}/`)
+      .get(`developers/${id}/`)
       .then((res) => {
         setValue(inputs.title, res.data.title);
       })
@@ -97,13 +97,13 @@ export const EditDevelopers = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .patch(`amenities/${id}/`, new FormData(e.target), {
+      .patch(`developers/${id}/`, new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
