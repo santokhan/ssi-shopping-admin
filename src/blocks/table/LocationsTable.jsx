@@ -17,12 +17,12 @@ const LocationsTableAction = ({ location, refetch }) => {
   }
 
   function onEdit() {
-    navigate(`/locations/${location.id}/edit`);
+    navigate(`/areas/${location.id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`locations/${location.id}/`)
+      .delete(`areas/${location.id}/`)
       .then((res) => {
         refetch();
       })
@@ -33,7 +33,7 @@ const LocationsTableAction = ({ location, refetch }) => {
 
   return (
     <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
+      <ActionEdit to={`/locations/${location.id}/edit`} />
       <ActionDelete onDelete={onDelete} />
     </div>
   );
@@ -48,7 +48,7 @@ const LocationsTableRow = ({ location, refetch }) => {
     <tr className="border-b bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
-          {location.title}
+          {location.name}
         </h3>
       </td>
       <td className="px-6 py-4">

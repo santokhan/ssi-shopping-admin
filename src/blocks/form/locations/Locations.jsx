@@ -8,10 +8,17 @@ import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { LocationsContext } from '../../../context/locations/locations-context';
+import CountriesProvider, {
+  CountriesContext,
+} from '../../../context/CountriesContext';
+import CitiesProvider, { CitiesContext } from '../../../context/CitiesContext';
+import Select from '../../../components/form/input/SelectOption';
 
 const inputs = {
-  title: 'title',
+  name: 'name',
   icon: 'icon',
+  country: 'country',
+  city: 'city',
 };
 
 export const CreateLocations = () => {
@@ -21,13 +28,13 @@ export const CreateLocations = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .post('amenities/', new FormData(e.target), {
+      .post('areas/', new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
@@ -35,7 +42,7 @@ export const CreateLocations = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
+        setValue(inputs.name, '');
         setValue(inputs.icon, '');
       })
       .catch((err) => {
@@ -47,16 +54,64 @@ export const CreateLocations = () => {
     <div className={twMerge('bg-white p-4 lg:p-6')}>
       <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
         <Input
-          label={inputs.title}
+          label={inputs.name}
           type="text"
           className="w-full"
           onChange={(e) => {
-            setValue(inputs.title, e.target.value);
+            setValue(inputs.name, e.target.value);
           }}
-          value={value[inputs.title]}
-          name={inputs.title}
+          value={value[inputs.name]}
+          name={inputs.name}
           required
         />
+        <CountriesProvider>
+          <CountriesContext.Consumer>
+            {({ countries }) => {
+              // console.log(countries);
+              return (
+                <Select
+                  name={inputs.country}
+                  options={countries.map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }))}
+                  label={inputs.country}
+                  onChange={(e) => {
+                    setValue(inputs.country, e.target.value);
+                  }}
+                  value={value.country}
+                  required
+                />
+              );
+            }}
+          </CountriesContext.Consumer>
+        </CountriesProvider>
+        <CitiesProvider>
+          <CitiesContext.Consumer>
+            {({ cities }) => {
+              // console.log(cities, value.country);
+              return (
+                <Select
+                  name={inputs.city}
+                  options={cities
+                    .filter(
+                      (c) => parseInt(c.country.id) === parseInt(value.country),
+                    )
+                    .map((c) => ({
+                      label: c.name,
+                      value: c.id,
+                    }))}
+                  label={inputs.city}
+                  onChange={(e) => {
+                    setValue(inputs.city, e.target.value);
+                  }}
+                  value={value.city}
+                  required
+                />
+              );
+            }}
+          </CitiesContext.Consumer>
+        </CitiesProvider>
         <MediaInput
           value={value}
           inputName="icon"
@@ -81,12 +136,10 @@ export const EditLocations = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // setValue(inputs.title, 'edit_title');
-    // setValue(inputs.icon, 'edit_icon');
     api
-      .get(`amenities/${id}/`)
+      .get(`areas/${id}/`)
       .then((res) => {
-        setValue(inputs.title, res.data.title);
+        setValue(inputs.name, res.data.name);
       })
       .catch((err) => {
         console.log(err);
@@ -99,13 +152,13 @@ export const EditLocations = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .patch(`amenities/${id}/`, new FormData(e.target), {
+      .patch(`areas/${id}/`, new FormData(e.target), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Amenities Added`, {
+        toast(`Added`, {
           type: 'success',
         });
 
@@ -113,7 +166,7 @@ export const EditLocations = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
+        setValue(inputs.name, '');
         setValue(inputs.icon, '');
       })
       .catch((err) => {
@@ -131,14 +184,14 @@ export const EditLocations = () => {
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input
-              label={inputs.title}
+              label={inputs.name}
               type="text"
               className="w-full"
               onChange={(e) => {
-                setValue(inputs.title, e.target.value);
+                setValue(inputs.name, e.target.value);
               }}
-              value={value[inputs.title]}
-              name={inputs.title}
+              value={value[inputs.name]}
+              name={inputs.name}
               required
             />
             <MediaInput

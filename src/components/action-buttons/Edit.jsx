@@ -6,7 +6,10 @@ const ActionEdit = ({ onEdit = () => {}, to }) => {
     <Link
       to={to}
       className="font-medium rounded-full text-sm text-center inline-flex items-center hover:text-green-600"
-      onClick={onEdit}
+      onClick={(e) => {
+        e.preventDefault();
+        onEdit();
+      }}
     >
       <Edit className="w-5 h-5" />
     </Link>

@@ -6,6 +6,9 @@ import GoogleMapInput from '../../../components/form/input/GoogleMapInput.jsx';
 import { useState, useEffect } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm.jsx';
 import { formBack, formNext } from '../../../utils/form-steps.js';
+import CountriesProvider, {
+  CountriesContext,
+} from '../../../context/CountriesContext.jsx';
 
 const selectOptions = {
   country: [
@@ -52,22 +55,7 @@ const inputs = inputList.reduce((obj, item) => ({ ...obj, [item]: item }), {});
 
 const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
-  const [error, setError] = useState({});
-  const [countries, setCountries] = useState([]);
   const thisFormName = 'location';
-
-  useEffect(() => {
-    const fetchData = async () => {
-      fetch('/api/country-cities.json')
-        .then((res) => res.json())
-        .then((data) => {
-          setCountries(data);
-          const UAEIndex = data.findIndex((c) => c.iso3 === 'ARE');
-          setValue('country', data[UAEIndex].iso3);
-        });
-    };
-    fetchData();
-  }, []);
 
   return (
     <ResponsiveForm
@@ -87,16 +75,28 @@ const LocationForm = ({ value, setValue }) => {
         className="col-span-full"
         required
       />
-      <Select
-        name={inputs.country}
-        options={countries.map((c) => ({ label: c.name, value: c.iso3 }))}
-        label={inputs.country}
-        onChange={(e) => {
-          setValue(inputs.country, e.target.value);
-        }}
-        value={value.country}
-        required
-      />
+      <CountriesProvider>
+        <CountriesContext.Consumer>
+          {({ countries }) => {
+            return (
+              <Select
+                name={inputs.country}
+                options={countries.map((c) => ({
+                  label: c.name,
+                  value: c.id,
+                }))}
+                label={inputs.country}
+                onChange={(e) => {
+                  setValue(inputs.country, e.target.value);
+                }}
+                value={value.country}
+                required
+              />
+            );
+          }}
+        </CountriesContext.Consumer>
+      </CountriesProvider>
+      {/* 
       <Select
         name={inputs.city}
         options={
@@ -110,7 +110,7 @@ const LocationForm = ({ value, setValue }) => {
         }}
         value={value.city}
         required
-      />
+      /> */}
       <Select
         name={inputs.area}
         options={selectOptions[inputs.area] || []}
