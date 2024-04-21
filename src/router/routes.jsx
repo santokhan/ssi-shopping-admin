@@ -38,6 +38,8 @@ import {
   EditDevelopers,
 } from '../blocks/form/developers/Developers.jsx';
 import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
+import UsersLayout from '../pages/users/UsersPage.jsx';
+import { CreateUsers, EditUsers } from '../blocks/form/users/UsersForm.jsx';
 
 const authRoutes = [
   {
@@ -288,6 +290,22 @@ export const routes = [
                 element: <PMedia />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: 'users',
+        element: <UsersLayout />,
+        children: [
+          {
+            path: '',
+            element: <CreateUsers />,
+            index: true,
+          },
+          {
+            path: ':id/edit',
+            element: <EditUsers />,
+            index: true,
           },
         ],
       },
