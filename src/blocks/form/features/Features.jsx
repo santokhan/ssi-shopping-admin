@@ -106,11 +106,8 @@ export const EditFeatures = () => {
         },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
+        toast(`Added`, { type: 'success' });
 
-        // refetch table
         refetch();
 
         // reset

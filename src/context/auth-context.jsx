@@ -35,21 +35,6 @@ export const AuthProvider = ({ children }) => {
       axios
         .post(`${API_URL}token/refresh/`, { refresh: refreshToken })
         .then((res) => {
-          console.log('Token rotation in progress...');
-          if (res) {
-            signin(null, res.data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    function generateToken() {
-      axios
-        .post(`${API_URL}token/refresh/`, { refresh: refreshToken })
-        .then((res) => {
-          console.log(`Generating new token`);
           if (res) {
             signin(null, res.data);
           }
@@ -75,11 +60,12 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token.access);
         const exp = decoded.exp;
         if (exp < Date.now() / 1000) {
-          generateToken();
+          rotateToken();
         }
-        tokenRotationInterval();
+        // tokenRotationInterval();
       } else {
-        generateToken();
+        // Generate new access token if not exists
+        rotateToken();
       }
     } else {
       setLoading(false);

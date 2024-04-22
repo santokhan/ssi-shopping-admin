@@ -19,6 +19,7 @@ const inputs = {
   icon: 'icon',
   country: 'country',
   city: 'city',
+  area: 'area',
 };
 
 export const CreateLocations = () => {
@@ -112,6 +113,17 @@ export const CreateLocations = () => {
             }}
           </CitiesContext.Consumer>
         </CitiesProvider>
+        <Input
+          label={inputs.area}
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(inputs.area, e.target.value);
+          }}
+          value={value[inputs.area]}
+          name={inputs.area}
+          required
+        />
         <MediaInput
           value={value}
           inputName="icon"
