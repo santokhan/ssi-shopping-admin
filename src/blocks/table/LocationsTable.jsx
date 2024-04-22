@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
@@ -40,31 +40,50 @@ const LocationsTableAction = ({ location, refetch }) => {
 };
 
 const LocationsTableRow = ({ location, refetch }) => {
+  const [country, setCountry] = useState(null);
+  const { api } = useAxios();
+
+  useEffect(() => {
+    const countryID = location.city.country;
+    if (countryID) {
+      api.get(`countries/${countryID}/`).then((res) => {
+        setCountry(res.data);
+      });
+    }
+  }, []);
+
   if (!location) {
     return null;
+  } else {
+    return (
+      <tr className="border-b bg-white">
+        <td className="px-6 py-4 font-medium text-gray-900">
+          <h3 className="text-base font-semibold leading-relaxed">
+            {location.name}
+          </h3>
+        </td>
+        <td className="px-6 py-4">
+          <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+            <img
+              src={location.icon}
+              alt={location.icon}
+              className="w-full h-full object-cover rounded-full overflow-hidden"
+            />
+          </div>
+        </td>
+        <td className="px-6 py-4 font-medium text-gray-900">
+          {/* {location.city.country} */}
+          {country.name}
+        </td>
+        <td className="px-6 py-4 font-medium text-gray-900">
+          {location.city.name}
+        </td>
+        <td className="px-6 py-4">
+          <LocationsTableAction location={location} refetch={refetch} />
+        </td>
+      </tr>
+    );
   }
-
-  return (
-    <tr className="border-b bg-white">
-      <td className="px-6 py-4 font-medium text-gray-900">
-        <h3 className="text-base font-semibold leading-relaxed">
-          {location.name}
-        </h3>
-      </td>
-      <td className="px-6 py-4">
-        <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
-          <img
-            src={location.icon}
-            alt={location.icon}
-            className="w-full h-full object-cover rounded-full overflow-hidden"
-          />
-        </div>
-      </td>
-      <td className="px-6 py-4">
-        <LocationsTableAction location={location} refetch={refetch} />
-      </td>
-    </tr>
-  );
 };
 
 const LocationsTable = ({ className = '' }) => {
@@ -75,7 +94,13 @@ const LocationsTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = ['locations title', 'locations image', 'action'];
+  const headList = [
+    'locations title',
+    'locations image',
+    'country',
+    'city',
+    'action',
+  ];
 
   return (
     <>
@@ -97,6 +122,12 @@ const LocationsTable = ({ className = '' }) => {
                 </th>
                 <th scope="col" className="text-start px-6 py-3">
                   {headList[2]}
+                </th>
+                <th scope="col" className="text-start px-6 py-3">
+                  {headList[3]}
+                </th>
+                <th scope="col" className="text-start px-6 py-3">
+                  {headList[4]}
                 </th>
               </tr>
             </thead>
