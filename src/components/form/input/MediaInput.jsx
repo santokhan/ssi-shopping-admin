@@ -44,6 +44,7 @@ const MediaInput = ({
   required = false,
   inputName = 'images',
   className = '',
+  multiple = true,
 }) => {
   const [selectedFiles, setSelectedFiles] = React.useState(
     value[inputName] || [],
@@ -97,7 +98,7 @@ const MediaInput = ({
           name={inputName}
           type="file"
           accept="image/*"
-          multiple
+          multiple={multiple}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}
           required={required}
