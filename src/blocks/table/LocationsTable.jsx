@@ -16,10 +16,6 @@ const LocationsTableAction = ({ location, refetch }) => {
     return null;
   }
 
-  function onEdit() {
-    navigate(`/areas/${location.id}/edit`);
-  }
-
   function onDelete() {
     api
       .delete(`areas/${location.id}/`)
@@ -73,7 +69,7 @@ const LocationsTableRow = ({ location, refetch }) => {
         </td>
         <td className="px-6 py-4 font-medium text-gray-900">
           {/* {location.city.country} */}
-          {country.name}
+          {country?.name}
         </td>
         <td className="px-6 py-4 font-medium text-gray-900">
           {location.city.name}
@@ -94,13 +90,7 @@ const LocationsTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = [
-    'locations title',
-    'locations image',
-    'country',
-    'city',
-    'action',
-  ];
+  const headList = ['title', 'image', 'country', 'city', 'action'];
 
   return (
     <>
