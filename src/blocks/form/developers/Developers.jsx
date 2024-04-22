@@ -10,8 +10,8 @@ import Spinner from '../../../components/loader/Spinner';
 import { DevelopersContext } from '../../../context/developers/developers-context';
 
 const inputs = {
-  title: 'title',
-  images: 'images',
+  name: 'name',
+  image: 'image',
 };
 
 export const CreateDevelopers = () => {
@@ -35,7 +35,7 @@ export const CreateDevelopers = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
+        setValue(inputs.name, '');
         setValue(inputs.icon, '');
       })
       .catch((err) => {
@@ -47,19 +47,19 @@ export const CreateDevelopers = () => {
     <div className={twMerge('bg-white p-4 lg:p-6')}>
       <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
         <Input
-          label={inputs.title}
+          label={inputs.name}
           type="text"
           className="w-full"
           onChange={(e) => {
-            setValue(inputs.title, e.target.value);
+            setValue(inputs.name, e.target.value);
           }}
-          value={value[inputs.title]}
-          name={inputs.title}
+          value={value[inputs.name]}
+          name={inputs.name}
           required
         />
         <MediaInput
-          value={value[inputs.images]}
-          inputName={inputs.images}
+          value={value[inputs.image]}
+          inputName={inputs.image}
           setValue={(name, value) => {
             setValue(name, value);
           }}
@@ -84,7 +84,7 @@ export const EditDevelopers = () => {
     api
       .get(`developers/${id}/`)
       .then((res) => {
-        setValue(inputs.title, res.data.title);
+        setValue(inputs.name, res.data.name);
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +111,7 @@ export const EditDevelopers = () => {
         refetch();
 
         // reset
-        setValue(inputs.title, '');
+        setValue(inputs.name, '');
         setValue(inputs.icon, '');
       })
       .catch((err) => {
@@ -129,14 +129,14 @@ export const EditDevelopers = () => {
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input
-              label={inputs.title}
+              label={inputs.name}
               type="text"
               className="w-full"
               onChange={(e) => {
-                setValue(inputs.title, e.target.value);
+                setValue(inputs.name, e.target.value);
               }}
-              value={value[inputs.title]}
-              name={inputs.title}
+              value={value[inputs.name]}
+              name={inputs.name}
               required
             />
             <MediaInput

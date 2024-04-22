@@ -10,7 +10,6 @@ import { DevelopersContext } from '../../context/developers/developers-context';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
-  const navigate = useNavigate();
 
   function onDelete() {
     api
@@ -43,7 +42,7 @@ const FeaturesTableRow = ({ feature, refetch }) => {
       <tr className="border-b bg-white">
         <td className="px-6 py-4 font-medium text-gray-900">
           <h3 className="text-base font-semibold leading-relaxed">
-            {feature.title}
+            {feature.name}
           </h3>
         </td>
         <td className="px-6 py-4">
