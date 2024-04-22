@@ -30,9 +30,7 @@ export const CreateLocations = () => {
     e.preventDefault();
     api
       .post('areas/', new FormData(e.target), {
-        header: {
-          'Content-Type': 'multipart/form-data',
-        },
+        header: { 'Content-Type': 'multipart/form-data' },
       })
       .then((res) => {
         toast(`Added`, {
