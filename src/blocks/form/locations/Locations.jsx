@@ -53,7 +53,7 @@ export const CreateLocations = () => {
     <div className={twMerge('bg-white p-4 lg:p-6')}>
       <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
         <Input
-          label={inputs.name}
+          label={'Title'}
           type="text"
           className="w-full"
           onChange={(e) => {
@@ -194,7 +194,7 @@ export const EditLocations = () => {
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input
-              label={inputs.name}
+              label={'title'}
               type="text"
               className="w-full"
               onChange={(e) => {
@@ -202,6 +202,66 @@ export const EditLocations = () => {
               }}
               value={value[inputs.name]}
               name={inputs.name}
+              required
+            />
+            <CountriesProvider>
+              <CountriesContext.Consumer>
+                {({ countries }) => {
+                  // console.log(countries);
+                  return (
+                    <Select
+                      name={inputs.country}
+                      options={countries.map((c) => ({
+                        label: c.name,
+                        value: c.id,
+                      }))}
+                      label={inputs.country}
+                      onChange={(e) => {
+                        setValue(inputs.country, e.target.value);
+                      }}
+                      value={value.country}
+                      required
+                    />
+                  );
+                }}
+              </CountriesContext.Consumer>
+            </CountriesProvider>
+            <CitiesProvider>
+              <CitiesContext.Consumer>
+                {({ cities }) => {
+                  // console.log(cities, value.country);
+                  return (
+                    <Select
+                      name={inputs.city}
+                      options={cities
+                        .filter(
+                          (c) =>
+                            parseInt(c.country.id) === parseInt(value.country),
+                        )
+                        .map((c) => ({
+                          label: c.name,
+                          value: c.id,
+                        }))}
+                      label={inputs.city}
+                      onChange={(e) => {
+                        setValue(inputs.city, e.target.value);
+                      }}
+                      value={value.city}
+                      required
+                    />
+                  );
+                }}
+              </CitiesContext.Consumer>
+            </CitiesProvider>
+            <Input
+              label={inputs.area}
+              type="text"
+              className="w-full"
+              onChange={(e) => {
+                setValue(inputs.area, e.target.value);
+              }}
+              value={value[inputs.area]}
+              name={inputs.area}
               required
             />
             <MediaInput
