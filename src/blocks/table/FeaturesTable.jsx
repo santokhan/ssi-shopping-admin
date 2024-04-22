@@ -64,7 +64,7 @@ const FeaturesTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = ['features title', 'features image', 'action'];
+  const headList = ['title', 'image', 'action'];
 
   return (
     <>
