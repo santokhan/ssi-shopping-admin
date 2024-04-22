@@ -64,7 +64,7 @@ const FeaturesTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = ['locations title', 'locations image', 'action'];
+  const headList = ['features title', 'features image', 'action'];
 
   return (
     <>
@@ -113,7 +113,7 @@ const FeaturesTable = ({ className = '' }) => {
         </div>
       ) : (
         <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
-          No locations found
+          No records found
         </p>
       )}
     </>
