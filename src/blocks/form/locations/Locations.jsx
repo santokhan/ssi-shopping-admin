@@ -149,7 +149,12 @@ export const EditLocations = () => {
     api
       .get(`areas/${id}/`)
       .then((res) => {
-        setValue(inputs.name, res.data.name);
+        if (res.data) {
+          const data = res.data;
+          setValue(inputs.name, data.name);
+          setValue(inputs.city, data.city.id);
+          setValue(inputs.country, data.city.country);
+        }
       })
       .catch((err) => {
         console.log(err);
