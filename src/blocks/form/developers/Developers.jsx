@@ -81,7 +81,7 @@ export const EditDevelopers = () => {
 
   useEffect(() => {
     api
-      .get(`developers/${id}/`)
+      .patch(`developers/${id}/`)
       .then((res) => {
         setValue(inputs.name, res.data.name);
       })
