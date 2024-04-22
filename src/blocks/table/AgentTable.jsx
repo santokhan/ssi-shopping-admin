@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
@@ -120,7 +120,7 @@ const AgentTableRow = ({ agent }) => {
 
 const tableTitle = 'All Agents';
 
-const TableTopSection = () => {
+const TableTopSection = ({ onSearch = (needle = '') => {} }) => {
   return (
     <div className="relative flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">
       <div className="w-full md:w-1/2">
@@ -129,7 +129,7 @@ const TableTopSection = () => {
         </h2>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
-        <TableSearch />
+        <TableSearch onFilter={onSearch} />
         <AddButton to="create">Add new agent</AddButton>
       </div>
     </div>
@@ -139,10 +139,29 @@ const TableTopSection = () => {
 const AgentTable = ({ agents, setPageNumber, page_size }) => {
   agents = agents?.results;
 
+  const [filteredAgents, setFilteredAgents] = useState(agents);
+
+  function onSearch(needle) {
+    if (needle && needle.length > 0) {
+      console.log({ needle });
+      setFilteredAgents(
+        /** Filter agents not already filtered items filteredAgents */
+        agents.filter((agent) => {
+          const target = agent.display_name.trim().toLowerCase();
+          const value = needle.trim().toLowerCase();
+          console.log({ target, value, result: target.includes(value) });
+          return target.includes(value);
+        }),
+      );
+    } else {
+      setFilteredAgents(agents);
+    }
+  }
+
   return (
     <div className="space-y-4">
-      <TableTopSection />
-      {agents ? (
+      <TableTopSection onSearch={onSearch} />
+      {filteredAgents ? (
         <div className="bg-white p-4 space-y-4">
           <div className="w-full overflow-x-auto">
             <table className="w-full text-sm text-gray-500 rtl:text-right">
@@ -166,7 +185,7 @@ const AgentTable = ({ agents, setPageNumber, page_size }) => {
                 </tr>
               </thead>
               <tbody>
-                {agents.map((agent, i) => {
+                {filteredAgents.map((agent, i) => {
                   return (
                     <Fragment key={i}>
                       <AgentTableRow agent={agent} />
