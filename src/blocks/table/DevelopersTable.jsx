@@ -48,8 +48,8 @@ const FeaturesTableRow = ({ feature, refetch }) => {
         <td className="px-6 py-4">
           <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
             <img
-              src={feature.icon}
-              alt={feature.icon}
+              src={feature.image}
+              alt={feature.image}
               className="w-full h-full object-cover rounded-full overflow-hidden"
             />
           </div>
