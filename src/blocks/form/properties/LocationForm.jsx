@@ -9,6 +9,10 @@ import { formBack, formNext } from '../../../utils/form-steps.js';
 import CountriesProvider, {
   CountriesContext,
 } from '../../../context/CountriesContext.jsx';
+import CitiesProvider, {
+  CitiesContext,
+} from '../../../context/CitiesContext.jsx';
+import GoogleMap from '../../../components/google-map/GoogleMap.jsx';
 
 const selectOptions = {
   country: [
@@ -44,9 +48,6 @@ const inputList = [
   'country',
   'city',
   'area',
-  'custom_1',
-  'custom_2',
-  'custom_3',
   'latitude',
   'longitude',
 ];
@@ -96,29 +97,39 @@ const LocationForm = ({ value, setValue }) => {
           }}
         </CountriesContext.Consumer>
       </CountriesProvider>
-      {/* 
-      <Select
-        name={inputs.city}
-        options={
-          countries
-            .find((c) => c.iso3.toLowerCase() === value.country.toLowerCase())
-            ?.states.map((o) => ({ label: o.name, value: o.id })) || []
-        }
-        label={inputs.city}
-        onChange={(e) => {
-          setValue(inputs.city, e.target.value);
-        }}
-        value={value.city}
-        required
-      /> */}
-      <Select
+      <CitiesProvider>
+        <CitiesContext.Consumer>
+          {({ cities }) => {
+            return (
+              <Select
+                name={inputs.country}
+                options={cities
+                  .filter((city) => city.country.id === parseInt(value.country))
+                  .map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }))}
+                label={inputs.country}
+                onChange={(e) => {
+                  setValue(inputs.country, e.target.value);
+                }}
+                value={value.country}
+                required
+              />
+            );
+          }}
+        </CitiesContext.Consumer>
+      </CitiesProvider>
+      <Input
+        type="text"
         name={inputs.area}
-        options={selectOptions[inputs.area] || []}
         label={inputs.area}
+        value={value.area}
         onChange={(e) => {
           setValue(inputs.area, e.target.value);
         }}
-        value={value.area}
+        className=""
+        required
       />
       {/* <Select
         name={inputs.custom_1}
@@ -131,9 +142,8 @@ const LocationForm = ({ value, setValue }) => {
         required
       /> */}
       <div className="col-span-full py-2">
-        <GoogleMapInput />
+        <GoogleMap />
       </div>
-
       <Input
         type="text"
         name={inputs.latitude}
