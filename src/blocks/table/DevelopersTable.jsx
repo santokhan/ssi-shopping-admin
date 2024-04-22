@@ -12,17 +12,9 @@ const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
   const navigate = useNavigate();
 
-  if (!feature) {
-    return null;
-  }
-
-  function onEdit() {
-    navigate(`/amenities/${feature.id}/edit`);
-  }
-
   function onDelete() {
     api
-      .delete(`amenities/${feature.id}/`)
+      .delete(`developers/${feature.id}/`)
       .then((res) => {
         refetch();
       })
@@ -31,12 +23,16 @@ const FeaturesTableAction = ({ feature, refetch }) => {
       });
   }
 
-  return (
-    <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
-    </div>
-  );
+  if (!feature) {
+    return null;
+  } else {
+    return (
+      <div className="flex gap-3">
+        <ActionEdit to={`/developers/${feature.id}/edit`} />
+        <ActionDelete onDelete={onDelete} />
+      </div>
+    );
+  }
 };
 
 const FeaturesTableRow = ({ feature, refetch }) => {
@@ -71,7 +67,7 @@ const DevelopersTable = ({ className = '' }) => {
   const { developers, setPageNumber, page_size, refetch } =
     useContext(DevelopersContext);
 
-  const headList = ['developers title', 'developers image', 'action'];
+  const headList = ['name', 'profile', 'action'];
 
   if (!developers) {
     return null;
