@@ -16,9 +16,7 @@ import { UsersContext } from '../../../context/users/UserContext';
 
 const inputs = {
   name: 'name',
-  icon: 'icon',
-  country: 'country',
-  city: 'city',
+  image: 'image',
 };
 
 export const CreateUsers = () => {
@@ -27,27 +25,27 @@ export const CreateUsers = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    api
-      .post('areas/', new FormData(e.target), {
-        header: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
+    // api
+    //   .post('areas/', new FormData(e.target), {
+    //     header: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   })
+    //   .then((res) => {
+    //     toast(`Added`, {
+    //       type: 'success',
+    //     });
 
-        // refetch table
-        refetch();
+    //     // refetch table
+    //     refetch();
 
-        // reset
-        setValue(inputs.name, '');
-        setValue(inputs.icon, '');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //     // reset
+    //     setValue(inputs.name, '');
+    //     setValue(inputs.image, '');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   return (
@@ -64,57 +62,9 @@ export const CreateUsers = () => {
           name={inputs.name}
           required
         />
-        <CountriesProvider>
-          <CountriesContext.Consumer>
-            {({ countries }) => {
-              // console.log(countries);
-              return (
-                <Select
-                  name={inputs.country}
-                  options={countries.map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                  }))}
-                  label={inputs.country}
-                  onChange={(e) => {
-                    setValue(inputs.country, e.target.value);
-                  }}
-                  value={value.country}
-                  required
-                />
-              );
-            }}
-          </CountriesContext.Consumer>
-        </CountriesProvider>
-        <CitiesProvider>
-          <CitiesContext.Consumer>
-            {({ cities }) => {
-              // console.log(cities, value.country);
-              return (
-                <Select
-                  name={inputs.city}
-                  options={cities
-                    .filter(
-                      (c) => parseInt(c.country.id) === parseInt(value.country),
-                    )
-                    .map((c) => ({
-                      label: c.name,
-                      value: c.id,
-                    }))}
-                  label={inputs.city}
-                  onChange={(e) => {
-                    setValue(inputs.city, e.target.value);
-                  }}
-                  value={value.city}
-                  required
-                />
-              );
-            }}
-          </CitiesContext.Consumer>
-        </CitiesProvider>
         <MediaInput
           value={value}
-          inputName="icon"
+          inputName={inputs.image}
           setValue={(name, value) => {
             setValue(name, value);
           }}
@@ -167,7 +117,7 @@ export const EditUsers = () => {
 
         // reset
         setValue(inputs.name, '');
-        setValue(inputs.icon, '');
+        setValue(inputs.image, '');
       })
       .catch((err) => {
         console.log(err);
@@ -196,7 +146,7 @@ export const EditUsers = () => {
             />
             <MediaInput
               value={value}
-              inputName="icon"
+              inputName={inputs.image}
               setValue={(name, value) => {
                 setValue(name, value);
               }}

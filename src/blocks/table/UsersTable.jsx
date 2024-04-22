@@ -72,7 +72,7 @@ const UsersTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = ['users title', 'users image', 'action'];
+  const headList = ['name', 'image', 'action'];
 
   return (
     <>

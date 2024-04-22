@@ -30,7 +30,7 @@ const UsersProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('areas/')
+      .get('users/')
       .then((res) => {
         if (res.data) {
           setUsers(res.data);
