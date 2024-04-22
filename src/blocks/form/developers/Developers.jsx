@@ -57,14 +57,14 @@ export const CreateDevelopers = () => {
           name={inputs.name}
           required
         />
-        {/* <MediaInput
+        <MediaInput
           inputName={inputs.image}
           setValue={(name, value) => {
             setValue(name, value);
           }}
           className=""
-          required
-        /> */}
+          required={true}
+        />
         <div className="">
           <SubmitButton type="submit" className="" />
         </div>

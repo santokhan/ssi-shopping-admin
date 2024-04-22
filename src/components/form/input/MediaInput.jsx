@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
@@ -46,9 +46,7 @@ const MediaInput = ({
   className = '',
   multiple = true,
 }) => {
-  const [selectedFiles, setSelectedFiles] = React.useState(
-    value[inputName] || [],
-  );
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleFileSelect = (e) => {
     // const filesArray = Array.from(e.target.files);
