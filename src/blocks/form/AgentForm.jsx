@@ -13,10 +13,13 @@ import MultipleSelect, {
   initialCategory,
 } from '../../components/form/input/MultipleSelect';
 import { nationalityList } from '../../utils/nationality';
-import * as validy from '../../lib/submit-validation/agent-form-schema';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  LanguageCodesContext,
+  LanguageCodesProvider,
+} from '../../context/LanguageCodesContext';
 
 const inputs = {
   display_name: 'display_name',
@@ -243,18 +246,25 @@ const AgentForm = () => {
           }}
           error={error.whatsapp_number}
         />
-        <Input
-          label={inputs.speaks}
-          name={inputs.speaks}
-          type="text"
-          className=""
-          required={true}
-          value={formState.speaks}
-          onChange={(e) => {
-            setValue(inputs.speaks, e.target.value);
-          }}
-          error={error.speaks}
-        />
+        <LanguageCodesProvider>
+          <LanguageCodesContext>
+            {({ languageCodes }) => {
+              <MultipleSelect
+                label={inputs.speaks}
+                name={inputs.speaks}
+                categories={languageCodes.map(({ language, code }) => ({
+                  value: code,
+                  label: language,
+                }))}
+                onSelect={(category) => {
+                  setValue(inputs.speaks, category);
+                  setError({ ...error, [inputs.speaks]: '' });
+                }}
+                error={error.speaks}
+              />;
+            }}
+          </LanguageCodesContext>
+        </LanguageCodesProvider>
         <Select
           label={inputs.nationality}
           name={inputs.nationality}
