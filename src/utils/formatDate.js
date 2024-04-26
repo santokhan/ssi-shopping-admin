@@ -5,15 +5,12 @@ function formatDate(str) {
     var month = parseInt(d.getMonth());
     var year = parseInt(d.getFullYear());
 
-    // Create a Date object with the parsed values
-    var date = new Date(year, month - 1, day);
-
     // Array of month names
     var monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
 
     // Format the date
-    var formattedDate = day + ' ' + monthNames[date.getMonth()] + ', ' + year;
+    var formattedDate = `${monthNames[month]} ${day}, ${year}`;
 
     return formattedDate;
 }

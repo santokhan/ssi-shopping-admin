@@ -9,6 +9,7 @@ import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal';
 import { AgentsContext } from '../../context/AgentsContext';
+import formatDate from '../../utils/formatDate';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -16,7 +17,7 @@ const AgentTableDetailsField = ({ agent }) => {
   }
 
   return (
-    <div className="flex w-72 flex-row items-center space-x-2 rounded-lg text-gray-800">
+    <div className="flex w-72 flex-row items-center space-x-4 rounded-lg text-gray-800">
       <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
         <img
           src={agent.photo}
@@ -108,12 +109,12 @@ const AgentTableRow = ({ agent }) => {
       </td>
       {/* created on */}
       <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
-        {new Date(agent.created_on).toLocaleString()}
+        {formatDate(agent.created_on)}
       </td>
       <td className="px-6 py-4">
         <AgentStatusIndicator status={agent.status} />
       </td>
-      <td className="px-6 py-4">{null}</td>
+      {/* <td className="px-6 py-4">{null}</td> */}
       <td className="px-6 py-4">
         <AgentTableAction agent={agent} />
       </td>
@@ -152,7 +153,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
 
   function onSearch(needle) {
     if (needle && needle.length > 0) {
-      console.log({ needle });
+      // console.log({ needle });
       setFilteredAgents(
         /** Filter agents not already filtered items filteredAgents */
         agentsList.filter((agent) => {
@@ -185,9 +186,9 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                   <th scope="col" className="text-start px-6 py-3">
                     Status
                   </th>
-                  <th scope="col" className="text-start px-6 py-3">
+                  {/* <th scope="col" className="text-start px-6 py-3">
                     Properties
-                  </th>
+                  </th> */}
                   <th scope="col" className="text-start rounded-r-lg px-6 py-3">
                     Action
                   </th>
@@ -204,17 +205,17 @@ const AgentTable = ({ setPageNumber, page_size }) => {
               </tbody>
             </table>
           </div>
-          <Pagination
+          {/* <Pagination
             totalPages={new Array(Math.ceil(agentsList.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
             currentPage={1}
             setPageNumber={setPageNumber}
-          />
-          <TableSummary
+          /> */}
+          {/* <TableSummary
             totalData={Math.ceil(agentsList.length / page_size)}
             dataPerPage={10}
-          />
+          /> */}
         </div>
       ) : (
         <p className="px-4">No records found</p>
