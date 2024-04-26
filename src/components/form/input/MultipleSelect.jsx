@@ -13,7 +13,7 @@ function MultipleSelect({
   error = '',
   className = '',
   onSelect,
-  value,
+  value = [],
 }) {
   return (
     <InputBox className={twMerge(className)}>
@@ -45,13 +45,13 @@ function MultipleSelect({
         >
           <Listbox.Button className={buttonClassNames(className)}>
             <span className="px-4 flex-1 text-ellipsis overflow-hidden">
-              {value.length
+              {value.length > 0
                 ? value.map((option) => option.label).join(', ')
                 : 'Select an option'}
             </span>
             <ChevronUpDownIcon className="w-5 h-5 flex-shrink-0" />
           </Listbox.Button>
-          <Listbox.Options className="absolute z-10 w-full bg-white">
+          <Listbox.Options className="absolute z-10 w-full bg-white max-h-60 overflow-y-auto border rounded-lg">
             {options.map((option, index) => (
               <Listbox.Option
                 key={index}
@@ -59,9 +59,18 @@ function MultipleSelect({
                 className={optionClassNames(className)}
               >
                 <div className="w-5 h-5">
-                  {value.some(
-                    (selected) => selected.value === option.value,
-                  ) && (
+                  {value.some((selected) => {
+                    const v1 = selected.value;
+                    const v2 = option.value;
+                    if (typeof v1 === 'string' && typeof v2 === 'string') {
+                      return (
+                        v1.trim().toLowerCase() === v2.trim().toLowerCase()
+                      );
+                    }
+                    if (typeof v1 === 'number' && typeof v2 === 'number') {
+                      return v1 === v2;
+                    }
+                  }) && (
                     <CheckIcon
                       className={twMerge(
                         'w-full h-full flex-shrink-0 text-primary',

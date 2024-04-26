@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import InputBox from '../../components/form/InputBox';
 import ResponsiveForm from '../../components/form/ResponsiveForm';
@@ -13,7 +12,6 @@ import MultipleSelect from '../../components/form/input/MultipleSelect';
 import { nationalityList } from '../../utils/nationality';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   LanguageCodesContext,
   LanguageCodesProvider,
@@ -54,11 +52,12 @@ const initialAgent = {
 
 const patternPhone = '[0-9]{1,14}';
 
-const AgentForm = () => {
-  const [formState, setFormState] = useState(initialAgent);
+const AgentForm = ({ agent = null }) => {
+  const [formState, setFormState] = useState({});
   const [error, setError] = useState({});
   const { api } = useAxios();
   const navigate = useNavigate();
+
   function setValue(key, value) {
     if (key) {
       setFormState((prev) => ({ ...prev, [key.trim()]: value }));
@@ -145,6 +144,14 @@ const AgentForm = () => {
 
   const imageUrl = '';
 
+  useEffect(() => {
+    if (agent) {
+      setFormState(agent);
+    } else {
+      setFormState(initialAgent);
+    }
+  }, [agent]);
+
   return (
     <div className="bg-white rounded-xl p-4 lg:p-6">
       <ResponsiveForm onSubmit={onSubmit} className="!mt-0">
@@ -152,9 +159,9 @@ const AgentForm = () => {
           <FormTitle>Photo</FormTitle>
           <AgentImageInput
             src={imageUrl}
-            onChangeImage={(file) => {
-              console.log(file);
-            }}
+            // onChangeImage={(file) => {
+            //   console.log(file);
+            // }}
           />
         </InputBox>
         <Input

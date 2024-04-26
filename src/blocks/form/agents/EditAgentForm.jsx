@@ -13,6 +13,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import InputBox from '../../../components/form/InputBox';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
+import {
+  LanguageCodesContext,
+  LanguageCodesProvider,
+} from '../../../context/LanguageCodesContext';
+import CategoriesProvider, {
+  CategoriesContext,
+} from '../../../context/CategoriesContext';
 
 const inputs = {
   display_name: 'display_name',
@@ -36,13 +43,12 @@ const initialAgent = {
   first_name: '',
   last_name: '',
   whatsapp_number: '',
-  speaks: '',
+  speaks: [],
   location: '',
-  years_of_expertise: 10,
+  years_of_expertise: 0,
   category: [],
   nationality: '',
   about: '',
-  photo: '',
 };
 
 const patternPhone = '[0-9]{1,14}';
@@ -56,9 +62,8 @@ const EditAgentForm = () => {
 
   function setValue(key, value) {
     if (!key) return;
-
-    const changed = { ...formState, [key.trim()]: value };
-    setFormState(changed);
+    setFormState((prev) => ({ ...prev, [key.trim()]: value }));
+    setError((prev) => ({ ...prev, [key]: '' }));
   }
 
   let nationalityOptions = nationalityList.map((item) => {
@@ -77,40 +82,25 @@ const EditAgentForm = () => {
     for (const key in formState) {
       if (Object.hasOwnProperty.call(formState, key)) {
         const value = formState[key];
-
-        // const arr = [
-        //     inputs.display_name,
-        //     inputs.first_name,
-        // ];
-
-        // if (arr.includes(key)) {
-        //     validy[key].validate(value).catch(err => {
-        //         setError({ ...error, [key]: err.message })
-        //     })
-        // }
-
         if (key === inputs.category && value.length == 0) {
-          setError({ ...error, [key]: 'Please select at least one category' });
+          setError({ ...error, [key]: 'Please select at least one option' });
+          isValid = false;
+        }
+        if (key === inputs.speaks && value.length == 0) {
+          setError({ ...error, [key]: 'Please select at least one option' });
           isValid = false;
         }
       }
     }
-
     return isValid;
   }
 
   function onSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData();
-    // formData.append('category', JSON.stringify(formState.category));
-
-    for (const key in formState) {
-      if (formState.hasOwnProperty.call(formState, key)) {
-        const element = formState[key];
-        formData.append(key, element);
-      }
-    }
+    const formData = new FormData(e.target);
+    formData.append('category', JSON.stringify(formState.category));
+    formData.append('speaks', JSON.stringify(formState.speaks));
 
     api
       .patch(`agents/${id}/`, formData, {
@@ -122,16 +112,6 @@ const EditAgentForm = () => {
         navigate('/agents');
       })
       .catch((err) => {
-        toast(err.message, {
-          type: 'error',
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
         console.log(err);
       });
   }
@@ -151,10 +131,16 @@ const EditAgentForm = () => {
             first_name: data.first_name,
             last_name: data.last_name,
             whatsapp_number: data.whatsapp_number,
-            speaks: data.speaks,
+            speaks: data.speaks.split(',').map((item) => ({
+              label: item.trim(),
+              value: item.trim().toLowerCase(),
+            })),
             location: data.location,
             years_of_expertise: data.years_of_expertise,
-            category: data.category,
+            category: data.category.split(',').map((item) => ({
+              label: item.trim(),
+              value: item.trim().toLowerCase(),
+            })),
             nationality: data.nationality,
             about: data.about || '',
             photo: '',
@@ -173,12 +159,9 @@ const EditAgentForm = () => {
           <FormTitle>Photo</FormTitle>
           <AgentImageInput
             src={imageUrl}
-            onChangeImage={(file) => {
-              setFormState((prev) => {
-                const o = { ...prev, photo: file };
-                return o;
-              });
-            }}
+            // onChangeImage={(file) => {
+            //   console.log(file);
+            // }}
           />
         </InputBox>
         <Input
@@ -206,6 +189,7 @@ const EditAgentForm = () => {
             setValue(inputs.email, e.target.value);
           }}
           error={error.email}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         />
         <Input
           label={inputs.phone}
@@ -266,18 +250,31 @@ const EditAgentForm = () => {
           }}
           error={error.whatsapp_number}
         />
-        <Input
-          label={inputs.speaks}
-          name={inputs.speaks}
-          type="text"
-          className=""
-          required={true}
-          value={formState.speaks}
-          onChange={(e) => {
-            setValue(inputs.speaks, e.target.value);
-          }}
-          error={error.speaks}
-        />
+        <LanguageCodesProvider>
+          <LanguageCodesContext.Consumer>
+            {({ languageCodes }) => {
+              console.log(formState.speaks);
+              return (
+                languageCodes.length > 0 && (
+                  <MultipleSelect
+                    label={inputs.speaks}
+                    name={inputs.speaks}
+                    options={languageCodes.map(({ language, code }) => ({
+                      value: code,
+                      label: language,
+                    }))}
+                    onSelect={(language) => {
+                      setValue(inputs.speaks, language);
+                      setError({ ...error, [inputs.speaks]: '' });
+                    }}
+                    value={formState.speaks}
+                    error={error.speaks}
+                  />
+                )
+              );
+            }}
+          </LanguageCodesContext.Consumer>
+        </LanguageCodesProvider>
         <Select
           label={inputs.nationality}
           name={inputs.nationality}
@@ -302,21 +299,30 @@ const EditAgentForm = () => {
           }}
           error={error.years_of_expertise}
         />
-        <MultipleSelect
-          label={inputs.category}
-          name={inputs.category}
-          categories={[
-            {
-              label: 'Select category',
-              value: '',
-            },
-          ]}
-          onSelect={(category) => {
-            setValue(inputs.category, category);
-            setError({ ...error, [inputs.category]: '' });
-          }}
-          error={error.category}
-        />
+        <CategoriesProvider>
+          <CategoriesContext.Consumer>
+            {({ categories }) => {
+              return (
+                categories.length > 0 && (
+                  <MultipleSelect
+                    label={inputs.category}
+                    name={inputs.category}
+                    options={categories.map(({ title, id }) => ({
+                      value: id,
+                      label: title,
+                    }))}
+                    onSelect={(category) => {
+                      setValue(inputs.category, category);
+                      setError({ ...error, [inputs.category]: '' });
+                    }}
+                    // value={formState.category}
+                    error={error.category}
+                  />
+                )
+              );
+            }}
+          </CategoriesContext.Consumer>
+        </CategoriesProvider>
         <Input
           label={inputs.location}
           name={inputs.location}
