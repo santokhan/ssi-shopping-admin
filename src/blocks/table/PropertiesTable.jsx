@@ -12,6 +12,7 @@ import { getStatus } from '../../utils/status';
 import formatDate from '../../utils/formatDate';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
+import { Link } from 'react-router-dom';
 
 const PropertiesTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -94,7 +95,9 @@ const PropertiesTableRow = ({ property, refetch }) => {
         {formatDate(property.created_on)}
       </td>
       <td className="px-6 py-4 font-medium">{property.type}</td>
-      <td className="px-6 py-4 font-medium">{property.agent}</td>
+      <td className="px-6 py-4 font-medium">
+        <Link to={'/agents/' + property.agent + '/'}>{property.agent}</Link>
+      </td>
       <td className="px-6 py-4">
         <PropertiesTableAction property={property} refetch={refetch} />
       </td>

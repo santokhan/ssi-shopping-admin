@@ -90,8 +90,18 @@ export const routes = [
             element: <CreateAgent />,
           },
           {
-            path: ':id/edit',
-            element: <EditAgent />,
+            path: ':id',
+            children: [
+              {
+                path: '',
+                element: <Agents />,
+                index: true,
+              },
+              {
+                path: 'edit',
+                element: <EditAgent />,
+              },
+            ],
           },
         ],
       },
