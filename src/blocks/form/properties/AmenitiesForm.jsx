@@ -23,6 +23,13 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
           onChange={onChange}
           checked={checked}
         />
+        {amenity.icon && (
+          <img
+            src={amenity.icon}
+            alt={amenity.title}
+            className="size-12 rounded-full overflow-hidden object-cover"
+          />
+        )}
         <span className="font-medium text-gray-900 capitalize">
           {amenity.title}
         </span>
