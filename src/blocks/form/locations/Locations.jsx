@@ -90,6 +90,8 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
         }}
         className=""
         required
+        src={value.icon || ''}
+        multiple={false}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
@@ -101,6 +103,14 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
 export const CreateLocations = () => {
   const { setValue, refetch } = useContext(LocationsContext);
   const { api } = useAxios();
+
+  useEffect(() => {
+    // reset
+    setValue(inputs.city, '');
+    setValue(inputs.country, '');
+    setValue(inputs.name, '');
+    setValue(inputs.icon, '');
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -117,7 +127,7 @@ export const CreateLocations = () => {
           // reset
           setValue(inputs.city, '');
           setValue(inputs.country, '');
-          setValue(inputs.area, '');
+          setValue(inputs.name, '');
           setValue(inputs.icon, '');
         }
       })
@@ -156,8 +166,11 @@ export const EditLocations = () => {
           const data = res.data;
           setValue(inputs.city, data.city.id);
           setValue(inputs.country, data.city.country);
-          setValue(inputs.area, data.city.area);
-          setValue(inputs.icon, data.city.icon);
+          setValue(
+            inputs.name,
+            data.name,
+          ); /** Follow up these kay name. Because the naem of this label is `area` */
+          setValue(inputs.icon, data.icon);
         }
       })
       .catch((err) => {
@@ -185,7 +198,7 @@ export const EditLocations = () => {
           // reset
           setValue(inputs.city, '');
           setValue(inputs.country, '');
-          setValue(inputs.area, '');
+          setValue(inputs.name, '');
           setValue(inputs.icon, '');
 
           // redirect
