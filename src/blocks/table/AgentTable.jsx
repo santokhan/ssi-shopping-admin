@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
@@ -7,6 +7,8 @@ import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
+import DeleteModal from '../../components/DeleteModal';
+import { AgentsContext } from '../../context/AgentsContext';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -69,12 +71,13 @@ const AgentStatusIndicator = ({ status }) => {
 const AgentTableAction = ({ agent }) => {
   const { api } = useAxios();
   const navigate = useNavigate();
+  const { refetch } = useContext(AgentsContext);
 
   function onDelete() {
     api
       .delete(`agents/${agent.id}/`)
       .then((res) => {
-        navigate('/agents');
+        refetch();
       })
       .catch((err) => {
         console.log(err);
@@ -87,7 +90,7 @@ const AgentTableAction = ({ agent }) => {
     return (
       <div className="flex gap-3">
         <ActionEdit to={`/agents/${agent.id}/edit`} />
-        <ActionDelete onDelete={onDelete} />
+        <DeleteModal onDelete={onDelete} />
       </div>
     );
   }
@@ -136,17 +139,23 @@ const TableTopSection = ({ onSearch = (needle = '') => {} }) => {
   );
 };
 
-const AgentTable = ({ agents, setPageNumber, page_size }) => {
-  agents = agents?.results;
+const AgentTable = ({ setPageNumber, page_size }) => {
+  const { agents } = useContext(AgentsContext);
+  const [filteredAgents, setFilteredAgents] = useState([]);
+  let agentsList = agents?.results;
 
-  const [filteredAgents, setFilteredAgents] = useState(agents);
+  useEffect(() => {
+    if (agentsList) {
+      setFilteredAgents(agentsList);
+    }
+  }, [agentsList]);
 
   function onSearch(needle) {
     if (needle && needle.length > 0) {
       console.log({ needle });
       setFilteredAgents(
         /** Filter agents not already filtered items filteredAgents */
-        agents.filter((agent) => {
+        agentsList.filter((agent) => {
           const target = agent.display_name.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -154,7 +163,7 @@ const AgentTable = ({ agents, setPageNumber, page_size }) => {
         }),
       );
     } else {
-      setFilteredAgents(agents);
+      setFilteredAgents(agentsList);
     }
   }
 
@@ -196,19 +205,19 @@ const AgentTable = ({ agents, setPageNumber, page_size }) => {
             </table>
           </div>
           <Pagination
-            totalPages={new Array(Math.ceil(agents.length / page_size))
+            totalPages={new Array(Math.ceil(agentsList.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
             currentPage={1}
             setPageNumber={setPageNumber}
           />
           <TableSummary
-            totalData={Math.ceil(agents.length / page_size)}
+            totalData={Math.ceil(agentsList.length / page_size)}
             dataPerPage={10}
           />
         </div>
       ) : (
-        <p className="px-4">No properties found</p>
+        <p className="px-4">No records found</p>
       )}
     </div>
   );

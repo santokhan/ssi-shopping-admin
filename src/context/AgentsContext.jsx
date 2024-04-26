@@ -3,7 +3,7 @@ import useAxios from './useAxios';
 
 export const AgentsContext = createContext(null);
 
-export const AgentsProvider = ({ children }) => {
+const AgentsProvider = ({ children }) => {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const { api } = useAxios();
@@ -31,3 +31,5 @@ export const AgentsProvider = ({ children }) => {
     </AgentsContext.Provider>
   );
 };
+
+export default AgentsProvider;
