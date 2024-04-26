@@ -9,9 +9,7 @@ import Input from '../../components/form/input/Input';
 import Select from '../../components/form/input/SelectOption';
 import SubmitButton from '../../components/form/SubmitButton';
 import AgentImageInput from '../../components/form/input/AgentImageInput';
-import MultipleSelect, {
-  initialCategory,
-} from '../../components/form/input/MultipleSelect';
+import MultipleSelect from '../../components/form/input/MultipleSelect';
 import { nationalityList } from '../../utils/nationality';
 import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +18,10 @@ import {
   LanguageCodesContext,
   LanguageCodesProvider,
 } from '../../context/LanguageCodesContext';
+import {
+  CategoriesProvider,
+  CategoriesContext,
+} from '../../context/CategoriesContext';
 
 const inputs = {
   display_name: 'display_name',
@@ -43,9 +45,9 @@ const initialAgent = {
   first_name: '',
   last_name: '',
   whatsapp_number: '',
-  speaks: '',
+  speaks: [],
   location: '',
-  years_of_expertise: 10,
+  years_of_expertise: 0,
   category: [],
   nationality: '',
   about: '',
@@ -59,10 +61,10 @@ const AgentForm = () => {
   const { api } = useAxios();
   const navigate = useNavigate();
   function setValue(key, value) {
-    if (!key) return;
-
-    const changed = { ...formState, [key.trim()]: value };
-    setFormState(changed);
+    if (key) {
+      setFormState((prev) => ({ ...prev, [key.trim()]: value }));
+      setError((prev) => ({ ...prev, [key]: '' }));
+    }
   }
 
   let nationalityOptions = nationalityList.map((item) => {
@@ -71,6 +73,7 @@ const AgentForm = () => {
       value: item.nationality.toLowerCase(),
     };
   });
+
   nationalityOptions.unshift({
     label: 'Choose Nationality',
     value: '',
@@ -81,25 +84,16 @@ const AgentForm = () => {
     for (const key in formState) {
       if (Object.hasOwnProperty.call(formState, key)) {
         const value = formState[key];
-
-        // const arr = [
-        //     inputs.display_name,
-        //     inputs.first_name,
-        // ];
-
-        // if (arr.includes(key)) {
-        //     validy[key].validate(value).catch(err => {
-        //         setError({ ...error, [key]: err.message })
-        //     })
-        // }
-
         if (key === inputs.category && value.length == 0) {
-          setError({ ...error, [key]: 'Please select at least one category' });
+          setError({ ...error, [key]: 'Please select at least one option' });
+          isValid = false;
+        }
+        if (key === inputs.speaks && value.length == 0) {
+          setError({ ...error, [key]: 'Please select at least one option' });
           isValid = false;
         }
       }
     }
-
     return isValid;
   }
 
@@ -108,6 +102,7 @@ const AgentForm = () => {
 
     const formData = new FormData(e.target);
     formData.append('category', JSON.stringify(formState.category));
+    formData.append('speaks', JSON.stringify(formState.speaks));
 
     if (validateInput()) {
       // Create an empty object to store form data
@@ -119,8 +114,6 @@ const AgentForm = () => {
         formDataObject[key] = value;
       }
 
-      console.log(formDataObject);
-
       api
         .post('agents/create/', formData, {
           headers: {
@@ -128,20 +121,24 @@ const AgentForm = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
-          navigate('/agents');
+          if (res.data) {
+            // reset form
+            setFormState(initialAgent);
+
+            // Go back to agents
+            navigate('/agents');
+          }
         })
         .catch((err) => {
-          toast(err.message, {
-            type: 'error',
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          const res = err.response.data;
+
+          for (const key in res) {
+            if (Object.hasOwnProperty.call(res, key)) {
+              const element = res[key];
+              setError((prev) => ({ ...prev, [key]: element[0] }));
+            }
+          }
+
           console.log(err);
         });
     }
@@ -186,6 +183,7 @@ const AgentForm = () => {
             setValue(inputs.email, e.target.value);
           }}
           error={error.email}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         />
         <Input
           label={inputs.phone}
@@ -247,23 +245,24 @@ const AgentForm = () => {
           error={error.whatsapp_number}
         />
         <LanguageCodesProvider>
-          <LanguageCodesContext>
-            {({ languageCodes }) => {
+          <LanguageCodesContext.Consumer>
+            {({ languageCodes }) => (
               <MultipleSelect
                 label={inputs.speaks}
                 name={inputs.speaks}
-                categories={languageCodes.map(({ language, code }) => ({
+                options={languageCodes.map(({ language, code }) => ({
                   value: code,
                   label: language,
                 }))}
-                onSelect={(category) => {
-                  setValue(inputs.speaks, category);
+                onSelect={(language) => {
+                  setValue(inputs.speaks, language);
                   setError({ ...error, [inputs.speaks]: '' });
                 }}
+                value={formState.speaks}
                 error={error.speaks}
-              />;
-            }}
-          </LanguageCodesContext>
+              />
+            )}
+          </LanguageCodesContext.Consumer>
         </LanguageCodesProvider>
         <Select
           label={inputs.nationality}
@@ -289,16 +288,26 @@ const AgentForm = () => {
           }}
           error={error.years_of_expertise}
         />
-        <MultipleSelect
-          label={inputs.category}
-          name={inputs.category}
-          categories={initialCategory}
-          onSelect={(category) => {
-            setValue(inputs.category, category);
-            setError({ ...error, [inputs.category]: '' });
-          }}
-          error={error.category}
-        />
+        <CategoriesProvider>
+          <CategoriesContext.Consumer>
+            {({ categories }) => (
+              <MultipleSelect
+                label={inputs.category}
+                name={inputs.category}
+                options={categories.map(({ title, id }) => ({
+                  value: id,
+                  label: title,
+                }))}
+                onSelect={(category) => {
+                  setValue(inputs.category, category);
+                  setError({ ...error, [inputs.category]: '' });
+                }}
+                value={formState.category}
+                error={error.category}
+              />
+            )}
+          </CategoriesContext.Consumer>
+        </CategoriesProvider>
         <Input
           label={inputs.location}
           name={inputs.location}
@@ -325,8 +334,6 @@ const AgentForm = () => {
           <SubmitButton type="submit">Submit</SubmitButton>
         </div>
       </ResponsiveForm>
-      {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
-      {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
     </div>
   );
 };

@@ -10,8 +10,10 @@ export const LanguageCodesProvider = ({ children }) => {
     const fetchLanguageCodes = async () => {
       try {
         setLoading(true);
-        // const response = await fetch('/api/language_codes.json');
-        // setLanguageCodes(response);
+        const response = await fetch('/api/language-codes.json').then((res) =>
+          res.json(),
+        );
+        setLanguageCodes(response);
       } catch (error) {
         console.error(error);
       } finally {

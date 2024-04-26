@@ -6,9 +6,7 @@ import Input from '../../../components/form/input/Input';
 import Select from '../../../components/form/input/SelectOption';
 import SubmitButton from '../../../components/form/SubmitButton';
 import AgentImageInput from '../../../components/form/input/AgentImageInput';
-import MultipleSelect, {
-  initialCategory,
-} from '../../../components/form/input/MultipleSelect';
+import MultipleSelect from '../../../components/form/input/MultipleSelect';
 import { nationalityList } from '../../../utils/nationality';
 import useAxios from '../../../context/useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -307,7 +305,12 @@ const EditAgentForm = () => {
         <MultipleSelect
           label={inputs.category}
           name={inputs.category}
-          categories={initialCategory}
+          categories={[
+            {
+              label: 'Select category',
+              value: '',
+            },
+          ]}
           onSelect={(category) => {
             setValue(inputs.category, category);
             setError({ ...error, [inputs.category]: '' });
