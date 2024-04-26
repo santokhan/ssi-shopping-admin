@@ -2,7 +2,7 @@ import { User } from 'iconsax-react';
 import RemoveImage from '../action-buttons/RemoveImage';
 import { twMerge } from 'tailwind-merge';
 
-const ImagePreview = ({ src = '', onRemove }) => {
+const ImagePreview = ({ src = '', onRemove = () => {} }) => {
   return (
     <div className="flex items-end gap-4 rounded-lg text-gray-800">
       <div

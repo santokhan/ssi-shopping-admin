@@ -10,7 +10,7 @@ const AmenitiesProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [value, setValue] = useState({
     title: '',
-    images: '',
+    icon: '',
   });
   const { api } = useAxios();
   const page_size = 10;
