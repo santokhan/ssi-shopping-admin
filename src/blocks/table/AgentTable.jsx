@@ -85,7 +85,7 @@ const AgentTableRow = ({ agent, SN = '' }) => {
       <td className="px-6 py-4">
         <StatusIndicator status={agent.status} />
       </td>
-      {/* <td className="px-6 py-4">{null}</td> */}
+      <td className="px-6 py-4">{agent.properties}</td>
       <td className="px-6 py-4">
         <AgentTableAction agent={agent} />
       </td>
@@ -160,9 +160,9 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                   <th scope="col" className="text-start px-6 py-3">
                     Status
                   </th>
-                  {/* <th scope="col" className="text-start px-6 py-3">
+                  <th scope="col" className="text-start px-6 py-3">
                     Properties
-                  </th> */}
+                  </th>
                   <th scope="col" className="text-start rounded-r-lg px-6 py-3">
                     Action
                   </th>
