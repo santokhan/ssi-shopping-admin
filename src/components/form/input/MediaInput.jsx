@@ -39,7 +39,6 @@ function addToFileList(fileList, inputFiles) {
 }
 
 const MediaInput = ({
-  value,
   setValue,
   required = false,
   inputName = 'images',
@@ -104,7 +103,9 @@ const MediaInput = ({
         />
       </label>
       <div className="flex gap-4 flex-wrap">
-        {src && selectedFiles.length == 0 ? <ImagePreview src={src} /> : null}
+        {src.length > 0 && selectedFiles.length === 0 ? (
+          <ImagePreview src={src} />
+        ) : null}
         {selectedFiles.length > 0
           ? [...selectedFiles].map((file, index) => (
               <ImagePreview
