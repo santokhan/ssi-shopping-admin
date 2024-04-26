@@ -11,6 +11,7 @@ import formatDate from '../../utils/formatDate';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
+import StatusIndicator from '../../components/StatusIndicator';
 
 const PropertiesTableDetailsField = ({ property }) => {
   if (!property) {
@@ -130,6 +131,9 @@ const PropertiesTableRow = ({ property, refetch }) => {
       <td className="px-6 py-4 font-medium">
         <AgentLink id={property.agent} />
       </td>
+      <td className="px-6 py-4 font-medium">
+        <StatusIndicator status={property.status ? 'active' : 'inactive'} />
+      </td>
       <td className="px-6 py-4">
         <PropertiesTableAction property={property} refetch={refetch} />
       </td>
@@ -158,12 +162,13 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   const [filteredProperties, setFilteredProperties] = useState(properties);
 
   const headList = [
-    'Listing Title',
-    'Date Published',
-    'Category',
-    'Listed In',
-    'Agent',
-    'Action',
+    'listing title',
+    'date published',
+    'category',
+    'listed in',
+    'agent',
+    'status',
+    'action',
   ];
 
   const TH = ({ children, className = '', ...props }) => (
@@ -217,6 +222,9 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                     </TH>
                     <TH scope="col" className="rounded-r-lg">
                       {headList[5]}
+                    </TH>
+                    <TH scope="col" className="rounded-r-lg">
+                      {headList[6]}
                     </TH>
                   </tr>
                 </thead>
