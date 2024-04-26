@@ -11,32 +11,38 @@ import { toast } from 'react-toastify';
 import { getStatus } from '../../utils/status';
 import formatDate from '../../utils/formatDate';
 import { twMerge } from 'tailwind-merge';
+import DeleteModal from '../../components/DeleteModal';
 
 const PropertiesTableDetailsField = ({ agent }) => {
   if (!agent) {
     return null;
+  } else {
+    console.log(agent);
+    return (
+      <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
+        <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
+          {agent.images?.length > 0 && (
+            <img
+              src={agent.images[0]}
+              alt={agent.images[0]}
+              className="w-full h-full object-cover rounded-full overflow-hidden"
+            />
+          )}
+        </div>
+        <div>
+          <h3 className="text-lg font-bold leading-relaxed capitalize">
+            {agent.title}
+          </h3>
+          <p className="text-sm text-gray-500 font-normal">
+            {agent.city}, {agent.country}
+          </p>
+          <strong className="text-sm font-bold mt-2">
+            AED {Intl.NumberFormat().format(agent.price)}
+          </strong>
+        </div>
+      </div>
+    );
   }
-
-  return (
-    <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
-      <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
-        <img
-          src={agent.photo}
-          alt={agent.photo}
-          className="w-full h-full object-cover rounded-full overflow-hidden"
-        />
-      </div>
-      <div>
-        <h3 className="text-lg font-bold leading-relaxed">{agent.title}</h3>
-        <p className="text-sm text-gray-500 font-normal">
-          {agent.city}, {agent.country}
-        </p>
-        <strong className="text-sm font-bold mt-2">
-          AED {Intl.NumberFormat().format(agent.price)}
-        </strong>
-      </div>
-    </div>
-  );
 };
 
 const PropertiesTableAction = ({ property, refetch }) => {
@@ -68,7 +74,7 @@ const PropertiesTableAction = ({ property, refetch }) => {
   return (
     <div className="flex gap-3">
       <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
+      <DeleteModal onDelete={onDelete} />
     </div>
   );
 };
@@ -98,14 +104,14 @@ const PropertiesTableRow = ({ property, refetch }) => {
 
 const tableTitle = 'All Properties';
 
-const TableTopSection = () => {
+const TableTopSection = ({ onSearch = (needle) => {} }) => {
   return (
     <div className="relative flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">
       <div className="w-full md:w-1/2">
         <TableTitle>{tableTitle}</TableTitle>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
-        <TableSearch />
+        <TableSearch onFilter={onSearch} />
         <AddButton to="create">Add new property</AddButton>
       </div>
     </div>
@@ -128,6 +134,23 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
       {children}
     </th>
   );
+
+  function onSearch(needle) {
+    // if (needle && needle.length > 0) {
+    //   // console.log({ needle });
+    //   setFilteredAgents(
+    //     /** Filter agents not already filtered items filteredAgents */
+    //     agentsList.filter((agent) => {
+    //       const target = agent.display_name.trim().toLowerCase();
+    //       const value = needle.trim().toLowerCase();
+    //       console.log({ target, value, result: target.includes(value) });
+    //       return target.includes(value);
+    //     }),
+    //   );
+    // } else {
+    //   setFilteredAgents(agentsList);
+    // }
+  }
 
   return (
     <div className="space-y-4">
@@ -171,7 +194,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                 </tbody>
               </table>
             </div>
-            <Pagination
+            {/* <Pagination
               totalPages={new Array(Math.ceil(properties.length / page_size))
                 .fill()
                 .map((_, i) => i + 1)}
@@ -179,7 +202,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               setPageNumber={setPageNumber}
               isNextExist={Boolean(properties.next)}
             />
-            <TableSummary totalData={properties.length} />
+            <TableSummary totalData={properties.length} /> */}
           </div>
         ) : (
           <p className="px-4">No properties found</p>

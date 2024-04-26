@@ -42,7 +42,7 @@ const AmenitiesForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
   const [error, setError] = useState({});
-  const { formData } = useContext(PropertyFormContext);
+  const { formData, resetForm } = useContext(PropertyFormContext);
 
   useEffect(() => {
     getAmenities().then((res) => {
@@ -90,6 +90,7 @@ const AmenitiesForm = ({ value, setValue }) => {
         if (res.data) {
           toast('Property created successfully!');
           navigate('/properties');
+          resetForm();
         }
       });
   }

@@ -67,8 +67,14 @@ const CreatePropertyProvider = ({ children }) => {
   //   console.log(formData);
   // }, [formData]);
 
+  function resetForm() {
+    setFormData(INITIAL);
+  }
+
   return (
-    <PropertyFormContext.Provider value={{ formData, storeFormData }}>
+    <PropertyFormContext.Provider
+      value={{ formData, storeFormData, resetForm }}
+    >
       {children}
     </PropertyFormContext.Provider>
   );
