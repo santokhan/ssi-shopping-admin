@@ -171,16 +171,16 @@ const AgentForm = ({ agent = null }) => {
         first_name: agent.first_name,
         last_name: agent.last_name,
         whatsapp_number: agent.whatsapp_number,
-        speaks: splitSpeaks(agent.speaks).map((s) => ({
-          label: s.trim(),
-          value: s.trim().toLowerCase(),
+        speaks: splitSpeaks(JSON.parse(agent.speaks)).map((s) => ({
+          label: s.label,
+          value: s.value,
         })),
         location: agent.location,
         years_of_expertise: agent.years_of_expertise,
         category: JSON.parse(agent.category)
           .map((c) => ({
-            label: c.title,
-            value: c.id,
+            label: c.label,
+            value: c.value,
           }))
           .filter((e) => Boolean(e.value)),
         nationality: agent.nationality,
