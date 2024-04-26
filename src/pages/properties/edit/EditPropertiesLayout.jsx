@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import TableTitle from '../../../components/table/TableTitle';
 import { formSteps } from '../../../utils/form-steps';
+import { devMode } from '../../../utils/env';
 
 const tabList = formSteps;
 
@@ -10,9 +11,10 @@ const Tabs = () => {
   const location = useLocation();
   const pathName = location.pathname;
   const pathList = pathName.split('/');
+  const indexOfTabPath = 5;
 
   const pathMatcher = (path) => {
-    const target = pathList[3];
+    const target = pathList[indexOfTabPath];
 
     if (path == '' && target == undefined) {
       return true;
@@ -26,7 +28,7 @@ const Tabs = () => {
       {tabList.map((tab, index) => (
         <Link
           key={index}
-          to={tab.to}
+          to={devMode ? tab.to : ''}
           className={twMerge(
             'whitespace-nowrap py-3 text-base font-semibold border-b-2 border-transparent hover:outline-none text-gray-700',
             pathMatcher(tab.to)
