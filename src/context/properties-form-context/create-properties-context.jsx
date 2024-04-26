@@ -41,7 +41,6 @@ const INITIAL = {
     year_built: '',
     basement: false,
     extra_detail: '',
-    energy_index: '',
   },
   // amenities
   amenities: [],
