@@ -1,5 +1,4 @@
-import { Fragment } from 'react';
-import ActionDelete from '../../components/action-buttons/Delete';
+import { Fragment, useEffect, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -8,37 +7,37 @@ import AddButton from '../../components/table/AddButton';
 import TableTitle from '../../components/table/TableTitle';
 import useAxios from '../../context/useAxios';
 import { toast } from 'react-toastify';
-import { getStatus } from '../../utils/status';
 import formatDate from '../../utils/formatDate';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
 
-const PropertiesTableDetailsField = ({ agent }) => {
-  if (!agent) {
+const PropertiesTableDetailsField = ({ property }) => {
+  if (!property) {
     return null;
   } else {
-    console.log(agent);
     return (
       <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
         <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
-          {agent.images?.length > 0 && (
+          {property.images?.length > 0 && (
             <img
-              src={agent.images[0]}
-              alt={agent.images[0]}
+              src={property.images[0]}
+              alt={property.images[0]}
               className="w-full h-full object-cover rounded-full overflow-hidden"
             />
           )}
         </div>
         <div>
           <h3 className="text-lg font-bold leading-relaxed capitalize">
-            {agent.title}
+            {property.title}
           </h3>
           <p className="text-sm text-gray-500 font-normal">
-            {agent.city}, {agent.country}
+            {property.area && <span>{property.area},</span>}
+            {property.city && <span>{property.city},</span>}
+            {property.country && <span>{property.country},</span>}
           </p>
           <strong className="text-sm font-bold mt-2">
-            AED {Intl.NumberFormat().format(agent.price)}
+            AED {Intl.NumberFormat().format(property.price)}
           </strong>
         </div>
       </div>
@@ -85,18 +84,53 @@ const PropertiesTableRow = ({ property, refetch }) => {
     return null;
   }
 
+  const AgentLink = ({ id = null }) => {
+    const [agent, setAgent] = useState(null);
+    const { api } = useAxios();
+
+    useEffect(() => {
+      async function getAgent(id = null) {
+        if (id === null) {
+          return null;
+        }
+
+        try {
+          const res = await api.get('agents/' + id + '/');
+          setAgent(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      getAgent(id);
+    }, [id]);
+
+    if (typeof id === 'number') {
+      return agent ? (
+        <Link
+          to={'/agents/' + property.agent + '/'}
+          className="hover:text-blue-500"
+        >
+          {agent.display_name}
+        </Link>
+      ) : (
+        'Loading...'
+      );
+    }
+  };
+
   return (
     <tr className="border-b bg-white text-gray-800">
       <td className="px-6 py-4 font-medium">
-        <PropertiesTableDetailsField agent={property} />
+        <PropertiesTableDetailsField property={property} />
       </td>
       {/* created on */}
       <td className="whitespace-nowrap px-6 py-4 font-medium">
         {formatDate(property.created_on)}
       </td>
-      <td className="px-6 py-4 font-medium">{property.type}</td>
+      <td className="px-6 py-4 font-medium">{property.category}</td>
       <td className="px-6 py-4 font-medium">
-        <Link to={'/agents/' + property.agent + '/'}>{property.agent}</Link>
+        <AgentLink id={property.agent} />
       </td>
       <td className="px-6 py-4">
         <PropertiesTableAction property={property} refetch={refetch} />
@@ -123,6 +157,7 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
 
 const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   properties = properties?.results;
+  const [filteredProperties, setFilteredProperties] = useState(properties);
 
   const headList = [
     'Listing Title',
@@ -139,25 +174,25 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   );
 
   function onSearch(needle) {
-    // if (needle && needle.length > 0) {
-    //   // console.log({ needle });
-    //   setFilteredAgents(
-    //     /** Filter agents not already filtered items filteredAgents */
-    //     agentsList.filter((agent) => {
-    //       const target = agent.display_name.trim().toLowerCase();
-    //       const value = needle.trim().toLowerCase();
-    //       console.log({ target, value, result: target.includes(value) });
-    //       return target.includes(value);
-    //     }),
-    //   );
-    // } else {
-    //   setFilteredAgents(agentsList);
-    // }
+    if (needle && needle.length > 0) {
+      // console.log({ needle });
+      setFilteredProperties(
+        /** Filter agents not already filtered items filteredAgents */
+        properties.filter((property) => {
+          const target = property.title.trim().toLowerCase();
+          const value = needle.trim().toLowerCase();
+          console.log({ target, value, result: target.includes(value) });
+          return target.includes(value);
+        }),
+      );
+    } else {
+      setFilteredProperties(properties);
+    }
   }
 
   return (
     <div className="space-y-4">
-      <TableTopSection />
+      <TableTopSection onSearch={onSearch} />
       {
         // replace agent with your needle
         properties ? (
@@ -184,7 +219,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {properties.map((property, i) => {
+                  {filteredProperties.map((property, i) => {
                     return (
                       <Fragment key={i}>
                         <PropertiesTableRow
@@ -197,7 +232,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                 </tbody>
               </table>
             </div>
-            {/* <Pagination
+            <Pagination
               totalPages={new Array(Math.ceil(properties.length / page_size))
                 .fill()
                 .map((_, i) => i + 1)}
@@ -205,7 +240,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               setPageNumber={setPageNumber}
               isNextExist={Boolean(properties.next)}
             />
-            <TableSummary totalData={properties.length} /> */}
+            <TableSummary totalData={properties.length} />
           </div>
         ) : (
           <p className="px-4">No properties found</p>
