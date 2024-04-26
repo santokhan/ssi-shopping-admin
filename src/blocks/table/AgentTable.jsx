@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal';
 import { AgentsContext } from '../../context/AgentsContext';
 import formatDate from '../../utils/formatDate';
+import StatusIndicator from '../../components/StatusIndicator';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -33,39 +34,6 @@ const AgentTableDetailsField = ({ agent }) => {
         <p className="text-sm font-medium mt-2">{agent.phone}</p>
       </div>
     </div>
-  );
-};
-
-const AgentStatusIndicator = ({ status }) => {
-  if (!status) {
-    return null;
-  }
-
-  let backgroundColor, textColor, labelText;
-
-  switch (status.toLowerCase()) {
-    case 'active':
-      backgroundColor = 'bg-green-100';
-      textColor = 'text-green-600';
-      labelText = 'Active';
-      break;
-    case 'inactive':
-      backgroundColor = 'bg-red-100';
-      textColor = 'text-red-600';
-      labelText = 'Inactive';
-      break;
-    default:
-      backgroundColor = 'bg-gray-100';
-      textColor = 'text-gray-600';
-      labelText = 'Unknown';
-  }
-
-  return (
-    <span
-      className={`inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold ${backgroundColor} ${textColor} hover:bg-${status}-200`}
-    >
-      {labelText}
-    </span>
   );
 };
 
@@ -115,7 +83,7 @@ const AgentTableRow = ({ agent, SN = '' }) => {
         {formatDate(agent.created_on)}
       </td>
       <td className="px-6 py-4">
-        <AgentStatusIndicator status={agent.status} />
+        <StatusIndicator status={agent.status} />
       </td>
       {/* <td className="px-6 py-4">{null}</td> */}
       <td className="px-6 py-4">
