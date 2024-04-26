@@ -78,8 +78,8 @@ function MultipleSelect({
                     />
                   )}
                 </div>
-                <span className="flex-1 text-ellipsis overflow-hidden">
-                  {option.label}
+                <span className="flex-1 text-ellipsis overflow-hidden capitalize">
+                  {option.label.replace('-', ' ')}
                 </span>
               </Listbox.Option>
             ))}
