@@ -54,9 +54,6 @@ const PropertiesTableAction = ({ property, refetch }) => {
 
   const id = property.id;
 
-  function onEdit() {
-    // will redirect to properties edit page
-  }
   function onDelete() {
     api
       .delete('properties/' + id + '/')
@@ -73,7 +70,7 @@ const PropertiesTableAction = ({ property, refetch }) => {
 
   return (
     <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
+      <ActionEdit to={`/properties/${id}/edit/`} />
       <DeleteModal onDelete={onDelete} />
     </div>
   );
