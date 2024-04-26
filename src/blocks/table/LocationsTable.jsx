@@ -7,6 +7,7 @@ import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { LocationsContext } from '../../context/locations/locations-context';
+import DeleteModal from '../../components/DeleteModal';
 
 const LocationsTableAction = ({ location, refetch }) => {
   const { api } = useAxios();
@@ -30,7 +31,7 @@ const LocationsTableAction = ({ location, refetch }) => {
   return (
     <div className="flex gap-3">
       <ActionEdit to={`/locations/${location.id}/edit`} />
-      <ActionDelete onDelete={onDelete} />
+      <DeleteModal onDelete={onDelete} />
     </div>
   );
 };
