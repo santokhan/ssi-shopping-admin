@@ -22,7 +22,7 @@ const DetailsForm = ({ value, setValue }) => {
     },
     {
       name: 'built_up_size',
-      label: 'Built Up Size (In FT',
+      label: 'Built Up Size (In FT)',
       type: 'number',
     },
     {
@@ -104,7 +104,9 @@ const DetailsForm = ({ value, setValue }) => {
                 }
                 setValue(name, v);
               }}
-              required
+              required={
+                ['garage_size', 'year_built'].includes(name) ? false : true
+              }
             />
           );
         }
