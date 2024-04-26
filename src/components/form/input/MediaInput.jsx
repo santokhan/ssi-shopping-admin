@@ -45,6 +45,7 @@ const MediaInput = ({
   inputName = 'images',
   className = '',
   multiple = true,
+  src = '',
 }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -103,12 +104,17 @@ const MediaInput = ({
         />
       </label>
       <div className="flex gap-4 flex-wrap">
+        {src && selectedFiles.length == 0 ? <ImagePreview src={src} /> : null}
         {selectedFiles.length > 0
           ? [...selectedFiles].map((file, index) => (
               <ImagePreview
                 key={index}
                 src={URL.createObjectURL(file)}
-                onRemove={() => handleRemoveImage(index)}
+                onRemove={() => {
+                  if (index) {
+                    handleRemoveImage(index);
+                  }
+                }}
               />
             ))
           : null}
