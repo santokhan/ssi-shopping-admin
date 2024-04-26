@@ -47,16 +47,14 @@ const UsersTableRow = ({ user, refetch }) => {
   return (
     <tr className="border-b bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
-        <h3 className="text-base font-semibold leading-relaxed">{user.name}</h3>
+        <h3 className="text-base font-semibold leading-relaxed">
+          {user.username}
+        </h3>
       </td>
+      <td className="px-6 py-4">{user.first_name}</td>
+      <td className="px-6 py-4">{user.last_name}</td>
       <td className="px-6 py-4">
-        <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
-          <img
-            src={user.icon}
-            alt={user.icon}
-            className="w-full h-full object-cover rounded-full overflow-hidden"
-          />
-        </div>
+        {user.is_staff && 'Stuff'} {user.is_staff && 'Super User'}
       </td>
       <td className="px-6 py-4">
         <UsersTableAction user={user} refetch={refetch} />
@@ -72,7 +70,13 @@ const UsersTable = ({ className = '' }) => {
     return null;
   }
 
-  const headList = ['name', 'image', 'action'];
+  const headList = [
+    'Username',
+    'first name',
+    'last name',
+    'stuff status',
+    'action',
+  ];
 
   return (
     <>
@@ -94,6 +98,12 @@ const UsersTable = ({ className = '' }) => {
                 </th>
                 <th scope="col" className="text-start px-6 py-3">
                   {headList[2]}
+                </th>
+                <th scope="col" className="text-start px-6 py-3">
+                  {headList[3]}
+                </th>
+                <th scope="col" className="text-start px-6 py-3">
+                  {headList[4]}
                 </th>
               </tr>
             </thead>
