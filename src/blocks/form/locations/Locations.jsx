@@ -5,7 +5,7 @@ import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { LocationsContext } from '../../../context/locations/locations-context';
 import CountriesProvider, {
@@ -13,6 +13,9 @@ import CountriesProvider, {
 } from '../../../context/CountriesContext';
 import CitiesProvider, { CitiesContext } from '../../../context/CitiesContext';
 import Select from '../../../components/form/input/SelectOption';
+import AreasProvider, { AreasContext } from '../../../context/AreasContext';
+import FormBox from '../../../components/form/FormBox';
+import BackAnchor from '../../../components/BackAnchor';
 
 const inputs = {
   name: 'name',
@@ -22,27 +25,118 @@ const inputs = {
   area: 'area',
 };
 
+const SharedForm = ({ onSubmit, type = 'create' }) => {
+  const { value, setValue } = useContext(LocationsContext);
+
+  return (
+    <form className="space-y-4 lg:space-y-6" onSubmit={onSubmit}>
+      <CountriesProvider>
+        <CountriesContext.Consumer>
+          {({ countries }) => {
+            return (
+              <Select
+                name={inputs.country}
+                options={countries.map((c) => ({
+                  label: c.name,
+                  value: c.id,
+                }))}
+                label={inputs.country}
+                onChange={(e) => {
+                  setValue(inputs.country, e.target.value);
+                }}
+                value={value.country}
+                required
+              />
+            );
+          }}
+        </CountriesContext.Consumer>
+      </CountriesProvider>
+      <CitiesProvider>
+        <CitiesContext.Consumer>
+          {({ cities }) => {
+            return (
+              <Select
+                name={inputs.city}
+                options={cities
+                  .filter(
+                    (c) => parseInt(c.country.id) === parseInt(value.country),
+                  )
+                  .map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }))}
+                label={inputs.city}
+                onChange={(e) => {
+                  setValue(inputs.city, e.target.value);
+                }}
+                value={value.city}
+                required
+              />
+            );
+          }}
+        </CitiesContext.Consumer>
+      </CitiesProvider>
+      <AreasProvider>
+        <AreasContext.Consumer>
+          {({ areas }) => {
+            return (
+              <Select
+                name={inputs.area}
+                options={areas
+                  .filter((area) => area.city.id === parseInt(value.city))
+                  .map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }))}
+                label={inputs.area}
+                onChange={(e) => {
+                  setValue(inputs.area, e.target.value);
+                }}
+                value={value.area}
+                required
+              />
+            );
+          }}
+        </AreasContext.Consumer>
+      </AreasProvider>
+      <MediaInput
+        value={value}
+        inputName="icon"
+        setValue={(name, value) => {
+          setValue(name, value);
+        }}
+        className=""
+        required
+      />
+      <div className="">
+        <SubmitButton type="submit" className="" />
+      </div>
+    </form>
+  );
+};
+
 export const CreateLocations = () => {
-  const { value, setValue, refetch } = useContext(LocationsContext);
+  const { setValue, refetch } = useContext(LocationsContext);
   const { api } = useAxios();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     api
       .post('areas/', new FormData(e.target), {
         header: { 'Content-Type': 'multipart/form-data' },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
+        if (res) {
+          // refetch table
+          refetch();
 
-        // refetch table
-        refetch();
-
-        // reset
-        setValue(inputs.name, '');
-        setValue(inputs.icon, '');
+          // reset
+          setValue(inputs.city, '');
+          setValue(inputs.country, '');
+          setValue(inputs.area, '');
+          setValue(inputs.icon, '');
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -50,92 +144,10 @@ export const CreateLocations = () => {
   };
 
   return (
-    <div className={twMerge('bg-white p-4 lg:p-6')}>
-      <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-        <Input
-          label={'Title'}
-          type="text"
-          className="w-full"
-          onChange={(e) => {
-            setValue(inputs.name, e.target.value);
-          }}
-          value={value[inputs.name]}
-          name={inputs.name}
-          required
-        />
-        <CountriesProvider>
-          <CountriesContext.Consumer>
-            {({ countries }) => {
-              // console.log(countries);
-              return (
-                <Select
-                  name={inputs.country}
-                  options={countries.map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                  }))}
-                  label={inputs.country}
-                  onChange={(e) => {
-                    setValue(inputs.country, e.target.value);
-                  }}
-                  value={value.country}
-                  required
-                />
-              );
-            }}
-          </CountriesContext.Consumer>
-        </CountriesProvider>
-        <CitiesProvider>
-          <CitiesContext.Consumer>
-            {({ cities }) => {
-              // console.log(cities, value.country);
-              return (
-                <Select
-                  name={inputs.city}
-                  options={cities
-                    .filter(
-                      (c) => parseInt(c.country.id) === parseInt(value.country),
-                    )
-                    .map((c) => ({
-                      label: c.name,
-                      value: c.id,
-                    }))}
-                  label={inputs.city}
-                  onChange={(e) => {
-                    setValue(inputs.city, e.target.value);
-                  }}
-                  value={value.city}
-                  required
-                />
-              );
-            }}
-          </CitiesContext.Consumer>
-        </CitiesProvider>
-        <Input
-          label={inputs.area}
-          type="text"
-          className="w-full"
-          onChange={(e) => {
-            setValue(inputs.area, e.target.value);
-          }}
-          value={value[inputs.area]}
-          name={inputs.area}
-          required
-        />
-        <MediaInput
-          value={value}
-          inputName="icon"
-          setValue={(name, value) => {
-            setValue(name, value);
-          }}
-          className=""
-          required
-        />
-        <div className="">
-          <SubmitButton type="submit" className="" />
-        </div>
-      </form>
-    </div>
+    <FormBox>
+      <h5 className="text-lg font-semibold">Create Location</h5>
+      <SharedForm onSubmit={handleSubmit} />
+    </FormBox>
   );
 };
 
@@ -144,6 +156,7 @@ export const EditLocations = () => {
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -151,9 +164,10 @@ export const EditLocations = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
-          setValue(inputs.name, data.name);
           setValue(inputs.city, data.city.id);
           setValue(inputs.country, data.city.country);
+          setValue(inputs.area, data.city.area);
+          setValue(inputs.icon, data.city.icon);
         }
       })
       .catch((err) => {
@@ -166,6 +180,7 @@ export const EditLocations = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     api
       .patch(`areas/${id}/`, new FormData(e.target), {
         header: {
@@ -173,16 +188,19 @@ export const EditLocations = () => {
         },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
+        if (res) {
+          // refetch table
+          refetch();
 
-        // refetch table
-        refetch();
+          // reset
+          setValue(inputs.city, '');
+          setValue(inputs.country, '');
+          setValue(inputs.area, '');
+          setValue(inputs.icon, '');
 
-        // reset
-        setValue(inputs.name, '');
-        setValue(inputs.icon, '');
+          // redirect
+          navigate('/locations');
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -195,93 +213,12 @@ export const EditLocations = () => {
         <Spinner />
       ) : (
         <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-          <h5 className="text-lg font-semibold">Edit Form</h5>
+          <div className="flex items-center gap-2">
+            <BackAnchor to="/locations" />
+            <h5 className="text-lg font-semibold">Edit Form</h5>
+          </div>
           <hr />
-          <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-            <Input
-              label={'title'}
-              type="text"
-              className="w-full"
-              onChange={(e) => {
-                setValue(inputs.name, e.target.value);
-              }}
-              value={value[inputs.name]}
-              name={inputs.name}
-              required
-            />
-            <CountriesProvider>
-              <CountriesContext.Consumer>
-                {({ countries }) => {
-                  // console.log(countries);
-                  return (
-                    <Select
-                      name={inputs.country}
-                      options={countries.map((c) => ({
-                        label: c.name,
-                        value: c.id,
-                      }))}
-                      label={inputs.country}
-                      onChange={(e) => {
-                        setValue(inputs.country, e.target.value);
-                      }}
-                      value={value.country}
-                      required
-                    />
-                  );
-                }}
-              </CountriesContext.Consumer>
-            </CountriesProvider>
-            <CitiesProvider>
-              <CitiesContext.Consumer>
-                {({ cities }) => {
-                  // console.log(cities, value.country);
-                  return (
-                    <Select
-                      name={inputs.city}
-                      options={cities
-                        .filter(
-                          (c) =>
-                            parseInt(c.country.id) === parseInt(value.country),
-                        )
-                        .map((c) => ({
-                          label: c.name,
-                          value: c.id,
-                        }))}
-                      label={inputs.city}
-                      onChange={(e) => {
-                        setValue(inputs.city, e.target.value);
-                      }}
-                      value={value.city}
-                      required
-                    />
-                  );
-                }}
-              </CitiesContext.Consumer>
-            </CitiesProvider>
-            <Input
-              label={inputs.area}
-              type="text"
-              className="w-full"
-              onChange={(e) => {
-                setValue(inputs.area, e.target.value);
-              }}
-              value={value[inputs.area]}
-              name={inputs.area}
-              required
-            />
-            <MediaInput
-              value={value}
-              inputName="icon"
-              setValue={(name, value) => {
-                setValue(name, value);
-              }}
-              className=""
-              required={true}
-            />
-            <div className="">
-              <SubmitButton type="submit" className="" />
-            </div>
-          </form>
+          <SharedForm onSubmit={handleSubmit} />
         </div>
       )}
     </>
