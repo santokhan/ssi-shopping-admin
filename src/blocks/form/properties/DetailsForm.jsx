@@ -58,14 +58,6 @@ const DetailsForm = ({ value, setValue }) => {
     },
   ];
 
-  const energyInputs = [
-    {
-      name: 'energy_index',
-      label: 'Energy index in kWh/m2a',
-      type: 'select',
-    },
-  ];
-
   const options = {
     structure_type: [
       {
@@ -85,26 +77,6 @@ const DetailsForm = ({ value, setValue }) => {
       {
         label: '10',
         value: '10',
-      },
-    ],
-    energy_class: [
-      {
-        label: 'Yes',
-        value: 'yes',
-      },
-      {
-        label: 'No',
-        value: 'no',
-      },
-    ],
-    energy_index: [
-      {
-        label: 'Yes',
-        value: 'yes',
-      },
-      {
-        label: 'No',
-        value: 'no',
       },
     ],
   };
@@ -194,22 +166,6 @@ const DetailsForm = ({ value, setValue }) => {
         }
       })}
 
-      <div className="col-span-full">
-        <PropertiesFormTitle>Select Energy Class</PropertiesFormTitle>
-      </div>
-      {energyInputs.map(({ name, label }) => {
-        return (
-          <Select
-            key={name}
-            name={name}
-            label={label}
-            options={yesNoOptions}
-            value={value[name]}
-            onChange={(e) => setValue(name, e.target.value)}
-            required
-          />
-        );
-      })}
       <PrevAndNext
         onBack={() => {
           navigate(formBack(thisFormName));
