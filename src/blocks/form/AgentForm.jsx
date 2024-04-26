@@ -18,8 +18,7 @@ import {
   LanguageCodesContext,
   LanguageCodesProvider,
 } from '../../context/LanguageCodesContext';
-import {
-  CategoriesProvider,
+import CategoriesProvider, {
   CategoriesContext,
 } from '../../context/CategoriesContext';
 
