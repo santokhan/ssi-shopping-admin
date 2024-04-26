@@ -128,16 +128,16 @@ export const routes = [
                 element: <PDetails />,
               },
               {
-                path: 'amenities',
-                element: <PAmenities />,
-              },
-              {
                 path: 'location',
                 element: <PLocation />,
               },
               {
                 path: 'media',
                 element: <PMedia />,
+              },
+              {
+                path: 'amenities',
+                element: <PAmenities />,
               },
             ],
           },
