@@ -19,6 +19,7 @@ import {
 import CategoriesProvider, {
   CategoriesContext,
 } from '../../context/CategoriesContext';
+import splitSpeaks from '../../utils/splitSpeaks';
 
 const inputs = {
   display_name: 'display_name',
@@ -48,6 +49,7 @@ const initialAgent = {
   category: [],
   nationality: '',
   about: '',
+  photo: '',
 };
 
 const patternPhone = '[0-9]{1,14}';
@@ -95,7 +97,15 @@ const AgentForm = ({ agent = null }) => {
     return isValid;
   }
 
-  function onSubmit(e) {
+  function resetRedirect() {
+    // reset form
+    setFormState(initialAgent);
+
+    // Go back to agents
+    navigate('/agents');
+  }
+
+  async function onSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -103,50 +113,80 @@ const AgentForm = ({ agent = null }) => {
     formData.append('speaks', JSON.stringify(formState.speaks));
 
     if (validateInput()) {
-      // Create an empty object to store form data
-      const formDataObject = {};
+      const photo = formData.get('photo');
+      const isPhotoExists = photo && photo.size > 0;
 
-      // Iterate over formData entries
-      for (const [key, value] of formData.entries()) {
-        // Add key-value pairs to the formDataObject
-        formDataObject[key] = value;
+      // remove if image not exists
+      if (!isPhotoExists) {
+        formData.delete('photo');
       }
 
-      api
-        .post('agents/create/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-          if (res.data) {
-            // reset form
-            setFormState(initialAgent);
+      try {
+        if (agent?.id) {
+          const res = await api.patch(`agents/${agent?.id}/`, formData, {
+            headers: {
+              'Content-Type': isPhotoExists
+                ? 'multipart/form-data'
+                : 'application/json',
+            },
+          });
 
-            // Go back to agents
-            navigate('/agents');
+          if (res) {
+            resetRedirect();
           }
-        })
-        .catch((err) => {
-          const res = err.response.data;
+        } else {
+          const res = await api.post('agents/create/', formData, {
+            headers: {
+              'Content-Type': isPhotoExists
+                ? 'multipart/form-data'
+                : 'application/json',
+            },
+          });
 
-          for (const key in res) {
-            if (Object.hasOwnProperty.call(res, key)) {
-              const element = res[key];
-              setError((prev) => ({ ...prev, [key]: element[0] }));
-            }
+          if (res) {
+            resetRedirect();
           }
+        }
+      } catch (error) {
+        const res = error.response.data;
 
-          console.log(err);
-        });
+        for (const key in res) {
+          if (Object.hasOwnProperty.call(res, key)) {
+            const element = res[key];
+            setError((prev) => ({ ...prev, [key]: element[0] }));
+          }
+        }
+
+        console.log(error);
+      }
     }
   }
 
-  const imageUrl = '';
-
   useEffect(() => {
-    if (agent) {
-      setFormState(agent);
+    if (agent?.id) {
+      setFormState({
+        display_name: agent.display_name,
+        email: agent.email,
+        phone: agent.phone,
+        first_name: agent.first_name,
+        last_name: agent.last_name,
+        whatsapp_number: agent.whatsapp_number,
+        speaks: splitSpeaks(agent.speaks).map((s) => ({
+          label: s.trim(),
+          value: s.trim().toLowerCase(),
+        })),
+        location: agent.location,
+        years_of_expertise: agent.years_of_expertise,
+        category: JSON.parse(agent.category)
+          .map((c) => ({
+            label: c.title,
+            value: c.id,
+          }))
+          .filter((e) => Boolean(e.value)),
+        nationality: agent.nationality,
+        about: agent.about || '',
+        photo: agent.photo,
+      });
     } else {
       setFormState(initialAgent);
     }
@@ -158,10 +198,13 @@ const AgentForm = ({ agent = null }) => {
         <InputBox className={'col-span-full pb-2'}>
           <FormTitle>Photo</FormTitle>
           <AgentImageInput
-            src={imageUrl}
+            src={formState.photo}
+            agentId={agent?.id}
+            API_URL={agent?.id ? `agents/${agent?.id}/` : ''}
             // onChangeImage={(file) => {
             //   console.log(file);
             // }}
+            required={!agent?.id}
           />
         </InputBox>
         <Input
@@ -189,7 +232,7 @@ const AgentForm = ({ agent = null }) => {
             setValue(inputs.email, e.target.value);
           }}
           error={error.email}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         />
         <Input
           label={inputs.phone}
@@ -256,8 +299,8 @@ const AgentForm = ({ agent = null }) => {
               <MultipleSelect
                 label={inputs.speaks}
                 name={inputs.speaks}
-                options={languageCodes.map(({ language, code }) => ({
-                  value: code,
+                options={languageCodes.map(({ language }) => ({
+                  value: language.toLowerCase(),
                   label: language,
                 }))}
                 onSelect={(language) => {

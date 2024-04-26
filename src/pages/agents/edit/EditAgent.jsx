@@ -16,27 +16,7 @@ const EditAgent = () => {
       .then((res) => {
         const data = res.data;
         if (data) {
-          setAgent({
-            display_name: data.display_name,
-            email: data.email,
-            phone: data.phone,
-            first_name: data.first_name,
-            last_name: data.last_name,
-            whatsapp_number: data.whatsapp_number,
-            speaks: data.speaks.split(',').map((item) => ({
-              label: item.trim(),
-              value: item.trim().toLowerCase(),
-            })),
-            location: data.location,
-            years_of_expertise: data.years_of_expertise,
-            category: data.category.map((c) => ({
-              label: c.title,
-              value: c.id,
-            })),
-            nationality: data.nationality,
-            about: data.about || '',
-            photo: '',
-          });
+          setAgent(data);
         }
       })
       .catch((err) => {
