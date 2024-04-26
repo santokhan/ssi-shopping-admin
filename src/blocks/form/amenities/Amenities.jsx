@@ -52,6 +52,11 @@ export const CreateAmenities = () => {
   const { value, setValue, refetch } = useContext(AmenitiesContext);
   const { api } = useAxios();
 
+  useEffect(() => {
+    setValue(inputs.title, '');
+    setValue(inputs.icon, '');
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     api
