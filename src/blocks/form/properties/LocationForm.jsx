@@ -13,6 +13,7 @@ import CitiesProvider, {
   CitiesContext,
 } from '../../../context/CitiesContext.jsx';
 import GoogleMap from '../../../components/google-map/GoogleMap.jsx';
+import AreasProvider, { AreasContext } from '../../../context/AreasContext.jsx';
 
 const selectOptions = {
   country: [
@@ -102,45 +103,47 @@ const LocationForm = ({ value, setValue }) => {
           {({ cities }) => {
             return (
               <Select
-                name={inputs.country}
+                name={inputs.city}
                 options={cities
                   .filter((city) => city.country.id === parseInt(value.country))
                   .map((c) => ({
                     label: c.name,
                     value: c.id,
                   }))}
-                label={inputs.country}
+                label={inputs.city}
                 onChange={(e) => {
-                  setValue(inputs.country, e.target.value);
+                  setValue(inputs.city, e.target.value);
                 }}
-                value={value.country}
+                value={value.city}
                 required
               />
             );
           }}
         </CitiesContext.Consumer>
       </CitiesProvider>
-      <Input
-        type="text"
-        name={inputs.area}
-        label={inputs.area}
-        value={value.area}
-        onChange={(e) => {
-          setValue(inputs.area, e.target.value);
-        }}
-        className=""
-        required
-      />
-      {/* <Select
-        name={inputs.custom_1}
-        options={selectOptions[inputs.custom_1] || []}
-        label={inputs.custom_1}
-        onChange={(e) => {
-          setValue(inputs.custom_1, e.target.value);
-        }}
-        value={value.custom_1}
-        required
-      /> */}
+      <AreasProvider>
+        <AreasContext.Consumer>
+          {({ areas }) => {
+            return (
+              <Select
+                name={inputs.area}
+                options={areas
+                  .filter((area) => area.city.id === parseInt(value.city))
+                  .map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }))}
+                label={inputs.area}
+                onChange={(e) => {
+                  setValue(inputs.area, e.target.value);
+                }}
+                value={value.area}
+                required
+              />
+            );
+          }}
+        </AreasContext.Consumer>
+      </AreasProvider>
       <div className="col-span-full py-2">
         <GoogleMap />
       </div>
