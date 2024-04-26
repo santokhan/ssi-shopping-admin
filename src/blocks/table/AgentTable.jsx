@@ -97,13 +97,16 @@ const AgentTableAction = ({ agent }) => {
   }
 };
 
-const AgentTableRow = ({ agent }) => {
+const AgentTableRow = ({ agent, SN = '' }) => {
   if (!agent) {
     return null;
   }
 
   return (
     <tr className="border-b bg-white">
+      <td width={'60px'} className="px-6 py-4 font-medium text-gray-900">
+        {SN}
+      </td>
       <td className="px-6 py-4 font-medium text-gray-900">
         <AgentTableDetailsField agent={agent} />
       </td>
@@ -178,6 +181,9 @@ const AgentTable = ({ setPageNumber, page_size }) => {
               <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                 <tr>
                   <th scope="col" className="text-start rounded-l-lg px-6 py-3">
+                    SN
+                  </th>
+                  <th scope="col" className="text-start rounded-l-lg px-6 py-3">
                     Agent Name
                   </th>
                   <th scope="col" className="text-start px-6 py-3">
@@ -198,7 +204,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                 {filteredAgents.map((agent, i) => {
                   return (
                     <Fragment key={i}>
-                      <AgentTableRow agent={agent} />
+                      <AgentTableRow agent={agent} SN={i + 1} />
                     </Fragment>
                   );
                 })}
@@ -212,10 +218,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
             currentPage={1}
             setPageNumber={setPageNumber}
           /> */}
-          {/* <TableSummary
-            totalData={Math.ceil(agentsList.length / page_size)}
-            dataPerPage={10}
-          /> */}
+          {/* <TableSummary totalData={filteredAgents.length} /> */}
         </div>
       ) : (
         <p className="px-4">No records found</p>
