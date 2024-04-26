@@ -10,13 +10,21 @@ function DeleteModal({ onDelete = () => {} }) {
       <button
         type="button"
         className="font-medium rounded-full text-sm text-center inline-flex items-center hover:text-red-600"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+        }}
       >
         <Trash className="w-5 h-5" />
       </button>
 
       {/* Modal */}
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} as="div">
+      <Dialog
+        open={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        as="div"
+      >
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30 z-[2]" />
 
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[3]">
@@ -38,12 +46,16 @@ function DeleteModal({ onDelete = () => {} }) {
             </p>
             <div className="flex items-center justify-center space-x-4">
               <button
-                onClick={() => setIsOpen(false)}
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                }}
                 className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300"
               >
                 No, cancel
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setIsOpen(false);
                   // Handle delete action
