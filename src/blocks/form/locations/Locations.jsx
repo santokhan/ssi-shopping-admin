@@ -13,7 +13,6 @@ import CountriesProvider, {
 } from '../../../context/CountriesContext';
 import CitiesProvider, { CitiesContext } from '../../../context/CitiesContext';
 import Select from '../../../components/form/input/SelectOption';
-import AreasProvider, { AreasContext } from '../../../context/AreasContext';
 import FormBox from '../../../components/form/FormBox';
 import BackAnchor from '../../../components/BackAnchor';
 
@@ -22,7 +21,6 @@ const inputs = {
   icon: 'icon',
   country: 'country',
   city: 'city',
-  area: 'area',
 };
 
 const SharedForm = ({ onSubmit, type = 'create' }) => {
@@ -76,31 +74,16 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
           }}
         </CitiesContext.Consumer>
       </CitiesProvider>
-      <AreasProvider>
-        <AreasContext.Consumer>
-          {({ areas }) => {
-            return (
-              <Select
-                name={inputs.area}
-                options={areas
-                  .filter((area) => area.city.id === parseInt(value.city))
-                  .map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                  }))}
-                label={inputs.area}
-                onChange={(e) => {
-                  setValue(inputs.area, e.target.value);
-                }}
-                value={value.area}
-                required
-              />
-            );
-          }}
-        </AreasContext.Consumer>
-      </AreasProvider>
+      <Input
+        name={inputs.name}
+        label={'area'}
+        onChange={(e) => {
+          setValue(inputs.name, e.target.value);
+        }}
+        value={value.name}
+        required
+      />
       <MediaInput
-        value={value}
         inputName="icon"
         setValue={(name, value) => {
           setValue(name, value);
@@ -140,6 +123,13 @@ export const CreateLocations = () => {
       })
       .catch((err) => {
         console.log(err);
+        const data = err.response.data;
+
+        if (data) {
+          Object.keys(data).forEach((key) => {
+            toast.error(data[key]);
+          });
+        }
       });
   };
 
@@ -152,7 +142,7 @@ export const CreateLocations = () => {
 };
 
 export const EditLocations = () => {
-  const { value, setValue, refetch } = useContext(LocationsContext);
+  const { setValue, refetch } = useContext(LocationsContext);
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
