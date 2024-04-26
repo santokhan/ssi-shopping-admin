@@ -129,6 +129,7 @@ const PropertiesTableRow = ({ property, refetch }) => {
         {formatDate(property.created_on)}
       </td>
       <td className="px-6 py-4 font-medium">{property.category}</td>
+      <td className="px-6 py-4 font-medium">{property.listed_in}</td>
       <td className="px-6 py-4 font-medium">
         <AgentLink id={property.agent} />
       </td>
@@ -162,7 +163,8 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   const headList = [
     'Listing Title',
     'Date Published',
-    'Type',
+    'Category',
+    'Listed In',
     'Agent',
     'Action',
   ];
@@ -215,6 +217,9 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                     </TH>
                     <TH scope="col" className="rounded-r-lg">
                       {headList[4]}
+                    </TH>
+                    <TH scope="col" className="rounded-r-lg">
+                      {headList[5]}
                     </TH>
                   </tr>
                 </thead>
