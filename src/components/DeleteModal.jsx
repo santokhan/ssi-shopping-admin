@@ -39,7 +39,7 @@ function DeleteModal({ onDelete = () => {} }) {
             <div className="flex items-center justify-center space-x-4">
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-300"
+                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300"
               >
                 No, cancel
               </button>
