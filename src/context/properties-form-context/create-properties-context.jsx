@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FILLED, INITIAL, INITIAL_VALUES } from './initial';
 import validateProperties from '../../lib/property/validateProperties';
 
@@ -11,6 +11,7 @@ const PropertyFormProvider = ({ children }) => {
   const [value, setValue] = useState(INITIAL_VALUES);
   const { api } = useAxios();
   const params = useParams();
+  const navigate = useNavigate();
 
   // Assign initial form data
   useEffect(() => {
@@ -67,15 +68,17 @@ const PropertyFormProvider = ({ children }) => {
 
     const formData = new FormData();
 
-    const value = FILLED;
+    const data = value;
+    // const data = { ...value, ...FILLED };
+    delete data.amenities; // I have to fix it later
 
-    for (const key in value) {
-      if (Object.hasOwnProperty.call(value, key)) {
-        const element = value[key];
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        const element = data[key];
         if (key == 'images') {
-          // for (let i = 0; i < element.length; i++) {
-          //   formData.append('images[]', element[i]);
-          // }
+          for (let i = 0; i < element.length; i++) {
+            formData.append('images[]', element[i]);
+          }
         } else {
           formData.append(key, element);
         }
@@ -91,7 +94,7 @@ const PropertyFormProvider = ({ children }) => {
 
       if (res) {
         // redirect
-        window.history.back();
+        navigate('/properties');
       }
     } catch (error) {
       console.log(error);
@@ -120,7 +123,7 @@ const PropertyFormProvider = ({ children }) => {
 
       if (res) {
         // redirect
-        window.history.back();
+        navigate('/properties');
       }
     } catch (error) {
       console.log(error);

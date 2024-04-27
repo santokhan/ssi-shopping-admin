@@ -1,3 +1,5 @@
+
+
 const INITIAL = {
     // description
     description: {
@@ -113,11 +115,11 @@ const FILLED = {
     "year_built": 2000,
     "basement": "true",
     "extra_detail": "Note From Agent",
-    // "amenities": [
-    //     49,
-    //     53,
-    //     51
-    // ]
+    // "amenities": JSON.stringify([{
+    //     "id": 55,
+    //     "title": "garage",
+    //     "icon": "https://api.demo.bsmproperty.ae/media/master-data/amenities/icon/spartan-logo-template-modern-logo-esport-team-vector-26010434.jpg",
+    // }])
 }
 
 export { INITIAL, INITIAL_VALUES, FILLED };
