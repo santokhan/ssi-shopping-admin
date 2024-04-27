@@ -46,23 +46,25 @@ const Tabs = () => {
 
 const EditPropertiesLayout = () => {
   return (
-    <div className="space-y-6">
-      <div className="space-y-1">
-        <TableTitle>Add New Properties</TableTitle>
-        <p className="font-medium text-gray-600">
-          We are glad to see you again!
-        </p>
-      </div>
-      <div className="bg-white rounded-xl overflow-hidden shadow">
-        <Tabs />
+    <PropertyFormProvider>
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <TableTitle>Add New Properties</TableTitle>
+          <p className="font-medium text-gray-600">
+            We are glad to see you again!
+          </p>
+        </div>
+        <div className="bg-white rounded-xl overflow-hidden shadow">
+          <Tabs />
 
-        <hr />
+          <hr />
 
-        <div className="p-4 lg:p-6">
-          <Outlet />
+          <div className="p-4 lg:p-6">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
+    </PropertyFormProvider>
   );
 };
 
