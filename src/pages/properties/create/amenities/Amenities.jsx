@@ -25,7 +25,9 @@ const Page = () => {
       </div>
       <AmenitiesForm
         value={value[thisFormName] || []}
-        setValue={setFormValue}
+        setValue={(value) => {
+          setFormValue(thisFormName, value);
+        }}
       />
     </>
   );
