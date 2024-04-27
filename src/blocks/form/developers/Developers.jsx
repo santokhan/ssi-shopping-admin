@@ -50,6 +50,12 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
 export const CreateDevelopers = () => {
   const { setValue, refetch } = useContext(DevelopersContext);
 
+  // Clear inputs when component mounts
+  useEffect(() => {
+    setValue(inputs.name, '');
+    setValue(inputs.image, '');
+  }, []);
+
   const { api } = useAxios();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,16 +66,14 @@ export const CreateDevelopers = () => {
         },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
+        if (res) {
+          // refetch table
+          refetch();
 
-        // refetch table
-        refetch();
-
-        // reset
-        setValue(inputs.name, '');
-        setValue(inputs.icon, '');
+          // reset
+          setValue(inputs.name, '');
+          setValue(inputs.image, '');
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -115,13 +119,17 @@ export const EditDevelopers = () => {
         toast(`Added`, {
           type: 'success',
         });
+        if (res) {
+          // refetch table
+          refetch();
 
-        // refetch table
-        refetch();
+          // reset
+          setValue(inputs.name, '');
+          setValue(inputs.image, '');
 
-        // reset
-        setValue(inputs.name, '');
-        setValue(inputs.icon, '');
+          // redirect
+          window.history.back();
+        }
       })
       .catch((err) => {
         console.log(err);
