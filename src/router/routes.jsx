@@ -124,16 +124,16 @@ export const routes = [
                 index: true,
               },
               {
-                path: 'details',
-                element: <PDetails />,
+                path: 'media',
+                element: <PMedia />,
               },
               {
                 path: 'location',
                 element: <PLocation />,
               },
               {
-                path: 'media',
-                element: <PMedia />,
+                path: 'details',
+                element: <PDetails />,
               },
               {
                 path: 'amenities',
@@ -155,20 +155,20 @@ export const routes = [
                 index: true,
               },
               {
-                path: 'details',
-                element: <PDetails />,
-              },
-              {
-                path: 'amenities',
-                element: <PAmenities />,
+                path: 'media',
+                element: <PMedia />,
               },
               {
                 path: 'location',
                 element: <PLocation />,
               },
               {
-                path: 'media',
-                element: <PMedia />,
+                path: 'details',
+                element: <PDetails />,
+              },
+              {
+                path: 'amenities',
+                element: <PAmenities type="edit" />,
               },
             ],
           },
