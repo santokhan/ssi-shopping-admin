@@ -59,6 +59,8 @@ const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const thisFormName = 'location';
 
+  console.log('value on location', value);
+
   return (
     <ResponsiveForm
       onSubmit={(e) => {
