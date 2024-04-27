@@ -42,7 +42,11 @@ const PropertyFormProvider = ({ children }) => {
   }
 
   function setFormValue(key, value) {
-    setValue((prev) => ({ ...prev, [key]: value }));
+    setValue((prev) => {
+      const updated = { ...prev, [key]: value };
+      console.log(updated);
+      return updated;
+    });
   }
 
   useEffect(() => {

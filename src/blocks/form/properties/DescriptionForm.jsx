@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formNext } from '../../../utils/form-steps';
 import useAxios from '../../../context/useAxios';
-import { propertyCategories } from '../../../utils/categories';
 import {
   activeInActiveOptions,
   yesNoOptions,
