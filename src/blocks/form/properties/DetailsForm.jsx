@@ -16,7 +16,7 @@ const DetailsForm = ({ value, setValue }) => {
 
   const inputs = [
     {
-      name: 'total_area',
+      name: 'size',
       label: 'total area (in ft)',
       type: 'number',
     },

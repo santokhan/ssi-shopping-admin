@@ -4,7 +4,6 @@ import { twMerge } from 'tailwind-merge';
 import TableTitle from '../../../components/table/TableTitle';
 import { formSteps } from '../../../utils/form-steps';
 import { devMode } from '../../../utils/env';
-import PropertyFormProvider from '../../../context/properties-form-context/create-properties-context';
 
 const tabList = formSteps;
 
@@ -46,25 +45,23 @@ const Tabs = () => {
 
 const EditPropertiesLayout = () => {
   return (
-    <PropertyFormProvider>
-      <div className="space-y-6">
-        <div className="space-y-1">
-          <TableTitle>Add New Properties</TableTitle>
-          <p className="font-medium text-gray-600">
-            We are glad to see you again!
-          </p>
-        </div>
-        <div className="bg-white rounded-xl overflow-hidden shadow">
-          <Tabs />
+    <div className="space-y-6">
+      <div className="space-y-1">
+        <TableTitle>Add New Properties</TableTitle>
+        <p className="font-medium text-gray-600">
+          We are glad to see you again!
+        </p>
+      </div>
+      <div className="bg-white rounded-xl overflow-hidden shadow">
+        <Tabs />
 
-          <hr />
+        <hr />
 
-          <div className="p-4 lg:p-6">
-            <Outlet />
-          </div>
+        <div className="p-4 lg:p-6">
+          <Outlet />
         </div>
       </div>
-    </PropertyFormProvider>
+    </div>
   );
 };
 

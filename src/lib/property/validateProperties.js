@@ -58,6 +58,7 @@ const validateProperties = (properties = {}) => {
             'garage_size',
             'year_built',
             'basement',
+            'extra_detail',
 
             // amenities
             'amenities',

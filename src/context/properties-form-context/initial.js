@@ -30,7 +30,7 @@ const INITIAL = {
     },
     // details
     details: {
-        total_area: '',
+        size: '',
         built_up_size: '',
         bedrooms: '',
         bathrooms: '',
@@ -70,7 +70,7 @@ const INITIAL_VALUES = {
     longitude: '', // number
 
     // details
-    total_area: '', // number
+    size: '', // number
     built_up_size: '', // number
     bedrooms: '', // number
     bathrooms: '', // number
@@ -106,7 +106,7 @@ const FILLED = {
     "area": "11",
     "latitude": "1111111111111",
     "longitude": "2",
-    "total_area": 2000,
+    "size": 2000,
     "built_up_size": 2000,
     "bedrooms": 3,
     "bathrooms": 3,
