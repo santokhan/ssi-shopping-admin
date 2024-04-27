@@ -28,14 +28,13 @@ const Page = () => {
       <AmenitiesForm
         value={value[thisFormName] || []}
         setValue={(id) => {
+          let updated = [];
           if (amenities.includes(id)) {
-            setFormValue(
-              thisFormName,
-              amenities.filter((item) => item !== id),
-            );
+            updated = amenities.filter((e) => e !== id);
           } else {
-            setFormValue(thisFormName, [...amenities, id]);
+            updated = [...amenities, id];
           }
+          setFormValue(thisFormName, updated);
         }}
       />
     </>
