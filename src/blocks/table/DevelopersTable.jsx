@@ -4,9 +4,9 @@ import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { DevelopersContext } from '../../context/developers/developers-context';
+import DeleteModal from '../../components/DeleteModal';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
@@ -28,7 +28,7 @@ const FeaturesTableAction = ({ feature, refetch }) => {
     return (
       <div className="flex gap-3">
         <ActionEdit to={`/developers/${feature.id}/edit`} />
-        <ActionDelete onDelete={onDelete} />
+        <DeleteModal onDelete={onDelete} />
       </div>
     );
   }
