@@ -142,6 +142,10 @@ export const routes = [
             ],
           },
           {
+            path: ':id',
+            element: <Properties />,
+          },
+          {
             path: ':id/edit',
             element: <EditPropertiesLayout />,
             children: [
@@ -234,7 +238,6 @@ export const routes = [
           {
             path: ':id/edit',
             element: <EditDevelopers />,
-            index: true,
           },
         ],
       },
