@@ -15,6 +15,40 @@ const inputs = {
   image: 'image',
 };
 
+const SharedForm = ({ onSubmit = (e) => {} }) => {
+  const { value, setValue } = useContext(FeaturesContext);
+
+  return (
+    <form className="space-y-4 lg:space-y-6" onSubmit={onSubmit}>
+      <Input
+        label={inputs.name}
+        type="text"
+        className="w-full"
+        onChange={(e) => {
+          setValue(inputs.name, e.target.value);
+        }}
+        value={value[inputs.name]}
+        name={inputs.name}
+        required
+      />
+      <MediaInput
+        value={value}
+        inputName="image"
+        setValue={(name, value) => {
+          setValue(name, value);
+        }}
+        className=""
+        required
+        multiple={false}
+        src={value.image}
+      />
+      <div className="">
+        <SubmitButton type="submit" className="" />
+      </div>
+    </form>
+  );
+};
+
 export const CreateFeatures = () => {
   const { value, setValue, refetch } = useContext(FeaturesContext);
   const { api } = useAxios();
@@ -46,31 +80,7 @@ export const CreateFeatures = () => {
 
   return (
     <div className={twMerge('bg-white p-4 lg:p-6')}>
-      <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-        <Input
-          label={inputs.name}
-          type="text"
-          className="w-full"
-          onChange={(e) => {
-            setValue(inputs.name, e.target.value);
-          }}
-          value={value[inputs.name]}
-          name={inputs.name}
-          required
-        />
-        <MediaInput
-          value={value}
-          inputName="image"
-          setValue={(name, value) => {
-            setValue(name, value);
-          }}
-          className=""
-          required
-        />
-        <div className="">
-          <SubmitButton type="submit" className="" />
-        </div>
-      </form>
+      <SharedForm onSubmit={handleSubmit} />
     </div>
   );
 };
@@ -80,14 +90,15 @@ export const EditFeatures = () => {
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [preview, setPreview] = useState('');
 
   useEffect(() => {
     api
       .get(`features/${id}/`)
       .then((res) => {
-        setValue(inputs.name, res.data.name);
-        setValue(preview, res.data.name);
+        if (res.data) {
+          setValue(inputs.name, res.data.name);
+          setValue(inputs.image, res.data.image);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -130,30 +141,7 @@ export const EditFeatures = () => {
             <h5 className="text-lg font-semibold">Edit Form</h5>
           </div>
           <hr />
-          <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-            <Input
-              label={inputs.name}
-              type="text"
-              className="w-full"
-              onChange={(e) => {
-                setValue(inputs.name, e.target.value);
-              }}
-              value={value[inputs.name]}
-              name={inputs.name}
-              required
-            />
-            <MediaInput
-              value={value}
-              inputName="image"
-              setValue={(name, value) => {
-                setValue(name, value);
-              }}
-              className=""
-            />
-            <div className="">
-              <SubmitButton type="submit" className="" />
-            </div>
-          </form>
+          <SharedForm onSubmit={handleSubmit} />
         </div>
       )}
     </>
