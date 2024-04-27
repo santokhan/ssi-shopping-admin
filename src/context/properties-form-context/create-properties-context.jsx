@@ -106,17 +106,27 @@ const PropertyFormProvider = ({ children }) => {
 
     const formData = new FormData();
 
-    for (const key in value) {
-      if (Object.hasOwnProperty.call(value, key)) {
-        const element = value[key];
-        formData.append(key, element);
+    const data = value;
+    // const data = { ...value, ...FILLED };
+    delete data.amenities; // I have to fix it later
+
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        const element = data[key];
+        if (key == 'images') {
+          for (let i = 0; i < element.length; i++) {
+            formData.append('images[]', element[i]);
+          }
+        } else {
+          formData.append(key, element);
+        }
       }
     }
 
     console.log(Array.from(formData));
 
     try {
-      const res = await api.post('/properties/', formData, {
+      const res = await api.patch(`/properties/${params.id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
