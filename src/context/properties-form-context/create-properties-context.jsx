@@ -126,7 +126,7 @@ const PropertyFormProvider = ({ children }) => {
     console.log(Array.from(formData));
 
     try {
-      const res = await api.patch(`/properties/${params.id}`, formData, {
+      const res = await api.patch(`/properties/${params.id}/`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
