@@ -40,6 +40,7 @@ import {
 import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
 import UsersLayout from '../pages/users/UsersPage.jsx';
 import { CreateUsers, EditUsers } from '../blocks/form/users/UsersForm.jsx';
+import PropertyFormProvider from '../context/properties-form-context/create-properties-context.jsx';
 
 const authRoutes = [
   {
@@ -66,7 +67,9 @@ export const routes = [
     element: (
       // All children's are wrapped by PrivateRoute
       <PrivateRoute>
-        <DashboardLayout />
+        <PropertyFormProvider>
+          <DashboardLayout />
+        </PropertyFormProvider>
       </PrivateRoute>
     ),
     // All children's are wrapped by PrivateRoute

@@ -5,7 +5,6 @@ import { PropertyFormContext } from '../../../context/properties-form-context/cr
 import { formBack } from '../../../utils/form-steps';
 import api from '../../../axios/api';
 import { getAmenities } from '../../../axios/property/get';
-import ReactJson from 'react-json-view';
 import trimAmenities from '../../../utils/trimAmenities';
 // import dummyImageFile from '../../../utils/base64';
 
@@ -55,7 +54,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   }, []);
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onsubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {amenities.map((amenity) => (
           <CheckBoxContainer
