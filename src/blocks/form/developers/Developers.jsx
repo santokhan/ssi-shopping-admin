@@ -14,8 +14,41 @@ const inputs = {
   image: 'image',
 };
 
+const SharedForm = ({ onSubmit = (e) => {} }) => {
+  const { value, setValue } = useContext(DevelopersContext);
+
+  return (
+    <form className="space-y-4 lg:space-y-6" onSubmit={onSubmit}>
+      <Input
+        label={inputs.name}
+        type="text"
+        className="w-full"
+        onChange={(e) => {
+          setValue(inputs.name, e.target.value);
+        }}
+        value={value[inputs.name]}
+        name={inputs.name}
+        required
+      />
+      <MediaInput
+        inputName={inputs.image}
+        setValue={(name, value) => {
+          setValue(name, value);
+        }}
+        className=""
+        required={true}
+        multiple={false}
+        src=""
+      />
+      <div className="">
+        <SubmitButton type="submit" className="" />
+      </div>
+    </form>
+  );
+};
+
 export const CreateDevelopers = () => {
-  const { value, setValue, refetch } = useContext(DevelopersContext);
+  const { setValue, refetch } = useContext(DevelopersContext);
 
   const { api } = useAxios();
   const handleSubmit = (e) => {
@@ -45,36 +78,13 @@ export const CreateDevelopers = () => {
 
   return (
     <div className={twMerge('bg-white p-4 lg:p-6')}>
-      <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-        <Input
-          label={inputs.name}
-          type="text"
-          className="w-full"
-          onChange={(e) => {
-            setValue(inputs.name, e.target.value);
-          }}
-          value={value[inputs.name]}
-          name={inputs.name}
-          required
-        />
-        <MediaInput
-          inputName={inputs.image}
-          setValue={(name, value) => {
-            setValue(name, value);
-          }}
-          className=""
-          required={true}
-        />
-        <div className="">
-          <SubmitButton type="submit" className="" />
-        </div>
-      </form>
+      <SharedForm onSubmit={handleSubmit} />
     </div>
   );
 };
 
 export const EditDevelopers = () => {
-  const { value, setValue, refetch } = useContext(DevelopersContext);
+  const { setValue, refetch } = useContext(DevelopersContext);
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -126,31 +136,7 @@ export const EditDevelopers = () => {
         <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
           <h5 className="text-lg font-semibold">Edit Form</h5>
           <hr />
-          <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
-            <Input
-              label={inputs.name}
-              type="text"
-              className="w-full"
-              onChange={(e) => {
-                setValue(inputs.name, e.target.value);
-              }}
-              value={value[inputs.name]}
-              name={inputs.name}
-              required
-            />
-            <MediaInput
-              value={value}
-              inputName="icon"
-              setValue={(name, value) => {
-                setValue(name, value);
-              }}
-              className=""
-              required={true}
-            />
-            <div className="">
-              <SubmitButton type="submit" className="" />
-            </div>
-          </form>
+          <SharedForm onSubmit={handleSubmit} />
         </div>
       )}
     </>
