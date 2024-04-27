@@ -25,7 +25,7 @@ const Page = () => {
       <div className="space-y-4">
         <PropertiesFormTitle>Media</PropertiesFormTitle>
       </div>
-      <MediaForm value={valueFromState} setValue={setValue} />
+      <MediaForm value={value} setValue={setFormValue} />
     </>
   );
 };
