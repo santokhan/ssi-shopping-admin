@@ -309,18 +309,17 @@ export const routes = [
       {
         path: 'users',
         element: <UsersLayout />,
-        children: [
-          {
-            path: '',
-            element: <CreateUsers />,
-            index: true,
-          },
-          {
-            path: ':id/edit',
-            element: <EditUsers />,
-            index: true,
-          },
-        ],
+        // children: [
+        //   {
+        //     path: '',
+        //     element: <CreateUsers />,
+        //     index: true,
+        //   },
+        //   {
+        //     path: ':id/edit',
+        //     element: <EditUsers />,
+        //   },
+        // ],
       },
     ],
     // All children's are wrapped by PrivateRoute
