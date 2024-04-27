@@ -7,7 +7,7 @@ function filterObjectByKeys(properties = null, keysINeed = []) {
                 if (Object.hasOwnProperty.call(properties, key)) {
                     if (keysINeed.includes(key)) {
                         const element = properties[key];
-                        filtered[key] = element
+                        filtered[key] = element || ''
                     }
                 }
             }
@@ -23,7 +23,7 @@ function filterObjectByKeys(properties = null, keysINeed = []) {
 
 
 const validateProperties = (properties = {}) => {
-    if (properties) {
+    if (typeof properties === 'object') {
         const keysINeed = [
             'id',
 
@@ -58,7 +58,6 @@ const validateProperties = (properties = {}) => {
             'garage_size',
             'year_built',
             'basement',
-            'agent_note',
 
             // amenities
             'amenities',
@@ -67,6 +66,8 @@ const validateProperties = (properties = {}) => {
         const filtered = filterObjectByKeys(properties, keysINeed)
 
         return filtered
+    } else {
+        throw new Error('property must be an object');
     }
 };
 

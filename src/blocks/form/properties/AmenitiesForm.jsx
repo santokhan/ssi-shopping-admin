@@ -41,11 +41,10 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
   );
 }
 
-const AmenitiesForm = ({ value, setValue }) => {
+const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   const navigate = useNavigate();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
   const { formData, resetForm } = useContext(PropertyFormContext);
-  const flattenValue = trimAmenities(value).filter((e) => e);
 
   useEffect(() => {
     getAmenities().then((res) => {
@@ -101,13 +100,7 @@ const AmenitiesForm = ({ value, setValue }) => {
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const encrypted = combineFromData(formData);
-        sendToServer(encrypted);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {amenities.map((amenity) => (
           <CheckBoxContainer

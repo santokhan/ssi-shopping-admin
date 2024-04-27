@@ -82,4 +82,42 @@ const INITIAL_VALUES = {
     amenities: [], // array
 };
 
-export { INITIAL, INITIAL_VALUES };
+const FILLED = {
+    "title": "Title",
+    "description": "Description",
+    "category": "4",
+    "listed_in": "1",
+    "agent": "12",
+    "status": "true",
+    "price": 50000,
+    "featured": "true",
+    // "images": {
+    //     "0": {},
+    //     "1": {}
+    // },
+    "video_from": "youtube",
+    "embed_video_id": "44s4df56ds46f5",
+    "virtual_tour": "https://api.demo.bsmproperty.ae/swagger/",
+    "address": "Dubai, UAE",
+    "country": "1",
+    "city": "21",
+    "area": "11",
+    "latitude": "1111111111111",
+    "longitude": "2",
+    "total_area": 2000,
+    "built_up_size": 2000,
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "parking": 3,
+    "garage_size": 4,
+    "year_built": 2000,
+    "basement": "true",
+    "extra_detail": "Note From Agent",
+    // "amenities": [
+    //     49,
+    //     53,
+    //     51
+    // ]
+}
+
+export { INITIAL, INITIAL_VALUES, FILLED };

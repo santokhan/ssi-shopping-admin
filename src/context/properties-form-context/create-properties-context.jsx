@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useParams } from 'react-router-dom';
-import { INITIAL, INITIAL_VALUES } from './initial';
+import { FILLED, INITIAL, INITIAL_VALUES } from './initial';
 import validateProperties from '../../lib/property/validateProperties';
 
 export const PropertyFormContext = React.createContext(null);
@@ -20,6 +20,7 @@ const PropertyFormProvider = ({ children }) => {
         .then((res) => {
           if (res.data) {
             const data = validateProperties(res.data);
+            console.log('Value from server', data);
             setValue(data);
           }
         })
@@ -57,16 +58,37 @@ const PropertyFormProvider = ({ children }) => {
 
   function resetForm() {
     setFormData(INITIAL);
+    setValue(INITIAL_VALUES);
   }
 
   // Submit the Create Form
   async function onCreate(e) {
     e.preventDefault();
 
-    console.log(formData);
+    const formData = new FormData();
+
+    const value = FILLED;
+
+    for (const key in value) {
+      if (Object.hasOwnProperty.call(value, key)) {
+        const element = value[key];
+        if (key == 'images') {
+          // for (let i = 0; i < element.length; i++) {
+          //   formData.append('images[]', element[i]);
+          // }
+        } else {
+          formData.append(key, element);
+        }
+      }
+    }
+
+    console.log(Array.from(formData));
 
     try {
-      const res = await api.post('properties/', '');
+      const res = await api.post('/properties/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
       if (res) {
         // redirect
         window.history.back();
@@ -77,19 +99,31 @@ const PropertyFormProvider = ({ children }) => {
   }
 
   // Submit the Edit Form
-  function onEdit(e) {
+  async function onEdit(e) {
     e.preventDefault();
 
-    console.log(formData);
+    const formData = new FormData();
+
+    for (const key in value) {
+      if (Object.hasOwnProperty.call(value, key)) {
+        const element = value[key];
+        formData.append(key, element);
+      }
+    }
+
+    console.log(Array.from(formData));
 
     try {
-      const res = api.patch(`properties/${formData.id}/`, '');
+      const res = await api.post('/properties/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
       if (res) {
         // redirect
         window.history.back();
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
 

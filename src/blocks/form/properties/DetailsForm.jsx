@@ -53,7 +53,7 @@ const DetailsForm = ({ value, setValue }) => {
     { name: 'basement', label: 'Basement', type: 'yes/no' },
     {
       name: 'extra_detail',
-      label: 'Owner/ Agent nots (not visible on front end)',
+      label: 'Owner/ Agent notes (not visible on front end)',
       type: 'textarea',
     },
   ];
