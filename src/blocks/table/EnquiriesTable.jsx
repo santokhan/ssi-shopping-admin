@@ -1,12 +1,13 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { EnquiriesContext } from '../../context/enquiries/enquiries-context';
+import formatDate from '../../utils/formatDate';
 
 const EnquiriesTableAction = ({ enquiry, refetch }) => {
   const { api } = useAxios();
@@ -39,10 +40,32 @@ const EnquiriesTableAction = ({ enquiry, refetch }) => {
   );
 };
 
-const EnquiriesTableRow = ({ enquiry, refetch }) => {
+const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
   if (!enquiry) {
     return null;
   } else {
+    const Resource = (changeColName = () => {}) => {
+      if (enquiry.resource_type.toLowerCase() === 'property') {
+        return (
+          <Link
+            to={`/properties/${enquiry.resource_id}`}
+            className="hover:underline"
+          >
+            {enquiry.resource_id}
+          </Link>
+        );
+      } else if (enquiry.resource_type.toLowerCase() === 'project') {
+        return (
+          <Link
+            to={`/properties/${enquiry.resource_id}`}
+            className="hover:underline"
+          >
+            {enquiry.resource_id}
+          </Link>
+        );
+      }
+    };
+
     return (
       <tr className="border-b bg-white">
         <td className="px-6 py-4 font-medium text-gray-900">
@@ -52,25 +75,44 @@ const EnquiriesTableRow = ({ enquiry, refetch }) => {
         </td>
         <td className="px-6 py-4">{enquiry.email}</td>
         <td className="px-6 py-4">{enquiry.phone}</td>
-        <td className="px-6 py-4">{enquiry.property}</td>
+        <td className="px-6 py-4">
+          <Resource changeColName={changeColName} />
+        </td>
         <td className="px-6 py-4">{enquiry.status}</td>
-        <td className="px-6 py-4">{enquiry.date}</td>
+        <td className="px-6 py-4">{formatDate(enquiry.date)}</td>
       </tr>
     );
   }
 };
 
 const EnquiriesTable = ({ className = '' }) => {
+  const [headList, setHeadList] = useState([
+    'name',
+    'email',
+    'phone',
+    'property',
+    'status',
+    'date',
+  ]);
+
+  function changeColName(search = '', needle = '') {
+    setHeadList((prev) =>
+      prev.map((item) => {
+        if (item.toLowerCase() === needle.toLowerCase()) {
+          return search;
+        } else {
+          return item;
+        }
+      }),
+    );
+  }
+
   const {
     state: enquiries,
     setPageNumber,
     page_size,
     refetch,
   } = useContext(EnquiriesContext);
-
-  const headList = ['name', 'email', 'phone', 'property', 'status', 'date'];
-
-  console.log(enquiries);
 
   if (!enquiries) {
     return null;
@@ -111,7 +153,11 @@ const EnquiriesTable = ({ className = '' }) => {
                 {enquiries.map((enquiry, i) => {
                   return (
                     <Fragment key={i}>
-                      <EnquiriesTableRow enquiry={enquiry} refetch={refetch} />
+                      <EnquiriesTableRow
+                        enquiry={enquiry}
+                        refetch={refetch}
+                        changeColName={changeColName}
+                      />
                     </Fragment>
                   );
                 })}
