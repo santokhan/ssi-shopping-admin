@@ -14,11 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     {/* ✅ Right order. Wrap whole app by AuthProvider */}
     <AuthProvider>
       <AxiosProvider>
-        <PropertyFormProvider>
-          <RouterProvider router={router}>
-            <App />
-          </RouterProvider>
-        </PropertyFormProvider>
+        <RouterProvider router={router}>
+          <App />
+        </RouterProvider>
       </AxiosProvider>
     </AuthProvider>
   </React.StrictMode>,
