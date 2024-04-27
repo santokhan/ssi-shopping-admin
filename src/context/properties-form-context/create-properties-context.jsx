@@ -1,53 +1,31 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import useAxios from '../useAxios';
+import { useParams } from 'react-router-dom';
+import { INITIAL, INITIAL_VALUES } from './initial';
 
-export const PropertyFormContext = React.createContext();
+export const PropertyFormContext = React.createContext(null);
 
-const INITIAL = {
-  // description
-  description: {
-    title: '',
-    description: '',
-    category: '',
-    listed_in: '',
-    agent: '',
-    status: false,
-    price: 0,
-    featured: false,
-  },
-  // media
-  media: {
-    images: [],
-    video_from: '',
-    embed_video_id: '',
-    virtual_tour: '',
-  },
-  // location
-  location: {
-    address: '',
-    country: '',
-    city: '',
-    area: '',
-    latitude: '',
-    longitude: '',
-  },
-  // details
-  details: {
-    total_area: '',
-    built_up_size: '',
-    bedrooms: '',
-    bathrooms: '',
-    parking: '',
-    garage_size: '',
-    year_built: '',
-    basement: false,
-    extra_detail: '',
-  },
-  // amenities
-  amenities: [],
-};
-
-const CreatePropertyProvider = ({ children }) => {
+const PropertyFormProvider = ({ children }) => {
   const [formData, setFormData] = useState(INITIAL);
+  const [value, setValue] = useState(INITIAL_VALUES);
+  const { api } = useAxios();
+  const params = useParams();
+
+  // Assign initial form data
+  useEffect(() => {
+    if (params.id) {
+      api
+        .get(`properties/${params.id}/`)
+        .then((res) => {
+          if (res.data) {
+            setValue(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [params.id]);
 
   /**
    * A function that stores form data.
@@ -63,21 +41,70 @@ const CreatePropertyProvider = ({ children }) => {
     setFormData((prev) => ({ ...prev, ...newFormData }));
   }
 
-  // useEffect(() => {
-  //   console.log(formData);
-  // }, [formData]);
+  function setFormValue(key, value) {
+    setValue((prev) => ({ ...prev, [key]: value }));
+  }
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   function resetForm() {
     setFormData(INITIAL);
   }
 
+  // Submit the Create Form
+  async function onCreate(e) {
+    e.preventDefault();
+
+    console.log(formData);
+
+    try {
+      const res = await api.post('properties/', '');
+      if (res) {
+        // redirect
+        window.history.back();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Submit the Edit Form
+  function onEdit(e) {
+    e.preventDefault();
+
+    console.log(formData);
+
+    try {
+      const res = api.patch(`properties/${formData.id}/`, '');
+      if (res) {
+        // redirect
+        window.history.back();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <PropertyFormContext.Provider
-      value={{ formData, storeFormData, resetForm }}
+      value={{
+        // formData
+        formData,
+        storeFormData,
+        // handle forms
+        resetForm,
+        onCreate,
+        onEdit,
+        // value
+        value,
+        setFormValue,
+      }}
     >
       {children}
     </PropertyFormContext.Provider>
   );
 };
 
-export default CreatePropertyProvider;
+export default PropertyFormProvider;
