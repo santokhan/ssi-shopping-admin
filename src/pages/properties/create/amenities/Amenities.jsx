@@ -4,7 +4,7 @@ import PropertiesFormTitle from '../../../../components/form/PropertiesFormTitle
 import { PropertyFormContext } from '../../../../context/properties-form-context/create-properties-context.jsx';
 
 const Page = () => {
-  const { storeFormData, formData, setFormValue } =
+  const { storeFormData, formData, setFormValue, value } =
     useContext(PropertyFormContext);
   const thisFormName = 'amenities';
   const valueFromState = formData[thisFormName];
