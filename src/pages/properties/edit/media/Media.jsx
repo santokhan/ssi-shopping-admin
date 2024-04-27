@@ -4,7 +4,8 @@ import PropertiesFormTitle from '../../../../components/form/PropertiesFormTitle
 import { PropertyFormContext } from '../../../../context/properties-form-context/create-properties-context.jsx';
 
 const Page = () => {
-  const { storeFormData, formData } = useContext(PropertyFormContext);
+  const { storeFormData, formData, setFormValue } =
+    useContext(PropertyFormContext);
   const thisFormName = 'media';
 
   const valueFromState = formData[thisFormName];
