@@ -44,7 +44,6 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
 const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   const navigate = useNavigate();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
-  const { formData, resetForm } = useContext(PropertyFormContext);
 
   useEffect(() => {
     getAmenities().then((res) => {
@@ -54,50 +53,6 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
       }
     });
   }, []);
-
-  const combineFromData = (values) => {
-    const data = new FormData();
-
-    const converter = (values) => {
-      for (const key in values) {
-        if (Object.hasOwnProperty.call(values, key)) {
-          const element = values[key];
-          if (element) {
-            if (key == 'images') {
-              for (let i = 0; i < element.length; i++) {
-                data.append(key, element[i]);
-              }
-            } else {
-              data.append(key, element);
-            }
-          }
-        }
-      }
-    };
-
-    converter(values.description);
-    converter(values.media);
-    converter(values.details);
-    // data.append('amenities', JSON.stringify(values.amenities));
-
-    return data;
-  };
-
-  async function sendToServer(formData) {
-    api
-      .post('/properties/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      .then((res) => {
-        if (res.data) {
-          // redirect
-          window.history.back();
-
-          // reset form
-          resetForm();
-        }
-      });
-  }
 
   return (
     <form onSubmit={onSubmit}>
