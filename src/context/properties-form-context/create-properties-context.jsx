@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useParams } from 'react-router-dom';
 import { INITIAL, INITIAL_VALUES } from './initial';
+import validateProperties from '../../lib/property/validateProperties';
 
 export const PropertyFormContext = React.createContext(null);
 
@@ -18,7 +19,8 @@ const PropertyFormProvider = ({ children }) => {
         .get(`properties/${params.id}/`)
         .then((res) => {
           if (res.data) {
-            setValue(res.data);
+            const data = validateProperties(res.data);
+            setValue(data);
           }
         })
         .catch((err) => {
