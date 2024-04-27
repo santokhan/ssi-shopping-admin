@@ -38,7 +38,7 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
         className=""
         required={true}
         multiple={false}
-        src=""
+        src={value.image}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
@@ -93,11 +93,17 @@ export const EditDevelopers = () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
+  // Assign values to inputs when component mounts
+  // For edit form
   useEffect(() => {
     api
       .patch(`developers/${id}/`)
       .then((res) => {
-        setValue(inputs.name, res.data.name);
+        if (res.data) {
+          const data = res.data;
+          setValue(inputs.name, data.name);
+          setValue(inputs.image, data.image);
+        }
       })
       .catch((err) => {
         console.log(err);
