@@ -8,6 +8,8 @@ const Page = () => {
     useContext(PropertyFormContext);
   const thisFormName = 'amenities';
 
+  const amenities = value[thisFormName] || [];
+
   const valueFromState = formData[thisFormName];
 
   function setValue(value) {
@@ -25,8 +27,15 @@ const Page = () => {
       </div>
       <AmenitiesForm
         value={value[thisFormName] || []}
-        setValue={(value) => {
-          setFormValue(thisFormName, value);
+        setValue={(id) => {
+          if (amenities.includes(id)) {
+            setFormValue(
+              thisFormName,
+              amenities.filter((item) => item !== id),
+            );
+          } else {
+            setFormValue(thisFormName, [...amenities, id]);
+          }
         }}
       />
     </>

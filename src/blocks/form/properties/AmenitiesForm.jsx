@@ -6,6 +6,7 @@ import { formBack } from '../../../utils/form-steps';
 import api from '../../../axios/api';
 import { getAmenities } from '../../../axios/property/get';
 import ReactJson from 'react-json-view';
+import trimAmenities from '../../../utils/trimAmenities';
 // import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
@@ -20,7 +21,9 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
           name={amenity.id}
           type="checkbox"
           className="h-4 w-4 rounded-lg border-gray-300"
-          onChange={onChange}
+          onChange={() => {
+            onChange(amenity.id);
+          }}
           checked={checked}
         />
         {amenity.icon && (
@@ -42,6 +45,7 @@ const AmenitiesForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
   const { formData, resetForm } = useContext(PropertyFormContext);
+  const flattenValue = trimAmenities(value).filter((e) => e);
 
   useEffect(() => {
     getAmenities().then((res) => {
@@ -109,28 +113,8 @@ const AmenitiesForm = ({ value, setValue }) => {
           <CheckBoxContainer
             key={amenity.id || crypto.randomUUID()}
             amenity={amenity}
-            onChange={() => {
-              // Check if the amenity already exists in formState based on amenity.id
-              const existingAmenity = Array.isArray(value)
-                ? value.find((item) => item.id === amenity.id)
-                : null;
-
-              if (existingAmenity) {
-                // If amenity with the same id already exists, perform filtering
-                const filteredFormState = value.filter(
-                  (item) => item.id !== amenity.id,
-                );
-                setValue(filteredFormState);
-              } else {
-                // If amenity doesn't exist in formState, add it
-                setValue([...value, amenity]);
-              }
-            }}
-            checked={
-              Array.isArray(value)
-                ? value.some((item) => item.id === amenity.id)
-                : false
-            }
+            onChange={setValue}
+            checked={value.includes(amenity.id)}
           />
         ))}
       </div>
