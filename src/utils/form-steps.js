@@ -21,12 +21,12 @@ export const formSteps = [
     },
 ];
 
-export function formBack(to, prefix = "/properties/create") {
+export function formBack(to) {
     const o = formSteps[formSteps.findIndex((step) => step.to === to) - 1];
-    return prefix + '/' + o.to
+    return o.to
 }
 
-export function formNext(to, prefix = "/properties/create") {
+export function formNext(to) {
     const o = formSteps[formSteps.findIndex((step) => step.to === to) + 1];
-    return prefix + '/' + o.to
+    return o.to
 }
