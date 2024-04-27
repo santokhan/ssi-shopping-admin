@@ -48,14 +48,13 @@ const PropertyFormProvider = ({ children }) => {
   function setFormValue(key, value) {
     setValue((prev) => {
       const updated = { ...prev, [key]: value };
-      console.log(updated);
       return updated;
     });
   }
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  // useEffect(() => {
+  //   console.log(value);
+  // }, [value]);
 
   function resetForm() {
     setFormData(INITIAL);
