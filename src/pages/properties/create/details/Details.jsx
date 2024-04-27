@@ -25,7 +25,7 @@ const Page = () => {
       <div className="space-y-4">
         <PropertiesFormTitle>Details</PropertiesFormTitle>
       </div>
-      <DetailsForm value={valueFromState} setValue={setValue} />
+      <DetailsForm value={value} setValue={setFormValue} />
     </>
   );
 };
