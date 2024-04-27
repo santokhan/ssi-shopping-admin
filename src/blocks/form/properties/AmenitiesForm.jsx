@@ -5,7 +5,7 @@ import { PropertyFormContext } from '../../../context/properties-form-context/cr
 import { formBack } from '../../../utils/form-steps';
 import api from '../../../axios/api';
 import { getAmenities } from '../../../axios/property/get';
-import { toast } from 'react-toastify';
+import ReactJson from 'react-json-view';
 // import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
@@ -41,7 +41,6 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
 const AmenitiesForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
-  const [error, setError] = useState({});
   const { formData, resetForm } = useContext(PropertyFormContext);
 
   useEffect(() => {
@@ -112,9 +111,9 @@ const AmenitiesForm = ({ value, setValue }) => {
             amenity={amenity}
             onChange={() => {
               // Check if the amenity already exists in formState based on amenity.id
-              const existingAmenity = value.find(
-                (item) => item.id === amenity.id,
-              );
+              const existingAmenity = Array.isArray(value)
+                ? value.find((item) => item.id === amenity.id)
+                : null;
 
               if (existingAmenity) {
                 // If amenity with the same id already exists, perform filtering
@@ -127,7 +126,11 @@ const AmenitiesForm = ({ value, setValue }) => {
                 setValue([...value, amenity]);
               }
             }}
-            checked={value.some((item) => item.id === amenity.id)}
+            checked={
+              Array.isArray(value)
+                ? value.some((item) => item.id === amenity.id)
+                : false
+            }
           />
         ))}
       </div>
