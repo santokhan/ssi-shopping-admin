@@ -12,7 +12,7 @@ const Tabs = () => {
   const location = useLocation();
   const pathName = location.pathname;
   const pathList = pathName.split('/');
-  const indexOfTabPath = 5;
+  const indexOfTabPath = pathList.indexOf('edit') + 1;
 
   const pathMatcher = (path) => {
     const target = pathList[indexOfTabPath];
