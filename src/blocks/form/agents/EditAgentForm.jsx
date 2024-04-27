@@ -109,7 +109,10 @@ const EditAgentForm = () => {
         },
       })
       .then((res) => {
-        navigate('/agents');
+        if (res) {
+          // redirect
+          window.history.back();
+        }
       })
       .catch((err) => {
         console.log(err);

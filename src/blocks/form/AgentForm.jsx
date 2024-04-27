@@ -101,8 +101,8 @@ const AgentForm = ({ agent = null }) => {
     // reset form
     setFormState(initialAgent);
 
-    // Go back to agents
-    navigate('/agents');
+    // redirect
+    window.history.back();
   }
 
   async function onSubmit(e) {

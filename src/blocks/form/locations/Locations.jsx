@@ -202,7 +202,7 @@ export const EditLocations = () => {
           setValue(inputs.icon, '');
 
           // redirect
-          navigate('/locations');
+          window.history.back();
         }
       })
       .catch((err) => {

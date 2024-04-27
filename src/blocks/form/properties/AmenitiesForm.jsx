@@ -88,8 +88,10 @@ const AmenitiesForm = ({ value, setValue }) => {
       })
       .then((res) => {
         if (res.data) {
-          toast('Property created successfully!');
-          navigate('/properties');
+          // redirect
+          window.history.back();
+
+          // reset form
           resetForm();
         }
       });

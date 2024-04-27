@@ -139,7 +139,7 @@ export const EditAmenities = () => {
         setValue(inputs.icon, '');
 
         // redirect
-        navigate('/amenities');
+        window.history.back();
       })
       .catch((err) => {
         console.log(err);
