@@ -1,5 +1,4 @@
 import { Fragment, useContext } from 'react';
-import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
