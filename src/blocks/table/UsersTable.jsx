@@ -66,6 +66,8 @@ const UsersTableRow = ({ user, refetch }) => {
 const UsersTable = ({ className = '' }) => {
   const { users, setPageNumber, page_size, refetch } = useContext(UsersContext);
 
+  console.log(users);
+
   if (!users) {
     return null;
   }
@@ -90,19 +92,34 @@ const UsersTable = ({ className = '' }) => {
           <table className="w-full text-sm text-gray-500 rtl:text-right">
             <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
               <tr>
-                <th scope="col" className="text-start rounded-l-lg px-6 py-3">
+                <th
+                  scope="col"
+                  className="text-start whitespace-nowrap rounded-l-lg px-6 py-3"
+                >
                   {headList[0]}
                 </th>
-                <th scope="col" className="text-start px-6 py-3">
+                <th
+                  scope="col"
+                  className="text-start whitespace-nowrap px-6 py-3"
+                >
                   {headList[1]}
                 </th>
-                <th scope="col" className="text-start px-6 py-3">
+                <th
+                  scope="col"
+                  className="text-start whitespace-nowrap px-6 py-3"
+                >
                   {headList[2]}
                 </th>
-                <th scope="col" className="text-start px-6 py-3">
+                <th
+                  scope="col"
+                  className="text-start whitespace-nowrap px-6 py-3"
+                >
                   {headList[3]}
                 </th>
-                <th scope="col" className="text-start px-6 py-3">
+                <th
+                  scope="col"
+                  className="text-start whitespace-nowrap px-6 py-3"
+                >
                   {headList[4]}
                 </th>
               </tr>

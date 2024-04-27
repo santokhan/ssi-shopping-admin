@@ -30,10 +30,13 @@ const UsersProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('users/')
+      .get('users/?user_type=staff')
       .then((res) => {
         if (res.data) {
-          setUsers(res.data);
+          const data = res.data;
+          if (data.results) {
+            setUsers(res.data.results);
+          }
         }
       })
       .catch((err) => {
