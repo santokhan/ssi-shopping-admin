@@ -172,7 +172,10 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   ];
 
   const TH = ({ children, className = '', ...props }) => (
-    <th className={twMerge('text-start px-6 py-3', className)} {...props}>
+    <th
+      className={twMerge('text-start px-6 py-3 whitespace-nowrap', className)}
+      {...props}
+    >
       {children}
     </th>
   );
