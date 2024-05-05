@@ -12,18 +12,23 @@ import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
 import StatusIndicator from '../../components/StatusIndicator';
+import getImageURL from '../../utils/getImageURL';
+import Print from '../../components/Print';
 
 const PropertiesTableDetailsField = ({ property }) => {
   if (!property) {
     return null;
   } else {
+    const image = property.images[0];
+    const imageURL = image ? getImageURL(image.image) : '';
+
     return (
       <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
         <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
           {property.images?.length > 0 && (
             <img
-              src={property.images[0]}
-              alt={property.images[0]}
+              src={imageURL}
+              alt={imageURL}
               className="w-full h-full object-cover rounded-full overflow-hidden"
             />
           )}
@@ -37,9 +42,9 @@ const PropertiesTableDetailsField = ({ property }) => {
             {property.city && <span>{property.city},</span>}
             {property.country && <span>{property.country},</span>}
           </p>
-          <strong className="text-sm font-bold mt-2">
+          <p className="text-sm font-bold mt-2">
             AED {Intl.NumberFormat().format(property.price)}
-          </strong>
+          </p>
         </div>
       </div>
     );
@@ -78,9 +83,7 @@ const PropertiesTableAction = ({ property, refetch }) => {
 };
 
 const PropertiesTableRow = ({ property, refetch }) => {
-  if (!property) {
-    return null;
-  }
+  if (!property) return;
 
   const AgentLink = ({ id = null }) => {
     const [agent, setAgent] = useState(null);
@@ -118,15 +121,14 @@ const PropertiesTableRow = ({ property, refetch }) => {
   };
 
   return (
-    <tr className="border-b bg-white text-gray-800">
+    <tr className="border-b bg-white text-gray-800 capitalize">
       <td className="px-6 py-4 font-medium">
         <PropertiesTableDetailsField property={property} />
       </td>
-      {/* created on */}
       <td className="whitespace-nowrap px-6 py-4 font-medium">
         {formatDate(property.created_on)}
       </td>
-      <td className="px-6 py-4 font-medium">{property.category}</td>
+      <td className="px-6 py-4 font-medium">{property.category?.title}</td>
       <td className="px-6 py-4 font-medium">{property.listed_in}</td>
       <td className="px-6 py-4 font-medium">
         <AgentLink id={property.agent} />
