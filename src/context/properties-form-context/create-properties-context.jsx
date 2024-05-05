@@ -52,9 +52,9 @@ const PropertyFormProvider = ({ children }) => {
     });
   }
 
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   function resetForm() {
     setFormData(INITIAL);
@@ -110,9 +110,8 @@ const PropertyFormProvider = ({ children }) => {
 
     const formData = new FormData();
 
-    const data = value;
-    // const data = { ...value, ...FILLED };
-    delete data.amenities; // I have to fix it later
+    const data = { ...value };
+    // delete data.amenities; // I have to fix it later
 
     for (const key in data) {
       if (Object.hasOwnProperty.call(data, key)) {
@@ -130,8 +129,6 @@ const PropertyFormProvider = ({ children }) => {
         }
       }
     }
-
-    console.log(Array.from(formData));
 
     try {
       const res = await api.patch(`/properties/${params.id}/`, formData, {
