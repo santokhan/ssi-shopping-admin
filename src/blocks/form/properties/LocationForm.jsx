@@ -1,9 +1,7 @@
 import PrevAndNext from '../../../components/form/CancelOrSubmit.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
-import GoogleMapInput from '../../../components/form/input/GoogleMapInput.jsx';
-import { useState, useEffect } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm.jsx';
 import { formBack, formNext } from '../../../utils/form-steps.js';
 import CountriesProvider, {
@@ -57,7 +55,7 @@ const inputs = inputList.reduce((obj, item) => ({ ...obj, [item]: item }), {});
 
 const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
-  const thisFormName = 'location';
+  const { pathname } = useLocation();
 
   console.log('value on location', value);
 
@@ -65,7 +63,7 @@ const LocationForm = ({ value, setValue }) => {
     <ResponsiveForm
       onSubmit={(e) => {
         e.preventDefault();
-        navigate(formNext(thisFormName));
+        navigate(formNext(pathname));
       }}
     >
       <Input
@@ -167,11 +165,7 @@ const LocationForm = ({ value, setValue }) => {
           setValue(inputs.longitude, e.target.value);
         }}
       />
-      <PrevAndNext
-        onBack={() => {
-          navigate(formBack(thisFormName));
-        }}
-      />
+      <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
 };

@@ -1,5 +1,5 @@
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Select from '../../../components/form/input/SelectOption';
 import Textarea from '../../../components/form/input/Textarea';
@@ -11,6 +11,7 @@ import {
   activeInActiveOptions,
   yesNoOptions,
 } from '../../../utils/yes-no-options';
+import Print from '../../../components/Print';
 
 const inputList = [
   'title',
@@ -32,6 +33,7 @@ const DescriptionForm = ({ value, setValue }) => {
   const [agents, setAgents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState({});
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { api } = useAxios();
 
@@ -82,8 +84,7 @@ const DescriptionForm = ({ value, setValue }) => {
     <ResponsiveForm
       onSubmit={(e) => {
         e.preventDefault();
-
-        navigate(formNext(''));
+        navigate(formNext(pathname));
       }}
     >
       <Input
@@ -116,7 +117,7 @@ const DescriptionForm = ({ value, setValue }) => {
         options={categories}
         value={value.category}
         onChange={(e) => {
-          setValue(inputs.category, e.target.value);
+          setValue(inputs.category, parseInt(e.target.value));
         }}
         error={error.title}
         required
@@ -128,16 +129,16 @@ const DescriptionForm = ({ value, setValue }) => {
         options={[
           {
             label: 'For Sale',
-            value: '1',
+            value: 1,
           },
           {
             label: 'For Rent',
-            value: '2',
+            value: 2,
           },
         ]}
         value={value.listed_in}
         onChange={(e) => {
-          setValue(inputs.listed_in, e.target.value);
+          setValue(inputs.listed_in, parseInt(e.target.value));
         }}
         error={error.title}
         required
@@ -151,7 +152,7 @@ const DescriptionForm = ({ value, setValue }) => {
         }))}
         value={value.agent}
         onChange={(e) => {
-          setValue(inputs.agent, e.target.value);
+          setValue(inputs.agent, parseInt(e.target.value));
         }}
         error={error.title}
         required
@@ -189,11 +190,7 @@ const DescriptionForm = ({ value, setValue }) => {
         }}
         error={error.title}
       />
-      <PrevAndNext
-        onBack={() => {
-          navigate('/properties');
-        }}
-      />
+      <PrevAndNext back="/properties" />
     </ResponsiveForm>
   );
 };

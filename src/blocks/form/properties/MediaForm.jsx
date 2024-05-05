@@ -1,5 +1,5 @@
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
 import MediaInput from '../../../components/form/input/MediaInput';
@@ -16,14 +16,13 @@ const inputs = inputList.reduce((obj, item) => {
 
 const MediaForm = ({ value, setValue }) => {
   const navigate = useNavigate();
-  const thisFormName = 'media';
+  const { pathname } = useLocation();
 
   return (
     <ResponsiveForm
       onSubmit={(e) => {
         e.preventDefault();
-
-        navigate(formNext(thisFormName));
+        navigate(formNext(pathname));
       }}
     >
       <MediaInput className="col-span-full" value={value} setValue={setValue} />
@@ -66,11 +65,7 @@ const MediaForm = ({ value, setValue }) => {
         }}
         placeholder="https://www.youtube.com/channel/UCwvj_fVMtGYk8J5-8bhmH8A"
       />
-      <PrevAndNext
-        onBack={() => {
-          navigate(formBack(thisFormName));
-        }}
-      />
+      <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
 };

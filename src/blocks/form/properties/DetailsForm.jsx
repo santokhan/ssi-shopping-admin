@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Textarea from '../../../components/form/input/Textarea';
 import Select from '../../../components/form/input/SelectOption';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
-import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { formBack, formNext } from '../../../utils/form-steps';
 import { yesNoOptions } from '../../../utils/yes-no-options';
 
 const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [error, setError] = useState({});
-  const thisFormName = 'details';
 
   const inputs = [
     {
@@ -85,7 +84,7 @@ const DetailsForm = ({ value, setValue }) => {
     <ResponsiveForm
       onSubmit={(e) => {
         e.preventDefault();
-        navigate(formNext(thisFormName));
+        navigate(formNext(pathname));
       }}
     >
       {inputs.map(({ name, label, type }) => {
@@ -168,11 +167,7 @@ const DetailsForm = ({ value, setValue }) => {
         }
       })}
 
-      <PrevAndNext
-        onBack={() => {
-          navigate(formBack(thisFormName));
-        }}
-      />
+      <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
 };

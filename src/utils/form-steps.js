@@ -1,7 +1,10 @@
-export const formSteps = [
+// Dyanmic form steps
+// Well tested with nodejs VSCode debugger.
+
+const formSteps = [
     {
         name: 'Description',
-        to: '',
+        to: 'description',
     },
     {
         name: 'Media',
@@ -21,12 +24,26 @@ export const formSteps = [
     },
 ];
 
-export function formBack(to) {
-    const o = formSteps[formSteps.findIndex((step) => step.to === to) - 1];
-    return o.to
+function formBack(pathname,) {
+    const pathList = pathname.split('/').filter(Boolean)
+    const removed = pathList.pop()
+    const idx = formSteps.findIndex(({ to }) => removed === to)
+    const prevStep = formSteps[idx - 1]
+    pathList.push(prevStep.to)
+    return '/' + pathList.join('/')
 }
+// const output = formBack('/properties/create/media/')
+// console.log(output)
 
-export function formNext(to) {
-    const o = formSteps[formSteps.findIndex((step) => step.to === to) + 1];
-    return o.to
+function formNext(pathname) {
+    const pathList = pathname.split('/').filter(Boolean)
+    const removed = pathList.pop()
+    const idx = formSteps.findIndex(({ to }) => removed === to)
+    const prevStep = formSteps[idx + 1]
+    pathList.push(prevStep.to)
+    return '/' + pathList.join('/')
 }
+// const output = formNext('/properties/create/media/')
+// console.log(output)
+
+export { formSteps, formBack, formNext, }

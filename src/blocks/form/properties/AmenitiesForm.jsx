@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { FinalSubmitButton } from '../../../components/form/SubmitButton';
-import { useContext, useEffect, useState } from 'react';
-import { PropertyFormContext } from '../../../context/properties-form-context/create-properties-context';
+import { useEffect, useState } from 'react';
 import { formBack } from '../../../utils/form-steps';
-import api from '../../../axios/api';
 import { getAmenities } from '../../../axios/property/get';
-import trimAmenities from '../../../utils/trimAmenities';
 // import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
@@ -41,7 +38,8 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
 }
 
 const AmenitiesForm = ({ value, setValue, onSubmit }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   }, []);
 
   return (
-    <form onSubmit={onsubmit}>
+    <form onSubmit={onSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {amenities.map((amenity) => (
           <CheckBoxContainer
@@ -65,11 +63,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
           />
         ))}
       </div>
-      <FinalSubmitButton
-        onBack={() => {
-          navigate(formBack('amenities'));
-        }}
-      />
+      <FinalSubmitButton back={formBack(pathname)} />
     </form>
   );
 };

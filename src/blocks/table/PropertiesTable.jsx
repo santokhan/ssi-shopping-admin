@@ -15,6 +15,18 @@ import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
 import Print from '../../components/Print';
 
+function CountryCityArea(country, city, area) {
+  if (typeof country === 'string' && typeof city === 'string') {
+    return (
+      <p className="text-sm text-gray-500 font-normal">
+        {area && <span>{area},</span>}
+        {city && <span>{city},</span>}
+        {country && <span>{country},</span>}
+      </p>
+    );
+  }
+}
+
 const PropertiesTableDetailsField = ({ property }) => {
   if (!property) {
     return null;
@@ -34,15 +46,11 @@ const PropertiesTableDetailsField = ({ property }) => {
           )}
         </div>
         <div>
-          <h3 className="text-lg font-bold leading-relaxed capitalize">
+          <h3 className="text-base font-bold leading-relaxed capitalize">
             {property.title}
           </h3>
-          <p className="text-sm text-gray-500 font-normal">
-            {property.area && <span>{property.area},</span>}
-            {property.city && <span>{property.city},</span>}
-            {property.country && <span>{property.country},</span>}
-          </p>
-          <p className="text-sm font-bold mt-2">
+          <CountryCityArea {...property} />
+          <p className="text-sm font-semibold mt-2">
             AED {Intl.NumberFormat().format(property.price)}
           </p>
         </div>
@@ -76,7 +84,7 @@ const PropertiesTableAction = ({ property, refetch }) => {
 
   return (
     <div className="flex gap-3">
-      <ActionEdit to={`/properties/${id}/edit/`} />
+      <ActionEdit to={`/properties/${id}/edit/description`} />
       <DeleteModal onDelete={onDelete} />
     </div>
   );
@@ -121,22 +129,24 @@ const PropertiesTableRow = ({ property, refetch }) => {
   };
 
   return (
-    <tr className="border-b bg-white text-gray-800 capitalize">
+    <tr className="border-b bg-white text-gray-800">
       <td className="px-6 py-4 font-medium">
         <PropertiesTableDetailsField property={property} />
       </td>
       <td className="whitespace-nowrap px-6 py-4 font-medium">
         {formatDate(property.created_on)}
       </td>
-      <td className="px-6 py-4 font-medium">{property.category?.title}</td>
-      <td className="px-6 py-4 font-medium">{property.listed_in}</td>
-      <td className="px-6 py-4 font-medium">
+      <td className="px-6 py-4 font-medium capitalize">
+        {property.category?.title}
+      </td>
+      <td className="px-6 py-4 font-medium capitalize">{property.listed_in}</td>
+      <td className="px-6 py-4 font-medium capitalize">
         <AgentLink id={property.agent} />
       </td>
-      <td className="px-6 py-4 font-medium">
+      <td className="px-6 py-4 font-medium capitalize">
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
       </td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 capitalize">
         <PropertiesTableAction property={property} refetch={refetch} />
       </td>
     </tr>
@@ -153,7 +163,9 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
         <TableSearch onFilter={onSearch} />
-        <AddButton to="create">Add new property</AddButton>
+        <AddButton to="/properties/create/description">
+          Add new property
+        </AddButton>
       </div>
     </div>
   );
@@ -213,21 +225,11 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                     <TH scope="col" className="rounded-l-lg">
                       {headList[0]}
                     </TH>
-                    <TH scope="col" className="">
-                      {headList[1]}
-                    </TH>
-                    <TH scope="col" className="">
-                      {headList[2]}
-                    </TH>
-                    <TH scope="col" className="">
-                      {headList[3]}
-                    </TH>
-                    <TH scope="col" className="rounded-r-lg">
-                      {headList[4]}
-                    </TH>
-                    <TH scope="col" className="rounded-r-lg">
-                      {headList[5]}
-                    </TH>
+                    <TH scope="col">{headList[1]}</TH>
+                    <TH scope="col">{headList[2]}</TH>
+                    <TH scope="col">{headList[3]}</TH>
+                    <TH scope="col">{headList[4]}</TH>
+                    <TH scope="col">{headList[5]}</TH>
                     <TH scope="col" className="rounded-r-lg">
                       {headList[6]}
                     </TH>

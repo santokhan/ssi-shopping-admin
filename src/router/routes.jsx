@@ -119,9 +119,8 @@ export const routes = [
             element: <CreatePropertiesLayout />,
             children: [
               {
-                path: '',
+                path: 'description',
                 element: <PDescription />,
-                index: true,
               },
               {
                 path: 'media',
@@ -150,9 +149,8 @@ export const routes = [
             element: <EditPropertiesLayout />,
             children: [
               {
-                path: '',
+                path: 'description',
                 element: <PDescription />,
-                index: true,
               },
               {
                 path: 'media',
