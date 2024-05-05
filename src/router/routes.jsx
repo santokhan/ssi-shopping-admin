@@ -262,7 +262,7 @@ export const routes = [
             element: <CreateProjectsLayout />,
             children: [
               {
-                path: '',
+                path: 'description',
                 element: <ProjectDesc />,
               },
               {

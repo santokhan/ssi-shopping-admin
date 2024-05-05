@@ -6,6 +6,7 @@ import MediaInput from '../../../components/form/input/MediaInput';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
 import { formBack, formNext } from '../../../utils/form-steps';
+import Textarea from '../../../components/form/input/Textarea';
 
 const inputList = ['video_from', 'embed_video_id', 'virtual_tour'];
 
@@ -26,9 +27,6 @@ const MediaForm = ({ value, setValue }) => {
       }}
     >
       <MediaInput className="col-span-full" value={value} setValue={setValue} />
-      <div className="col-span-full pt-3">
-        <PropertiesFormTitle>Video Option</PropertiesFormTitle>
-      </div>
       <Select
         name={inputs.video_from}
         options={[
@@ -52,9 +50,6 @@ const MediaForm = ({ value, setValue }) => {
           setValue(inputs.embed_video_id, e.target.value);
         }}
       />
-      <div className="col-span-full pt-3">
-        <PropertiesFormTitle>Virtual Tour</PropertiesFormTitle>
-      </div>
       <Input
         type="url"
         name={inputs.virtual_tour}
@@ -65,6 +60,20 @@ const MediaForm = ({ value, setValue }) => {
         }}
         placeholder="https://www.youtube.com/channel/UCwvj_fVMtGYk8J5-8bhmH8A"
       />
+      <div className="col-span-full flex flex-wrap gap-4 sm:gap-6">
+        <div className="basis-96 flex-grow">
+          <PropertiesFormTitle>Interior</PropertiesFormTitle>
+          <MediaInput value={value} setValue={setValue} className="mt-2" />
+          <PropertiesFormTitle>Interior Description</PropertiesFormTitle>
+          <Textarea name={inputs.virtual_tour} />
+        </div>
+        <div className="basis-96 flex-grow">
+          <PropertiesFormTitle>Exterior</PropertiesFormTitle>
+          <MediaInput value={value} setValue={setValue} className="mt-2" />
+          <PropertiesFormTitle>Exterior Description</PropertiesFormTitle>
+          <Textarea name={inputs.virtual_tour} />
+        </div>
+      </div>
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
