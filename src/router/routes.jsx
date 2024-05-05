@@ -40,6 +40,15 @@ import {
 import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
 import UsersLayout from '../pages/users/UsersPage.jsx';
 import { CreateUsers, EditUsers } from '../blocks/form/users/UsersForm.jsx';
+import ProjectLayout from '../pages/projects/Layout.jsx';
+import ProjectPage from '../pages/projects/ProjectPage.jsx';
+import CreateProjectsLayout from '../pages/projects/create/CreatePropertiesLayout.jsx';
+import ProjectDesc from '../pages/projects/create/description/Description.jsx';
+import ProjectDetails from '../pages/projects/create/details/Details.jsx';
+import ProjectLocation from '../pages/projects/create/location/Location.jsx';
+import ProjectAmenities from '../pages/projects/create/amenities/Amenities.jsx';
+import ProjectMedia from '../pages/projects/create/media/Media.jsx';
+import EditProjectsLayout from '../pages/projects/edit/EditProjectsLayout.jsx';
 
 const authRoutes = [
   {
@@ -241,64 +250,62 @@ export const routes = [
       },
       {
         path: 'projects',
-        element: <PropertiesLayout />,
+        element: <ProjectLayout />,
         children: [
           {
             path: '',
-            element: <Properties />,
+            element: <ProjectPage />,
             index: true,
           },
           {
             path: 'create',
-            element: <CreatePropertiesLayout />,
+            element: <CreateProjectsLayout />,
             children: [
               {
                 path: '',
-                element: <PDescription />,
-                index: true,
+                element: <ProjectDesc />,
               },
               {
                 path: 'details',
-                element: <PDetails />,
+                element: <ProjectDetails />,
               },
               {
                 path: 'amenities',
-                element: <PAmenities />,
+                element: <ProjectAmenities />,
               },
               {
                 path: 'location',
-                element: <PLocation />,
+                element: <ProjectLocation />,
               },
               {
                 path: 'media',
-                element: <PMedia />,
+                element: <ProjectMedia />,
               },
             ],
           },
           {
             path: ':id/edit',
-            element: <EditPropertiesLayout />,
+            element: <EditProjectsLayout />,
             children: [
               {
                 path: '',
-                element: <PDescription />,
-                index: true,
+                element: <ProjectDesc />,
               },
               {
                 path: 'details',
-                element: <PDetails />,
+                element: <ProjectDetails />,
               },
               {
                 path: 'amenities',
-                element: <PAmenities />,
+                element: <ProjectAmenities />,
               },
               {
                 path: 'location',
-                element: <PLocation />,
+                element: <ProjectLocation />,
               },
               {
                 path: 'media',
-                element: <PMedia />,
+                element: <ProjectMedia />,
               },
             ],
           },
@@ -311,7 +318,6 @@ export const routes = [
         //   {
         //     path: '',
         //     element: <CreateUsers />,
-        //     index: true,
         //   },
         //   {
         //     path: ':id/edit',

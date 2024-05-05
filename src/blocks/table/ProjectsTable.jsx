@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -7,7 +7,6 @@ import AddButton from '../../components/table/AddButton';
 import TableTitle from '../../components/table/TableTitle';
 import useAxios from '../../context/useAxios';
 import { toast } from 'react-toastify';
-import formatDate from '../../utils/formatDate';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
@@ -27,7 +26,7 @@ function CountryCityArea(country, city, area) {
   }
 }
 
-const PropertiesTableDetailsField = ({ property }) => {
+const ProjectsTableDetailsField = ({ property }) => {
   if (!property) {
     return null;
   } else {
@@ -59,7 +58,7 @@ const PropertiesTableDetailsField = ({ property }) => {
   }
 };
 
-const PropertiesTableAction = ({ property, refetch }) => {
+const ProjectTableActions = ({ property, refetch }) => {
   const { api } = useAxios();
 
   if (!property) {
@@ -70,7 +69,7 @@ const PropertiesTableAction = ({ property, refetch }) => {
 
   function onDelete() {
     api
-      .delete('properties/' + id + '/')
+      .delete('projects/' + id + '/')
       .then((res) => {
         toast(`Deleted`, {
           type: 'success',
@@ -84,13 +83,13 @@ const PropertiesTableAction = ({ property, refetch }) => {
 
   return (
     <div className="flex gap-3">
-      <ActionEdit to={`/properties/${id}/edit/description`} />
+      <ActionEdit to={`/projects/${id}/edit/description`} />
       <DeleteModal onDelete={onDelete} />
     </div>
   );
 };
 
-const PropertiesTableRow = ({ property, refetch }) => {
+const ProjectTableRow = ({ property, refetch }) => {
   if (!property) return;
 
   const AgentLink = ({ agent = null }) => {
@@ -109,10 +108,7 @@ const PropertiesTableRow = ({ property, refetch }) => {
   return (
     <tr className="border-b bg-white text-gray-800">
       <td className="px-6 py-4 font-medium">
-        <PropertiesTableDetailsField property={property} />
-      </td>
-      <td className="whitespace-nowrap px-6 py-4 font-medium">
-        {formatDate(property.created_on)}
+        <ProjectsTableDetailsField property={property} />
       </td>
       <td className="px-6 py-4 font-medium capitalize">
         {property.category?.title}
@@ -125,13 +121,13 @@ const PropertiesTableRow = ({ property, refetch }) => {
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
       </td>
       <td className="px-6 py-4 capitalize">
-        <PropertiesTableAction property={property} refetch={refetch} />
+        <ProjectTableActions property={property} refetch={refetch} />
       </td>
     </tr>
   );
 };
 
-const tableTitle = 'All Properties';
+const tableTitle = 'All Projects';
 
 const TableTopSection = ({ onSearch = (needle) => {} }) => {
   return (
@@ -141,21 +137,20 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
         <TableSearch onFilter={onSearch} />
-        <AddButton to="/properties/create/description">
-          Add new property
+        <AddButton to="/projects/create/description">
+          Add new projects
         </AddButton>
       </div>
     </div>
   );
 };
 
-const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
-  properties = properties?.results;
-  const [filteredProperties, setFilteredProperties] = useState(properties);
+const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
+  projects = projects?.results;
+  const [filtered, setFiltered] = useState(projects);
 
   const headList = [
     'listing title',
-    'date published',
     'category',
     'listed in',
     'agent',
@@ -175,9 +170,9 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
   function onSearch(needle) {
     if (needle && needle.length > 0) {
       // console.log({ needle });
-      setFilteredProperties(
+      setFiltered(
         /** Filter agents not already filtered items filteredAgents */
-        properties.filter((property) => {
+        projects.filter((property) => {
           const target = property.title.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -185,7 +180,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
         }),
       );
     } else {
-      setFilteredProperties(properties);
+      setFiltered(projects);
     }
   }
 
@@ -194,7 +189,7 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
       <TableTopSection onSearch={onSearch} />
       {
         // replace agent with your needle
-        properties ? (
+        projects ? (
           <div className="bg-white p-4 space-y-4">
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-gray-500 rtl:text-right">
@@ -207,17 +202,16 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                     <TH scope="col">{headList[2]}</TH>
                     <TH scope="col">{headList[3]}</TH>
                     <TH scope="col">{headList[4]}</TH>
-                    <TH scope="col">{headList[5]}</TH>
                     <TH scope="col" className="rounded-r-lg">
-                      {headList[6]}
+                      {headList[5]}
                     </TH>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProperties.map((property, i) => {
+                  {filtered.map((property, i) => {
                     return (
                       <Fragment key={i}>
-                        <PropertiesTableRow
+                        <ProjectTableRow
                           property={property}
                           refetch={refetch}
                         />
@@ -228,21 +222,21 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               </table>
             </div>
             <Pagination
-              totalPages={new Array(Math.ceil(properties.length / page_size))
+              totalPages={new Array(Math.ceil(projects.length / page_size))
                 .fill()
                 .map((_, i) => i + 1)}
               currentPage={1}
               setPageNumber={setPageNumber}
-              isNextExist={Boolean(properties.next)}
+              isNextExist={Boolean(projects.next)}
             />
-            <TableSummary totalData={properties.length} />
+            <TableSummary totalData={projects.length} />
           </div>
         ) : (
-          <p className="px-4">No properties found</p>
+          <p className="px-4">No records found</p>
         )
       }
     </div>
   );
 };
 
-export default PropertiesTable;
+export default ProjectsTable;
