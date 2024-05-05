@@ -1,108 +1,44 @@
-function filterObjectByKeys(properties = null, keysINeed = []) {
-    if (properties && typeof properties === 'object') {
-        if (Array.isArray(keysINeed)) {
-            let filtered = {}
-
-            for (const key in properties) {
-                if (Object.hasOwnProperty.call(properties, key)) {
-                    if (keysINeed.includes(key)) {
-                        const element = properties[key];
-                        filtered[key] = element || ''
-                    }
-                }
-            }
-
-            return filtered;
-        } else {
-            throw new Error('keysINeed must be an array');
-        }
-    } else {
-        throw new Error('property must be an object');
-    }
-}
-
+import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
 const validateProperties = (properties = {}) => {
     if (typeof properties === 'object') {
-        const keysINeed = [
-            'id',
-
-            // description
-            'title',
-            'description',
-            'category',
-            'listed_in',
-            'agent',
-            'status',
-            'price',
-            'featured',
-
-            // media
-            'video_from',
-            'embed_video_id',
-            'virtual_tour',
-
-            // location
-            'address',
-            'country',
-            'city',
-            'area',
-            'latitude',
-            'longitude',
-
-            // details
-            'size',
-            'bedrooms',
-            'bathrooms',
-            'parking',
-            'garage_size',
-            'year_built',
-            'basement',
-            'extra_detail',
-
-            // amenities
-            'amenities',
-        ]
-
-        const filtered = filterObjectByKeys(properties, keysINeed)
-
-        return filtered
+        // custom structure don't make function for that
+        const converted = {
+            [inn.title]: properties[inn.title],
+            [inn.description]: properties[inn.description],
+            [inn.category]: properties[inn.category].id,
+            [inn.listed_in]: properties[inn.listed_in],
+            [inn.agent]: properties[inn.agent].id,
+            [inn.status]: properties[inn.status],
+            [inn.price]: properties[inn.price],
+            [inn.featured]: properties[inn.featured],
+            [inn.video_from]: properties[inn.video_from],
+            [inn.embed_video_id]: properties[inn.embed_video_id],
+            [inn.virtual_tour]: properties[inn.virtual_tour],
+            [inn.address]: properties[inn.address],
+            [inn.country]: properties[inn.country],
+            [inn.city]: properties[inn.city],
+            [inn.area]: properties[inn.area],
+            [inn.latitude]: properties[inn.latitude],
+            [inn.longitude]: properties[inn.longitude],
+            [inn.size]: properties[inn.size],
+            [inn.bedrooms]: properties[inn.bedrooms],
+            [inn.bathrooms]: properties[inn.bathrooms],
+            [inn.parking]: properties[inn.parking],
+            [inn.garage_size]: properties[inn.garage_size],
+            [inn.year_built]: properties[inn.year_built],
+            [inn.basement]: properties[inn.basement],
+            [inn.extra_detail]: properties[inn.extra_detail],
+            [inn.amenities]: properties[inn.amenities],
+        }
+        return converted
     } else {
         throw new Error('property must be an object');
     }
 };
 
-// // example usage
-// const properties = {
-//     id: 1,
-//     abc: '',
-//     title: 'test',
-//     description: 'test',
-//     category: [],
-//     listed_in: 'test',
-//     agent: 'test',
-//     status: 'test',
-//     price: 1,
-//     featured: true,
-//     video_from: 'test',
-//     embed_video_id: 'test',
-//     virtual_tour: 'test',
-//     address: 'test',
-//     country: 'test',
-//     city: 'test',
-//     area: 'test',
-//     latitude: 1,
-//     longitude: 1,
-//     size: 1,
-//     bedrooms: 1,
-//     bathrooms: 1,
-//     parking: 1,
-//     garage_size: 1,
-//     year_built: 1,
-//     basement: 'test',
-//     agent_note: 'test',
-//     amenities: [],
-// }
-// console.log(validateProperties(properties))
+// Example
+// Debug using ChatGPT
 
 export default validateProperties
+

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FILLED, INITIAL, INITIAL_VALUES } from './initial';
+import { INITIAL, INITIAL_VALUES } from './initial';
 import validateProperties from '../../lib/property/validateProperties';
 
 export const PropertyFormContext = React.createContext(null);

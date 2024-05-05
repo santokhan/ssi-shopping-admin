@@ -1,5 +1,3 @@
-
-
 const INITIAL = {
     // description
     description: {
@@ -14,7 +12,7 @@ const INITIAL = {
     },
     // media
     media: {
-        images: [],
+        images: '',
         video_from: '',
         embed_video_id: '',
         virtual_tour: '',
@@ -52,11 +50,11 @@ const INITIAL_VALUES = {
     listed_in: '', // string (for sale, for rent, etc.)
     agent: '', // id of agent
     status: '', // true or false
-    price: 0, // number
+    price: '', // number
     featured: '', // true or false
 
     // media
-    images: [], // array
+    images: '', // array
     video_from: '', // youtube or vimeo
     embed_video_id: '', // URL
     virtual_tour: '', // URL
@@ -84,42 +82,4 @@ const INITIAL_VALUES = {
     amenities: [], // array
 };
 
-const FILLED = {
-    "title": "Title",
-    "description": "Description",
-    "category": "4",
-    "listed_in": "1",
-    "agent": "12",
-    "status": "true",
-    "price": 50000,
-    "featured": "true",
-    // "images": {
-    //     "0": {},
-    //     "1": {}
-    // },
-    "video_from": "youtube",
-    "embed_video_id": "44s4df56ds46f5",
-    "virtual_tour": "https://api.demo.bsmproperty.ae/swagger/",
-    "address": "Dubai, UAE",
-    "country": "1",
-    "city": "21",
-    "area": "11",
-    "latitude": "1111111111111",
-    "longitude": "2",
-    "size": 2000,
-    "built_up_size": 2000,
-    "bedrooms": 3,
-    "bathrooms": 3,
-    "parking": 3,
-    "garage_size": 4,
-    "year_built": 2000,
-    "basement": "true",
-    "extra_detail": "Note From Agent",
-    // "amenities": JSON.stringify([{
-    //     "id": 55,
-    //     "title": "garage",
-    //     "icon": "https://api.demo.bsmproperty.ae/media/master-data/amenities/icon/spartan-logo-template-modern-logo-esport-team-vector-26010434.jpg",
-    // }])
-}
-
-export { INITIAL, INITIAL_VALUES, FILLED };
+export { INITIAL, INITIAL_VALUES };
