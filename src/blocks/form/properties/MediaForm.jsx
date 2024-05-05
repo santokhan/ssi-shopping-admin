@@ -74,6 +74,10 @@ const MediaForm = ({ value, setValue }) => {
           <Textarea name={inputs.virtual_tour} />
         </div>
       </div>
+      <div className="col-span-full">
+        <PropertiesFormTitle>Upload Brochure</PropertiesFormTitle>
+        <MediaInput value={value} setValue={setValue} className="mt-2" />
+      </div>
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
