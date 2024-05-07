@@ -32,15 +32,10 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
         required
       />
       <MediaInput
-        value={value}
-        inputName="image"
-        setValue={(name, value) => {
-          setValue(name, value);
-        }}
-        className=""
+        name="image"
+        setValue={setValue}
         required
-        multiple={false}
-        src={value.image}
+        value={value.image}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
