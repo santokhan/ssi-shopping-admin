@@ -50,6 +50,9 @@ import ProjectAmenities from '../pages/projects/create/amenities/Amenities.jsx';
 import ProjectMedia from '../pages/projects/create/media/Media.jsx';
 import EditProjectsLayout from '../pages/projects/edit/EditProjectsLayout.jsx';
 import ProjectFormProvider from '../context/project-form/ProjectFormContext.jsx';
+import LayoutTestimonials from '../layout/Testimonials.jsx';
+import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
+import TestimonialsProvider from '../context/testimonials/TestimonialsContext.jsx';
 
 const authRoutes = [
   {
@@ -319,16 +322,34 @@ export const routes = [
       {
         path: 'users',
         element: <UsersLayout />,
-        // children: [
-        //   {
-        //     path: '',
-        //     element: <CreateUsers />,
-        //   },
-        //   {
-        //     path: ':id/edit',
-        //     element: <EditUsers />,
-        //   },
-        // ],
+        children: [
+          {
+            path: '',
+            element: <CreateUsers />,
+          },
+          {
+            path: ':id/edit',
+            element: <CreateUsers />,
+          },
+        ],
+      },
+      {
+        path: 'testimonials',
+        element: <LayoutTestimonials />,
+        children: [
+          {
+            path: '',
+            element: <TestimonialsPage />,
+          },
+          // {
+          //   path: 'create',
+          //   element: <CreateUsers />,
+          // },
+          // {
+          //   path: ':id/edit',
+          //   element: <CreateUsers />,
+          // },
+        ],
       },
     ],
     // All children's are wrapped by PrivateRoute

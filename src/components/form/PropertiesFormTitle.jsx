@@ -1,7 +1,5 @@
 const PropertiesFormTitle = ({ children }) => {
-    return (
-        <h2 className="text-lg font-semibold text-gray-900">{children}</h2>
-    );
-}
+  return <h2 className="text-xl font-bold text-gray-900">{children}</h2>;
+};
 
-export default PropertiesFormTitle
+export default PropertiesFormTitle;

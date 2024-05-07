@@ -13,20 +13,37 @@ import CountriesProvider, {
 import CitiesProvider, { CitiesContext } from '../../../context/CitiesContext';
 import Select from '../../../components/form/input/SelectOption';
 import { UsersContext } from '../../../context/users/UserContext';
+import { Title } from '../../../components/page-header/PageHeader';
+import FormTitle from '../../../components/form/FormTitle';
+import BackAnchor from '../../../components/BackAnchor';
 
 const inputs = {
-  name: 'name',
-  image: 'image',
+  email: 'email',
+  username: 'username',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  role: 'role',
 };
 
 export const CreateUsers = () => {
   const { value, setValue, refetch } = useContext(UsersContext);
   const { api } = useAxios();
+  const { id } = useParams();
+
+  useEffect(() => {
+    // if (res) {
+    //   setValue(inputs.username, res.username);
+    //   setValue(inputs.first_name, res.first_name);
+    //   setValue(inputs.last_name, res.last_name);
+    //   setValue(inputs.role, res.role);
+    //   setValue(inputs.email, res.email);
+    // }
+  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // api
-    //   .post('areas/', new FormData(e.target), {
+    //   .post('users/', new FormData(e.target), {
     //     header: {
     //       'Content-Type': 'multipart/form-data',
     //     },
@@ -49,26 +66,66 @@ export const CreateUsers = () => {
   };
 
   return (
-    <div className={twMerge('bg-white p-4 lg:p-6')}>
+    <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
+      <div className="flex items-center gap-2">
+        {id && <BackAnchor to="/users" />}
+        <FormTitle>{id ? 'Edit User' : 'Create User'}</FormTitle>
+      </div>
       <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
         <Input
-          label={inputs.name}
+          label={inputs.username}
           type="text"
           className="w-full"
           onChange={(e) => {
-            setValue(inputs.name, e.target.value);
+            setValue(inputs.username, e.target.value);
           }}
-          value={value[inputs.name]}
-          name={inputs.name}
+          value={value[inputs.username]}
+          name={inputs.username}
           required
         />
-        <MediaInput
-          value={value}
-          inputName={inputs.image}
-          setValue={(name, value) => {
-            setValue(name, value);
+        <Input
+          label={inputs.first_name}
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(inputs.first_name, e.target.value);
           }}
-          className=""
+          value={value[inputs.first_name]}
+          name={inputs.first_name}
+        />
+        <Input
+          label={inputs.last_name}
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(inputs.last_name, e.target.value);
+          }}
+          value={value[inputs.last_name]}
+          name={inputs.last_name}
+        />
+        <Input
+          label={inputs.email}
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(inputs.email, e.target.value);
+          }}
+          value={value[inputs.email]}
+          name={inputs.email}
+          required
+        />
+        <Select
+          name={inputs.role}
+          label={inputs.role}
+          options={[
+            { label: 'admin', value: 'admin' },
+            { label: 'staff', value: 'staff' },
+            { label: 'super user', value: 'super-user' },
+          ]}
+          value={value[inputs.role]}
+          onChange={(e) => {
+            setValue(inputs.role, e.target.value);
+          }}
           required
         />
         <div className="">
@@ -89,7 +146,7 @@ export const EditUsers = () => {
     api
       .get(`areas/${id}/`)
       .then((res) => {
-        setValue(inputs.name, res.data.name);
+        setValue(inputs.firstName, res.data.name);
       })
       .catch((err) => {
         console.log(err);
@@ -116,7 +173,7 @@ export const EditUsers = () => {
         refetch();
 
         // reset
-        setValue(inputs.name, '');
+        setValue(inputs.firstName, '');
         setValue(inputs.image, '');
       })
       .catch((err) => {
@@ -134,14 +191,14 @@ export const EditUsers = () => {
           <hr />
           <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
             <Input
-              label={inputs.name}
+              label={inputs.firstName}
               type="text"
               className="w-full"
               onChange={(e) => {
-                setValue(inputs.name, e.target.value);
+                setValue(inputs.firstName, e.target.value);
               }}
-              value={value[inputs.name]}
-              name={inputs.name}
+              value={value[inputs.firstName]}
+              name={inputs.firstName}
               required
             />
             <MediaInput

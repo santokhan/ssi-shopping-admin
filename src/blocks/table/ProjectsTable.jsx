@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
 import Print from '../../components/Print';
+import NoRecordsFound from '../../components/NoRecordsFound';
+import TH from '../../components/table/TH';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -158,15 +160,6 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
     'action',
   ];
 
-  const TH = ({ children, className = '', ...props }) => (
-    <th
-      className={twMerge('text-start px-6 py-3 whitespace-nowrap', className)}
-      {...props}
-    >
-      {children}
-    </th>
-  );
-
   function onSearch(needle) {
     if (needle && needle.length > 0) {
       // console.log({ needle });
@@ -195,16 +188,12 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
               <table className="w-full text-sm text-gray-500 rtl:text-right">
                 <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                   <tr>
-                    <TH scope="col" className="rounded-l-lg">
-                      {headList[0]}
-                    </TH>
-                    <TH scope="col">{headList[1]}</TH>
-                    <TH scope="col">{headList[2]}</TH>
-                    <TH scope="col">{headList[3]}</TH>
-                    <TH scope="col">{headList[4]}</TH>
-                    <TH scope="col" className="rounded-r-lg">
-                      {headList[5]}
-                    </TH>
+                    <TH className="rounded-l-lg">{headList[0]}</TH>
+                    <TH>{headList[1]}</TH>
+                    <TH>{headList[2]}</TH>
+                    <TH>{headList[3]}</TH>
+                    <TH>{headList[4]}</TH>
+                    <TH className="rounded-r-lg">{headList[5]}</TH>
                   </tr>
                 </thead>
                 <tbody>
@@ -232,7 +221,7 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
             <TableSummary totalData={projects.length} />
           </div>
         ) : (
-          <p className="px-4">No records found</p>
+          <NoRecordsFound />
         )
       }
     </div>
