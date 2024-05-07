@@ -8,6 +8,7 @@ import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formBack, formNext } from '../../../utils/form-steps';
 import Textarea from '../../../components/form/input/Textarea';
 import { twMerge } from 'tailwind-merge';
+import useAxios from '../../../context/useAxios';
 
 const inputs = {
   images: 'images',
@@ -25,6 +26,7 @@ const inputs = {
 const MediaForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { api } = useAxios();
 
   const Box = ({ children, className }) => (
     <div className={twMerge('basis-96 flex-grow space-y-2', className)}>
@@ -52,8 +54,23 @@ const MediaForm = ({ value, setValue }) => {
       <MediaInput
         name={inputs.images}
         className="col-span-full"
-        value={value}
+        value={value.images}
         setValue={setValue}
+        onRemoveFromServer={(id) => {
+          api
+            .delete(`project_galleries/${id}/`)
+            .then((res) => {
+              if (res) {
+                setValue(
+                  'images',
+                  value[inputs.images].filter((_) => _.id !== id),
+                );
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }}
       />
       <Select
         name={inputs.video_from}
@@ -92,7 +109,7 @@ const MediaForm = ({ value, setValue }) => {
         <Box>
           <h5 className={'font-semibold'}>Upload Interior Image</h5>
           <MediaInput
-            name="interior_image"
+            name={inputs.interior_image}
             value={value.interior_image}
             setValue={setValue}
           />
@@ -102,7 +119,7 @@ const MediaForm = ({ value, setValue }) => {
         <Box>
           <h5 className={'font-semibold'}>Upload Exterior Image</h5>
           <MediaInput
-            name="exterior_image"
+            name={inputs.exterior_image}
             value={value.exterior_image}
             setValue={setValue}
           />
@@ -114,7 +131,7 @@ const MediaForm = ({ value, setValue }) => {
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure</h5>
           <InputFileSingle
-            name="brochure"
+            name={inputs.brochure}
             value={value.brochure}
             setValue={setValue}
             className="basis-96 flex-grow"
@@ -124,7 +141,7 @@ const MediaForm = ({ value, setValue }) => {
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure Thumbnail</h5>
           <InputFileSingle
-            name="brochure_thumbnail"
+            name={inputs.brochure_thumbnail}
             value={value.brochure_thumbnail}
             setValue={setValue}
             className="basis-96 flex-grow"

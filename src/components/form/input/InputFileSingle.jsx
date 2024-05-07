@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
+import Print from '../../Print';
+import PDFPreview from '../PDFPreview';
 
 const InputFileSingle = ({
   setValue,
@@ -18,7 +20,7 @@ const InputFileSingle = ({
   };
 
   // useEffect(() => {
-  //   console.log(value);
+  //   console.log(value.type);
   // }, [value]);
 
   return (
@@ -53,14 +55,33 @@ const InputFileSingle = ({
           required={required}
         />
       </label>
-      <div className="flex gap-4 flex-wrap">
-        <ImagePreview
-          src={imageSrcValidator(value)}
-          onRemove={() => {
-            setValue(name, '');
-          }}
-        />
-      </div>
+      {[
+        'image/png',
+        'image/jpg',
+        'image/jpeg',
+        'image/webp',
+        'image/gif',
+        'image/svg+xml',
+      ].includes(value?.type) && (
+        <div className="flex gap-4 flex-wrap">
+          <ImagePreview
+            src={imageSrcValidator(value)}
+            onRemove={() => {
+              setValue(name, '');
+            }}
+          />
+        </div>
+      )}
+      {value?.type == 'application/pdf' && (
+        <div className="flex gap-4 flex-wrap">
+          <PDFPreview
+            src={imageSrcValidator(value)}
+            onRemove={() => {
+              setValue(name, '');
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

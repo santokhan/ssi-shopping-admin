@@ -22,21 +22,21 @@ function makeFormData(value) {
             }
           }
         }
-      } else if (key == 'interior_images') {
+      } else if (key == 'interior_image') {
         for (const key in element) {
           if (Object.hasOwnProperty.call(element, key)) {
             const image = element[key];
             if (image instanceof File) {
-              formData.append('images', element[key]);
+              formData.append('interior_image', element[key]);
             }
           }
         }
-      } else if (key == 'exterior_images') {
+      } else if (key == 'exterior_image') {
         for (const key in element) {
           if (Object.hasOwnProperty.call(element, key)) {
             const image = element[key];
             if (image instanceof File) {
-              formData.append('images', element[key]);
+              formData.append('exterior_image', element[key]);
             }
           }
         }

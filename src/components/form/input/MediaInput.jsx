@@ -1,11 +1,8 @@
-// inputFileMultiple
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
-import Print from '../../Print';
 import imageSrcValidator from '../../../lib/image/validateSrc';
 import getImageURL from '../../../utils/getImageURL';
 
@@ -34,7 +31,7 @@ const MediaInput = ({
   function onRemoveFromLocal(index) {
     if (Array.isArray(value) && typeof index == 'number') {
       setValue(
-        'images',
+        name,
         value.filter((_, i) => i !== index),
       );
     } else {
