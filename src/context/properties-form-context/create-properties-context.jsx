@@ -46,10 +46,8 @@ const PropertyFormProvider = ({ children }) => {
       api
         .get(`properties/${params.id}/`)
         .then((res) => {
-          console.log('Res', res?.data);
           if (res.data) {
             const data = dataBridgeForProperties(res.data);
-            console.log('Value from server', data);
             setValue(data);
           }
         })
@@ -79,10 +77,6 @@ const PropertyFormProvider = ({ children }) => {
       return updated;
     });
   }
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   function resetForm() {
     setFormData(INITIAL);
