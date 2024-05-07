@@ -15,6 +15,7 @@ import CitiesProvider, { CitiesContext } from '../../../context/CitiesContext';
 import Select from '../../../components/form/input/SelectOption';
 import FormBox from '../../../components/form/FormBox';
 import BackAnchor from '../../../components/BackAnchor';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
 const inputs = {
   name: 'name',
@@ -83,15 +84,11 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
         value={value.name}
         required
       />
-      <MediaInput
-        inputName="icon"
-        setValue={(name, value) => {
-          setValue(name, value);
-        }}
-        className=""
+      <InputFileSingle
+        name="icon"
+        setValue={setValue}
         required
-        src={value.icon || ''}
-        multiple={false}
+        value={value.icon}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
