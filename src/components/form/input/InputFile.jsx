@@ -19,9 +19,9 @@ const InputFileSingle = ({
     setValue(name, e.target.files[0]);
   };
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  // useEffect(() => {
+  //   console.log(value);
+  // }, [value]);
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>
@@ -55,6 +55,7 @@ const InputFileSingle = ({
           required={required}
         />
       </label>
+      {value}
       {[
         'image/png',
         'image/jpg',

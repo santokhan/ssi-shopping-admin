@@ -30,7 +30,7 @@ const EnquiriesProvider = ({ children }) => {
   function fetchData() {
     setLoading(true);
     api
-      .get('enqueries/' /**enquiries */)
+      .get('enquiries/' /**enquiries */)
       .then((res) => {
         if (res.data) {
           setState(res.data);

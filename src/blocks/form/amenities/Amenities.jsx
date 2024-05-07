@@ -1,7 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import SubmitButton from '../../../components/form/SubmitButton';
 import Input from '../../../components/form/input/Input';
-import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
 import { AmenitiesContext } from '../../../context/amenities/amenities-context';
 import useAxios from '../../../context/useAxios';
@@ -9,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import BackAnchor from '../../../components/BackAnchor';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
 const inputs = {
   title: 'title',
@@ -16,7 +16,7 @@ const inputs = {
 };
 
 const AmenitiesForm = ({ handleSubmit, type = 'create' }) => {
-  const { value, setValue, refetch } = useContext(AmenitiesContext);
+  const { value, setValue } = useContext(AmenitiesContext);
 
   return (
     <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
@@ -31,15 +31,11 @@ const AmenitiesForm = ({ handleSubmit, type = 'create' }) => {
         name={inputs.title}
         required
       />
-      <MediaInput
+      <InputFileSingle
         inputName="icon"
         required={type === 'create'}
-        setValue={(name, value) => {
-          setValue(name, value);
-        }}
-        value={value}
-        multiple={false}
-        src={value.icon}
+        setValue={setValue}
+        value={value.icon}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
