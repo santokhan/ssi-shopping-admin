@@ -117,12 +117,10 @@ const PropertyFormProvider = ({ children }) => {
       if (Object.hasOwnProperty.call(data, key)) {
         const element = data[key];
         if (key == 'images') {
+          formData.append(key, element);
+
           for (let i = 0; i < element.length; i++) {
-            formData.append(
-              // 'images[]',
-              'images',
-              element[i],
-            );
+            formData.append(`images[${i}]`, element[i]);
           }
         } else {
           formData.append(key, element);

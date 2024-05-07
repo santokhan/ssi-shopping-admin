@@ -117,7 +117,9 @@ const PropertiesTableRow = ({ property, refetch }) => {
       <td className="px-6 py-4 font-medium capitalize">
         {property.category?.title}
       </td>
-      <td className="px-6 py-4 font-medium capitalize">{property.listed_in}</td>
+      <td className="px-6 py-4 font-medium capitalize">
+        {property.listed_in == 1 ? 'For Sale' : 'For Rent'}
+      </td>
       <td className="px-6 py-4 font-medium capitalize">
         <AgentLink agent={property.agent} />
       </td>
