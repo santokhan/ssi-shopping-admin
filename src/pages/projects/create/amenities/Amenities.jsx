@@ -16,14 +16,8 @@ const ProjectAmenities = ({ type = 'create' }) => {
         <PropertiesFormTitle>Select Amenities {type}</PropertiesFormTitle>
       </div>
       <AmenitiesForm
-        value={value[thisFormName] || []}
-        setValue={(id) => {
-          let updated = [];
-          if (amenities.includes(id)) {
-            updated = amenities.filter((e) => e !== id);
-          } else {
-            updated = [...amenities, id];
-          }
+        value={amenities}
+        setValue={(updated) => {
           setFormValue(thisFormName, updated);
         }}
         onSubmit={type === 'edit' ? onEdit : onCreate}

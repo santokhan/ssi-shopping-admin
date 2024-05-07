@@ -9,7 +9,6 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
   if (!amenity.id) {
     return null;
   }
-
   return (
     <div className="flex justify-start">
       <label key={amenity.id} className="inline-flex gap-x-2 items-center">
@@ -17,9 +16,7 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
           name={amenity.id}
           type="checkbox"
           className="h-4 w-4 rounded-lg border-gray-300"
-          onChange={() => {
-            onChange(amenity.id);
-          }}
+          onChange={onChange}
           checked={checked}
         />
         {amenity.icon && (
@@ -51,6 +48,12 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
     });
   }, []);
 
+  const isExists = (list, n) => {
+    if (Array.isArray(list) && typeof n == 'number') {
+      list.some((id) => id == n);
+    }
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
@@ -58,8 +61,14 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
           <CheckBoxContainer
             key={amenity.id || crypto.randomUUID()}
             amenity={amenity}
-            onChange={setValue}
-            checked={value.includes(amenity.id)}
+            onChange={() => {
+              if (isExists(value, amenity.id)) {
+                setValue(value.filter((id) => id != amenity.id));
+              } else {
+                setValue([...value, amenity.id]);
+              }
+            }}
+            checked={isExists(value, amenity.id)}
           />
         ))}
       </div>

@@ -6,6 +6,53 @@ import validateProjects from '../../lib/property/validateProperties';
 
 export const ProjectFormContext = React.createContext(null);
 
+function makeFormData(value) {
+  const formData = new FormData();
+
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+
+      if (key == 'images') {
+        for (const key in element) {
+          if (Object.hasOwnProperty.call(element, key)) {
+            const image = element[key];
+            if (image instanceof File) {
+              formData.append('images', element[key]);
+            }
+          }
+        }
+      } else if (key == 'interior_images') {
+        for (const key in element) {
+          if (Object.hasOwnProperty.call(element, key)) {
+            const image = element[key];
+            if (image instanceof File) {
+              formData.append('images', element[key]);
+            }
+          }
+        }
+      } else if (key == 'exterior_images') {
+        for (const key in element) {
+          if (Object.hasOwnProperty.call(element, key)) {
+            const image = element[key];
+            if (image instanceof File) {
+              formData.append('images', element[key]);
+            }
+          }
+        }
+      } else if (key == 'amenities' && Array.isArray(element)) {
+        element.forEach((e) => {
+          formData.append('amenities', e);
+        });
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+
+  return formData;
+}
+
 const ProjectFormProvider = ({ children }) => {
   const [value, setValue] = useState(PROJECT_INPUTS);
   const { api } = useAxios();
@@ -43,30 +90,7 @@ const ProjectFormProvider = ({ children }) => {
   async function onCreate(e) {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    const data = value;
-    // const data = { ...value, ...FILLED };
-    delete data.amenities; // I have to fix it later
-
-    for (const key in data) {
-      if (Object.hasOwnProperty.call(data, key)) {
-        const element = data[key];
-        if (key == 'images') {
-          for (let i = 0; i < element.length; i++) {
-            formData.append(
-              // 'images[]',
-              'images',
-              element[i],
-            );
-          }
-        } else {
-          formData.append(key, element);
-        }
-      }
-    }
-
-    console.log(Array.from(formData));
+    const formData = makeFormData(value);
 
     try {
       const res = await api.post('/projects/', formData, {
@@ -85,27 +109,7 @@ const ProjectFormProvider = ({ children }) => {
   async function onEdit(e) {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    const data = { ...value };
-    // delete data.amenities; // I have to fix it later
-
-    for (const key in data) {
-      if (Object.hasOwnProperty.call(data, key)) {
-        const element = data[key];
-        if (key == 'images') {
-          for (let i = 0; i < element.length; i++) {
-            formData.append(
-              // 'images[]',
-              'images',
-              element[i],
-            );
-          }
-        } else {
-          formData.append(key, element);
-        }
-      }
-    }
+    const formData = makeFormData(value);
 
     try {
       const res = await api.patch(`/projects/${params.id}/`, formData, {
