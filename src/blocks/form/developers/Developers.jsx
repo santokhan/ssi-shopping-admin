@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { DevelopersContext } from '../../../context/developers/developers-context';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
 const inputs = {
   name: 'name',
@@ -30,15 +31,11 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
         name={inputs.name}
         required
       />
-      <MediaInput
-        inputName={inputs.image}
-        setValue={(name, value) => {
-          setValue(name, value);
-        }}
-        className=""
+      <InputFileSingle
+        name={inputs.image}
+        setValue={setValue}
         required={true}
-        multiple={false}
-        src={value.image}
+        value={value.image}
       />
       <div className="">
         <SubmitButton type="submit" className="" />

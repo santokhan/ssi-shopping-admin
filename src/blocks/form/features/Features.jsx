@@ -1,7 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import SubmitButton from '../../../components/form/SubmitButton';
 import Input from '../../../components/form/input/Input';
-import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
@@ -9,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { FeaturesContext } from '../../../context/features/features-context';
 import BackAnchor from '../../../components/BackAnchor';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
 const inputs = {
   name: 'name',
@@ -31,7 +31,7 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
         name={inputs.name}
         required
       />
-      <MediaInput
+      <InputFileSingle
         name="image"
         setValue={setValue}
         required
