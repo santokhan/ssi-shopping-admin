@@ -12,6 +12,7 @@ const validateProperties = (properties = {}) => {
             [inn.status]: properties[inn.status],
             [inn.price]: properties[inn.price],
             [inn.featured]: properties[inn.featured],
+            [inn.images]: properties[inn.images],
             [inn.video_from]: properties[inn.video_from],
             [inn.embed_video_id]: properties[inn.embed_video_id],
             [inn.virtual_tour]: properties[inn.virtual_tour],

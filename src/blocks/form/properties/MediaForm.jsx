@@ -6,6 +6,8 @@ import MediaInput from '../../../components/form/input/MediaInput';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
 import { formBack, formNext } from '../../../utils/form-steps';
+import Print from '../../../components/Print';
+import useAxios from '../../../context/useAxios';
 
 const inputList = ['video_from', 'embed_video_id', 'virtual_tour'];
 
@@ -14,9 +16,31 @@ const inputs = inputList.reduce((obj, item) => {
   return obj;
 }, {});
 
-const MediaForm = ({ value, setValue }) => {
+const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { api } = useAxios();
+
+  const onRemoveFromServer = async (id) => {
+    if (id) {
+      try {
+        const res = await api.delete(`property_gallery/${id}/delete/`);
+
+        // remove from the state after removed from the server
+        if (res) {
+          const images = value['images'];
+          if (Array.isArray(images)) {
+            setValue(
+              'images',
+              images.filter((_) => _.id !== id),
+            );
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <ResponsiveForm
@@ -25,7 +49,12 @@ const MediaForm = ({ value, setValue }) => {
         navigate(formNext(pathname));
       }}
     >
-      <MediaInput className="col-span-full" value={value} setValue={setValue} />
+      <MediaInput
+        className="col-span-full"
+        value={value['images']}
+        setValue={setValue}
+        onRemoveFromServer={onRemoveFromServer}
+      />
       <div className="col-span-full pt-3">
         <PropertiesFormTitle>Video Option</PropertiesFormTitle>
       </div>

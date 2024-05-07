@@ -1,76 +1,47 @@
+// inputFileMultiple
+
 import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
-
-// Example function to remove a file from FileList
-function removeFileFromFileList(fileList, fileToRemove) {
-  const newFileList = new DataTransfer(); // Create a new DataTransfer object
-
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList[i];
-
-    // Add files to the new DataTransfer object except the file to be removed
-    if (file !== fileToRemove) {
-      newFileList.items.add(file);
-    }
-  }
-
-  return newFileList.files; // Return the new FileList from the DataTransfer object
-}
-
-// Function to add a file to a FileList
-function addToFileList(fileList, inputFiles) {
-  const newFileList = new DataTransfer(); // Create a new DataTransfer object
-
-  // Add existing files from original FileList to the new DataTransfer object
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList[i];
-    newFileList.items.add(file);
-  }
-  // Add existing files from input Files to the new DataTransfer object
-  for (let i = 0; i < inputFiles.length; i++) {
-    const file = inputFiles[i];
-    newFileList.items.add(file);
-  }
-
-  return newFileList.files; // Return the new FileList from the DataTransfer object
-}
+import Print from '../../Print';
+import imageSrcValidator from '../../../lib/image/validateSrc';
+import getImageURL from '../../../utils/getImageURL';
 
 const MediaInput = ({
-  setValue,
+  setValue = (key = '', value = []) => {},
   required = false,
   inputName = 'images',
   className = '',
   multiple = true,
-  src = '',
   accept = 'image/*',
   name = '',
+  value = '',
+  onRemoveFromServer = (id) => {},
 }) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
   name = name || inputName;
 
-  const handleFileSelect = (e) => {
-    console.log(e.target.files);
-    console.log(e.target.file);
+  const onChangeFile = (e) => {
+    const files = Array.from(e.target.files);
 
-    // Update selectedFiles state with the new files
-    setSelectedFiles((prev) => {
-      const newFileList = addToFileList(prev, e.target.files);
-      setValue(name, newFileList);
-      return newFileList;
-    });
+    // combile FileList and Array of URLs
+    const addedFiles = [...files, ...value];
+
+    setValue(name, addedFiles);
   };
 
-  const handleRemoveImage = (index) => {
-    const newFileList = removeFileFromFileList(
-      selectedFiles,
-      selectedFiles[index],
-    );
-    setValue(name, newFileList);
-    setSelectedFiles(newFileList);
-  };
+  function onRemoveFromLocal(index) {
+    if (Array.isArray(value) && typeof index == 'number') {
+      console.log(value.filter((_, i) => i !== index));
+      setValue(
+        'images',
+        value.filter((_, i) => i !== index),
+      );
+    } else {
+      console.log('Something went wrong', value, index);
+    }
+  }
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>
@@ -101,27 +72,36 @@ const MediaInput = ({
           accept={accept}
           multiple={multiple}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
-          onChange={handleFileSelect}
+          onChange={onChangeFile}
           required={required}
         />
       </label>
       <div className="flex gap-4 flex-wrap">
-        {src.length > 0 && selectedFiles.length === 0 ? (
-          <ImagePreview src={src} />
-        ) : null}
-        {selectedFiles.length > 0
-          ? [...selectedFiles].map((file, index) => (
+        {Array.isArray(value) &&
+          value.map((_, i) => {
+            let src = '';
+
+            if (_ instanceof File) {
+              src = imageSrcValidator(_);
+            } else if (_.image) {
+              const path = imageSrcValidator(_.image);
+              src = getImageURL(path);
+            }
+
+            return (
               <ImagePreview
-                key={index}
-                src={URL.createObjectURL(file)}
+                key={i}
+                src={src}
                 onRemove={() => {
-                  if (index) {
-                    handleRemoveImage(index);
+                  if (_ instanceof File) {
+                    onRemoveFromLocal(i);
+                  } else if (_.id) {
+                    onRemoveFromServer(_.id);
                   }
                 }}
               />
-            ))
-          : null}
+            );
+          })}
       </div>
     </div>
   );
