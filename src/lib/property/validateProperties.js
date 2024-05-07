@@ -1,6 +1,6 @@
 import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
-const validateProperties = (properties = {}) => {
+const dataBridgeForProperties = (properties = {}) => {
     if (typeof properties === 'object') {
         // custom structure don't make function for that
         const converted = {
@@ -30,7 +30,13 @@ const validateProperties = (properties = {}) => {
             [inn.year_built]: properties[inn.year_built],
             [inn.basement]: properties[inn.basement],
             [inn.extra_detail]: properties[inn.extra_detail],
-            [inn.amenities]: properties[inn.amenities],
+            [inn.amenities]: properties[inn.amenities].map(e => {
+                if (e instanceof Object) {
+                    return e.id
+                } else {
+                    return e
+                }
+            }).filter(e => e),
         }
         return converted
     } else {
@@ -41,5 +47,5 @@ const validateProperties = (properties = {}) => {
 // Example
 // Debug using ChatGPT
 
-export default validateProperties
+export default dataBridgeForProperties
 

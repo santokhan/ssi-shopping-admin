@@ -17,9 +17,7 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
           name={amenity.id}
           type="checkbox"
           className="h-4 w-4 rounded-lg border-gray-300"
-          onChange={() => {
-            onChange(amenity.id);
-          }}
+          onChange={onChange}
           checked={checked}
         />
         {amenity.icon && (
@@ -38,7 +36,6 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
 }
 
 const AmenitiesForm = ({ value, setValue, onSubmit }) => {
-  // const navigate = useNavigate();
   const { pathname } = useLocation();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
 
@@ -54,14 +51,31 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        {amenities.map((amenity) => (
-          <CheckBoxContainer
-            key={amenity.id || crypto.randomUUID()}
-            amenity={amenity}
-            onChange={setValue}
-            checked={value.includes(amenity.id)}
-          />
-        ))}
+        {amenities.map((amenity) => {
+          const checkExist = (list, n) =>
+            list.some((id) => {
+              if (typeof id == 'number' && typeof n == 'number') {
+                return id === n;
+              } else {
+                console.error(`${id} and ${n} are not instance of Number`);
+              }
+            });
+
+          return (
+            <CheckBoxContainer
+              key={crypto.randomUUID()}
+              amenity={amenity}
+              onChange={() => {
+                if (checkExist(value, amenity.id)) {
+                  setValue(value.filter((e) => e !== amenity.id));
+                } else {
+                  setValue([...value, amenity.id]);
+                }
+              }}
+              checked={checkExist(value, amenity.id)}
+            />
+          );
+        })}
       </div>
       <FinalSubmitButton back={formBack(pathname)} />
     </form>
