@@ -56,8 +56,6 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
             list.some((id) => {
               if (typeof id == 'number' && typeof n == 'number') {
                 return id === n;
-              } else {
-                console.error(`${id} and ${n} are not instance of Number`);
               }
             });
 
