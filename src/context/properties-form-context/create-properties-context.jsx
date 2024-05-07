@@ -24,6 +24,10 @@ function makeFormData(value) {
             }
           }
         }
+      } else if (key == 'amenities' && Array.isArray(element)) {
+        element.forEach((e) => {
+          formData.append('amenities', e);
+        });
       } else {
         formData.append(key, element);
       }
