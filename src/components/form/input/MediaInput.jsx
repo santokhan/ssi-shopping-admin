@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
@@ -45,34 +45,39 @@ const MediaInput = ({
   className = '',
   multiple = true,
   src = '',
+  accept = 'image/*',
+  name = '',
 }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  name = name || inputName;
 
   const handleFileSelect = (e) => {
-    // const filesArray = Array.from(e.target.files);
+    console.log(e.target.files);
+    console.log(e.target.file);
 
     // Update selectedFiles state with the new files
     setSelectedFiles((prev) => {
-      return addToFileList(prev, e.target.files);
+      const newFileList = addToFileList(prev, e.target.files);
+      setValue(name, newFileList);
+      return newFileList;
     });
   };
 
   const handleRemoveImage = (index) => {
-    setSelectedFiles((prev) => {
-      return removeFileFromFileList(prev, prev[index]);
-    });
+    const newFileList = removeFileFromFileList(
+      selectedFiles,
+      selectedFiles[index],
+    );
+    setValue(name, newFileList);
+    setSelectedFiles(newFileList);
   };
-
-  useEffect(() => {
-    setValue(inputName, selectedFiles);
-  }, [selectedFiles]);
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>
       <label
         className={twMerge(
           'border-2 border-dashed rounded-lg border-gray-300 bg-gray-50',
-          ' p-6 py-8 lg:py-16 text-center w-full',
+          'p-6 py-8 lg:py-16 text-center w-full',
           'flex flex-col items-center',
           'relative',
         )}
@@ -82,20 +87,18 @@ const MediaInput = ({
         </div>
         <div className="flex flex-col items-center">
           <div className="text-lg font-semibold mb-1">
-            Drag and drop images here
+            Drag and drop file{multiple ? 's' : ''} here
           </div>
-          <div className="text-sm mb-6">
-            Photos must be JPEG or PNG format and least 2048x768
-          </div>
+          <div className="text-sm mb-6">File must be {accept} format</div>
           <Button variant="outline" withIcon={true}>
-            Browse Files
+            Browse file{multiple ? 's' : ''}
           </Button>
         </div>
         {/* read-only don't set value */}
         <input
-          name={inputName}
+          name={name}
           type="file"
-          accept="image/*"
+          accept={accept}
           multiple={multiple}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
           onChange={handleFileSelect}

@@ -1,24 +1,10 @@
 import { useContext } from 'react';
-import DescriptionForm from '../../../../blocks/form/properties/DescriptionForm.jsx';
+import DescriptionForm from '../../../../blocks/form/projects/DescriptionForm.jsx';
 import PropertiesFormTitle from '../../../../components/form/PropertiesFormTitle.jsx';
-import { PropertyFormContext } from '../../../../context/properties-form-context/create-properties-context.jsx';
+import { ProjectFormContext } from '../../../../context/project-form/ProjectFormContext.jsx';
 
 const ProjectDesc = () => {
-  const { storeFormData, formData, setFormValue, value } =
-    useContext(PropertyFormContext);
-  const thisFormName = 'description';
-
-  const valueFromState = formData[thisFormName];
-
-  function setValue(key, value) {
-    if (key === '') return;
-
-    const newState = {
-      ...valueFromState,
-      [key.trim()]: value,
-    };
-    storeFormData(thisFormName, newState);
-  }
+  const { setFormValue, value } = useContext(ProjectFormContext);
 
   return (
     <>

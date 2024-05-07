@@ -1,24 +1,14 @@
 import { useContext } from 'react';
-import AmenitiesForm from '../../../../blocks/form/properties/AmenitiesForm.jsx';
+import AmenitiesForm from '../../../../blocks/form/projects/AmenitiesForm.jsx';
 import PropertiesFormTitle from '../../../../components/form/PropertiesFormTitle.jsx';
-import { PropertyFormContext } from '../../../../context/properties-form-context/create-properties-context.jsx';
+import { ProjectFormContext } from '../../../../context/project-form/ProjectFormContext.jsx';
 
 const ProjectAmenities = ({ type = 'create' }) => {
-  const { storeFormData, formData, setFormValue, value, onEdit, onCreate } =
-    useContext(PropertyFormContext);
+  const { setFormValue, value, onEdit, onCreate } =
+    useContext(ProjectFormContext);
   const thisFormName = 'amenities';
 
   const amenities = value[thisFormName] || [];
-
-  const valueFromState = formData[thisFormName];
-
-  function setValue(value) {
-    if (Array.isArray(value)) {
-      storeFormData(thisFormName, value);
-    } else {
-      throw new Error('value must be an array');
-    }
-  }
 
   return (
     <>

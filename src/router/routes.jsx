@@ -49,6 +49,7 @@ import ProjectLocation from '../pages/projects/create/location/Location.jsx';
 import ProjectAmenities from '../pages/projects/create/amenities/Amenities.jsx';
 import ProjectMedia from '../pages/projects/create/media/Media.jsx';
 import EditProjectsLayout from '../pages/projects/edit/EditProjectsLayout.jsx';
+import ProjectFormProvider from '../context/project-form/ProjectFormContext.jsx';
 
 const authRoutes = [
   {
@@ -250,7 +251,11 @@ export const routes = [
       },
       {
         path: 'projects',
-        element: <ProjectLayout />,
+        element: (
+          <ProjectFormProvider>
+            <ProjectLayout />
+          </ProjectFormProvider>
+        ),
         children: [
           {
             path: '',
@@ -288,7 +293,7 @@ export const routes = [
             element: <EditProjectsLayout />,
             children: [
               {
-                path: '',
+                path: 'description',
                 element: <ProjectDesc />,
               },
               {
@@ -297,7 +302,7 @@ export const routes = [
               },
               {
                 path: 'amenities',
-                element: <ProjectAmenities />,
+                element: <ProjectAmenities type="edit" />,
               },
               {
                 path: 'location',

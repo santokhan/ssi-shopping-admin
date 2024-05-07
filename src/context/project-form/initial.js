@@ -1,85 +1,51 @@
-const INITIAL = {
+const PROJECT_INPUTS = {
     // description
-    description: {
-        title: '',
-        description: '',
-        category: '',
-        listed_in: '',
-        agent: '',
-        status: false,
-        price: 0,
-        featured: false,
-    },
+    title: '',
+    description: '',
+    category: '',
+    listed_in: '',
+    agent: '',
+    status: '',
+    price: '',
+    featured: '',
+
+
     // media
-    media: {
-        images: '',
-        video_from: '',
-        embed_video_id: '',
-        virtual_tour: '',
-    },
+    images: '',
+    video_from: '',
+    embed_video_id: '',
+    virtual_tour: '',
+    interior_image: '',
+    interior_description: '',
+    exterior_image: '',
+    exterior_description: '',
+    brochure: '',
+    brochure_thumbnail: '',
+
+
     // location
-    location: {
-        address: '',
-        country: '',
-        city: '',
-        area: '',
-        latitude: '',
-        longitude: '',
-    },
+    address: '',
+    country: '',
+    city: '',
+    area: '',
+    latitude: '',
+    longitude: '',
+
+
     // details
-    details: {
-        size: '',
-        built_up_size: '',
-        bedrooms: '',
-        bathrooms: '',
-        parking: '',
-        garage_size: '',
-        year_built: '',
-        basement: false,
-        extra_detail: '',
-    },
+    size: '',
+    built_up_size: '',
+    bedrooms: '',
+    bathrooms: '',
+    parking: '',
+    garage_size: '',
+    year_built: '',
+    basement: '',
+    extra_detail: '',
+
+
     // amenities
     amenities: [],
 };
 
-const INITIAL_VALUES = {
-    // description
-    title: '', // string
-    description: '', // string
-    category: '', // string (villa, house, flat, etc.)
-    listed_in: '', // string (for sale, for rent, etc.)
-    agent: '', // id of agent
-    status: '', // true or false
-    price: '', // number
-    featured: '', // true or false
-
-    // media
-    images: '', // array
-    video_from: '', // youtube or vimeo
-    embed_video_id: '', // URL
-    virtual_tour: '', // URL
-
-    // location
-    address: '', // string
-    country: '', // id
-    city: '', // id
-    area: '', // id
-    latitude: '', // number
-    longitude: '', // number
-
-    // details
-    size: '', // number
-    built_up_size: '', // number
-    bedrooms: '', // number
-    bathrooms: '', // number
-    parking: '', // number
-    garage_size: '', // number
-    year_built: '', // number
-    basement: '', // true or false
-    extra_detail: '', // string
-
-    // amenities
-    amenities: [], // array
-};
-
-export { INITIAL, INITIAL_VALUES };
+export { PROJECT_INPUTS };

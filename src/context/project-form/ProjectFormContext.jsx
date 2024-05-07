@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { INITIAL, INITIAL_VALUES } from './initial';
+import { PROJECT_INPUTS } from './initial';
 import validateProjects from '../../lib/property/validateProperties';
 
 export const ProjectFormContext = React.createContext(null);
 
 const ProjectFormProvider = ({ children }) => {
-  const [formData, setFormData] = useState(INITIAL);
-  const [value, setValue] = useState(INITIAL_VALUES);
+  const [value, setValue] = useState(PROJECT_INPUTS);
   const { api } = useAxios();
   const params = useParams();
   const navigate = useNavigate();
@@ -21,7 +20,6 @@ const ProjectFormProvider = ({ children }) => {
         .then((res) => {
           if (res.data) {
             const data = validateProjects(res.data);
-            console.log('Value from server', data);
             setValue(data);
           }
         })
@@ -30,20 +28,6 @@ const ProjectFormProvider = ({ children }) => {
         });
     }
   }, [params.id]);
-
-  /**
-   * A function that stores form data.
-   *
-   * @param {string} formName - the name of the form
-   * @param {object} formData - the data to be stored
-   */
-  function storeFormData(formName, formData) {
-    const newFormData = {
-      [formName]: formData,
-    };
-
-    setFormData((prev) => ({ ...prev, ...newFormData }));
-  }
 
   function setFormValue(key, value) {
     setValue((prev) => {
@@ -56,12 +40,6 @@ const ProjectFormProvider = ({ children }) => {
     console.log(value);
   }, [value]);
 
-  function resetForm() {
-    setFormData(INITIAL);
-    setValue(INITIAL_VALUES);
-  }
-
-  // Submit the Create Form
   async function onCreate(e) {
     e.preventDefault();
 
@@ -104,7 +82,6 @@ const ProjectFormProvider = ({ children }) => {
     }
   }
 
-  // Submit the Edit Form
   async function onEdit(e) {
     e.preventDefault();
 
@@ -147,14 +124,11 @@ const ProjectFormProvider = ({ children }) => {
   return (
     <ProjectFormContext.Provider
       value={{
-        // formData
-        formData,
-        storeFormData,
-        // handle forms
-        resetForm,
+        resetForm() {
+          setValue(PROJECT_INPUTS);
+        },
         onCreate,
         onEdit,
-        // value
         value,
         setFormValue,
       }}
