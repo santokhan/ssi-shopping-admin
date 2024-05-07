@@ -58,6 +58,7 @@ const AmenitiesProvider = ({ children }) => {
         refetch: fetchData,
         value,
         setValue(name = '', value = '') {
+          console.log(name, value);
           setValue((prev) => ({ ...prev, [name]: value }));
         },
       }}

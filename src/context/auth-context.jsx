@@ -23,9 +23,6 @@ export const AuthProvider = ({ children }) => {
 
   const signin = (user, token, expiresIn = tokenAge) => {
     setToken(token);
-    if (import.meta.env.VITE_NODE_ENV === 'development') {
-      console.log(token.access);
-    }
     localStorage.setItem('refreshToken', token.refresh);
   };
 

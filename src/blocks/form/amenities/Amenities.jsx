@@ -32,7 +32,7 @@ const AmenitiesForm = ({ handleSubmit, type = 'create' }) => {
         required
       />
       <InputFileSingle
-        inputName="icon"
+        name="icon"
         required={type === 'create'}
         setValue={setValue}
         value={value.icon}

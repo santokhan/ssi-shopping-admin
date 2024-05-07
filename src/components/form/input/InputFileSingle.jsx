@@ -4,8 +4,6 @@ import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
-import Print from '../../Print';
-import PDFPreview from '../PDFPreview';
 
 const InputFileSingle = ({
   setValue,
@@ -15,10 +13,6 @@ const InputFileSingle = ({
   name = '',
   value = '',
 }) => {
-  const handleFileSelect = (e) => {
-    setValue(name, e.target.files[0]);
-  };
-
   useEffect(() => {
     console.log(value);
   }, [value]);
@@ -51,31 +45,17 @@ const InputFileSingle = ({
           type="file"
           accept={accept}
           className="absolute top-0 left-0 w-full h-full opacity-0 z-[1] bg-black"
-          onChange={handleFileSelect}
+          onChange={(e) => {
+            setValue(name, e.target.files[0]);
+          }}
           required={required}
         />
       </label>
-      {[
-        'image/png',
-        'image/jpg',
-        'image/jpeg',
-        'image/webp',
-        'image/gif',
-        'image/svg+xml',
-      ].includes(value?.type) && (
+
+      {/* value = 'url' || 'File' */}
+      {value && (
         <div className="flex gap-4 flex-wrap">
-          <Print data={value} />
           <ImagePreview
-            src={imageSrcValidator(value)}
-            onRemove={() => {
-              setValue(name, '');
-            }}
-          />
-        </div>
-      )}
-      {value?.type == 'application/pdf' && (
-        <div className="flex gap-4 flex-wrap">
-          <PDFPreview
             src={imageSrcValidator(value)}
             onRemove={() => {
               setValue(name, '');
