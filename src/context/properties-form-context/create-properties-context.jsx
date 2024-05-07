@@ -6,6 +6,33 @@ import dataBridgeForProperties from '../../lib/property/validateProperties';
 
 export const PropertyFormContext = React.createContext(null);
 
+function makeFormData(value) {
+  const formData = new FormData();
+
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+
+      if (key == 'images') {
+        for (const key in element) {
+          if (Object.hasOwnProperty.call(element, key)) {
+            const image = element[key];
+            if (image instanceof File) {
+              formData.append('images', element[key]);
+            } else {
+              // I don't know
+            }
+          }
+        }
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+
+  return formData;
+}
+
 const PropertyFormProvider = ({ children }) => {
   const [formData, setFormData] = useState(INITIAL);
   const [value, setValue] = useState(INITIAL_VALUES);
@@ -19,6 +46,7 @@ const PropertyFormProvider = ({ children }) => {
       api
         .get(`properties/${params.id}/`)
         .then((res) => {
+          console.log('Res', res?.data);
           if (res.data) {
             const data = dataBridgeForProperties(res.data);
             console.log('Value from server', data);
@@ -52,9 +80,9 @@ const PropertyFormProvider = ({ children }) => {
     });
   }
 
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   function resetForm() {
     setFormData(INITIAL);
@@ -65,30 +93,9 @@ const PropertyFormProvider = ({ children }) => {
   async function onCreate(e) {
     e.preventDefault();
 
-    const formData = new FormData();
+    const formData = makeFormData(value);
 
-    const data = value;
-    // const data = { ...value, ...FILLED };
-    delete data.amenities; // I have to fix it later
-
-    for (const key in data) {
-      if (Object.hasOwnProperty.call(data, key)) {
-        const element = data[key];
-        if (key == 'images') {
-          for (let i = 0; i < element.length; i++) {
-            formData.append(
-              // 'images[]',
-              'images',
-              element[i],
-            );
-          }
-        } else {
-          formData.append(key, element);
-        }
-      }
-    }
-
-    console.log(Array.from(formData));
+    console.log('Submited', formData.entries);
 
     try {
       const res = await api.post('/properties/', formData, {
@@ -96,7 +103,6 @@ const PropertyFormProvider = ({ children }) => {
       });
 
       if (res) {
-        // redirect
         navigate('/properties');
       }
     } catch (error) {
@@ -104,29 +110,12 @@ const PropertyFormProvider = ({ children }) => {
     }
   }
 
-  // Submit the Edit Form
   async function onEdit(e) {
     e.preventDefault();
 
-    const formData = new FormData();
+    const formData = makeFormData(value);
 
-    const data = { ...value };
-    // delete data.amenities; // I have to fix it later
-
-    for (const key in data) {
-      if (Object.hasOwnProperty.call(data, key)) {
-        const element = data[key];
-        if (key == 'images') {
-          // formData.append(key, element);
-
-          for (let i = 0; i < element.length; i++) {
-            formData.append(`images`, element[i]);
-          }
-        } else {
-          formData.append(key, element);
-        }
-      }
-    }
+    console.log('Submited', formData.entries);
 
     try {
       const res = await api.patch(`/properties/${params.id}/`, formData, {
@@ -134,7 +123,6 @@ const PropertyFormProvider = ({ children }) => {
       });
 
       if (res) {
-        // redirect
         navigate('/properties');
       }
     } catch (error) {
