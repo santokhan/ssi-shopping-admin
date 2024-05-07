@@ -3,7 +3,6 @@ import TestimonialsProvider, {
   TestimonialsContext,
 } from '../../context/testimonials/TestimonialsContext';
 import TestimonidalsTable from './TestimonialsTable';
-import Print from '../../components/Print';
 
 const Testimonials = () => {
   const { testimonials } = useContext(TestimonialsContext);

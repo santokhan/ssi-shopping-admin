@@ -8,9 +8,13 @@ import TH from '../../components/table/TH';
 import TD from '../../components/table/TD';
 import formatDate from '../../utils/formatDate';
 import Actions from '../../components/action-buttons/ActionFlex';
+import { useLocation } from 'react-router-dom';
+import Print from '../../components/Print';
 
 const TestiActions = ({ id, refetch }) => {
   const { api } = useAxios();
+  const location = useLocation();
+  const pathname = location.pathname.replace('/', '');
   function onDelete() {
     api
       .delete('projects/' + id + '/')
@@ -28,7 +32,7 @@ const TestiActions = ({ id, refetch }) => {
   return (
     id && (
       <Actions.Box>
-        <Actions.Edit to={`/projects/${id}/edit/description`} />
+        <Actions.Edit to={`/${pathname}/${id}/edit/`} />
         <Actions.Delete onDelete={onDelete} />
       </Actions.Box>
     )
@@ -47,19 +51,25 @@ const TestiTableRows = ({
   return (
     id && (
       <tr className="bg-white text-gray-800">
-        <TD className="font-medium" width="300">
+        <TD className="font-medium" width="220">
           {title}
         </TD>
-        <TD className="font-medium capitalize">{description}</TD>
+        <TD className="font-medium capitalize" width="400">
+          {description}
+        </TD>
         <TD className="font-medium capitalize" width="80">
           {rating}
         </TD>
-        <TD className="font-medium capitalize" width="200">
+        <TD className="font-medium capitalize" width="160">
           {author}
         </TD>
         <TD className="" width="100">
           {image.includes('https') && (
-            <img src={image} alt={image} className="w-10 h-10 rounded-full" />
+            <img
+              src={image}
+              alt={image}
+              className="size-10 rounded-full object-cover"
+            />
           )}
         </TD>
         <TD className="" width="150">
@@ -73,7 +83,7 @@ const TestiTableRows = ({
   );
 };
 
-const tableTitle = 'All Projects';
+const tableTitle = 'All Testimonials';
 
 const TableTopSection = ({ onSearch = (needle) => {} }) => {
   return (
@@ -82,9 +92,7 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
         <TableTitle>{tableTitle}</TableTitle>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
-        <AddButton to="/projects/create/description">
-          Add new projects
-        </AddButton>
+        <AddButton to="/testimonials/create/">Add new testimonials</AddButton>
       </div>
     </div>
   );
@@ -100,8 +108,6 @@ const TestimonialsTable = ({
 
   useEffect(() => {
     if (Array.isArray(testimonials) && testimonials.length > 0) {
-      console.log(testimonials);
-
       setFiltered(testimonials);
     }
   }, [testimonials]);

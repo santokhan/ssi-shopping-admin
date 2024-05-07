@@ -12,7 +12,7 @@ const AgentsProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await api.get('agents/');
-      console.log(response.data);
+      // console.log(response.data);
       setAgents(response.data);
     } catch (error) {
       console.error(error);

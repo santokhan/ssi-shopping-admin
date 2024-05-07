@@ -33,7 +33,6 @@ const MediaInput = ({
 
   function onRemoveFromLocal(index) {
     if (Array.isArray(value) && typeof index == 'number') {
-      console.log(value.filter((_, i) => i !== index));
       setValue(
         'images',
         value.filter((_, i) => i !== index),

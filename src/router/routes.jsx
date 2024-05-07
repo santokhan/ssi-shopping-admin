@@ -39,7 +39,7 @@ import {
 } from '../blocks/form/developers/Developers.jsx';
 import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
 import UsersLayout from '../pages/users/UsersPage.jsx';
-import { CreateUsers, EditUsers } from '../blocks/form/users/UsersForm.jsx';
+import UserForm from '../blocks/form/users/UsersForm.jsx';
 import ProjectLayout from '../pages/projects/Layout.jsx';
 import ProjectPage from '../pages/projects/ProjectPage.jsx';
 import CreateProjectsLayout from '../pages/projects/create/CreatePropertiesLayout.jsx';
@@ -52,7 +52,8 @@ import EditProjectsLayout from '../pages/projects/edit/EditProjectsLayout.jsx';
 import ProjectFormProvider from '../context/project-form/ProjectFormContext.jsx';
 import LayoutTestimonials from '../layout/Testimonials.jsx';
 import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
-import TestimonialsProvider from '../context/testimonials/TestimonialsContext.jsx';
+import TestiFormContextProvider from '../context/testimonials/TestiFormContext.jsx';
+import FormTestimonials from '../blocks/form/testimonials/Testimonials.jsx';
 
 const authRoutes = [
   {
@@ -325,11 +326,11 @@ export const routes = [
         children: [
           {
             path: '',
-            element: <CreateUsers />,
+            element: <UserForm />,
           },
           {
             path: ':id/edit',
-            element: <CreateUsers />,
+            element: <UserForm />,
           },
         ],
       },
@@ -340,15 +341,24 @@ export const routes = [
           {
             path: '',
             element: <TestimonialsPage />,
+            index: true,
           },
-          // {
-          //   path: 'create',
-          //   element: <CreateUsers />,
-          // },
-          // {
-          //   path: ':id/edit',
-          //   element: <CreateUsers />,
-          // },
+          {
+            path: 'create',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
+          {
+            path: ':id/edit',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
         ],
       },
     ],

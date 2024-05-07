@@ -49,7 +49,7 @@ const EditProjectsLayout = () => {
     <PropertyFormProvider>
       <div className="space-y-6">
         <div className="space-y-1">
-          <TableTitle>Add New Properties</TableTitle>
+          <TableTitle>Add New Projects</TableTitle>
           <p className="font-medium text-gray-600">
             We are glad to see you again!
           </p>

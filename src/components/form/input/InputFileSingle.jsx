@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
+import imageSrcValidator from '../../../lib/image/validateSrc';
 
-const MediaInput = ({
+const InputFileSingle = ({
   setValue,
   required = false,
-  inputName = 'images',
   className = '',
-  src = '',
   accept = 'image/*',
   name = '',
   value = '',
 }) => {
-  name = name || inputName;
-
   const handleFileSelect = (e) => {
     setValue(name, e.target.files[0]);
   };
@@ -34,7 +31,7 @@ const MediaInput = ({
           'relative',
         )}
       >
-        <div className="mb-6">
+        <div className="mb-6" title="Gallery icon for large input box">
           <MediaInputIcon />
         </div>
         <div className="flex flex-col items-center">
@@ -57,20 +54,15 @@ const MediaInput = ({
         />
       </label>
       <div className="flex gap-4 flex-wrap">
-        {src.length > 0 && value.length === 0 ? (
-          <ImagePreview src={src} />
-        ) : null}
-        {value && !value.name.includes('pdf') && (
-          <ImagePreview
-            src={URL.createObjectURL(value)}
-            onRemove={() => {
-              setValue(name, '');
-            }}
-          />
-        )}
+        <ImagePreview
+          src={imageSrcValidator(value)}
+          onRemove={() => {
+            setValue(name, '');
+          }}
+        />
       </div>
     </div>
   );
 };
 
-export default MediaInput;
+export default InputFileSingle;

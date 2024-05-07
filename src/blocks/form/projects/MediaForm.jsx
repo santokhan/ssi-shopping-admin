@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Select from '../../../components/form/input/SelectOption';
 import Input from '../../../components/form/input/Input';
 import MediaInput from '../../../components/form/input/MediaInput';
-import InputFileSIngle from '../../../components/form/input/InputFileSIngle';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formBack, formNext } from '../../../utils/form-steps';
 import Textarea from '../../../components/form/input/Textarea';
@@ -91,7 +91,7 @@ const MediaForm = ({ value, setValue }) => {
       <GridSpanFull>
         <Box>
           <h5 className={'font-semibold'}>Upload Interior Image</h5>
-          <InputFileSIngle
+          <MediaInput
             name="interior_image"
             value={value.interior_image}
             setValue={setValue}
@@ -101,7 +101,7 @@ const MediaForm = ({ value, setValue }) => {
         </Box>
         <Box>
           <h5 className={'font-semibold'}>Upload Exterior Image</h5>
-          <InputFileSIngle
+          <MediaInput
             name="exterior_image"
             value={value.exterior_image}
             setValue={setValue}
@@ -113,7 +113,7 @@ const MediaForm = ({ value, setValue }) => {
       <GridSpanFull>
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure</h5>
-          <InputFileSIngle
+          <InputFileSingle
             name="brochure"
             value={value.brochure}
             setValue={setValue}
@@ -123,7 +123,7 @@ const MediaForm = ({ value, setValue }) => {
         </Box>
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure Thumbnail</h5>
-          <InputFileSIngle
+          <InputFileSingle
             name="brochure_thumbnail"
             value={value.brochure_thumbnail}
             setValue={setValue}

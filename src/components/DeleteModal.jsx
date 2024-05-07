@@ -1,21 +1,20 @@
 import { Fragment, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Trash } from 'iconsax-react';
+import ActionDelete from './action-buttons/Delete';
 
 function DeleteModal({ onDelete = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Fragment>
-      <button
-        type="button"
-        className="font-medium rounded-full text-sm text-center inline-flex items-center hover:text-red-600"
-        onClick={() => {
+      <ActionDelete
+        onDelete={() => {
           setIsOpen(true);
         }}
       >
         <Trash className="w-5 h-5" />
-      </button>
+      </ActionDelete>
 
       {/* Modal */}
       <Dialog
@@ -50,7 +49,7 @@ function DeleteModal({ onDelete = () => {} }) {
                 onClick={() => {
                   setIsOpen(false);
                 }}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300"
+                className="rounded-lg border bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300"
               >
                 No, cancel
               </button>
