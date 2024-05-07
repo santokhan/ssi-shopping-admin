@@ -9,8 +9,6 @@ import BackAnchor from '../../../components/BackAnchor';
 import { TestiFormContext } from '../../../context/testimonials/TestiFormContext';
 import Textarea from '../../../components/form/input/Textarea';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
-import Print from '../../../components/Print';
-import InputFile from '../../../components/form/input/IFS';
 
 const inputs = {
   title: 'title',
