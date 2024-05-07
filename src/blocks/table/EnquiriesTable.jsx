@@ -9,21 +9,17 @@ import { twMerge } from 'tailwind-merge';
 import { EnquiriesContext } from '../../context/enquiries/enquiries-context';
 import formatDate from '../../utils/formatDate';
 
-const EnquiriesTableAction = ({ enquiry, refetch }) => {
+const EnquiriesTableAction = ({ id, refetch }) => {
   const { api } = useAxios();
   const navigate = useNavigate();
 
-  if (!enquiry) {
-    return null;
-  }
-
   function onEdit() {
-    navigate(`/amenities/${enquiry.id}/edit`);
+    navigate(`/enquiries/${id}/edit`);
   }
 
   function onDelete() {
     api
-      .delete(`amenities/${enquiry.id}/`)
+      .delete(`enquiries/${id}/`)
       .then((res) => {
         refetch();
       })
@@ -31,13 +27,16 @@ const EnquiriesTableAction = ({ enquiry, refetch }) => {
         console.log(err);
       });
   }
-
-  return (
-    <div className="flex gap-3">
-      <ActionEdit onEdit={onEdit} />
-      <ActionDelete onDelete={onDelete} />
-    </div>
-  );
+  if (!id) {
+    return null;
+  } else {
+    return (
+      <div className="flex gap-3">
+        {/* <ActionEdit onEdit={onEdit} /> */}
+        <ActionDelete onDelete={onDelete} />
+      </div>
+    );
+  }
 };
 
 const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
@@ -48,7 +47,7 @@ const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
       if (enquiry.resource_type.toLowerCase() === 'property') {
         return (
           <Link
-            to={`/properties/${enquiry.resource_id}`}
+            to={`/enquiries/${enquiry.resource_id}/`}
             className="hover:underline"
           >
             {enquiry.resource_id}
@@ -57,7 +56,7 @@ const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
       } else if (enquiry.resource_type.toLowerCase() === 'project') {
         return (
           <Link
-            to={`/properties/${enquiry.resource_id}`}
+            to={`/enquiries/${enquiry.resource_id}/`}
             className="hover:underline"
           >
             {enquiry.resource_id}
@@ -80,6 +79,9 @@ const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
         </td>
         <td className="px-6 py-4">{enquiry.status}</td>
         <td className="px-6 py-4">{formatDate(enquiry.date)}</td>
+        <td className="px-6 py-4">
+          <EnquiriesTableAction id={enquiry.id} refetch={refetch} />
+        </td>
       </tr>
     );
   }
@@ -93,6 +95,7 @@ const EnquiriesTable = ({ className = '' }) => {
     'property',
     'status',
     'date',
+    'action',
   ]);
 
   function changeColName(search = '', needle = '') {
@@ -146,6 +149,9 @@ const EnquiriesTable = ({ className = '' }) => {
                   </th>
                   <th scope="col" className="text-start px-6 py-3">
                     {headList[5]}
+                  </th>
+                  <th scope="col" className="text-start px-6 py-3" width={120}>
+                    {headList[6]}
                   </th>
                 </tr>
               </thead>
