@@ -1,22 +1,19 @@
 function formatDate(str) {
     // Split the input date string into day, month, and year
     var d = new Date(str);
-    var day = parseInt(d.getDay());
-    var month = parseInt(d.getMonth());
-    var year = parseInt(d.getFullYear());
+    var day = d.getDate()
+    var year = d.getFullYear();
 
-    // Array of month names
-    var monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
+    let month = d.toLocaleDateString('default', { month: 'long' });
 
     // Format the date
-    var formattedDate = `${monthNames[month]} ${day}, ${year}`;
+    var formattedDate = `${month.slice(0, 3)} ${day}, ${year}`;
 
     return formattedDate;
 }
 
 // // Example usage
-// var inputDate = "2/5/2005";
+// var inputDate = "3/8/2005";
 // var formattedDate = formatDate(inputDate);
 // console.log(formattedDate); // Output: "2 May, 2005"
 
