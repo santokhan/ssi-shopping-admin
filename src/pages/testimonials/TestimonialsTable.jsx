@@ -2,14 +2,12 @@ import { Fragment, useEffect, useState } from 'react';
 import AddButton from '../../components/table/AddButton';
 import TableTitle from '../../components/table/TableTitle';
 import useAxios from '../../context/useAxios';
-import { toast } from 'react-toastify';
 import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
 import TD from '../../components/table/TD';
 import formatDate from '../../utils/formatDate';
 import Actions from '../../components/action-buttons/ActionFlex';
 import { useLocation } from 'react-router-dom';
-import Print from '../../components/Print';
 
 const TestiActions = ({ id, refetch }) => {
   const { api } = useAxios();
@@ -17,11 +15,8 @@ const TestiActions = ({ id, refetch }) => {
   const pathname = location.pathname.replace('/', '');
   function onDelete() {
     api
-      .delete('projects/' + id + '/')
+      .delete(`testimonials/${id}/`)
       .then((res) => {
-        toast(`Deleted`, {
-          type: 'success',
-        });
         refetch();
       })
       .catch((err) => {
@@ -47,6 +42,7 @@ const TestiTableRows = ({
   author,
   image,
   added_on,
+  refetch,
 }) => {
   return (
     id && (
@@ -76,7 +72,7 @@ const TestiTableRows = ({
           {formatDate(added_on)}
         </TD>
         <TD className="" width="80">
-          <TestiActions id={id} />
+          <TestiActions id={id} refetch={refetch} />
         </TD>
       </tr>
     )

@@ -5,9 +5,9 @@ import TestimonialsProvider, {
 import TestimonidalsTable from './TestimonialsTable';
 
 const Testimonials = () => {
-  const { testimonials } = useContext(TestimonialsContext);
+  const { testimonials, refetch } = useContext(TestimonialsContext);
 
-  return <TestimonidalsTable testimonials={testimonials} />;
+  return <TestimonidalsTable testimonials={testimonials} refetch={refetch} />;
 };
 
 const TestimonialsPage = () => {

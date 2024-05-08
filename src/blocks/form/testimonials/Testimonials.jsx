@@ -70,7 +70,7 @@ const FormTestimonials = () => {
 
     if (id) {
       api
-        .patch('testimonials/', new FormData(e.target), {
+        .patch(`testimonials/${id}/`, new FormData(e.target), {
           header: {
             'Content-Type': 'multipart/form-data',
           },

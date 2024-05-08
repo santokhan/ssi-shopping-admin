@@ -44,7 +44,7 @@ function MultipleSelect({
           className="relative"
         >
           <Listbox.Button className={buttonClassNames(className)}>
-            <span className="px-4 flex-1 text-ellipsis overflow-hidden">
+            <span className="px-4 flex-1 text-ellipsis overflow-hidden capitalize">
               {value.length > 0
                 ? value.map((option) => option.label).join(', ')
                 : 'Select an option'}
