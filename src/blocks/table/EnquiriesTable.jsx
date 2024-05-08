@@ -147,20 +147,26 @@ const EnquiriesTableRow = ({
 
     return (
       <tr className="border-b bg-white">
-        <td className="px-6 py-4 font-medium text-gray-900">
+        <td className="px-6 py-4 font-medium text-gray-900" width={200}>
           <h3 className="text-base font-semibold leading-relaxed capitalize">
             {enquiry.name}
           </h3>
         </td>
-        <td className="px-6 py-4">{enquiry.email}</td>
-        <td className="px-6 py-4">{enquiry.phone}</td>
-        <td className="px-6 py-4">
+        <td className="px-6 py-4" width={200}>
+          {enquiry.email}
+        </td>
+        <td className="px-6 py-4" width={200}>
+          {enquiry.phone}
+        </td>
+        <td className="px-6 py-4" width={200}>
           <Resource changeColName={changeColName} />
         </td>
-        <td className="px-6 py-4">
+        <td className="px-6 py-4" width={200}>
           <EnquiryStatus id={id} status={enquiry.status} />
         </td>
-        <td className="px-6 py-4">{formatDate(enquiry.date)}</td>
+        <td className="px-6 py-4" width={200}>
+          <span className="whitespace-nowrap">{formatDate(enquiry.date)}</span>
+        </td>
         <td className="px-6 py-4">
           <EnquiriesTableAction id={enquiry.id} refetch={refetch} />
         </td>
