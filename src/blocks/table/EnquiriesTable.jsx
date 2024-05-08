@@ -48,6 +48,7 @@ const EnquiryStatus = ({ status, id }) => {
   const { statusFormIndex, setStatusFormIndex } =
     useContext(EnquiryStatusContext);
   const { api } = useAxios();
+  const { refetch } = useContext(EnquiriesContext);
 
   const EnquiryStatusForm = () => {
     const [input, setInput] = useState('');
@@ -61,6 +62,7 @@ const EnquiryStatus = ({ status, id }) => {
             .patch(`enquiries/${id}/`, { status: input })
             .then((res) => {
               if (res?.data) {
+                refetch();
                 setStatusFormIndex(null);
               }
             })
@@ -156,7 +158,7 @@ const EnquiriesTableRow = ({
           <Resource changeColName={changeColName} />
         </td>
         <td className="px-6 py-4">
-          <EnquiryStatus id={id} />
+          <EnquiryStatus id={id} status={enquiry.status} />
         </td>
         <td className="px-6 py-4">{formatDate(enquiry.date)}</td>
         <td className="px-6 py-4">
