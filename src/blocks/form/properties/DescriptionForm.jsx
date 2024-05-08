@@ -177,7 +177,7 @@ const DescriptionForm = ({ value, setValue }) => {
         }}
         value={value.price || 0}
         error={error.price}
-        min={0}
+        min={1}
         required
       />
       <Select
