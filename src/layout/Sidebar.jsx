@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { sidebarNavs } from '../utils/sidebar-navs';
 import { Link, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
-const Sidebar = () => {
+const Sidebar = ({ onSidebarToggle }) => {
   const location = useLocation();
   const pathName = location.pathname;
 
@@ -25,6 +25,7 @@ const Sidebar = () => {
           <li key={index}>
             <Link
               to={to}
+              onClick={onSidebarToggle}
               className={twMerge(
                 'block py-2.5 px-4 rounded-lg font-semibold',
                 matcher(to)

@@ -32,34 +32,22 @@ const NavBar = ({ onSidebarToggle, sidebarIsOpen }) => {
       className={twMerge('sticky top-0 z-[2] flex h-16 w-full items-center')}
     >
       <div className="mx-auto flex w-full flex-1 items-center justify-between h-full">
-        {sidebarIsOpen && (
-          <div className="w-56 flex-shrink-0 hidden sm:flex">
-            <Link
-              to="/"
-              className="router-link-active router-link-exact-active"
-            >
-              <Logo />
-            </Link>
-          </div>
-        )}
+        <div className="w-56 flex-shrink-0 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onSidebarToggle}
+            className={twMerge(
+              'text-gray-500 hover:text-gray-800 size-6 flex-shrink-0 inline lg:hidden',
+            )}
+          >
+            {sidebarIsOpen ? <SidebarLeft /> : <SidebarRight />}
+          </button>
+          <Link to="/" className="router-link-active router-link-exact-active">
+            <Logo />
+          </Link>
+        </div>
         <div className="flex-grow flex justify-between">
-          <div className="flex items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={onSidebarToggle}
-              className={twMerge(
-                'text-gray-500 hover:text-gray-800 size-6 flex-shrink-0 inline lg:hidden',
-              )}
-            >
-              {sidebarIsOpen ? <SidebarLeft /> : <SidebarRight />}
-            </button>
-            <Link
-              to="/"
-              className="router-link-active router-link-exact-active block sm:hidden"
-            >
-              <Logo />
-            </Link>
-          </div>
+          <div className="flex-grow"></div>
           <div className="flex items-center">
             {/* <NavList /> */}
             <LoginButton />

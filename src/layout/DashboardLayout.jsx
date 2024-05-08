@@ -55,7 +55,7 @@ const DashboardLayout = () => {
               'fixed lg:sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[2] bg-white',
             )}
           >
-            <Sidebar />
+            <Sidebar onSidebarToggle={onSidebarToggle} />
           </aside>
         )}
 
