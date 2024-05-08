@@ -9,6 +9,7 @@ import { formBack, formNext } from '../../../utils/form-steps';
 import Textarea from '../../../components/form/input/Textarea';
 import { twMerge } from 'tailwind-merge';
 import useAxios from '../../../context/useAxios';
+import InputFile from '../../../components/form/input/InputFile';
 
 const inputs = {
   images: 'images',
@@ -130,7 +131,7 @@ const MediaForm = ({ value, setValue }) => {
       <GridSpanFull>
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure</h5>
-          <InputFileSingle
+          <InputFile
             name={inputs.brochure}
             value={value.brochure}
             setValue={setValue}

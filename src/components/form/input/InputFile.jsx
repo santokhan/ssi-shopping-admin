@@ -7,7 +7,7 @@ import imageSrcValidator from '../../../lib/image/validateSrc';
 import Print from '../../Print';
 import PDFPreview from '../PDFPreview';
 
-const InputFileSingle = ({
+const InputFile = ({
   setValue,
   required = false,
   className = '',
@@ -55,28 +55,10 @@ const InputFileSingle = ({
           required={required}
         />
       </label>
-      {value}
-      {[
-        'image/png',
-        'image/jpg',
-        'image/jpeg',
-        'image/webp',
-        'image/gif',
-        'image/svg+xml',
-      ].includes(value?.type) && (
-        <div className="flex gap-4 flex-wrap">
-          <Print data={value} />
-          <ImagePreview
-            src={imageSrcValidator(value)}
-            onRemove={() => {
-              setValue(name, '');
-            }}
-          />
-        </div>
-      )}
       {value?.type == 'application/pdf' && (
         <div className="flex gap-4 flex-wrap">
           <PDFPreview
+            type={accept}
             src={imageSrcValidator(value)}
             onRemove={() => {
               setValue(name, '');
@@ -88,4 +70,4 @@ const InputFileSingle = ({
   );
 };
 
-export default InputFileSingle;
+export default InputFile;
