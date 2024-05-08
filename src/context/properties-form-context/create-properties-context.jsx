@@ -94,8 +94,6 @@ const PropertyFormProvider = ({ children }) => {
 
     const formData = makeFormData(value);
 
-    console.log('Submited', formData.entries);
-
     try {
       const res = await api.post('/properties/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -113,8 +111,6 @@ const PropertyFormProvider = ({ children }) => {
     e.preventDefault();
 
     const formData = makeFormData(value);
-
-    console.log('Submited', formData.entries);
 
     try {
       const res = await api.patch(`/properties/${params.id}/`, formData, {
