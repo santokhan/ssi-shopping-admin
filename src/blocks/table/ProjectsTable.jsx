@@ -15,6 +15,7 @@ import getImageURL from '../../utils/getImageURL';
 import Print from '../../components/Print';
 import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
+import MountListedIn from '../../components/MountListedIn';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -115,7 +116,9 @@ const ProjectTableRow = ({ property, refetch }) => {
       <td className="px-6 py-4 font-medium capitalize">
         {property.category?.title}
       </td>
-      <td className="px-6 py-4 font-medium capitalize">{property.listed_in}</td>
+      <td className="px-6 py-4 font-medium capitalize">
+        <MountListedIn listed_in={property.listed_in} />
+      </td>
       <td className="px-6 py-4 font-medium capitalize">
         <AgentLink agent={property.agent} />
       </td>
