@@ -148,7 +148,7 @@ const EnquiriesTableRow = ({
     return (
       <tr className="border-b bg-white">
         <td className="px-6 py-4 font-medium text-gray-900">
-          <h3 className="text-base font-semibold leading-relaxed">
+          <h3 className="text-base font-semibold leading-relaxed capitalize">
             {enquiry.name}
           </h3>
         </td>
