@@ -7,13 +7,9 @@ import { Outlet } from 'react-router-dom';
 const DashboardLayout = () => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
 
-  function onSidebarToggle() {
-    setSidebarIsOpen(!sidebarIsOpen);
-  }
-
   useEffect(() => {
     const handleResize = () => {
-      const isSmaller = window.innerWidth < 992;
+      const isSmaller = window.innerWidth < 992 + 26;
       setSidebarIsOpen(!isSmaller);
     };
 
@@ -28,6 +24,10 @@ const DashboardLayout = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []); // Empty dependency array to run effect only once
+
+  function onSidebarToggle() {
+    setSidebarIsOpen(!sidebarIsOpen);
+  }
 
   return (
     <main className="bg-white">
@@ -51,9 +51,8 @@ const DashboardLayout = () => {
         {sidebarIsOpen && (
           <aside
             className={twMerge(
-              'w-full lg:w-60 flex-shrink-0',
-              'fixed sm:sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[2] bg-white',
-              'p-4',
+              'w-full lg:w-60 flex-shrink-0 p-4',
+              'fixed lg:sticky top-16 left-0 h-[calc(100svh_-_64px)] overflow-y-auto z-[2] bg-white',
             )}
           >
             <Sidebar />
