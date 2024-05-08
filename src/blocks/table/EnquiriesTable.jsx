@@ -1,6 +1,5 @@
 import { Fragment, useContext, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
-import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
@@ -39,7 +38,86 @@ const EnquiriesTableAction = ({ id, refetch }) => {
   }
 };
 
-const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
+import React from 'react';
+import { CloseSquare, Edit, TickSquare } from 'iconsax-react';
+import EnquiryStatusProvider, {
+  EnquiryStatusContext,
+} from '../../context/enquiries/EnquiryStatusContext';
+
+const EnquiryStatus = ({ status, id }) => {
+  const { statusFormIndex, setStatusFormIndex } =
+    useContext(EnquiryStatusContext);
+  const { api } = useAxios();
+
+  const EnquiryStatusForm = () => {
+    const [input, setInput] = useState('');
+
+    return (
+      <form
+        className="flex items-center"
+        onSubmit={(e) => {
+          e.preventDefault();
+          api
+            .patch(`enquiries/${id}/`, { status: input })
+            .then((res) => {
+              if (res?.data) {
+                setStatusFormIndex(null);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+          className="w-40 border border-gray-300 rounded-md p-1"
+        />
+        <button
+          type="button"
+          className="relative flex items-center justify-center gap-1 lg:text-base rounded-lg font-medium hover:text-red-700 ml-2"
+          onClick={() => setStatusFormIndex(null)}
+        >
+          <CloseSquare className="size-5" />
+        </button>
+        <button className="relative flex items-center justify-center gap-1 lg:text-base rounded-lg font-medium hover:text-dark-blue-500 ml-2">
+          <TickSquare className="size-5" />
+        </button>
+      </form>
+    );
+  };
+
+  if (statusFormIndex === id) {
+    return <EnquiryStatusForm />;
+  } else {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="capitalize">
+          {typeof status === 'string' ? status : 'new'}
+        </span>
+
+        <button
+          type="button"
+          className="font-medium rounded-full text-sm text-center inline-flex items-center hover:text-green-600"
+          onClick={() => setStatusFormIndex(id)}
+        >
+          <Edit className="size-4" />
+        </button>
+      </div>
+    );
+  }
+};
+
+const EnquiriesTableRow = ({
+  enquiry,
+  refetch,
+  changeColName = () => {},
+  id,
+}) => {
   if (!enquiry) {
     return null;
   } else {
@@ -77,7 +155,9 @@ const EnquiriesTableRow = ({ enquiry, refetch, changeColName = () => {} }) => {
         <td className="px-6 py-4">
           <Resource changeColName={changeColName} />
         </td>
-        <td className="px-6 py-4">{enquiry.status}</td>
+        <td className="px-6 py-4">
+          <EnquiryStatus id={id} />
+        </td>
         <td className="px-6 py-4">{formatDate(enquiry.date)}</td>
         <td className="px-6 py-4">
           <EnquiriesTableAction id={enquiry.id} refetch={refetch} />
@@ -156,17 +236,20 @@ const EnquiriesTable = ({ className = '' }) => {
                 </tr>
               </thead>
               <tbody>
-                {enquiries.map((enquiry, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <EnquiriesTableRow
-                        enquiry={enquiry}
-                        refetch={refetch}
-                        changeColName={changeColName}
-                      />
-                    </Fragment>
-                  );
-                })}
+                <EnquiryStatusProvider>
+                  {enquiries.map((_, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <EnquiriesTableRow
+                          id={_.id} // it require here
+                          enquiry={_}
+                          refetch={refetch}
+                          changeColName={changeColName}
+                        />
+                      </Fragment>
+                    );
+                  })}
+                </EnquiryStatusProvider>
               </tbody>
             </table>
             <Pagination
