@@ -23,6 +23,7 @@ const dataBridgeForProperties = (properties = {}) => {
             [inn.latitude]: properties[inn.latitude],
             [inn.longitude]: properties[inn.longitude],
             [inn.size]: properties[inn.size],
+            [inn.built_up_size]: properties[inn.built_up_size],
             [inn.bedrooms]: properties[inn.bedrooms],
             [inn.bathrooms]: properties[inn.bathrooms],
             [inn.parking]: properties[inn.parking],
