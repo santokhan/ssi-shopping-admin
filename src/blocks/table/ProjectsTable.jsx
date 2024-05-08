@@ -117,7 +117,7 @@ const ProjectTableRow = ({ property, refetch }) => {
         {property.category?.title}
       </td>
       <td className="px-6 py-4 font-medium capitalize">
-        <MountListedIn listed_in={property.listed_in} />
+        For <MountListedIn listed_in={property.listed_in} />
       </td>
       <td className="px-6 py-4 font-medium capitalize">
         <AgentLink agent={property.agent} />
