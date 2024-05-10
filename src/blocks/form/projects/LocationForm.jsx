@@ -58,7 +58,7 @@ const LocationForm = ({ value, setValue }) => {
                 onChange={(e) => {
                   setValue(inputs.country, e.target.value);
                 }}
-                value={value.country.id}
+                value={value.country}
                 required
               />
             );
