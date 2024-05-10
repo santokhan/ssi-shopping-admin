@@ -70,9 +70,6 @@ const LocationForm = ({ value, setValue }) => {
       <CitiesProvider>
         <CitiesContext.Consumer>
           {({ cities }) => {
-            console.clear();
-            console.log('cities', cities);
-            console.log('values', value.city);
             return (
               <Select
                 name={inputs.city}
