@@ -10,54 +10,21 @@ import CountriesProvider, {
 import CitiesProvider, {
   CitiesContext,
 } from '../../../context/CitiesContext.jsx';
-import GoogleMap from '../../../components/google-map/GoogleMap.jsx';
 import AreasProvider, { AreasContext } from '../../../context/AreasContext.jsx';
+import GoogleMap from '../../../components/google-map/GoogleMap1.jsx';
 
-const selectOptions = {
-  country: [
-    { label: 'USA', value: '1' },
-    { label: 'Canada', value: '2' },
-    { label: 'UK', value: '3' },
-  ],
-  city: [
-    { label: 'New York', value: '1' },
-    { label: 'Los Angeles', value: '2' },
-    { label: 'London', value: '3' },
-  ],
-  area: [],
-  custom_1: [
-    { label: 'Option 1', value: '1' },
-    { label: 'Option 2', value: '2' },
-    { label: 'Option 3', value: '3' },
-  ],
-  custom_2: [
-    { label: 'Choice A', value: 'a' },
-    { label: 'Choice B', value: 'b' },
-    { label: 'Choice C', value: 'c' },
-  ],
-  custom_3: [
-    { label: 'Item X', value: 'X' },
-    { label: 'Item Y', value: 'Y' },
-    { label: 'Item Z', value: 'Z' },
-  ],
+const inputs = {
+  address: 'address',
+  country: 'country',
+  city: 'city',
+  area: 'area',
+  latitude: 'latitude',
+  longitude: 'longitude',
 };
-
-const inputList = [
-  'address',
-  'country',
-  'city',
-  'area',
-  'latitude',
-  'longitude',
-];
-
-const inputs = inputList.reduce((obj, item) => ({ ...obj, [item]: item }), {});
 
 const LocationForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
-  console.log('value on location', value);
 
   return (
     <ResponsiveForm
@@ -70,7 +37,7 @@ const LocationForm = ({ value, setValue }) => {
         type="text"
         name={inputs.address}
         label={inputs.address}
-        value={value.address}
+        value={value.address || ''}
         onChange={(e) => {
           setValue(inputs.address, e.target.value);
         }}
@@ -91,7 +58,7 @@ const LocationForm = ({ value, setValue }) => {
                 onChange={(e) => {
                   setValue(inputs.country, e.target.value);
                 }}
-                value={value.country}
+                value={value.country.id}
                 required
               />
             );
@@ -145,7 +112,16 @@ const LocationForm = ({ value, setValue }) => {
         </AreasContext.Consumer>
       </AreasProvider>
       <div className="col-span-full py-2">
-        <GoogleMap />
+        <GoogleMap
+          setPosition={({ lat, lng }) => {
+            setValue('latitude', lat);
+            setValue('longitude', lng);
+          }}
+          value={{
+            lat: value.latitude,
+            lng: value.longitude,
+          }}
+        />
       </div>
       <Input
         type="text"

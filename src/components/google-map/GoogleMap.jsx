@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import GoogleMapReact from 'google-map-react';
+import React from 'react';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+
+const containerStyle = {
+  width: '100%',
+  height: '400px',
+};
+
+const center = {
+  lat: -3.745,
+  lng: -38.523,
+};
 
 const PinMarker = ({ lat, lng }) => (
   <div
     style={{
       position: 'absolute',
-      top: 0,
-      left: 0,
+      top: '50%',
+      left: '50%',
       transform: 'translate(-50%, -50%)',
       height: '20px',
       width: '20px',
@@ -16,29 +26,42 @@ const PinMarker = ({ lat, lng }) => (
   />
 );
 
-const GoogleMap = ({ setPosition = () => {} }) => {
-  // Initialize pin state with dummy coordinates (e.g., New York City)
-  const [pin, setPin] = useState({ lat: 40.7128, lng: -74.006 });
+function MyMap({ setPosition = ({ lat, lng }) => {}, value }) {
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyBOcRW6uzV5cgAgapo9iXMhx8FxJQJEqAo',
+  });
 
-  const handleMapClick = ({ lat, lng }) => {
-    const newPin = { lat, lng };
-    setPin(newPin);
-    setPosition(newPin);
-    console.log({ Latitude: lat, Longitude: lng });
-  };
+  const [map, setMap] = React.useState(null);
 
-  return (
-    <div style={{ width: '100%', height: '50vh' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ' }}
-        defaultCenter={{ lat: pin.lat, lng: pin.lng }}
-        defaultZoom={10}
-        onClick={handleMapClick}
-      >
-        {pin && <PinMarker lat={pin.lat} lng={pin.lng} />}
-      </GoogleMapReact>
-    </div>
+  const onLoad = React.useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map.fitBounds(bounds);
+
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      {/* Child components, such as markers, info windows, etc. */}
+      <PinMarker />
+    </GoogleMap>
+  ) : (
+    <></>
   );
-};
+}
 
-export default GoogleMap;
+const GMap = React.memo(MyMap);
+
+export default GMap;

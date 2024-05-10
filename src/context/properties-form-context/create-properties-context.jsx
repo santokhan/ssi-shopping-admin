@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL, INITIAL_VALUES } from './initial';
-import dataBridgeForProperties from '../../lib/property/validateProperties';
+import dataBridgeForProperties from '../../lib/property/dataBridgeForProperties';
 
 export const PropertyFormContext = React.createContext(null);
 
@@ -24,11 +24,6 @@ function makeFormData(value) {
             }
           }
         }
-      } else if (key == 'amenities' && Array.isArray(element)) {
-        // element.forEach((e) => {
-        //   formData.append('amenities', e);
-        // });
-        formData.append('amenities', element);
       } else {
         formData.append(key, element);
       }
@@ -47,7 +42,7 @@ const PropertyFormProvider = ({ children }) => {
 
   // Assign initial form data
   useEffect(() => {
-    if (params.id) {
+    if (!isNaN(params.id)) {
       api
         .get(`properties/${params.id}/`)
         .then((res) => {

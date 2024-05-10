@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PROJECT_INPUTS } from './initial';
-import validateProjects from '../../lib/property/validateProperties';
+import dataBridgeForProperties from '../../lib/project-data-bridge/dataBridgeForProject';
 
 export const ProjectFormContext = React.createContext(null);
 
@@ -13,7 +13,7 @@ function makeFormData(value) {
     if (Object.hasOwnProperty.call(value, key)) {
       const element = value[key];
 
-      if (key == 'images') {
+      if (['images', 'interior_image', 'exterior_image'].includes(key)) {
         for (const key in element) {
           if (Object.hasOwnProperty.call(element, key)) {
             const image = element[key];
@@ -22,28 +22,8 @@ function makeFormData(value) {
             }
           }
         }
-      } else if (key == 'interior_image') {
-        for (const key in element) {
-          if (Object.hasOwnProperty.call(element, key)) {
-            const image = element[key];
-            if (image instanceof File) {
-              formData.append('interior_image', element[key]);
-            }
-          }
-        }
-      } else if (key == 'exterior_image') {
-        for (const key in element) {
-          if (Object.hasOwnProperty.call(element, key)) {
-            const image = element[key];
-            if (image instanceof File) {
-              formData.append('exterior_image', element[key]);
-            }
-          }
-        }
-      } else if (key == 'amenities' && Array.isArray(element)) {
-        element.forEach((e) => {
-          formData.append('amenities', e);
-        });
+      } else if (key == 'amenities') {
+        //
       } else {
         formData.append(key, element);
       }
@@ -66,7 +46,7 @@ const ProjectFormProvider = ({ children }) => {
         .get(`projects/${params.id}/`)
         .then((res) => {
           if (res.data) {
-            const data = validateProjects(res.data);
+            const data = dataBridgeForProperties(res.data);
             setValue(data);
           }
         })
@@ -82,10 +62,6 @@ const ProjectFormProvider = ({ children }) => {
       return updated;
     });
   }
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   async function onCreate(e) {
     e.preventDefault();

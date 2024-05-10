@@ -10,7 +10,7 @@ import CountriesProvider, {
 import CitiesProvider, {
   CitiesContext,
 } from '../../../context/CitiesContext.jsx';
-import GoogleMap from '../../../components/google-map/GoogleMap.jsx';
+import GoogleMap from '../../../components/google-map/GoogleMap1.jsx';
 import AreasProvider, { AreasContext } from '../../../context/AreasContext.jsx';
 
 const inputList = [
@@ -74,9 +74,7 @@ const LocationForm = ({ value, setValue }) => {
               <Select
                 name={inputs.city}
                 options={cities
-                  .filter(
-                    (city) => city.country.id === parseInt(value.country.id),
-                  )
+                  .filter((city) => city.country.id === parseInt(value.country))
                   .map((c) => ({
                     label: c.name,
                     value: c.id,
@@ -99,7 +97,7 @@ const LocationForm = ({ value, setValue }) => {
               <Select
                 name={inputs.area}
                 options={areas
-                  .filter((area) => area.city.id === parseInt(value.city.id))
+                  .filter((area) => area.city.id === parseInt(value.city))
                   .map((c) => ({
                     label: c.name,
                     value: c.id,
@@ -116,7 +114,16 @@ const LocationForm = ({ value, setValue }) => {
         </AreasContext.Consumer>
       </AreasProvider>
       <div className="col-span-full py-2">
-        <GoogleMap />
+        <GoogleMap
+          setPosition={({ lat, lng }) => {
+            setValue('latitude', lat);
+            setValue('longitude', lng);
+          }}
+          value={{
+            lat: value.latitude,
+            lng: value.longitude,
+          }}
+        />
       </div>
       <Input
         type="text"
