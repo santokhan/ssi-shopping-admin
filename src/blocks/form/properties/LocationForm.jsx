@@ -13,35 +13,6 @@ import CitiesProvider, {
 import GoogleMap from '../../../components/google-map/GoogleMap.jsx';
 import AreasProvider, { AreasContext } from '../../../context/AreasContext.jsx';
 
-const selectOptions = {
-  country: [
-    { label: 'USA', value: '1' },
-    { label: 'Canada', value: '2' },
-    { label: 'UK', value: '3' },
-  ],
-  city: [
-    { label: 'New York', value: '1' },
-    { label: 'Los Angeles', value: '2' },
-    { label: 'London', value: '3' },
-  ],
-  area: [],
-  custom_1: [
-    { label: 'Option 1', value: '1' },
-    { label: 'Option 2', value: '2' },
-    { label: 'Option 3', value: '3' },
-  ],
-  custom_2: [
-    { label: 'Choice A', value: 'a' },
-    { label: 'Choice B', value: 'b' },
-    { label: 'Choice C', value: 'c' },
-  ],
-  custom_3: [
-    { label: 'Item X', value: 'X' },
-    { label: 'Item Y', value: 'Y' },
-    { label: 'Item Z', value: 'Z' },
-  ],
-};
-
 const inputList = [
   'address',
   'country',
@@ -99,11 +70,16 @@ const LocationForm = ({ value, setValue }) => {
       <CitiesProvider>
         <CitiesContext.Consumer>
           {({ cities }) => {
+            console.clear();
+            console.log('cities', cities);
+            console.log('values', value.city);
             return (
               <Select
                 name={inputs.city}
                 options={cities
-                  .filter((city) => city.country.id === parseInt(value.country))
+                  .filter(
+                    (city) => city.country.id === parseInt(value.country.id),
+                  )
                   .map((c) => ({
                     label: c.name,
                     value: c.id,
@@ -126,7 +102,7 @@ const LocationForm = ({ value, setValue }) => {
               <Select
                 name={inputs.area}
                 options={areas
-                  .filter((area) => area.city.id === parseInt(value.city))
+                  .filter((area) => area.city.id === parseInt(value.city.id))
                   .map((c) => ({
                     label: c.name,
                     value: c.id,
