@@ -14,11 +14,11 @@ function makeFormData(value) {
       const element = value[key];
 
       if (['images', 'interior_image', 'exterior_image'].includes(key)) {
-        for (const key in element) {
-          if (Object.hasOwnProperty.call(element, key)) {
-            const image = element[key];
+        for (const iterator in element) {
+          if (Object.hasOwnProperty.call(element, iterator)) {
+            const image = element[iterator];
             if (image instanceof File) {
-              formData.append(key, element[key]);
+              formData.append(key, image);
             }
           }
         }
