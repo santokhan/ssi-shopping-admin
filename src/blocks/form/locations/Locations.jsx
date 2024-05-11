@@ -1,7 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import SubmitButton from '../../../components/form/SubmitButton';
 import Input from '../../../components/form/input/Input';
-import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
@@ -17,14 +16,7 @@ import FormBox from '../../../components/form/FormBox';
 import BackAnchor from '../../../components/BackAnchor';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
-const inputs = {
-  name: 'name',
-  icon: 'icon',
-  country: 'country',
-  city: 'city',
-};
-
-const SharedForm = ({ onSubmit, type = 'create' }) => {
+const SharedForm = ({ onSubmit }) => {
   const { value, setValue } = useContext(LocationsContext);
 
   return (
@@ -34,14 +26,14 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
           {({ countries }) => {
             return (
               <Select
-                name={inputs.country}
+                name={'country'}
                 options={countries.map((c) => ({
                   label: c.name,
                   value: c.id,
                 }))}
-                label={inputs.country}
+                label={'country'}
                 onChange={(e) => {
-                  setValue(inputs.country, e.target.value);
+                  setValue(e.target.name, e.target.value);
                 }}
                 value={value.country}
                 required
@@ -55,7 +47,7 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
           {({ cities }) => {
             return (
               <Select
-                name={inputs.city}
+                name={'city'}
                 options={cities
                   .filter(
                     (c) => parseInt(c.country.id) === parseInt(value.country),
@@ -64,9 +56,9 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
                     label: c.name,
                     value: c.id,
                   }))}
-                label={inputs.city}
+                label={'city'}
                 onChange={(e) => {
-                  setValue(inputs.city, e.target.value);
+                  setValue(e.target.name, e.target.value);
                 }}
                 value={value.city}
                 required
@@ -76,10 +68,10 @@ const SharedForm = ({ onSubmit, type = 'create' }) => {
         </CitiesContext.Consumer>
       </CitiesProvider>
       <Input
-        name={inputs.name}
+        name={'name'}
         label={'area'}
         onChange={(e) => {
-          setValue(inputs.name, e.target.value);
+          setValue(e.target.name, e.target.value);
         }}
         value={value.name}
         required
@@ -103,10 +95,10 @@ export const CreateLocations = () => {
 
   useEffect(() => {
     // reset
-    setValue(inputs.city, '');
-    setValue(inputs.country, '');
-    setValue(inputs.name, '');
-    setValue(inputs.icon, '');
+    setValue('city', '');
+    setValue('country', '');
+    setValue('name', '');
+    setValue('icon', '');
   }, []);
 
   const handleSubmit = (e) => {
@@ -122,10 +114,10 @@ export const CreateLocations = () => {
           refetch();
 
           // reset
-          setValue(inputs.city, '');
-          setValue(inputs.country, '');
-          setValue(inputs.name, '');
-          setValue(inputs.icon, '');
+          setValue('city', '');
+          setValue('country', '');
+          setValue('name', '');
+          setValue('icon', '');
         }
       })
       .catch((err) => {
@@ -161,13 +153,11 @@ export const EditLocations = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
-          setValue(inputs.city, data.city.id);
-          setValue(inputs.country, data.city.country);
-          setValue(
-            inputs.name,
-            data.name,
-          ); /** Follow up these kay name. Because the naem of this label is `area` */
-          setValue(inputs.icon, data.icon);
+          setValue('city', data.city.id);
+          setValue('country', data.city.country);
+          setValue('name', data.name);
+          /** Follow up these kay name. Because the naem of this label is `area` */
+          setValue('icon', data.icon);
         }
       })
       .catch((err) => {
@@ -193,13 +183,13 @@ export const EditLocations = () => {
           refetch();
 
           // reset
-          setValue(inputs.city, '');
-          setValue(inputs.country, '');
-          setValue(inputs.name, '');
-          setValue(inputs.icon, '');
+          setValue('city', '');
+          setValue('country', '');
+          setValue('name', '');
+          setValue('icon', '');
 
           // redirect
-          window.history.back();
+          navigate('/locations');
         }
       })
       .catch((err) => {
@@ -207,20 +197,18 @@ export const EditLocations = () => {
       });
   };
 
-  return (
-    <>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-          <div className="flex items-center gap-2">
-            <BackAnchor to="/locations" />
-            <h5 className="text-lg font-semibold">Edit Form</h5>
-          </div>
-          <hr />
-          <SharedForm onSubmit={handleSubmit} />
-        </div>
-      )}
-    </>
+  return isLoading ? (
+    <Spinner />
+  ) : (
+    <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
+      <div className="flex items-center gap-2">
+        {id && <BackAnchor to="/locations" />}
+        <h5 className="text-lg font-semibold">
+          {id ? 'Edit location' : 'Create location'}
+        </h5>
+      </div>
+      <hr />
+      <SharedForm onSubmit={handleSubmit} />
+    </div>
   );
 };
