@@ -24,6 +24,8 @@ function makeFormData(value) {
         }
       } else if (key == 'amenities') {
         //
+      } else if (key == 'roadmap') {
+        formData.append(key, JSON.stringify(element));
       } else {
         formData.append(key, element);
       }

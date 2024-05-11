@@ -5,30 +5,32 @@ import { Add, Minus } from 'iconsax-react';
 import { twMerge } from 'tailwind-merge';
 
 const RoadMapInput = ({
-  onChange = ([name, value]) => {},
+  onChange,
   value,
   label,
   name,
-  className = '',
-  focused = null,
+  focused,
   resetFocus,
+  className = '',
 }) => {
   const ref = useRef(null);
 
   useEffect(() => {
+    // reset focus element on click outside
     const listener = (e) => {
-      if (ref.current.name == name) {
-        if (ref.current.contains(e.target)) {
-          resetFocus();
-        }
+      if (!ref.current.contains(e.target)) {
+        resetFocus();
       }
     };
 
     if (focused) {
+      // When you are inside focus add onClickOutside
       window.addEventListener('click', listener);
 
+      // focus after re-render array of inputs
       ref.current.focus();
 
+      // on unmount if listener was added
       return () => {
         window.removeEventListener('click', listener);
       };
