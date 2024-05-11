@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import TableTitle from '../../../components/table/TableTitle';
 import { formSteps } from '../../../utils/form-steps';
@@ -45,11 +45,13 @@ const Tabs = () => {
 };
 
 const CreatePropertiesLayout = () => {
+  const { id } = useParams();
+
   return (
     <PropertyFormProvider>
       <div className="space-y-6">
         <div className="space-y-1">
-          <TableTitle>Add New Properties</TableTitle>
+          <TableTitle>{id ? 'Edit Property' : 'Add Property'}</TableTitle>
           <p className="font-medium text-gray-600">
             We are glad to see you again!
           </p>

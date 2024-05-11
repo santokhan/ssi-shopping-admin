@@ -37,7 +37,6 @@ import {
   CreateDevelopers,
   EditDevelopers,
 } from '../blocks/form/developers/Developers.jsx';
-import EditPropertiesLayout from '../pages/properties/edit/EditPropertiesLayout.jsx';
 import UsersLayout from '../pages/users/UsersPage.jsx';
 import UserForm from '../blocks/form/users/UsersForm.jsx';
 import ProjectLayout from '../pages/projects/Layout.jsx';
@@ -48,7 +47,6 @@ import ProjectDetails from '../pages/projects/create/details/Details.jsx';
 import ProjectLocation from '../pages/projects/create/location/Location.jsx';
 import ProjectAmenities from '../pages/projects/create/amenities/Amenities.jsx';
 import ProjectMedia from '../pages/projects/create/media/Media.jsx';
-import EditProjectsLayout from '../pages/projects/edit/EditProjectsLayout.jsx';
 import ProjectFormProvider from '../context/project-form/ProjectFormContext.jsx';
 import LayoutTestimonials from '../layout/Testimonials.jsx';
 import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
@@ -160,7 +158,7 @@ export const routes = [
           },
           {
             path: ':id/edit',
-            element: <EditPropertiesLayout />,
+            element: <CreatePropertiesLayout />,
             children: [
               {
                 path: 'description',
@@ -294,7 +292,7 @@ export const routes = [
           },
           {
             path: ':id/edit',
-            element: <EditProjectsLayout />,
+            element: <CreateProjectsLayout />,
             children: [
               {
                 path: 'description',
