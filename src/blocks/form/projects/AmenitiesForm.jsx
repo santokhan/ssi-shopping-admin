@@ -3,7 +3,6 @@ import { FinalSubmitButton } from '../../../components/form/SubmitButton';
 import { useEffect, useState } from 'react';
 import { formBack } from '../../../utils/form-steps';
 import { getAmenities } from '../../../axios/property/get';
-// import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
   if (!amenity.id) {
@@ -35,7 +34,6 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
 }
 
 const AmenitiesForm = ({ value, setValue, onSubmit }) => {
-  // const navigate = useNavigate();
   const { pathname } = useLocation();
   const [amenities, setAmenities] = useState([{ label: '', value: '' }]);
 
@@ -49,32 +47,50 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   }, []);
 
   const isExists = (list, n) => {
-    if (Array.isArray(list) && typeof n == 'number') {
-      list.some((id) => id == n);
+    if (Array.isArray(list)) {
+      return list.some((id) => id == n);
     }
   };
 
-  return (
-    <form onSubmit={onSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        {amenities.map((amenity) => (
-          <CheckBoxContainer
-            key={amenity.id || crypto.randomUUID()}
-            amenity={amenity}
-            onChange={() => {
-              if (isExists(value, amenity.id)) {
-                setValue(value.filter((id) => id != amenity.id));
-              } else {
-                setValue([...value, amenity.id]);
-              }
-            }}
-            checked={isExists(value, amenity.id)}
-          />
-        ))}
-      </div>
-      <FinalSubmitButton back={formBack(pathname)} />
-    </form>
-  );
+  function amenitiesReducer(arrayOfNumbers) {
+    if (Array.isArray(arrayOfNumbers)) {
+      return arrayOfNumbers.reduce((newList, current) => {
+        if (!newList.includes(current)) {
+          newList.push(current);
+        }
+        return newList;
+      }, []);
+    }
+  }
+
+  if (Array.isArray(amenities) && Array.isArray(value)) {
+    return (
+      <form onSubmit={onSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          {amenities.map((_) => {
+            // remove duplicates
+            let clone = amenitiesReducer(value);
+
+            return (
+              <CheckBoxContainer
+                key={_.id}
+                amenity={_}
+                onChange={() => {
+                  if (isExists(clone, _.id)) {
+                    setValue(clone.filter((e) => e != _.id));
+                  } else {
+                    setValue([...clone, _.id]);
+                  }
+                }}
+                checked={isExists(clone, _.id)}
+              />
+            );
+          })}
+        </div>
+        <FinalSubmitButton back={formBack(pathname)} />
+      </form>
+    );
+  }
 };
 
 export default AmenitiesForm;

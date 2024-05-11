@@ -24,7 +24,13 @@ function makeFormData(value) {
           }
         }
       } else if (key == 'amenities') {
-        //
+        if (Array.isArray(element)) {
+          element.forEach((id) => {
+            if (!isNaN(id)) {
+              formData.append(key, id);
+            }
+          });
+        }
       } else if (key == 'brochure') {
         if (element instanceof File) {
           formData.append(key, element);
@@ -35,9 +41,12 @@ function makeFormData(value) {
         }
       } else if (key == 'roadmap') {
         if (Array.isArray(element)) {
-          const roadmap = element.filter((o) => 'place' in o);
+          const roadmap = element.filter((o) => o.place);
 
-          formData.append(key, JSON.stringify(roadmap));
+          // don't sent []
+          if (roadmap.length > 0) {
+            formData.append(key, JSON.stringify(roadmap));
+          }
         }
       } else {
         formData.append(key, element);
@@ -115,6 +124,10 @@ const ProjectFormProvider = ({ children }) => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
     <ProjectFormContext.Provider
