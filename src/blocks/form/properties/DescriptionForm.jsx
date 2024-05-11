@@ -80,6 +80,9 @@ const DescriptionForm = ({ value, setValue }) => {
     });
   }, []);
 
+  console.clear();
+  console.log(value.listed_in);
+
   return (
     <ResponsiveForm
       onSubmit={(e) => {
@@ -124,8 +127,8 @@ const DescriptionForm = ({ value, setValue }) => {
         disabled={categories.length === 0}
       />
       <Select
-        name={inputs.listed_in}
-        label={inputs.listed_in}
+        name={'listed_in'}
+        label={'listed in'}
         options={[
           {
             label: 'For Sale',
@@ -138,7 +141,7 @@ const DescriptionForm = ({ value, setValue }) => {
         ]}
         value={value.listed_in}
         onChange={(e) => {
-          setValue(inputs.listed_in, parseInt(e.target.value));
+          setValue(e.target.name, e.target.value);
         }}
         error={error.title}
         required
