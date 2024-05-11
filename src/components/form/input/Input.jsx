@@ -14,6 +14,19 @@ export const InputElement = ({ label, type = 'text', ...props }) => {
   );
 };
 
+export const InputLabel = ({ label = '', children, className = '' }) => {
+  return (
+    <InputBox className={twMerge('relative', className)}>
+      <Label>
+        <span className="font-semibold capitalize block">
+          {replace_(label)}
+        </span>
+        {children}
+      </Label>
+    </InputBox>
+  );
+};
+
 const Input = ({ label = '', error = '', className = '', ...props }) => {
   return (
     <InputBox className={twMerge('relative', className)}>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PROJECT_INPUTS } from './initial';
 import dataBridgeForProperties from '../../lib/project-data-bridge/dataBridgeForProject';
 
-export const ProjectFormContext = React.createContext(null);
+export const ProjectFormContext = createContext(null);
 
 function makeFormData(value) {
   const formData = new FormData();
@@ -18,7 +18,7 @@ function makeFormData(value) {
           if (Object.hasOwnProperty.call(element, key)) {
             const image = element[key];
             if (image instanceof File) {
-              formData.append('images', element[key]);
+              formData.append(key, element[key]);
             }
           }
         }

@@ -30,6 +30,12 @@ const PROJECT_INPUTS = {
     area: '',
     latitude: '',
     longitude: '',
+    roadmap: [
+        {
+            place: '',
+            distance: ''
+        },
+    ],
 
 
     // details

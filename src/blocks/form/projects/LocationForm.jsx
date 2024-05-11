@@ -12,6 +12,8 @@ import CitiesProvider, {
 } from '../../../context/CitiesContext.jsx';
 import AreasProvider, { AreasContext } from '../../../context/AreasContext.jsx';
 import GoogleMap from '../../../components/google-map/GoogleMap1.jsx';
+import RoadMapInputContainer from '../../../components/form/RoadMapInput.jsx';
+import Print from '../../../components/Print.jsx';
 
 const inputs = {
   address: 'address',
@@ -139,6 +141,12 @@ const LocationForm = ({ value, setValue }) => {
         value={value.longitude}
         onChange={(e) => {
           setValue(inputs.longitude, e.target.value);
+        }}
+      />
+      <RoadMapInputContainer
+        value={value.roadmap}
+        setValue={(roadmap) => {
+          setValue('roadmap', roadmap);
         }}
       />
       <PrevAndNext back={formBack(pathname)} />

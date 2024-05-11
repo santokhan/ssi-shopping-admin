@@ -4,6 +4,7 @@ import Spinner from '../../components/loader/Spinner';
 import { useParams } from 'react-router-dom';
 import filterListById from '../../utils/filterList';
 import ProjectsTable from '../../blocks/table/ProjectsTable';
+import { toast } from 'react-toastify';
 
 const ProjectPage = () => {
   const [projects, setProjects] = useState(null);
@@ -11,6 +12,8 @@ const ProjectPage = () => {
   const [page, setPage] = useState(1);
   const page_size = 10;
   const params = useParams();
+
+  toast('Apply Toast', {});
 
   function setPageNumber(numOrIndex = page) {
     if (numOrIndex === 'next') {
