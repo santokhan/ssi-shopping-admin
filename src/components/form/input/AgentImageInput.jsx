@@ -54,13 +54,7 @@ const AgentImageInput = ({
   };
 
   const isValidFileType = (file) => {
-    const acceptedTypes = [
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-      'image/webp',
-      'image/gif',
-    ];
+    const acceptedTypes = ['image/*'];
     return acceptedTypes.includes(file.type);
   };
 
@@ -110,7 +104,7 @@ const AgentImageInput = ({
             type="file"
             ref={fileInputRef}
             name="photo"
-            accept=".png,.jpg,.jpeg,.webp,.gif"
+            accept="images/*"
             onChange={handleFileChange}
             className="opacity-0 absolute inset-0"
             required={required}

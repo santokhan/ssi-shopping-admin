@@ -216,16 +216,20 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProperties.map((property, i) => {
-                    return (
-                      <Fragment key={i}>
-                        <PropertiesTableRow
-                          property={property}
-                          refetch={refetch}
-                        />
-                      </Fragment>
-                    );
-                  })}
+                  {filteredProperties
+                    .sort(
+                      (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
+                    )
+                    .map((property, i) => {
+                      return (
+                        <Fragment key={i}>
+                          <PropertiesTableRow
+                            property={property}
+                            refetch={refetch}
+                          />
+                        </Fragment>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
