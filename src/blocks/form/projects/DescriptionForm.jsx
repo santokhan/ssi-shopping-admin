@@ -170,7 +170,7 @@ const DescriptionForm = ({ value, setValue }) => {
       />
       <Input
         name={inputs.price}
-        label={value.listed_in === '1' ? 'Price' : 'Rent Price/year'}
+        label={value.listed_in === 'sale' ? 'Price' : 'Rent Price/year'}
         type="number"
         onChange={(e) => {
           setValue(inputs.price, parseInt(e.target.value));
