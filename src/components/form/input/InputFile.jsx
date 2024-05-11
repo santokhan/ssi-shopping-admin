@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
-import ImagePreview from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
-import Print from '../../Print';
 import PDFPreview from '../PDFPreview';
 
 const InputFile = ({
@@ -14,14 +12,11 @@ const InputFile = ({
   accept = 'image/*',
   name = '',
   value = '',
+  onRemove = () => {},
 }) => {
   const handleFileSelect = (e) => {
     setValue(name, e.target.files[0]);
   };
-
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>
@@ -55,13 +50,14 @@ const InputFile = ({
           required={required}
         />
       </label>
-      {value?.type == 'application/pdf' && (
+      {value && (
         <div className="flex gap-4 flex-wrap">
           <PDFPreview
             type={accept}
             src={imageSrcValidator(value)}
             onRemove={() => {
               setValue(name, '');
+              onRemove();
             }}
           />
         </div>

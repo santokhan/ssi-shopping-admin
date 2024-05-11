@@ -16,9 +16,9 @@ const inputs = {
   video_from: 'video_from',
   embed_video_id: 'embed_video_id',
   virtual_tour: 'virtual_tour',
-  interior_image: 'interior_image',
+  interior_images: 'interior_images',
   interior_description: 'interior_description',
-  exterior_image: 'exterior_image',
+  exterior_images: 'exterior_images',
   exterior_description: 'exterior_description',
   brochure: 'brochure',
   brochure_thumbnail: 'brochure_thumbnail',
@@ -110,39 +110,49 @@ const MediaForm = ({ value, setValue }) => {
         <Box>
           <h5 className={'font-semibold'}>Upload Interior Image</h5>
           <MediaInput
-            name={inputs.interior_image}
-            value={value.interior_image}
+            name={inputs.interior_images}
+            value={value.interior_images}
             setValue={setValue}
           />
           <h5 className={'font-semibold'}>Interior Description</h5>
-          <Textarea name={inputs.virtual_tour} />
+          <Textarea
+            name={'interior_description'}
+            value={value.interior_description}
+          />
         </Box>
         <Box>
           <h5 className={'font-semibold'}>Upload Exterior Image</h5>
           <MediaInput
-            name={inputs.exterior_image}
-            value={value.exterior_image}
+            name={'exterior_images'}
+            value={value.exterior_images}
             setValue={setValue}
           />
           <h5 className={'font-semibold'}>Exterior Description</h5>
-          <Textarea name={inputs.virtual_tour} />
+          <Textarea
+            name={'exterior_description'}
+            value={value.exterior_description}
+          />
         </Box>
       </GridSpanFull>
       <GridSpanFull>
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure</h5>
           <InputFile
-            name={inputs.brochure}
+            name="brochure"
             value={value.brochure}
             setValue={setValue}
             className="basis-96 flex-grow"
             accept=".pdf"
+            onRemove={() => {
+              // remove from server
+              // api call
+            }}
           />
         </Box>
         <Box>
           <h5 className={'font-semibold'}>Upload Brochure Thumbnail</h5>
           <InputFileSingle
-            name={inputs.brochure_thumbnail}
+            name="brochure_thumbnail"
             value={value.brochure_thumbnail}
             setValue={setValue}
             className="basis-96 flex-grow"

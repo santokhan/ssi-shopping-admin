@@ -1,3 +1,9 @@
+/**
+ * Take string or File as an argument and return URL
+ * 
+ * @param {*} strOrFile 
+ * @returns 
+ */
 function imageSrcValidator(strOrFile) {
     if (strOrFile) {
         if (strOrFile instanceof File) {

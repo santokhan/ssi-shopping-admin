@@ -84,72 +84,76 @@ const RoadMapInputContainer = ({ value, setValue = (roadmap) => {} }) => {
     setFocusIndex({ index: i, name: name });
   };
 
-  return (
-    <div className="col-span-full space-y-2">
-      <FormTitle>Roadmap</FormTitle>
-      <ul className="flex flex-col items-start gap-2">
-        {value.map(({ place, distance }, i) => {
-          return (
-            <Fragment key={crypto.randomUUID()}>
-              <li className="flex-grow flex items-end gap-4">
-                <RoadMapInput
-                  label={'place'}
-                  name={'place'}
-                  value={place}
-                  onChange={([name, value]) => setInput(name, value, i)}
-                  focused={focusIndex.index == i && focusIndex.name == 'place'}
-                  resetFocus={() => {
-                    setFocusIndex({ index: '', name: '' });
-                  }}
-                />
-                <RoadMapInput
-                  label={'distance'}
-                  name={'distance'}
-                  value={distance}
-                  onChange={([name, value]) => setInput(name, value, i)}
-                  focused={
-                    focusIndex.index == i && focusIndex.name == 'distance'
-                  }
-                  resetFocus={() => {
-                    setFocusIndex({ index: '', name: '' });
-                  }}
-                />
-                {i == value.length - 1 ? (
-                  <AddRemove
-                    onClick={() => {
-                      setValue([
-                        ...value,
-                        {
-                          place: '',
-                          distance: '',
-                        },
-                      ]);
+  if (Array.isArray(value)) {
+    return (
+      <div className="col-span-full space-y-2">
+        <FormTitle>Roadmap</FormTitle>
+        <ul className="flex flex-col items-start gap-2">
+          {value.map(({ place, distance }, i) => {
+            return (
+              <Fragment key={crypto.randomUUID()}>
+                <li className="flex-grow flex items-end gap-4">
+                  <RoadMapInput
+                    label={'place'}
+                    name={'place'}
+                    value={place}
+                    onChange={([name, value]) => setInput(name, value, i)}
+                    focused={
+                      focusIndex.index == i && focusIndex.name == 'place'
+                    }
+                    resetFocus={() => {
+                      setFocusIndex({ index: '', name: '' });
                     }}
-                    title="Add"
-                  >
-                    <Add className="size-6" />
-                  </AddRemove>
-                ) : (
-                  <AddRemove
-                    onClick={() => {
-                      setValue(
-                        value.filter((e, idx) => {
-                          return idx !== i;
-                        }),
-                      );
+                  />
+                  <RoadMapInput
+                    label={'distance'}
+                    name={'distance'}
+                    value={distance}
+                    onChange={([name, value]) => setInput(name, value, i)}
+                    focused={
+                      focusIndex.index == i && focusIndex.name == 'distance'
+                    }
+                    resetFocus={() => {
+                      setFocusIndex({ index: '', name: '' });
                     }}
-                    title="Remove"
-                  >
-                    <Minus className="size-6" />
-                  </AddRemove>
-                )}
-              </li>
-            </Fragment>
-          );
-        })}
-      </ul>
-    </div>
-  );
+                  />
+                  {i == value.length - 1 ? (
+                    <AddRemove
+                      onClick={() => {
+                        setValue([
+                          ...value,
+                          {
+                            place: '',
+                            distance: '',
+                          },
+                        ]);
+                      }}
+                      title="Add"
+                    >
+                      <Add className="size-6" />
+                    </AddRemove>
+                  ) : (
+                    <AddRemove
+                      onClick={() => {
+                        setValue(
+                          value.filter((e, idx) => {
+                            return idx !== i;
+                          }),
+                        );
+                      }}
+                      title="Remove"
+                    >
+                      <Minus className="size-6" />
+                    </AddRemove>
+                  )}
+                </li>
+              </Fragment>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
 };
 
 export default RoadMapInputContainer;

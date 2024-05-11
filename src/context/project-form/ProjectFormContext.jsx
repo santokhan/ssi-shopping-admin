@@ -13,7 +13,8 @@ function makeFormData(value) {
     if (Object.hasOwnProperty.call(value, key)) {
       const element = value[key];
 
-      if (['images', 'interior_image', 'exterior_image'].includes(key)) {
+      // multiple image input
+      if (['images', 'interior_images', 'exterior_images'].includes(key)) {
         for (const iterator in element) {
           if (Object.hasOwnProperty.call(element, iterator)) {
             const image = element[iterator];
@@ -24,8 +25,20 @@ function makeFormData(value) {
         }
       } else if (key == 'amenities') {
         //
+      } else if (key == 'brochure') {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
+      } else if (key == 'brochure_thumbnail') {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
       } else if (key == 'roadmap') {
-        formData.append(key, JSON.stringify(element));
+        if (Array.isArray(element)) {
+          const roadmap = element.filter((o) => 'place' in o);
+
+          formData.append(key, JSON.stringify(roadmap));
+        }
       } else {
         formData.append(key, element);
       }
