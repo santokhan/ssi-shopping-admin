@@ -129,11 +129,11 @@ const DescriptionForm = ({ value, setValue }) => {
         options={[
           {
             label: 'For Sale',
-            value: 1,
+            value: 'sale',
           },
           {
             label: 'For Rent',
-            value: 2,
+            value: 'rent',
           },
         ]}
         value={value.listed_in}
