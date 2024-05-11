@@ -10,6 +10,8 @@ import Textarea from '../../../components/form/input/Textarea';
 import { twMerge } from 'tailwind-merge';
 import useAxios from '../../../context/useAxios';
 import InputFile from '../../../components/form/input/InputFile';
+import { ProjectFormContext } from '../../../context/project-form/ProjectFormContext';
+import { useContext } from 'react';
 
 const inputs = {
   images: 'images',
@@ -24,7 +26,8 @@ const inputs = {
   brochure_thumbnail: 'brochure_thumbnail',
 };
 
-const MediaForm = ({ value, setValue }) => {
+const MediaForm = () => {
+  const { setFormValue, value } = useContext(ProjectFormContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { api } = useAxios();
@@ -56,13 +59,13 @@ const MediaForm = ({ value, setValue }) => {
         name={inputs.images}
         className="col-span-full"
         value={value.images}
-        setValue={setValue}
+        setValue={setFormValue}
         onRemoveFromServer={(id) => {
           api
             .delete(`project_galleries/${id}/`)
             .then((res) => {
               if (res) {
-                setValue(
+                setFormValue(
                   'images',
                   value[inputs.images].filter((_) => _.id !== id),
                 );
@@ -84,7 +87,7 @@ const MediaForm = ({ value, setValue }) => {
         label={inputs.video_from}
         value={value.video_from}
         onChange={(e) => {
-          setValue(inputs.video_from, e.target.value);
+          setFormValue(inputs.video_from, e.target.value);
         }}
       />
       <Input
@@ -93,7 +96,7 @@ const MediaForm = ({ value, setValue }) => {
         label={inputs.embed_video_id}
         value={value.embed_video_id}
         onChange={(e) => {
-          setValue(inputs.embed_video_id, e.target.value);
+          setFormValue(inputs.embed_video_id, e.target.value);
         }}
       />
       <Input
@@ -102,7 +105,7 @@ const MediaForm = ({ value, setValue }) => {
         label={inputs.virtual_tour}
         value={value.virtual_tour}
         onChange={(e) => {
-          setValue(inputs.virtual_tour, e.target.value);
+          setFormValue(inputs.virtual_tour, e.target.value);
         }}
         placeholder="https://www.youtube.com/channel/UCwvj_fVMtGYk8J5-8bhmH8A"
       />
@@ -112,12 +115,16 @@ const MediaForm = ({ value, setValue }) => {
           <MediaInput
             name={inputs.interior_images}
             value={value.interior_images}
-            setValue={setValue}
+            setValue={setFormValue}
           />
           <h5 className={'font-semibold'}>Interior Description</h5>
           <Textarea
+            key={'interior_description'}
             name={'interior_description'}
             value={value.interior_description}
+            onChange={(e) => {
+              setFormValue('interior_description', e.target.value);
+            }}
           />
         </Box>
         <Box>
@@ -125,12 +132,16 @@ const MediaForm = ({ value, setValue }) => {
           <MediaInput
             name={'exterior_images'}
             value={value.exterior_images}
-            setValue={setValue}
+            setValue={setFormValue}
           />
           <h5 className={'font-semibold'}>Exterior Description</h5>
           <Textarea
+            key={'exterior_description'}
             name={'exterior_description'}
             value={value.exterior_description}
+            onChange={(e) => {
+              setFormValue('exterior_description', e.target.value);
+            }}
           />
         </Box>
       </GridSpanFull>
@@ -140,7 +151,7 @@ const MediaForm = ({ value, setValue }) => {
           <InputFile
             name="brochure"
             value={value.brochure}
-            setValue={setValue}
+            setValue={setFormValue}
             className="basis-96 flex-grow"
             accept=".pdf"
             onRemove={() => {
@@ -154,7 +165,7 @@ const MediaForm = ({ value, setValue }) => {
           <InputFileSingle
             name="brochure_thumbnail"
             value={value.brochure_thumbnail}
-            setValue={setValue}
+            setValue={setFormValue}
             className="basis-96 flex-grow"
             accept="image/*"
           />
