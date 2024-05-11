@@ -44,8 +44,8 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
     <div style={{ width: '100%', height: '50vh' }} className="bg-gray-50">
       <GoogleMapReact
         bootstrapURLKeys={{
-          // key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
-          key: 'AIzaSyBOcRW6uzV5cgAgapo9iXMhx8FxJQJEqAo',
+          key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
+          // key: 'AIzaSyBOcRW6uzV5cgAgapo9iXMhx8FxJQJEqAo',
         }}
         defaultCenter={{ lat: 25.0805, lng: 55.1403 }}
         defaultZoom={10}
