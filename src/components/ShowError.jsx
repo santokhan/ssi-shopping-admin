@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import capitalize from '../utils/capitalize';
 
 export const errorToast = (errorObject) => {
   if (typeof errorObject == 'object') {
@@ -10,14 +11,14 @@ export const errorToast = (errorObject) => {
         if (Array.isArray(error)) {
           error.forEach((_, i) => {
             if (typeof _ === 'string') {
-              toast(_, { type: 'Failed' });
+              toast(capitalize(key) + ': ' + _, { type: 'Failed' });
             }
           });
         }
 
         // if it is a string
         if (typeof error == 'string') {
-          toast(error, { type: 'Failed' });
+          toast(capitalize(key) + ': ' + error, { type: 'Failed' });
         }
       }
     }
