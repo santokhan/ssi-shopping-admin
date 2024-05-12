@@ -9,6 +9,7 @@ import { formBack, formNext } from '../../../utils/form-steps';
 import useAxios from '../../../context/useAxios';
 import { twMerge } from 'tailwind-merge';
 import InputFile from '../../../components/form/input/InputFile';
+import InputFileSingle from '../../../components/form/input/InputFileSingle';
 
 const inputList = ['video_from', 'embed_video_id', 'virtual_tour'];
 
@@ -125,6 +126,16 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
               // remove from server
               // api call
             }}
+          />
+        </Box>
+        <Box>
+          <h5 className={'font-semibold'}>Floor Plan Thumbnail</h5>
+          <InputFileSingle
+            name="floor_plan_thumbnail"
+            value={value.floor_plan_thumbnail}
+            setValue={setValue}
+            className="basis-96 flex-grow"
+            accept="image/*"
           />
         </Box>
       </GridSpanFull>

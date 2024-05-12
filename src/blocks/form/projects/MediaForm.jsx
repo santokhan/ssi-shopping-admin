@@ -147,7 +147,7 @@ const MediaForm = () => {
       </GridSpanFull>
       <GridSpanFull>
         <Box>
-          <h5 className={'font-semibold capitalize'}>floor plan</h5>
+          <h5 className={'font-semibold capitalize'}>Floor Plan</h5>
           <InputFile
             name="floor_plan"
             value={value.floor_plan || ''}
@@ -158,6 +158,16 @@ const MediaForm = () => {
               // remove from server
               // api call
             }}
+          />
+        </Box>
+        <Box>
+          <h5 className={'font-semibold'}>Floor Plan Thumbnail</h5>
+          <InputFileSingle
+            name="floor_plan_thumbnail"
+            value={value.floor_plan_thumbnail}
+            setValue={setFormValue}
+            className="basis-96 flex-grow"
+            accept="image/*"
           />
         </Box>
       </GridSpanFull>
