@@ -18,42 +18,43 @@ const DetailsForm = ({ value, setValue }) => {
       label: 'total area (in ft)',
       type: 'number',
     },
-    {
-      name: 'built_up_size',
-      label: 'Built Up Size (In FT)',
-      type: 'number',
-    },
-    {
-      name: 'bedrooms',
-      label: 'Bedrooms',
-      type: 'number',
-    },
-    {
-      name: 'bathrooms',
-      label: 'Bathrooms',
-      type: 'number',
-    },
-    {
-      name: 'parking',
-      label: 'Parking',
-      type: 'number',
-    },
-    {
-      name: 'garage_size',
-      label: 'Garage size',
-      type: 'number',
-    },
-    {
-      name: 'year_built',
-      label: 'Year built (numeric)',
-      type: 'number',
-    },
-    { name: 'basement', label: 'Basement', type: 'yes/no' },
-    {
-      name: 'extra_detail',
-      label: 'Owner/ Agent notes (not visible on front end)',
-      type: 'textarea',
-    },
+    // {
+    //   name: 'built_up_size',
+    // eslint-disable-next-line no-irregular-whitespace
+    //   label: "Built Up Size (In FT)",
+    //   type: 'number',
+    // },
+    // {
+    //   name: 'bedrooms',
+    //   label: 'Bedrooms',
+    //   type: 'number',
+    // },
+    // {
+    //   name: 'bathrooms',
+    //   label: 'Bathrooms',
+    //   type: 'number',
+    // },
+    // {
+    //   name: 'parking',
+    //   label: 'Parking',
+    //   type: 'number',
+    // },
+    // {
+    //   name: 'garage_size',
+    //   label: 'Garage size',
+    //   type: 'number',
+    // },
+    // {
+    //   name: 'year_built',
+    //   label: 'Year built (numeric)',
+    //   type: 'number',
+    // },
+    // { name: 'basement', label: 'Basement', type: 'yes/no' },
+    // {
+    //   name: 'extra_detail',
+    //   label: 'Owner/ Agent notes (not visible on front end)',
+    //   type: 'textarea',
+    // },
   ];
 
   const options = {

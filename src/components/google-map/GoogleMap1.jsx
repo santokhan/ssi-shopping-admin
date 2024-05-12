@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 const PinMarker = ({ pin }) => {
-  useEffect(() => {
-    console.log(pin);
-  }, [pin]);
-
   return (
     <div
       style={{
@@ -22,10 +18,13 @@ const PinMarker = ({ pin }) => {
     />
   );
 };
-
 const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
   // Initialize pin state with dummy coordinates (e.g., Dubai Marina)
-  const [pin, setPin] = useState({ lat: 25.0805, lng: 55.1403 });
+  const initialPin = {
+    lat: value && value.lat ? parseFloat(value.lat) : 25.0805,
+    lng: value && value.lng ? parseFloat(value.lng) : 55.1403,
+  };
+  const [pin, setPin] = useState(initialPin);
 
   const handleMapClick = (newPin) => {
     const { lat, lng, x, y } = newPin;
@@ -35,17 +34,18 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(pin);
-  // }, [pin]);
+  useEffect(() => {
+    console.log(pin);
+  }, [pin]);
 
   useEffect(() => {
-    if (value?.lat) {
-      setPin((prev) => ({ ...prev, lat: parseInt(value.lat) }));
+    if (value && value.lat) {
+      setPin((prev) => ({ ...prev, lat: parseFloat(value.lat) }));
     }
-    if (value?.lng) {
-      setPin((prev) => ({ ...prev, lng: parseInt(value.lng) }));
+    if (value && value.lng) {
+      setPin((prev) => ({ ...prev, lng: parseFloat(value.lng) }));
     }
+    console.log(value);
   }, [value]);
 
   return (
@@ -58,13 +58,14 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
           key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
           // key: 'AIzaSyBOcRW6uzV5cgAgapo9iXMhx8FxJQJEqAo',
         }}
-        defaultCenter={{ lat: 25.0805, lng: 55.1403 }}
+        defaultCenter={initialPin}
         defaultZoom={10}
         onClick={handleMapClick}
+        onTilesLoaded={handleMapClick}
       >
         <></>
       </GoogleMapReact>
-      <PinMarker pin={pin} key={crypto.randomUUID()} />
+      <PinMarker pin={pin} />
     </div>
   );
 };

@@ -7,11 +7,7 @@ import { useEffect, useState } from 'react';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import { formNext } from '../../../utils/form-steps';
 import useAxios from '../../../context/useAxios';
-import {
-  activeInActiveOptions,
-  yesNoOptions,
-} from '../../../utils/yes-no-options';
-import Print from '../../../components/Print';
+import { activeInActiveOptions } from '../../../utils/yes-no-options';
 
 const inputList = [
   'title',
@@ -169,8 +165,8 @@ const DescriptionForm = ({ value, setValue }) => {
         required
       />
       <Input
-        name={inputs.price}
-        label={value.listed_in === 'sale' ? 'Price' : 'Rent Price/year'}
+        name={'price'}
+        label="price"
         type="number"
         onChange={(e) => {
           setValue(inputs.price, parseInt(e.target.value));

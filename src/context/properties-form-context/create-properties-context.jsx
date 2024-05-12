@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL, INITIAL_VALUES } from './initial';
 import dataBridgeForProperties from '../../lib/property/dataBridgeForProperties';
 import { errorToast } from '../../components/ShowError';
 
-export const PropertyFormContext = React.createContext(null);
+export const PropertyFormContext = createContext(null);
 
 function encode(value) {
   const formData = new FormData();
 
   for (const key in value) {
     if (Object.hasOwnProperty.call(value, key)) {
-      const element = value[key];
+      const ele = value[key];
 
-      if (key == 'images') {
-        for (const key in element) {
-          if (Object.hasOwnProperty.call(element, key)) {
-            const image = element[key];
-            if (image instanceof File) {
-              formData.append('images', element[key]);
-            } else {
-              // I don't know
+      if (ele !== null && ele !== undefined && ele !== '') {
+        if (key == 'images') {
+          for (const key in ele) {
+            if (Object.hasOwnProperty.call(ele, key)) {
+              const image = ele[key];
+              if (image instanceof File) {
+                formData.append('images', ele[key]);
+              } else {
+                // I don't know
+              }
             }
           }
+        } else {
+          formData.append(key, ele);
         }
-      } else {
-        formData.append(key, element);
       }
     }
   }

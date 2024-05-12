@@ -41,8 +41,8 @@ const dataBridgeForProperties = (properties = {}) => {
             basement: p.basement,
             extra_detail: p.extra_detail,
             amenities: p.amenities.map(e => {
-                if (typeof e === 'object' && e.id) {
-                    return e.id
+                if (typeof e === 'object' && e.amenity) {
+                    return e.amenity
                 }
                 if (typeof e === 'number') {
                     return e

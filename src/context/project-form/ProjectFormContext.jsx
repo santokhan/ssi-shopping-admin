@@ -12,45 +12,47 @@ function makeFormData(value) {
 
   for (const key in value) {
     if (Object.hasOwnProperty.call(value, key)) {
-      const element = value[key];
+      const ele = value[key];
 
-      // multiple image input
-      if (['images', 'interior_images', 'exterior_images'].includes(key)) {
-        for (const iterator in element) {
-          if (Object.hasOwnProperty.call(element, iterator)) {
-            const image = element[iterator];
-            if (image instanceof File) {
-              formData.append(key, image);
+      if (ele !== null && ele !== undefined && ele !== '') {
+        if (['images', 'interior_images', 'exterior_images'].includes(key)) {
+          // multiple image input
+          for (const iterator in ele) {
+            if (Object.hasOwnProperty.call(ele, iterator)) {
+              const image = ele[iterator];
+              if (image instanceof File) {
+                formData.append(key, image);
+              }
             }
           }
-        }
-      } else if (key == 'amenities') {
-        if (Array.isArray(element)) {
-          element.forEach((id) => {
-            if (!isNaN(id)) {
-              formData.append(key, id);
-            }
-          });
-        }
-      } else if (key == 'brochure') {
-        if (element instanceof File) {
-          formData.append(key, element);
-        }
-      } else if (key == 'brochure_thumbnail') {
-        if (element instanceof File) {
-          formData.append(key, element);
-        }
-      } else if (key == 'roadmap') {
-        if (Array.isArray(element)) {
-          const roadmap = element.filter((o) => o.place);
-
-          // don't sent []
-          if (roadmap.length > 0) {
-            formData.append(key, JSON.stringify(roadmap));
+        } else if (key == 'amenities') {
+          if (Array.isArray(ele)) {
+            ele.forEach((id) => {
+              if (!isNaN(id)) {
+                formData.append(key, id);
+              }
+            });
           }
+        } else if (key == 'brochure') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
+        } else if (key == 'brochure_thumbnail') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
+        } else if (key == 'roadmap') {
+          if (Array.isArray(ele)) {
+            const roadmap = ele.filter((o) => o.place);
+
+            // don't sent []
+            if (roadmap.length > 0) {
+              formData.append(key, JSON.stringify(roadmap));
+            }
+          }
+        } else {
+          formData.append(key, ele);
         }
-      } else {
-        formData.append(key, element);
       }
     }
   }
@@ -126,10 +128,6 @@ const ProjectFormProvider = ({ children }) => {
       errorToast(errors);
     }
   }
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   return (
     <ProjectFormContext.Provider

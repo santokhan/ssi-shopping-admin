@@ -147,10 +147,10 @@ const MediaForm = () => {
       </GridSpanFull>
       <GridSpanFull>
         <Box>
-          <h5 className={'font-semibold'}>Plan</h5>
+          <h5 className={'font-semibold capitalize'}>floor plan</h5>
           <InputFile
-            name="plan"
-            value={value.plan || ''}
+            name="floor_plan"
+            value={value.floor_plan || ''}
             setValue={setFormValue}
             className="basis-96 flex-grow"
             accept="application/pdf"
