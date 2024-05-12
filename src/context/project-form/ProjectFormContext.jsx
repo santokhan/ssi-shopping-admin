@@ -37,6 +37,10 @@ function makeFormData(value) {
           if (ele instanceof File) {
             formData.append(key, ele);
           }
+        } else if (key == 'floor_plan_thumbnail') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
         } else if (key == 'brochure') {
           if (ele instanceof File) {
             formData.append(key, ele);

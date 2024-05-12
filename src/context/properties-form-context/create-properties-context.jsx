@@ -30,6 +30,10 @@ function encode(value) {
           if (ele instanceof File) {
             formData.append(key, ele);
           }
+        } else if (key == 'floor_plan_thumbnail') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
         } else {
           formData.append(key, ele);
         }
