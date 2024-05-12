@@ -5,7 +5,7 @@ import { User } from 'iconsax-react';
 import useAxios from '../../../context/useAxios';
 
 const PreviewImage = ({ src = '' }) => {
-  return src.length > 0 ? (
+  return src ? (
     <img
       src={src}
       alt="agent-image-input"
@@ -22,11 +22,11 @@ const AgentImageInput = ({
   onChangeImage = (file) => {},
   API_URL = '',
   required = false,
+  value = '',
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [inputImage, setInputImage] = useState(null);
   const fileInputRef = useRef(null);
-  const { api } = useAxios();
 
   useEffect(() => {
     if (agentId || src) {
@@ -37,30 +37,10 @@ const AgentImageInput = ({
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (!isValidFileType(file)) {
-        alert('Invalid file type. Please select a JPEG or PNG file.');
-        return;
-      }
-      if (!isValidFileSize(file)) {
-        alert(
-          'File size exceeds limit. Please select a file smaller than 5MB.',
-        );
-        return;
-      }
       setInputImage(file);
       setImageSrc(URL.createObjectURL(file));
       onChangeImage(file);
     }
-  };
-
-  const isValidFileType = (file) => {
-    const acceptedTypes = ['image/*'];
-    return acceptedTypes.includes(file.type);
-  };
-
-  const isValidFileSize = (file) => {
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    return file.size <= maxSize;
   };
 
   const handleButtonClick = () => {
@@ -108,7 +88,6 @@ const AgentImageInput = ({
             onChange={handleFileChange}
             className="opacity-0 absolute inset-0"
             required={required}
-            defaultValue={''}
           />
         </div>
         <p>{'Photos must be JPEG or PNG format and least 2048x2048'}</p>

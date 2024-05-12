@@ -15,6 +15,8 @@ import Select from '../../../components/form/input/SelectOption';
 import FormBox from '../../../components/form/FormBox';
 import BackAnchor from '../../../components/BackAnchor';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
+import { errorToast } from '../../../components/ShowError';
+import FormTitle from '../../../components/form/FormTitle';
 
 const SharedForm = ({ onSubmit }) => {
   const { value, setValue } = useContext(LocationsContext);
@@ -79,13 +81,30 @@ const SharedForm = ({ onSubmit }) => {
       <InputFileSingle
         name="icon"
         setValue={setValue}
-        required
+        required={!value.icon}
         value={value.icon}
       />
       <div className="">
         <SubmitButton type="submit" className="" />
       </div>
     </form>
+  );
+};
+
+/**
+ *
+ * @param {*} id :id from route path
+ * @returns
+ */
+const FormHeader = ({ id = '' }) => {
+  return (
+    <>
+      <div className="flex items-center gap-2">
+        {id && <BackAnchor to="/locations" />}
+        <FormTitle>{id ? 'Edit Form' : 'Create form'}</FormTitle>
+      </div>
+      <hr />
+    </>
   );
 };
 
@@ -121,27 +140,42 @@ export const CreateLocations = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
-        const data = err.response.data;
-
-        if (data) {
-          Object.keys(data).forEach((key) => {
-            toast.error(data[key]);
-          });
-        }
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
   return (
     <FormBox>
-      <h5 className="text-lg font-semibold">Create Location</h5>
+      <FormHeader id={''} />
       <SharedForm onSubmit={handleSubmit} />
     </FormBox>
   );
 };
 
+const encode = (value) => {
+  const formData = new FormData();
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+      /**
+       * Always check this input name ➡ 'icon'
+       */
+      if (key == 'icon') {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
+        // don't append if it is not a File
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+  return formData;
+};
+
 export const EditLocations = () => {
-  const { setValue, refetch } = useContext(LocationsContext);
+  const { value, setValue, refetch } = useContext(LocationsContext);
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -152,6 +186,8 @@ export const EditLocations = () => {
       .get(`areas/${id}/`)
       .then((res) => {
         if (res.data) {
+          setIsLoading(false);
+
           const data = res.data;
           setValue('city', data.city.id);
           setValue('country', data.city.country);
@@ -161,10 +197,8 @@ export const EditLocations = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   }, [id]);
 
@@ -172,7 +206,7 @@ export const EditLocations = () => {
     e.preventDefault();
 
     api
-      .patch(`areas/${id}/`, new FormData(e.target), {
+      .patch(`areas/${id}/`, encode(value), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
@@ -200,15 +234,9 @@ export const EditLocations = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-      <div className="flex items-center gap-2">
-        {id && <BackAnchor to="/locations" />}
-        <h5 className="text-lg font-semibold">
-          {id ? 'Edit location' : 'Create location'}
-        </h5>
-      </div>
-      <hr />
+    <FormBox>
+      <FormHeader id={id} />
       <SharedForm onSubmit={handleSubmit} />
-    </div>
+    </FormBox>
   );
 };

@@ -9,31 +9,32 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import BackAnchor from '../../../components/BackAnchor';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
+import { errorToast } from '../../../components/ShowError';
 
 const inputs = {
   title: 'title',
   icon: 'icon',
 };
 
-const AmenitiesForm = ({ handleSubmit, type = 'create' }) => {
+const AmenitiesForm = ({ handleSubmit }) => {
   const { value, setValue } = useContext(AmenitiesContext);
 
   return (
     <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
       <Input
-        label={inputs.title}
+        label="title"
         type="text"
         className="w-full"
         onChange={(e) => {
-          setValue(inputs.title, e.target.value);
+          setValue('title', e.target.value);
         }}
-        value={value[inputs.title]}
-        name={inputs.title}
+        value={value.title}
+        name={'title'}
         required
       />
       <InputFileSingle
         name="icon"
-        required={type === 'create'}
+        required={!value.icon}
         setValue={setValue}
         value={value.icon}
       />
@@ -55,8 +56,11 @@ export const CreateAmenities = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(encode(value));
+
     api
-      .post('amenities/', new FormData(e.target), {
+      .post('amenities/', encode(value), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
@@ -74,7 +78,8 @@ export const CreateAmenities = () => {
         setValue(inputs.icon, '');
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
@@ -89,6 +94,27 @@ export const CreateAmenities = () => {
   );
 };
 
+const encode = (value) => {
+  const formData = new FormData();
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+      /**
+       * Always check this input name ➡ 'icon'
+       */
+      if (key == inputs.icon) {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
+        // don't append if it is not a File
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+  return formData;
+};
+
 export const EditAmenities = () => {
   const { value, setValue, refetch } = useContext(AmenitiesContext);
   const { api } = useAxios();
@@ -100,6 +126,8 @@ export const EditAmenities = () => {
     api
       .get(`amenities/${id}/`)
       .then((res) => {
+        setIsLoading(false);
+
         if (res.data) {
           const data = res.data;
           setValue(inputs.title, data.title);
@@ -107,17 +135,16 @@ export const EditAmenities = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     api
-      .patch(`amenities/${id}/`, new FormData(e.target), {
+      .patch(`amenities/${id}/`, encode(value), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
@@ -135,10 +162,11 @@ export const EditAmenities = () => {
         setValue(inputs.icon, '');
 
         // redirect
-        window.history.back();
+        navigate('/amenities');
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
@@ -157,6 +185,7 @@ export const EditAmenities = () => {
             value={value}
             setValue={setValue}
             handleSubmit={handleSubmit}
+            type="edit"
           />
         </div>
       )}

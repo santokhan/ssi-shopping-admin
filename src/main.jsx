@@ -5,9 +5,9 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import router from './router/router.jsx';
 import { AuthProvider } from './context/auth-context.jsx';
-import PropertyFormProvider from './context/properties-form-context/create-properties-context.jsx';
 import AxiosProvider from './context/axios-context.jsx';
 import PrivateRoutes from './router/private.jsx';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <RouterProvider router={router}>
           <App />
         </RouterProvider>
+        <ToastContainer />
       </AxiosProvider>
     </AuthProvider>
   </React.StrictMode>,

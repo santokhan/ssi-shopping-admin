@@ -20,6 +20,7 @@ import CategoriesProvider, {
   CategoriesContext,
 } from '../../context/CategoriesContext';
 import splitSpeaks from '../../utils/splitSpeaks';
+import { errorToast } from '../../components/ShowError';
 
 const inputs = {
   display_name: 'display_name',
@@ -102,7 +103,7 @@ const AgentForm = ({ agent = null }) => {
     setFormState(initialAgent);
 
     // redirect
-    window.history.back();
+    navigate('/agents');
   }
 
   async function onSubmit(e) {
@@ -147,17 +148,9 @@ const AgentForm = ({ agent = null }) => {
             resetRedirect();
           }
         }
-      } catch (error) {
-        const res = error.response.data;
-
-        for (const key in res) {
-          if (Object.hasOwnProperty.call(res, key)) {
-            const element = res[key];
-            setError((prev) => ({ ...prev, [key]: element[0] }));
-          }
-        }
-
-        console.log(error);
+      } catch (err) {
+        const errors = err?.response?.data;
+        errorToast(errors);
       }
     }
   }

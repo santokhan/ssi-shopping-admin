@@ -87,9 +87,9 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
       <div className="w-full md:w-1/2">
         <TableTitle>{tableTitle}</TableTitle>
       </div>
-      <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
+      {/* <div className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
         <AddButton to="/testimonials/create/">Add new testimonials</AddButton>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,12 +3,14 @@ import SubmitButton from '../../../components/form/SubmitButton';
 import Input from '../../../components/form/input/Input';
 import { useContext, useEffect, useState } from 'react';
 import useAxios from '../../../context/useAxios';
-import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { FeaturesContext } from '../../../context/features/features-context';
 import BackAnchor from '../../../components/BackAnchor';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
+import { errorToast } from '../../../components/ShowError';
+import FormTitle from '../../../components/form/FormTitle';
+import FormBox from '../../../components/form/FormBox';
 
 const inputs = {
   name: 'name',
@@ -34,7 +36,7 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
       <InputFileSingle
         name="image"
         setValue={setValue}
-        required
+        required={!value.image}
         value={value.image}
       />
       <div className="">
@@ -44,23 +46,43 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
   );
 };
 
+/**
+ *
+ * @param {*} id :id from route path
+ * @returns
+ */
+const FormHeader = ({ id = '' }) => {
+  return (
+    <>
+      <div className="flex items-center gap-2">
+        {id && <BackAnchor to="/features" />}
+        <FormTitle>{id ? 'Edit Form' : 'Create form'}</FormTitle>
+      </div>
+      <hr />
+    </>
+  );
+};
+
 export const CreateFeatures = () => {
-  const { value, setValue, refetch } = useContext(FeaturesContext);
+  const { setValue, refetch } = useContext(FeaturesContext);
   const { api } = useAxios();
+  const { id = '' } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formData = new FormData(e.target);
+    if (!(formData.get('image') instanceof File)) {
+      formData.delete('image');
+    }
+
     api
-      .post('features/', new FormData(e.target), {
+      .post('features/', formData, {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
-
         // refetch table
         refetch();
 
@@ -69,22 +91,46 @@ export const CreateFeatures = () => {
         setValue(inputs.image, '');
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
   return (
-    <div className={twMerge('bg-white p-4 lg:p-6')}>
+    <FormBox>
+      <FormHeader id={id} />
       <SharedForm onSubmit={handleSubmit} />
-    </div>
+    </FormBox>
   );
+};
+
+const encode = (value) => {
+  const formData = new FormData();
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+      /**
+       * Always check this input name ➡ 'image'
+       */
+      if (key == 'image') {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
+        // don't append if it is not a File
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+  return formData;
 };
 
 export const EditFeatures = () => {
   const { value, setValue, refetch } = useContext(FeaturesContext);
   const { api } = useAxios();
-  const { id } = useParams();
+  const { id = '' } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -96,7 +142,8 @@ export const EditFeatures = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -105,23 +152,25 @@ export const EditFeatures = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     api
-      .patch(`features/${id}/`, new FormData(e.target), {
+      .patch(`features/${id}/`, encode(value), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Added`, { type: 'success' });
-
         refetch();
 
         // reset
         setValue(inputs.name, '');
         setValue(inputs.image, '');
+
+        navigate('/features');
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
@@ -130,14 +179,10 @@ export const EditFeatures = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-          <div className="flex items-center gap-2">
-            <BackAnchor to="/features" />
-            <h5 className="text-lg font-semibold">Edit Form</h5>
-          </div>
-          <hr />
+        <FormBox>
+          <FormHeader id={id} />
           <SharedForm onSubmit={handleSubmit} />
-        </div>
+        </FormBox>
       )}
     </>
   );

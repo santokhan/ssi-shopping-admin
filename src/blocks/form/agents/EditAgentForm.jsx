@@ -10,7 +10,6 @@ import MultipleSelect from '../../../components/form/input/MultipleSelect';
 import { nationalityList } from '../../../utils/nationality';
 import useAxios from '../../../context/useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import InputBox from '../../../components/form/InputBox';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import {
@@ -20,8 +19,10 @@ import {
 import CategoriesProvider, {
   CategoriesContext,
 } from '../../../context/CategoriesContext';
+import { errorToast } from '../../../components/ShowError';
 
 const inputs = {
+  photo: 'photo',
   display_name: 'display_name',
   email: 'email',
   phone: 'phone',
@@ -37,6 +38,7 @@ const inputs = {
 };
 
 const initialAgent = {
+  photo: '',
   display_name: '',
   email: '',
   phone: '',
@@ -111,11 +113,12 @@ const EditAgentForm = () => {
       .then((res) => {
         if (res) {
           // redirect
-          window.history.back();
+          navigate('agents');
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   }
 
@@ -151,7 +154,8 @@ const EditAgentForm = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   }, [id]);
 
@@ -162,9 +166,9 @@ const EditAgentForm = () => {
           <FormTitle>Photo</FormTitle>
           <AgentImageInput
             src={imageUrl}
-            // onChangeImage={(file) => {
-            //   console.log(file);
-            // }}
+            onChangeImage={(file) => {
+              console.log(file);
+            }}
           />
         </InputBox>
         <Input

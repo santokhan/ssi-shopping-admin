@@ -5,10 +5,14 @@ import MediaInput from '../../../components/form/input/MediaInput';
 import { useContext, useEffect, useState } from 'react';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import { DevelopersContext } from '../../../context/developers/developers-context';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
+import { errorToast } from '../../../components/ShowError';
+import BackAnchor from '../../../components/BackAnchor';
+import FormTitle from '../../../components/form/FormTitle';
+import FormBox from '../../../components/form/FormBox';
 
 const inputs = {
   name: 'name',
@@ -34,7 +38,7 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
       <InputFileSingle
         name={inputs.image}
         setValue={setValue}
-        required={true}
+        required={!value.image}
         value={value.image}
       />
       <div className="">
@@ -44,8 +48,47 @@ const SharedForm = ({ onSubmit = (e) => {} }) => {
   );
 };
 
+/**
+ *
+ * @param {*} id :id from route path
+ * @returns
+ */
+const FormHeader = ({ id = '' }) => {
+  return (
+    <>
+      <div className="flex items-center gap-2">
+        {id && <BackAnchor to="/developers" />}
+        <FormTitle>{id ? 'Edit Form' : 'Create form'}</FormTitle>
+      </div>
+      <hr />
+    </>
+  );
+};
+
+const encode = (value) => {
+  const formData = new FormData();
+  for (const key in value) {
+    if (Object.hasOwnProperty.call(value, key)) {
+      const element = value[key];
+      /**
+       * Always check this input name ➡ 'image'
+       */
+      if (key == 'image') {
+        if (element instanceof File) {
+          formData.append(key, element);
+        }
+        // don't append if it is not a File
+      } else {
+        formData.append(key, element);
+      }
+    }
+  }
+  return formData;
+};
+
 export const CreateDevelopers = () => {
   const { setValue, refetch } = useContext(DevelopersContext);
+  const navigate = useNavigate();
 
   // Clear inputs when component mounts
   useEffect(() => {
@@ -70,25 +113,30 @@ export const CreateDevelopers = () => {
           // reset
           setValue(inputs.name, '');
           setValue(inputs.image, '');
+
+          navigate('/developers');
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
   return (
-    <div className={twMerge('bg-white p-4 lg:p-6')}>
+    <FormBox>
+      <FormHeader id={''} />
       <SharedForm onSubmit={handleSubmit} />
-    </div>
+    </FormBox>
   );
 };
 
 export const EditDevelopers = () => {
-  const { setValue, refetch } = useContext(DevelopersContext);
+  const { value, setValue, refetch } = useContext(DevelopersContext);
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Assign values to inputs when component mounts
   // For edit form
@@ -103,7 +151,8 @@ export const EditDevelopers = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       })
       .finally(() => {
         setIsLoading(false);
@@ -113,15 +162,12 @@ export const EditDevelopers = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     api
-      .patch(`developers/${id}/`, new FormData(e.target), {
+      .patch(`developers/${id}/`, encode(value), {
         header: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
-        toast(`Added`, {
-          type: 'success',
-        });
         if (res) {
           // refetch table
           refetch();
@@ -131,11 +177,12 @@ export const EditDevelopers = () => {
           setValue(inputs.image, '');
 
           // redirect
-          window.history.back();
+          navigate('/developers');
         }
       })
       .catch((err) => {
-        console.log(err);
+        const errors = err?.response?.data;
+        errorToast(errors);
       });
   };
 
@@ -144,11 +191,10 @@ export const EditDevelopers = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
-          <h5 className="text-lg font-semibold">Edit Form</h5>
-          <hr />
+        <FormBox>
+          <FormHeader id={id} />
           <SharedForm onSubmit={handleSubmit} />
-        </div>
+        </FormBox>
       )}
     </>
   );
