@@ -3,7 +3,6 @@ import { FinalSubmitButton } from '../../../components/form/SubmitButton';
 import { useEffect, useState } from 'react';
 import { formBack } from '../../../utils/form-steps';
 import { getAmenities } from '../../../axios/property/get';
-// import dummyImageFile from '../../../utils/base64';
 
 function CheckBoxContainer({ amenity, onChange, checked }) {
   if (!amenity.id) {
