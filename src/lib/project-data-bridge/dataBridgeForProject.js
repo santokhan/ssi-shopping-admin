@@ -25,6 +25,7 @@ const dataBridgeForProperties = (properties = {}) => {
             exterior_images: p.exterior_images || [],
             exterior_description: p.exterior_description,
             floor_plan: p.floor_plan || '',
+            floor_plan_thumbnail: p.floor_plan_thumbnail || '',
             brochure: p.brochure || '',
             brochure_thumbnail: p.brochure_thumbnail || '',
             country: p.country.id,

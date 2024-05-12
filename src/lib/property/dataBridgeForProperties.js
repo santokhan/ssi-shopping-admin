@@ -19,6 +19,7 @@ const dataBridgeForProperties = (properties = {}) => {
             embed_video_id: p.embed_video_id,
             virtual_tour: p.virtual_tour,
             floor_plan: p.floor_plan,
+            floor_plan_thumbnail: p.floor_plan_thumbnail || '',
             address: p.address,
             country: p.country.id,
             city: p.city.id,
