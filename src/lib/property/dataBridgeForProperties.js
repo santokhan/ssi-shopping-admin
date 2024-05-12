@@ -1,3 +1,4 @@
+import validateCoordinate from "../../utils/coordinates";
 import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
 const dataBridgeForProperties = (properties = {}) => {
@@ -22,8 +23,8 @@ const dataBridgeForProperties = (properties = {}) => {
             country: p.country.id,
             city: p.city.id,
             area: p.area.id,
-            latitude: p.latitude,
-            longitude: p.longitude,
+            latitude: validateCoordinate(p.latitude),
+            longitude: validateCoordinate(p.longitude),
             size: p.size,
             built_up_size: p.built_up_size,
             bedrooms: p.bedrooms,

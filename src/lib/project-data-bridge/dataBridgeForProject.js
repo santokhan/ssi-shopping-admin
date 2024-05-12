@@ -1,3 +1,4 @@
+import validateCoordinate from "../../utils/coordinates";
 import { Initial_Roadmap } from "../../utils/initialRoadmap";
 
 const dataBridgeForProperties = (properties = {}) => {
@@ -29,8 +30,8 @@ const dataBridgeForProperties = (properties = {}) => {
             country: p.country.id,
             city: p.city.id,
             area: p.area.id,
-            latitude: p.latitude,
-            longitude: p.longitude,
+            latitude: validateCoordinate(p.latitude),
+            longitude: validateCoordinate(p.longitude),
             roadmap: Array.isArray(p.roadmap) ? p.roadmap : [Initial_Roadmap],
             size: p.size,
             built_up_size: p.built_up_size,
