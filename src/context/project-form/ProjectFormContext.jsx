@@ -3,6 +3,7 @@ import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PROJECT_INPUTS } from './initial';
 import dataBridgeForProperties from '../../lib/project-data-bridge/dataBridgeForProject';
+import { errorToast } from '../../components/ShowError';
 
 export const ProjectFormContext = createContext(null);
 
@@ -120,8 +121,9 @@ const ProjectFormProvider = ({ children }) => {
         // redirect
         navigate('/projects');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const errors = err?.response?.data;
+      errorToast(errors);
     }
   }
 

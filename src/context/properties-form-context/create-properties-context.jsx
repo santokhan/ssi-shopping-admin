@@ -3,10 +3,11 @@ import useAxios from '../useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL, INITIAL_VALUES } from './initial';
 import dataBridgeForProperties from '../../lib/property/dataBridgeForProperties';
+import { errorToast } from '../../components/ShowError';
 
 export const PropertyFormContext = React.createContext(null);
 
-function makeFormData(value) {
+function encode(value) {
   const formData = new FormData();
 
   for (const key in value) {
@@ -87,7 +88,7 @@ const PropertyFormProvider = ({ children }) => {
   async function onCreate(e) {
     e.preventDefault();
 
-    const formData = makeFormData(value);
+    const formData = encode(value);
 
     try {
       const res = await api.post('/properties/', formData, {
@@ -97,15 +98,16 @@ const PropertyFormProvider = ({ children }) => {
       if (res) {
         navigate('/properties');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const errors = err?.response?.data;
+      errorToast(errors);
     }
   }
 
   async function onEdit(e) {
     e.preventDefault();
 
-    const formData = makeFormData(value);
+    const formData = encode(value);
 
     try {
       const res = await api.patch(`/properties/${params.id}/`, formData, {
@@ -115,8 +117,9 @@ const PropertyFormProvider = ({ children }) => {
       if (res) {
         navigate('/properties');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const errors = err?.response?.data;
+      errorToast(errors);
     }
   }
 
