@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -13,7 +13,6 @@ import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
 import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
-import Print from '../../components/Print';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
