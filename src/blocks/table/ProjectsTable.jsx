@@ -200,16 +200,20 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((property, i) => {
-                    return (
-                      <Fragment key={i}>
-                        <ProjectTableRow
-                          property={property}
-                          refetch={refetch}
-                        />
-                      </Fragment>
-                    );
-                  })}
+                  {filtered
+                    .sort(
+                      (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
+                    )
+                    .map((property, i) => {
+                      return (
+                        <Fragment key={i}>
+                          <ProjectTableRow
+                            property={property}
+                            refetch={refetch}
+                          />
+                        </Fragment>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
