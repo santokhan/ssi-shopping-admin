@@ -245,18 +245,20 @@ const EnquiriesTable = ({ className = '' }) => {
               </thead>
               <tbody>
                 <EnquiryStatusProvider>
-                  {enquiries.map((_, i) => {
-                    return (
-                      <Fragment key={i}>
-                        <EnquiriesTableRow
-                          id={_.id} // it require here
-                          enquiry={_}
-                          refetch={refetch}
-                          changeColName={changeColName}
-                        />
-                      </Fragment>
-                    );
-                  })}
+                  {enquiries
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .map((_, i) => {
+                      return (
+                        <Fragment key={i}>
+                          <EnquiriesTableRow
+                            id={_.id} // it require here
+                            enquiry={_}
+                            refetch={refetch}
+                            changeColName={changeColName}
+                          />
+                        </Fragment>
+                      );
+                    })}
                 </EnquiryStatusProvider>
               </tbody>
             </table>
