@@ -6,10 +6,28 @@ import MediaInput from '../../../components/form/input/MediaInput';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PropertiesFormTitle from '../../../components/form/PropertiesFormTitle';
 import { formBack, formNext } from '../../../utils/form-steps';
-import Print from '../../../components/Print';
 import useAxios from '../../../context/useAxios';
+import { twMerge } from 'tailwind-merge';
+import InputFile from '../../../components/form/input/InputFile';
 
 const inputList = ['video_from', 'embed_video_id', 'virtual_tour'];
+
+const Box = ({ children, className }) => (
+  <div className={twMerge('basis-96 flex-grow space-y-2', className)}>
+    {children}
+  </div>
+);
+
+const GridSpanFull = ({ children, className }) => (
+  <div
+    className={twMerge(
+      'col-span-full flex flex-wrap gap-4 sm:gap-6',
+      className,
+    )}
+  >
+    {children}
+  </div>
+);
 
 const inputs = inputList.reduce((obj, item) => {
   obj[item] = item;
@@ -94,6 +112,22 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
         }}
         placeholder="https://www.youtube.com/channel/UCwvj_fVMtGYk8J5-8bhmH8A"
       />
+      <GridSpanFull>
+        <Box>
+          <h5 className={'font-semibold capitalize'}>floor plan</h5>
+          <InputFile
+            name="floor_plan"
+            value={value.floor_plan || ''}
+            setValue={setValue}
+            className="basis-96 flex-grow"
+            accept="application/pdf"
+            onRemove={() => {
+              // remove from server
+              // api call
+            }}
+          />
+        </Box>
+      </GridSpanFull>
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );
