@@ -33,6 +33,10 @@ function makeFormData(value) {
               }
             });
           }
+        } else if (key == 'floor_plan') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
         } else if (key == 'brochure') {
           if (ele instanceof File) {
             formData.append(key, ele);

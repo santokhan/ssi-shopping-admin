@@ -26,6 +26,10 @@ function encode(value) {
               }
             }
           }
+        } else if (key == 'floor_plan') {
+          if (ele instanceof File) {
+            formData.append(key, ele);
+          }
         } else {
           formData.append(key, ele);
         }
