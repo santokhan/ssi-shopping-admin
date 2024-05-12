@@ -123,7 +123,7 @@ const DescriptionForm = ({ value, setValue }) => {
         required
         disabled={categories.length === 0}
       />
-      <Select
+      {/* <Select
         name={inputs.listed_in}
         label={inputs.listed_in}
         options={[
@@ -142,7 +142,7 @@ const DescriptionForm = ({ value, setValue }) => {
         }}
         error={error.title}
         required
-      />
+      /> */}
       <Select
         name={inputs.agent}
         label={inputs.agent}
@@ -180,7 +180,7 @@ const DescriptionForm = ({ value, setValue }) => {
         min={0}
         required
       />
-      <Select
+      {/* <Select
         name={inputs.featured}
         label={inputs.featured}
         options={yesNoOptions}
@@ -189,7 +189,7 @@ const DescriptionForm = ({ value, setValue }) => {
           setValue(inputs.featured, e.target.value);
         }}
         error={error.title}
-      />
+      /> */}
       <PrevAndNext back="/properties" />
     </ResponsiveForm>
   );
