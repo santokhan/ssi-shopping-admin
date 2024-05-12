@@ -147,6 +147,22 @@ const MediaForm = () => {
       </GridSpanFull>
       <GridSpanFull>
         <Box>
+          <h5 className={'font-semibold'}>Plan</h5>
+          <InputFile
+            name="plan"
+            value={value.plan || ''}
+            setValue={setFormValue}
+            className="basis-96 flex-grow"
+            accept="application/pdf"
+            onRemove={() => {
+              // remove from server
+              // api call
+            }}
+          />
+        </Box>
+      </GridSpanFull>
+      <GridSpanFull>
+        <Box>
           <h5 className={'font-semibold'}>Upload Brochure</h5>
           <InputFile
             name="brochure"

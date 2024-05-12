@@ -1,37 +1,39 @@
 import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
 const dataBridgeForProperties = (properties = {}) => {
-    if (typeof properties === 'object') {
+    const p = properties
+    if (typeof p === 'object') {
         // custom structure don't make function for that
         const converted = {
-            [inn.title]: properties[inn.title],
-            [inn.description]: properties[inn.description],
-            [inn.category]: properties[inn.category].id,
-            [inn.listed_in]: properties[inn.listed_in],
-            [inn.agent]: properties[inn.agent].id,
-            [inn.status]: properties[inn.status],
-            [inn.price]: properties[inn.price],
-            [inn.featured]: properties[inn.featured],
-            [inn.images]: properties[inn.images],
-            [inn.video_from]: properties[inn.video_from],
-            [inn.embed_video_id]: properties[inn.embed_video_id],
-            [inn.virtual_tour]: properties[inn.virtual_tour],
-            [inn.address]: properties[inn.address],
-            [inn.country]: properties[inn.country].id,
-            [inn.city]: properties[inn.city].id,
-            [inn.area]: properties[inn.area].id,
-            [inn.latitude]: properties[inn.latitude],
-            [inn.longitude]: properties[inn.longitude],
-            [inn.size]: properties[inn.size],
-            [inn.built_up_size]: properties[inn.built_up_size],
-            [inn.bedrooms]: properties[inn.bedrooms],
-            [inn.bathrooms]: properties[inn.bathrooms],
-            [inn.parking]: properties[inn.parking],
-            [inn.garage_size]: properties[inn.garage_size],
-            [inn.year_built]: properties[inn.year_built],
-            [inn.basement]: properties[inn.basement],
-            [inn.extra_detail]: properties[inn.extra_detail],
-            [inn.amenities]: properties[inn.amenities].map(e => {
+            title: p.title,
+            description: p.description,
+            category: p.category.id,
+            listed_in: p.listed_in,
+            agent: p.agent.id,
+            status: p.status,
+            price: p.price,
+            featured: p.featured,
+            images: p.images,
+            video_from: p.video_from,
+            embed_video_id: p.embed_video_id,
+            virtual_tour: p.virtual_tour,
+            plan: p.plan,
+            address: p.address,
+            country: p.country.id,
+            city: p.city.id,
+            area: p.area.id,
+            latitude: p.latitude,
+            longitude: p.longitude,
+            size: p.size,
+            built_up_size: p.built_up_size,
+            bedrooms: p.bedrooms,
+            bathrooms: p.bathrooms,
+            parking: p.parking,
+            garage_size: p.garage_size,
+            year_built: p.year_built,
+            basement: p.basement,
+            extra_detail: p.extra_detail,
+            amenities: p.amenities.map(e => {
                 if (typeof e === 'object' && e.id) {
                     return e.id
                 }
