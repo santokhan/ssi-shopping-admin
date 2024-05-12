@@ -56,12 +56,12 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
       <GoogleMapReact
         bootstrapURLKeys={{
           key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
-          // key: 'AIzaSyBOcRW6uzV5cgAgapo9iXMhx8FxJQJEqAo',
         }}
         defaultCenter={initialPin}
         defaultZoom={10}
         onClick={handleMapClick}
-        onTilesLoaded={handleMapClick}
+        onGoogleApiLoaded={handleMapClick}
+        onChange={handleMapClick}
       >
         <></>
       </GoogleMapReact>
