@@ -1,4 +1,5 @@
 import validateCoordinate from "../../utils/coordinates";
+import checkFalsyValue from "../../utils/filterFalsyValue";
 import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
 const dataBridgeForProperties = (properties = {}) => {
@@ -35,6 +36,12 @@ const dataBridgeForProperties = (properties = {}) => {
             year_built: p.year_built,
             basement: p.basement,
             extra_detail: p.extra_detail,
+            // QR Code 4 inputs
+            project_number: p.project_number,
+            permit_no: p.permit_no,
+            developer: p.developer?.id,
+            qr_code: p.qr_code,
+            // amenities
             amenities: p.amenities.map(e => {
                 if (typeof e === 'object' && e.id) {
                     return e.id
@@ -44,7 +51,7 @@ const dataBridgeForProperties = (properties = {}) => {
                 }
             }).filter(e => e),
         }
-        return converted
+        return checkFalsyValue(converted)
     } else {
         throw new Error('property must be an object');
     }

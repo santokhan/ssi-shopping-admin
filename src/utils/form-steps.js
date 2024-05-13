@@ -19,6 +19,10 @@ const formSteps = [
         to: 'details',
     },
     {
+        name: 'QR Code',
+        to: 'qr-code',
+    },
+    {
         name: 'Amenities',
         to: 'amenities',
     },

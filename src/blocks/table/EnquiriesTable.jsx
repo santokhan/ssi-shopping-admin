@@ -43,6 +43,7 @@ import { CloseSquare, Edit, TickSquare } from 'iconsax-react';
 import EnquiryStatusProvider, {
   EnquiryStatusContext,
 } from '../../context/enquiries/EnquiryStatusContext';
+import Print from '../../components/Print';
 
 const EnquiryStatus = ({ status, id }) => {
   const { statusFormIndex, setStatusFormIndex } =
@@ -114,37 +115,26 @@ const EnquiryStatus = ({ status, id }) => {
   }
 };
 
-const EnquiriesTableRow = ({
-  enquiry,
-  refetch,
-  changeColName = () => {},
-  id,
-}) => {
+const EnquiriesTableRow = ({ enquiry, refetch, id }) => {
+  const Resource = (type, id) => {
+    let path = '';
+    if (enquiry.resource_type.toLowerCase() === 'property') {
+      path = '/properties';
+    }
+    if (enquiry.resource_type.toLowerCase() === 'project') {
+      path = '/projects';
+    }
+
+    return (
+      <Link to={`${path}/${enquiry.resource_id}/`} className="hover:underline">
+        {enquiry.resource_id}
+      </Link>
+    );
+  };
+
   if (!enquiry) {
     return null;
   } else {
-    const Resource = (changeColName = () => {}) => {
-      if (enquiry.resource_type.toLowerCase() === 'property') {
-        return (
-          <Link
-            to={`/enquiries/${enquiry.resource_id}/`}
-            className="hover:underline"
-          >
-            {enquiry.resource_id}
-          </Link>
-        );
-      } else if (enquiry.resource_type.toLowerCase() === 'project') {
-        return (
-          <Link
-            to={`/enquiries/${enquiry.resource_id}/`}
-            className="hover:underline"
-          >
-            {enquiry.resource_id}
-          </Link>
-        );
-      }
-    };
-
     return (
       <tr className="border-b bg-white">
         <td className="px-6 py-4 font-medium text-gray-900" width={200}>
@@ -159,13 +149,20 @@ const EnquiriesTableRow = ({
           {enquiry.phone}
         </td>
         <td className="px-6 py-4" width={200}>
-          <Resource changeColName={changeColName} />
+          <Resource />
         </td>
         <td className="px-6 py-4" width={200}>
           <EnquiryStatus id={id} status={enquiry.status} />
         </td>
         <td className="px-6 py-4" width={200}>
           <span className="whitespace-nowrap">{formatDate(enquiry.date)}</span>
+        </td>
+        <td className="px-6 py-4" width={200}>
+          {enquiry.updated_on && (
+            <span className="whitespace-nowrap">
+              {formatDate(enquiry.updated_on)}
+            </span>
+          )}
         </td>
         <td className="px-6 py-4">
           <EnquiriesTableAction id={enquiry.id} refetch={refetch} />
@@ -183,6 +180,7 @@ const EnquiriesTable = ({ className = '' }) => {
     'property',
     'status',
     'date',
+    'updated on',
     'action',
   ]);
 
@@ -220,27 +218,20 @@ const EnquiriesTable = ({ className = '' }) => {
             <table className="w-full text-sm text-gray-500 rtl:text-right">
               <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                 <tr>
-                  <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                    {headList[0]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    {headList[1]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    {headList[2]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    {headList[3]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    {headList[4]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    {headList[5]}
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3" width={120}>
-                    {headList[6]}
-                  </th>
+                  {headList.map((_, i) => (
+                    <th
+                      scope="col"
+                      className={`text-start px-6 py-3 ${
+                        i === 0 || i == headList.length - 1
+                          ? 'rounded-l-lg'
+                          : ''
+                      }`}
+                      key={i}
+                      width={i === headList.length - 1 ? 120 : 'auto'}
+                    >
+                      {_}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>

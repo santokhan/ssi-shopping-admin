@@ -17,12 +17,14 @@ function CheckBoxContainer({ amenity, onChange, checked }) {
           className="h-4 w-4 rounded-lg border-gray-300"
           onChange={onChange}
           checked={checked}
+          title={amenity.id}
         />
         {amenity.icon && (
           <img
             src={amenity.icon}
             alt={amenity.title}
             className="size-12 rounded-full overflow-hidden object-cover"
+            title={amenity.icon}
           />
         )}
         <span className="font-medium text-gray-900 capitalize">

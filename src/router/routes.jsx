@@ -52,6 +52,7 @@ import LayoutTestimonials from '../layout/Testimonials.jsx';
 import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
 import TestiFormContextProvider from '../context/testimonials/TestiFormContext.jsx';
 import FormTestimonials from '../blocks/form/testimonials/Testimonials.jsx';
+import QRCodeTab from '../pages/properties/create/qr-code/QRCode.jsx';
 
 const authRoutes = [
   {
@@ -147,6 +148,10 @@ export const routes = [
                 element: <PDetails />,
               },
               {
+                path: 'qr-code',
+                element: <QRCodeTab />,
+              },
+              {
                 path: 'amenities',
                 element: <PAmenities />,
               },
@@ -175,6 +180,10 @@ export const routes = [
               {
                 path: 'details',
                 element: <PDetails />,
+              },
+              {
+                path: 'qr-code',
+                element: <QRCodeTab />,
               },
               {
                 path: 'amenities',
@@ -277,16 +286,20 @@ export const routes = [
                 element: <ProjectDetails />,
               },
               {
-                path: 'amenities',
-                element: <ProjectAmenities />,
-              },
-              {
                 path: 'location',
                 element: <ProjectLocation />,
               },
               {
                 path: 'media',
                 element: <ProjectMedia />,
+              },
+              {
+                path: 'qr-code',
+                element: <QRCodeTab />,
+              },
+              {
+                path: 'amenities',
+                element: <ProjectAmenities />,
               },
             ],
           },
@@ -303,16 +316,20 @@ export const routes = [
                 element: <ProjectDetails />,
               },
               {
-                path: 'amenities',
-                element: <ProjectAmenities type="edit" />,
-              },
-              {
                 path: 'location',
                 element: <ProjectLocation />,
               },
               {
                 path: 'media',
                 element: <ProjectMedia />,
+              },
+              {
+                path: 'qr-code',
+                element: <QRCodeTab />,
+              },
+              {
+                path: 'amenities',
+                element: <ProjectAmenities type="edit" />,
               },
             ],
           },

@@ -1,4 +1,5 @@
 import validateCoordinate from "../../utils/coordinates";
+import checkFalsyValue from "../../utils/filterFalsyValue";
 import { Initial_Roadmap } from "../../utils/initialRoadmap";
 
 const dataBridgeForProperties = (properties = {}) => {
@@ -6,6 +7,7 @@ const dataBridgeForProperties = (properties = {}) => {
     if (typeof properties === 'object') {
         // custom structure don't make function for that
         const converted = {
+            // description
             title: p.title,
             description: p.description,
             category: p.category.id,
@@ -24,25 +26,24 @@ const dataBridgeForProperties = (properties = {}) => {
             interior_description: p.interior_description,
             exterior_images: p.exterior_images || [],
             exterior_description: p.exterior_description,
-            floor_plan: p.floor_plan || '',
-            floor_plan_thumbnail: p.floor_plan_thumbnail || '',
-            brochure: p.brochure || '',
-            brochure_thumbnail: p.brochure_thumbnail || '',
+            floor_plan: p.floor_plan,
+            floor_plan_thumbnail: p.floor_plan_thumbnail,
+            brochure: p.brochure,
+            brochure_thumbnail: p.brochure_thumbnail,
             country: p.country.id,
             city: p.city.id,
             area: p.area.id,
             latitude: validateCoordinate(p.latitude),
             longitude: validateCoordinate(p.longitude),
             roadmap: Array.isArray(p.roadmap) ? p.roadmap : [Initial_Roadmap],
+            // details
             size: p.size,
-            built_up_size: p.built_up_size,
-            bedrooms: p.bedrooms,
-            bathrooms: p.bathrooms,
-            parking: p.parking,
-            garage_size: p.garage_size,
-            year_built: p.year_built,
-            basement: p.basement,
-            extra_detail: p.extra_detail,
+            // QR Code 4 inputs
+            project_number: p.project_number,
+            permit_no: p.permit_no,
+            developer: p.developer.id,
+            qr_code: p.qr_code,
+            // amenities
             amenities: p.amenities.map(e => {
                 if (typeof e === 'object' && e.amenity) {
                     return e.amenity
@@ -52,7 +53,8 @@ const dataBridgeForProperties = (properties = {}) => {
                 }
             }).filter(e => e),
         }
-        return converted
+
+        return checkFalsyValue(converted)
     } else {
         throw new Error('property must be an object');
     }
