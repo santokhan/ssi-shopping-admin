@@ -80,9 +80,6 @@ const DescriptionForm = ({ value, setValue }) => {
     });
   }, []);
 
-  console.clear();
-  console.log(value.listed_in);
-
   return (
     <ResponsiveForm
       onSubmit={(e) => {
