@@ -71,7 +71,7 @@ const AgentTableRow = ({ agent, SN = '' }) => {
   }
 
   return (
-    <tr className="border-b bg-white">
+    <tr className=" bg-white">
       <td width={'60px'} className="px-6 py-4 font-medium text-gray-900">
         {SN}
       </td>
@@ -168,7 +168,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y">
                 {filteredAgents.map((agent, i) => {
                   return (
                     <Fragment key={i}>
