@@ -30,9 +30,9 @@ const dataBridgeForProperties = (properties = {}) => {
             floor_plan_thumbnail: p.floor_plan_thumbnail,
             brochure: p.brochure,
             brochure_thumbnail: p.brochure_thumbnail,
-            country: p.country.id,
-            city: p.city.id,
-            area: p.area.id,
+            country: p.country?.id,
+            city: p.city?.id,
+            area: p.area?.id,
             latitude: validateCoordinate(p.latitude),
             longitude: validateCoordinate(p.longitude),
             roadmap: Array.isArray(p.roadmap) ? p.roadmap : [Initial_Roadmap],
@@ -41,7 +41,7 @@ const dataBridgeForProperties = (properties = {}) => {
             // QR Code 4 inputs
             project_number: p.project_number,
             permit_no: p.permit_no,
-            developer: p.developer.id,
+            developer: p.developer?.id,
             qr_code: p.qr_code,
             // amenities
             amenities: p.amenities.map(e => {
@@ -53,7 +53,6 @@ const dataBridgeForProperties = (properties = {}) => {
                 }
             }).filter(e => e),
         }
-
         return checkFalsyValue(converted)
     } else {
         throw new Error('property must be an object');

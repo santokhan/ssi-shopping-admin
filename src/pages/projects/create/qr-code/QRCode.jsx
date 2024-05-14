@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import PropertiesFormTitle from '../../../../components/form/PropertiesFormTitle.jsx';
-import { PropertyFormContext } from '../../../../context/properties-form-context/create-properties-context.jsx';
 import QRCodeForm from '../../../../blocks/form/properties/QRCode.jsx';
+import { ProjectFormContext } from '../../../../context/project-form/ProjectFormContext.jsx';
 
-const QRCodeTab = () => {
-  const { setFormValue, value } = useContext(PropertyFormContext);
+const ProjectQRCodeTab = () => {
+  const { value, setFormValue } = useContext(ProjectFormContext);
 
   return (
     <>
@@ -16,4 +16,4 @@ const QRCodeTab = () => {
   );
 };
 
-export default QRCodeTab;
+export default ProjectQRCodeTab;

@@ -53,6 +53,7 @@ import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
 import TestiFormContextProvider from '../context/testimonials/TestiFormContext.jsx';
 import FormTestimonials from '../blocks/form/testimonials/Testimonials.jsx';
 import QRCodeTab from '../pages/properties/create/qr-code/QRCode.jsx';
+import ProjectQRCodeTab from '../pages/projects/create/qr-code/QRCode.jsx';
 
 const authRoutes = [
   {
@@ -325,7 +326,7 @@ export const routes = [
               },
               {
                 path: 'qr-code',
-                element: <QRCodeTab />,
+                element: <ProjectQRCodeTab />,
               },
               {
                 path: 'amenities',

@@ -15,6 +15,7 @@ function encode(value) {
       const ele = value[key];
 
       if (ele !== null && ele !== undefined && ele !== '') {
+        // valid multiple file input to sent as payload
         if (key == 'images') {
           for (const key in ele) {
             if (Object.hasOwnProperty.call(ele, key)) {
@@ -26,11 +27,10 @@ function encode(value) {
               }
             }
           }
-        } else if (key == 'floor_plan') {
-          if (ele instanceof File) {
-            formData.append(key, ele);
-          }
-        } else if (key == 'floor_plan_thumbnail') {
+        } else if (
+          ['floor_plan', 'floor_plan_thumbnail', 'qr_code'].includes(key)
+        ) {
+          // valid single file input to sent as payload
           if (ele instanceof File) {
             formData.append(key, ele);
           }

@@ -15,6 +15,7 @@ function makeFormData(value) {
       const ele = value[key];
 
       if (ele !== null && ele !== undefined && ele !== '') {
+        // valid multiple file input to sent as payload
         if (['images', 'interior_images', 'exterior_images'].includes(key)) {
           // multiple image input
           for (const iterator in ele) {
@@ -33,19 +34,16 @@ function makeFormData(value) {
               }
             });
           }
-        } else if (key == 'floor_plan') {
-          if (ele instanceof File) {
-            formData.append(key, ele);
-          }
-        } else if (key == 'floor_plan_thumbnail') {
-          if (ele instanceof File) {
-            formData.append(key, ele);
-          }
-        } else if (key == 'brochure') {
-          if (ele instanceof File) {
-            formData.append(key, ele);
-          }
-        } else if (key == 'brochure_thumbnail') {
+        } else if (
+          [
+            'floor_plan',
+            'floor_plan_thumbnail',
+            'brochure',
+            'brochure_thumbnail',
+            'qr_code',
+          ].includes(key)
+        ) {
+          // valid single file input to sent as payload
           if (ele instanceof File) {
             formData.append(key, ele);
           }

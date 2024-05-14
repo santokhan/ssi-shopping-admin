@@ -99,7 +99,7 @@ const QRCodeForm = ({ value, setValue }) => {
           setValue={setValue}
           className="basis-96 flex-grow"
           accept="image/*"
-          required
+          required={!value.qr_code}
         />
       </InputLabel>
       <PrevAndNext back={formBack(pathname)} />
