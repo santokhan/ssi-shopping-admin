@@ -56,7 +56,7 @@ const TableAction = ({ data }) => {
   } else {
     return (
       <div className="flex gap-3">
-        <ActionEdit to={`/blogs/${data.id}/edit`} />
+        <ActionEdit to={`/news/${data.id}/edit`} />
         <DeleteModal onDelete={onDelete} />
       </div>
     );

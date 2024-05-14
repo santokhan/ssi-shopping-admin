@@ -5,10 +5,11 @@ export const BlogFormContext = createContext(null);
 const BlogFormProvider = ({ children }) => {
   const [value, setValue] = useState({
     title: '',
+    sub_title: '',
     description: '',
     image: '',
     author: '',
-    rating: 5,
+    tags: '',
   });
 
   const setTestiFormValue = (key, value) => {
