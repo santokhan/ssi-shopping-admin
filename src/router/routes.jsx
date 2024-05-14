@@ -49,11 +49,15 @@ import ProjectAmenities from '../pages/projects/create/amenities/Amenities.jsx';
 import ProjectMedia from '../pages/projects/create/media/Media.jsx';
 import ProjectFormProvider from '../context/project-form/ProjectFormContext.jsx';
 import LayoutTestimonials from '../layout/Testimonials.jsx';
+import BlogsLayout from '../pages/blogs/BlogsLayout.jsx';
 import TestimonialsPage from '../pages/testimonials/TestimonialsPage.jsx';
 import TestiFormContextProvider from '../context/testimonials/TestiFormContext.jsx';
 import FormTestimonials from '../blocks/form/testimonials/Testimonials.jsx';
 import QRCodeTab from '../pages/properties/create/qr-code/QRCode.jsx';
 import ProjectQRCodeTab from '../pages/projects/create/qr-code/QRCode.jsx';
+import BlogsPage from '../pages/blogs/BlogsPage.jsx';
+import BlogFormProvider from '../context/BlogsFormContext.jsx';
+import BlogForm from '../blocks/form/blog/BlogForm.jsx';
 
 const authRoutes = [
   {
@@ -347,6 +351,33 @@ export const routes = [
           {
             path: ':id/edit',
             element: <UserForm />,
+          },
+        ],
+      },
+      {
+        path: 'news',
+        element: <BlogsLayout />,
+        children: [
+          {
+            path: '',
+            element: <BlogsPage />,
+            index: true,
+          },
+          {
+            path: 'create',
+            element: (
+              <BlogFormProvider>
+                <BlogForm />
+              </BlogFormProvider>
+            ),
+          },
+          {
+            path: ':id/edit',
+            element: (
+              <BlogFormProvider>
+                <BlogForm />
+              </BlogFormProvider>
+            ),
           },
         ],
       },
