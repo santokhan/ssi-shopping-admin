@@ -10,6 +10,7 @@ import Textarea from '../../../components/form/input/Textarea';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import { BlogFormContext } from '../../../context/BlogsFormContext';
 import ResponsiveForm from '../../../components/form/ResponsiveForm';
+import TagsInput from '../../../components/form/TagsInput';
 
 const inputs = {
   title: 'title',
@@ -102,6 +103,8 @@ const BlogForm = () => {
     setTestiFormValue(e.target.name, e.target.value);
   }
 
+  console.log(value);
+
   return (
     <div className={twMerge('w-full bg-white p-4 lg:p-6 space-y-4')}>
       <div className="flex items-center gap-2">
@@ -110,7 +113,15 @@ const BlogForm = () => {
           {id ? 'edit' : 'create'} blog
         </FormTitle>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+      >
         <div className="space-y-2">
           <h5 className="font-semibold capitalize">Blog Image</h5>
           <InputFileSingle
@@ -145,12 +156,12 @@ const BlogForm = () => {
             name="author"
             className="basis-96 sm:basis-[420px] flex-grow"
           />
-          <Input
-            label="category"
-            onChange={assignValue}
-            value={value.category}
+          <TagsInput
             name="category"
+            label="category"
             className="basis-96 sm:basis-[420px] flex-grow"
+            valueFromServer={value.categories}
+            setContextValue={assignValue}
           />
           <Input
             label="tags"
