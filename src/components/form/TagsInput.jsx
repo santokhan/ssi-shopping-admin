@@ -12,9 +12,13 @@ const Input = ({ setTags }) => {
   };
 
   const handleInputKeyDown = (e) => {
-    if (e.key === 'Enter' && inputValue.trim() !== '') {
-      setTags(inputValue.trim());
-      setInputValue('');
+    if (e.key === 'Enter' || e.keyCode === 13) {
+      e.preventDefault();
+      if (inputValue.trim() !== '') {
+        setTags(inputValue.trim());
+        setInputValue('');
+      }
+      return;
     } else {
       console.log('Enter not working');
     }
@@ -72,27 +76,23 @@ const TagsInput = ({
 
   return (
     <InputLabel label={label} className={className}>
-      <div className="border p-[8px] rounded-lg h-[46px] flex items-center">
-        <div className="overflow-x-auto flex">
-          {tags.map((tag, index) => (
-            <div
-              key={index}
-              style={{ margin: '4px' }}
-              className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1"
+      <div className="border p-[8px] rounded-lg h-[46px] flex items-center gap-2">
+        {tags.map((tag) => (
+          <div
+            key={crypto.randomUUID()}
+            className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1 "
+          >
+            <span className="px-2 flex-shrink-0">{tag}</span>
+            <button
+              onClick={() => {
+                handleRemoveTag(tag);
+              }}
+              className="bg-white rounded-full size-5 flex justify-center items-center"
             >
-              <span className="px-2">{tag}</span>
-              <button
-                onClick={() => {
-                  handleRemoveTag(tag);
-                }}
-                className="bg-white rounded-full size-5 flex justify-center items-center"
-              >
-                <XMarkIcon className="size-4" />
-              </button>
-            </div>
-          ))}
-        </div>
-
+              <XMarkIcon className="size-4" />
+            </button>
+          </div>
+        ))}
         <Input
           setTags={(value) => {
             if (tags.length > 0) {

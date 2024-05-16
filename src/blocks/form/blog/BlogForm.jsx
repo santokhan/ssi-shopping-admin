@@ -9,19 +9,10 @@ import BackAnchor from '../../../components/BackAnchor';
 import Textarea from '../../../components/form/input/Textarea';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import { BlogFormContext } from '../../../context/BlogsFormContext';
-import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import TagsInput from '../../../components/form/TagsInput';
 
-const inputs = {
-  title: 'title',
-  description: 'description',
-  image: 'image',
-  author: 'author',
-  rating: 'rating',
-};
-
 const BlogForm = () => {
-  const { value, setTestiFormValue } = useContext(BlogFormContext);
+  const { value, setFormValue } = useContext(BlogFormContext);
   const { api } = useAxios();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -51,7 +42,7 @@ const BlogForm = () => {
 
               for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
-                  setTestiFormValue(key, data[key]);
+                  setFormValue(key, data[key]);
                 }
               }
             }
@@ -70,9 +61,31 @@ const BlogForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const encode = (value) => {
+      const formData = new FormData();
+
+      for (const key in value) {
+        if (Object.hasOwnProperty.call(value, key)) {
+          const ele = value[key];
+
+          if (ele) {
+            if (['tags', 'category'].includes(key)) {
+              formData.append(key, JSON.stringify(ele));
+            } else if (key === 'featured_image' && ele instanceof File) {
+              formData.append(key, ele);
+            } else {
+              formData.append(key, ele);
+            }
+          }
+        }
+      }
+
+      return formData;
+    };
+
     if (id) {
       api
-        .patch(`blogs/${id}/`, new FormData(e.target), {
+        .patch(`blogs/${id}/`, encode(value), {
           header: {
             'Content-Type': 'multipart/form-data',
           },
@@ -85,7 +98,7 @@ const BlogForm = () => {
         });
     } else {
       api
-        .post('blogs/', new FormData(e.target), {
+        .post('blogs/', encode(value), {
           header: {
             'Content-Type': 'multipart/form-data',
           },
@@ -100,7 +113,9 @@ const BlogForm = () => {
   };
 
   function assignValue(e) {
-    setTestiFormValue(e.target.name, e.target.value);
+    if (e.target?.name) {
+      setFormValue(e.target.name, e.target?.value);
+    }
   }
 
   console.log(value);
@@ -113,21 +128,13 @@ const BlogForm = () => {
           {id ? 'edit' : 'create'} blog
         </FormTitle>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-          }
-        }}
-      >
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <h5 className="font-semibold capitalize">Blog Image</h5>
           <InputFileSingle
             name="featured_image"
             accept="image/*"
-            setValue={setTestiFormValue}
+            setValue={setFormValue}
             value={value.featured_image}
             className="w-full"
           />
@@ -163,12 +170,12 @@ const BlogForm = () => {
             valueFromServer={value.categories}
             setContextValue={assignValue}
           />
-          <Input
-            label="tags"
-            onChange={assignValue}
-            value={value.tags}
+          <TagsInput
             name="tags"
+            label="tags"
             className="basis-96 sm:basis-[420px] flex-grow"
+            valueFromServer={value.tags}
+            setContextValue={assignValue}
           />
           <Textarea
             label="description"

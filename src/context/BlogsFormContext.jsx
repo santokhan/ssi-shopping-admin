@@ -9,10 +9,11 @@ const BlogFormProvider = ({ children }) => {
     description: '',
     image: '',
     author: '',
-    tags: '',
+    tags: [],
+    category: [],
   });
 
-  const setTestiFormValue = (key, value) => {
+  const setFormValue = (key, value) => {
     setValue((prevState) => ({
       ...prevState,
       [key]: value,
@@ -23,7 +24,7 @@ const BlogFormProvider = ({ children }) => {
     <BlogFormContext.Provider
       value={{
         value,
-        setTestiFormValue,
+        setFormValue,
       }}
     >
       {children}
