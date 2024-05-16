@@ -58,6 +58,7 @@ import ProjectQRCodeTab from '../pages/projects/create/qr-code/QRCode.jsx';
 import BlogsPage from '../pages/blogs/BlogsPage.jsx';
 import BlogFormProvider from '../context/BlogsFormContext.jsx';
 import BlogForm from '../blocks/form/blog/BlogForm.jsx';
+import EnquiriesProvider from '../context/enquiries/enquiries-context.jsx';
 
 const authRoutes = [
   {
@@ -248,7 +249,11 @@ export const routes = [
       },
       {
         path: 'enquiries',
-        element: <EnquiriesLayout />,
+        element: (
+          <EnquiriesProvider>
+            <EnquiriesLayout />
+          </EnquiriesProvider>
+        ),
       },
       {
         path: 'developers',

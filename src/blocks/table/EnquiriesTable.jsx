@@ -172,7 +172,13 @@ const EnquiriesTableRow = ({ enquiry, refetch, id }) => {
   }
 };
 
-const EnquiriesTable = ({ className = '' }) => {
+const EnquiriesTable = ({
+  className = '',
+  enquiries,
+  setPageNumber,
+  page_size,
+  refetch,
+}) => {
   const [headList, setHeadList] = useState([
     'name',
     'email',
@@ -196,81 +202,63 @@ const EnquiriesTable = ({ className = '' }) => {
     );
   }
 
-  const {
-    state: enquiries,
-    setPageNumber,
-    page_size,
-    refetch,
-  } = useContext(EnquiriesContext);
-
-  if (!enquiries) {
-    return null;
-  } else {
-    return (
-      <>
-        {enquiries.length > 0 ? (
-          <div
-            className={twMerge(
-              className,
-              'bg-white p-4 space-y-4 overflow-x-auto',
-            )}
-          >
-            <table className="w-full text-sm text-gray-500 rtl:text-right">
-              <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-                <tr>
-                  {headList.map((_, i) => (
-                    <th
-                      scope="col"
-                      className={`text-start px-6 py-3 ${
-                        i === 0 || i == headList.length - 1
-                          ? 'rounded-l-lg'
-                          : ''
-                      }`}
-                      key={i}
-                      width={i === headList.length - 1 ? 120 : 'auto'}
-                    >
-                      {_}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <EnquiryStatusProvider>
-                  {enquiries
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((_, i) => {
-                      return (
-                        <Fragment key={i}>
-                          <EnquiriesTableRow
-                            id={_.id} // it require here
-                            enquiry={_}
-                            refetch={refetch}
-                            changeColName={changeColName}
-                          />
-                        </Fragment>
-                      );
-                    })}
-                </EnquiryStatusProvider>
-              </tbody>
-            </table>
-            <Pagination
-              totalPages={new Array(Math.ceil(enquiries.length / page_size))
-                .fill()
-                .map((_, i) => i + 1)}
-              currentPage={1}
-              setPageNumber={setPageNumber}
-            />
-            <TableSummary
-              totalData={Math.ceil(enquiries.length / page_size)}
-              dataPerPage={10}
-            />
-          </div>
-        ) : (
-          <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
-            No locations found
-          </p>
-        )}
-      </>
+  if (Array.isArray(enquiries)) {
+    return enquiries.length > 0 ? (
+      <div
+        className={twMerge(className, 'bg-white p-4 space-y-4 overflow-x-auto')}
+      >
+        <table className="w-full text-sm text-gray-500 rtl:text-right">
+          <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+            <tr>
+              {headList.map((_, i) => (
+                <th
+                  scope="col"
+                  className={`text-start px-6 py-3 ${
+                    i === 0 || i == headList.length - 1 ? 'rounded-l-lg' : ''
+                  }`}
+                  key={i}
+                  width={i === headList.length - 1 ? 120 : 'auto'}
+                >
+                  {_}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <EnquiryStatusProvider>
+              {enquiries
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((_, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <EnquiriesTableRow
+                        id={_.id} // it require here
+                        enquiry={_}
+                        refetch={refetch}
+                        changeColName={changeColName}
+                      />
+                    </Fragment>
+                  );
+                })}
+            </EnquiryStatusProvider>
+          </tbody>
+        </table>
+        <Pagination
+          totalPages={new Array(Math.ceil(enquiries.length / page_size))
+            .fill()
+            .map((_, i) => i + 1)}
+          currentPage={1}
+          setPageNumber={setPageNumber}
+        />
+        <TableSummary
+          totalData={Math.ceil(enquiries.length / page_size)}
+          dataPerPage={10}
+        />
+      </div>
+    ) : (
+      <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
+        No locations found
+      </p>
     );
   }
 };
