@@ -10,6 +10,7 @@ import Textarea from '../../../components/form/input/Textarea';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import { BlogFormContext } from '../../../context/BlogsFormContext';
 import TagsInput from '../../../components/form/TagsInput';
+import MyCKEditor from '../../../components/form/input/MyCKEditor';
 
 const BlogForm = () => {
   const { value, setFormValue } = useContext(BlogFormContext);
@@ -118,7 +119,7 @@ const BlogForm = () => {
     }
   }
 
-  console.log(value);
+  // console.log(value);
 
   return (
     <div className={twMerge('w-full bg-white p-4 lg:p-6 space-y-4')}>
@@ -184,6 +185,7 @@ const BlogForm = () => {
             value={value.description}
             className="w-full"
           />
+          <MyCKEditor name="post" value={value.post} setValue={setFormValue} />
         </div>
         <div className="w-full">
           <SubmitButton type="submit" className="" />

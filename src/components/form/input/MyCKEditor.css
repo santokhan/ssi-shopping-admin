@@ -1,0 +1,10 @@
+.ck-sticky-panel__content {
+    border-top-right-radius: 0.5rem !important;
+    border-top-left-radius: 0.5rem !important;
+}
+
+.ck-editor__editable {
+    height: 220px;
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}

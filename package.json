@@ -12,6 +12,8 @@
     "deploy p": "vercel deploy --prod"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^6.3.0",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.3",
     "@react-google-maps/api": "^2.19.3",
