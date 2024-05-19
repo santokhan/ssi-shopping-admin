@@ -11,6 +11,7 @@ import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import { BlogFormContext } from '../../../context/BlogsFormContext';
 import TagsInput from '../../../components/form/TagsInput';
 import MyCKEditor from '../../../components/form/input/MyCKEditor';
+import Print from '../../../components/Print';
 
 const BlogForm = () => {
   const { value, setFormValue } = useContext(BlogFormContext);
@@ -22,28 +23,17 @@ const BlogForm = () => {
     function getTestimonial(id) {
       if (id) {
         api
-          .get(`testimonials/${id}/`)
+          .get(`blogs/${id}/`)
           .then((res) => {
             if (res?.data) {
-              const {
-                title = '',
-                description = '',
-                image = '',
-                author = '',
-                rating = 5,
-              } = res.data;
-
-              const data = {
-                title,
-                description,
-                image,
-                author,
-                rating,
-              };
+              const data = res.data;
 
               for (const key in data) {
                 if (Object.hasOwnProperty.call(data, key)) {
-                  setFormValue(key, data[key]);
+                  const ele = data[key];
+                  if (ele != null) {
+                    setFormValue(key, data[key]);
+                  }
                 }
               }
             }
@@ -72,8 +62,10 @@ const BlogForm = () => {
           if (ele) {
             if (['tags', 'category'].includes(key)) {
               formData.append(key, JSON.stringify(ele));
-            } else if (key === 'featured_image' && ele instanceof File) {
-              formData.append(key, ele);
+            } else if (key === 'featured_image') {
+              if (ele instanceof File) {
+                formData.append(key, ele);
+              }
             } else {
               formData.append(key, ele);
             }
