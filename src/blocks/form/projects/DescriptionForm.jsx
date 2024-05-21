@@ -119,26 +119,6 @@ const DescriptionForm = ({ value, setValue }) => {
         required
         disabled={categories.length === 0}
       />
-      {/* <Select
-        name={inputs.listed_in}
-        label={inputs.listed_in}
-        options={[
-          {
-            label: 'For Sale',
-            value: 1,
-          },
-          {
-            label: 'For Rent',
-            value: 2,
-          },
-        ]}
-        value={value.listed_in}
-        onChange={(e) => {
-          setValue(inputs.listed_in, parseInt(e.target.value));
-        }}
-        error={error.title}
-        required
-      /> */}
       <Select
         name={inputs.agent}
         label={inputs.agent}
@@ -176,16 +156,6 @@ const DescriptionForm = ({ value, setValue }) => {
         min={0}
         required
       />
-      {/* <Select
-        name={inputs.featured}
-        label={inputs.featured}
-        options={yesNoOptions}
-        value={value.featured}
-        onChange={(e) => {
-          setValue(inputs.featured, e.target.value);
-        }}
-        error={error.title}
-      /> */}
       <PrevAndNext back="/properties" />
     </ResponsiveForm>
   );
