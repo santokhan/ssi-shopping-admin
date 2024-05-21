@@ -143,10 +143,14 @@ const EnquiriesTableRow = ({ enquiry, refetch, id }) => {
           </h3>
         </td>
         <td className="px-6 py-4" width={200}>
-          {enquiry.email}
+          <Link to={`mailto:${enquiry.email}`} className="hover:underline">
+            {enquiry.email}
+          </Link>
         </td>
         <td className="px-6 py-4" width={200}>
-          {enquiry.phone}
+          <Link to={`tel:${enquiry.phone}`} className="hover:underline">
+            {enquiry.phone}
+          </Link>
         </td>
         <td className="px-6 py-4" width={200}>
           <Resource />
