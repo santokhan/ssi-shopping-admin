@@ -47,8 +47,6 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
 
   return (
     <>
-      <Print data={value} />
-      <Print data={pin} />
       <div
         style={{ width: '100%', height: '50vh' }}
         className="bg-gray-50 relative"
