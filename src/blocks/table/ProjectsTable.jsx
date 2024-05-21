@@ -16,6 +16,7 @@ import Print from '../../components/Print';
 import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
 import MountListedIn from '../../components/MountListedIn';
+import formatDate from '../../utils/formatDate';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -125,6 +126,12 @@ const ProjectTableRow = ({ property, refetch }) => {
       <td className="px-6 py-4 font-medium capitalize">
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
       </td>
+      <td className="px-6 py-4 font-medium capitalize">
+        {formatDate(property.created_on)}
+      </td>
+      <td className="px-6 py-4 font-medium capitalize">
+        {formatDate(property.updated_on)}
+      </td>
       <td className="px-6 py-4 capitalize">
         <ProjectTableActions property={property} refetch={refetch} />
       </td>
@@ -160,6 +167,8 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
     'listed in',
     'agent',
     'status',
+    'created_on',
+    'updated_on',
     'action',
   ];
 
@@ -191,12 +200,21 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
               <table className="w-full text-sm text-gray-500 rtl:text-right">
                 <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                   <tr>
-                    <TH className="rounded-l-lg">{headList[0]}</TH>
-                    <TH>{headList[1]}</TH>
-                    <TH>{headList[2]}</TH>
-                    <TH>{headList[3]}</TH>
-                    <TH>{headList[4]}</TH>
-                    <TH className="rounded-r-lg">{headList[5]}</TH>
+                    {headList.map((head, i) => {
+                      return (
+                        <TH
+                          key={i}
+                          className={twMerge(
+                            i === 0 ? 'rounded-l-lg' : '',
+                            i === headList.length - 1
+                              ? 'rounded-r-lg'
+                              : 'rounded-l-lg',
+                          )}
+                        >
+                          {head}
+                        </TH>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody>
