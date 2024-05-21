@@ -11,18 +11,13 @@ const tabList = formSteps;
 const Tabs = () => {
   const location = useLocation();
   const pathName = location.pathname;
-  const pathList = pathName.split('/');
-  const indexOfTabPath = 3;
-
-  const pathMatcher = (path) => {
-    const target = pathList[indexOfTabPath];
-
-    if (path == '' && target == undefined) {
-      return true;
-    } else {
-      return target == path;
-    }
-  };
+  let pathList = [];
+  if (pathName.includes('/edit')) {
+    pathList = pathName.split('/edit')[1].split('/').filter(Boolean);
+  }
+  if (pathName.includes('/create')) {
+    pathList = pathName.split('/create')[1].split('/').filter(Boolean);
+  }
 
   return (
     <div className="items-center bg-white flex gap-6 lg:gap-12 px-4 lg:px-6 overflow-x-auto">
@@ -32,7 +27,7 @@ const Tabs = () => {
           to={devMode ? tab.to : ''}
           className={twMerge(
             'whitespace-nowrap py-3 text-base font-semibold border-b-2 border-transparent hover:outline-none text-gray-700',
-            pathMatcher(tab.to)
+            tab.to == pathList[0]
               ? 'border-gray-900 text-gray-900'
               : 'border-transparent',
           )}
