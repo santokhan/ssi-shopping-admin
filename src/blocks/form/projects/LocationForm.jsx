@@ -133,7 +133,6 @@ const LocationForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.latitude, parseFloat(e.target.value));
         }}
-        disabled
       />
       <Input
         type="number"
@@ -143,7 +142,6 @@ const LocationForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.longitude, parseFloat(e.target.value));
         }}
-        disabled
       />
       <RoadMapInputContainer
         value={value.roadmap}

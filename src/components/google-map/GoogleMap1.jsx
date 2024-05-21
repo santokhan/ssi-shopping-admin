@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
+import Print from '../Print';
 
 const PinMarker = ({ pin }) => {
   return (
@@ -35,38 +36,37 @@ const GoogleMap = ({ setPosition = ({ lat, lng }) => {}, value }) => {
   };
 
   useEffect(() => {
-    console.log(pin);
-  }, [pin]);
-
-  useEffect(() => {
-    if (value && value.lat) {
-      setPin((prev) => ({ ...prev, lat: parseFloat(value.lat) }));
-    }
-    if (value && value.lng) {
-      setPin((prev) => ({ ...prev, lng: parseFloat(value.lng) }));
-    }
-    console.log(value);
+    setPin((prev) => {
+      return {
+        ...prev,
+        lat: parseFloat(value.lat),
+        lng: parseFloat(value.lng),
+      };
+    });
   }, [value]);
 
   return (
-    <div
-      style={{ width: '100%', height: '50vh' }}
-      className="bg-gray-50 relative"
-    >
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
-        }}
-        defaultCenter={initialPin}
-        defaultZoom={10}
-        onClick={handleMapClick}
-        onGoogleApiLoaded={handleMapClick}
-        onChange={handleMapClick}
+    <>
+      <Print data={value} />
+      <Print data={pin} />
+      <div
+        style={{ width: '100%', height: '50vh' }}
+        className="bg-gray-50 relative"
       >
-        <></>
-      </GoogleMapReact>
-      <PinMarker pin={pin} />
-    </div>
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: 'AIzaSyBI33ERGnuYC9n-9K5f9gM1Kz0fQ9V8VhQ',
+          }}
+          defaultCenter={initialPin}
+          center={pin}
+          defaultZoom={10}
+          onClick={handleMapClick}
+          onGoogleApiLoaded={handleMapClick}
+          onChange={handleMapClick}
+        />
+        <PinMarker pin={pin} />
+      </div>
+    </>
   );
 };
 

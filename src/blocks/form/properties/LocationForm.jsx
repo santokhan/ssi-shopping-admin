@@ -133,7 +133,6 @@ const LocationForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue('latitude', parseFloat(e.target.value));
         }}
-        disabled
       />
       <Input
         type="number"
@@ -143,7 +142,6 @@ const LocationForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue('longitude', parseFloat(e.target.value));
         }}
-        disabled
       />
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
