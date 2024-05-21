@@ -1,12 +1,11 @@
 import React from 'react';
 import CreateAgentForm from '../../../blocks/form/AgentForm.jsx';
+import AgentFormHeader from '../../../blocks/form/agents/AgentsFormHeader.jsx';
 
 const CreateAgent = () => {
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl lg:text-3xl font-medium text-gray-900">
-        Create New Agents
-      </h2>
+      <AgentFormHeader />
       <CreateAgentForm />
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AgentForm from '../../../blocks/form/AgentForm';
 import { useParams } from 'react-router-dom';
 import useAxios from '../../../context/useAxios';
+import AgentFormHeader from '../../../blocks/form/agents/AgentsFormHeader';
 
 const EditAgent = () => {
   const { id } = useParams();
@@ -29,9 +30,7 @@ const EditAgent = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl lg:text-3xl font-medium text-gray-900">
-        Edit Agents
-      </h2>
+      <AgentFormHeader />
       {loading ? 'Loading...' : <AgentForm agent={agent} />}
     </div>
   );

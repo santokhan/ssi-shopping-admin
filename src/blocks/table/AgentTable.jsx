@@ -6,11 +6,12 @@ import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal';
 import { AgentsContext } from '../../context/AgentsContext';
 import formatDate from '../../utils/formatDate';
 import StatusIndicator from '../../components/StatusIndicator';
+import { twMerge } from 'tailwind-merge';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -27,11 +28,19 @@ const AgentTableDetailsField = ({ agent }) => {
         />
       </div>
       <div>
-        <h3 className="text-base font-semibold leading-relaxed">
-          {agent.display_name}
+        <h3
+          className="text-base font-semibold leading-relaxed"
+          title="Firstname Lastname (Display name)"
+        >
+          {[agent.first_name, agent.last_name].filter(Boolean).join(' ')} (
+          {agent.display_name})
         </h3>
         <p className="text-sm text-gray-500 font-normal">{agent.location}</p>
-        <p className="text-sm font-medium mt-2">{agent.phone}</p>
+        <p className="text-sm font-medium mt-2">
+          <Link className="hover:underline" to={`tel:${agent.phone}`}>
+            {agent.phone}
+          </Link>
+        </p>
       </div>
     </div>
   );
@@ -81,6 +90,9 @@ const AgentTableRow = ({ agent, SN = '' }) => {
       {/* created on */}
       <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
         {formatDate(agent.created_on)}
+      </td>
+      <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
+        {formatDate(agent.updated_on)}
       </td>
       <td className="px-6 py-4">
         <StatusIndicator status={agent.status} />
@@ -139,6 +151,16 @@ const AgentTable = ({ setPageNumber, page_size }) => {
     }
   }
 
+  const TH = ({ children, className = '', ...props }) => (
+    <th
+      scope="col"
+      className={twMerge('text-start px-6 py-3 whitespace-nowrap', className)}
+      {...props}
+    >
+      {children}
+    </th>
+  );
+
   return (
     <div className="space-y-4">
       <TableTopSection onSearch={onSearch} />
@@ -148,34 +170,27 @@ const AgentTable = ({ setPageNumber, page_size }) => {
             <table className="w-full text-sm text-gray-500 rtl:text-right">
               <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                 <tr>
-                  <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                    SN
-                  </th>
-                  <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                    Agent Name
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    Date Added
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    Status
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    Properties
-                  </th>
-                  <th scope="col" className="text-start rounded-r-lg px-6 py-3">
-                    Action
-                  </th>
+                  <TH className="rounded-l-lg">SN</TH>
+                  <TH>Agent Name</TH>
+                  <TH>Date Added</TH>
+                  <TH>Date Updated</TH>
+                  <TH>Status</TH>
+                  <TH>Properties</TH>
+                  <TH className="rounded-r-lg">Action</TH>
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {filteredAgents.map((agent, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <AgentTableRow agent={agent} SN={i + 1} />
-                    </Fragment>
-                  );
-                })}
+                {filteredAgents
+                  .sort(
+                    (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
+                  )
+                  .map((agent, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <AgentTableRow agent={agent} SN={i + 1} />
+                      </Fragment>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
