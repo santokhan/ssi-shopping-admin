@@ -1,8 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
-import Pagination from '../../components/table/pagination/Pagination';
-import TableSummary from '../../components/table/agent/AgentDescFooter';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import useAxios from '../../context/useAxios';
@@ -20,14 +17,14 @@ const AgentTableDetailsField = ({ agent }) => {
 
   return (
     <div className="flex w-72 flex-row items-center space-x-4 rounded-lg text-gray-800">
-      <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+      <div className="grid size-20 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
         <img
           src={agent.photo}
           alt={agent.photo}
           className="w-full h-full object-cover rounded-full overflow-hidden"
         />
       </div>
-      <div>
+      <div className="flex-grow">
         <h3
           className="text-base font-semibold leading-relaxed"
           title="Firstname Lastname (Display name)"
@@ -81,17 +78,14 @@ const AgentTableRow = ({ agent, SN = '' }) => {
 
   return (
     <tr className=" bg-white">
-      <td width={'60px'} className="px-6 py-4 font-medium text-gray-900">
-        {SN}
-      </td>
       <td className="px-6 py-4 font-medium text-gray-900">
         <AgentTableDetailsField agent={agent} />
       </td>
       {/* created on */}
-      <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
+      <td className="whitespace-nowrap px-6 py-4 text-gray-900">
         {formatDate(agent.created_on)}
       </td>
-      <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
+      <td className="whitespace-nowrap px-6 py-4 text-gray-900">
         {formatDate(agent.updated_on)}
       </td>
       <td className="px-6 py-4">
@@ -170,7 +164,6 @@ const AgentTable = ({ setPageNumber, page_size }) => {
             <table className="w-full text-sm text-gray-500 rtl:text-right">
               <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                 <tr>
-                  <TH className="rounded-l-lg">SN</TH>
                   <TH>Agent Name</TH>
                   <TH>Date Added</TH>
                   <TH>Date Updated</TH>
