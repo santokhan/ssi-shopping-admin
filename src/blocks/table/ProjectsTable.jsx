@@ -105,9 +105,6 @@ const ProjectTableRow = ({ property, refetch }) => {
       </TD>
       <TD className="capitalize">{property.category?.title}</TD>
       <TD className="capitalize">
-        For <MountListedIn listed_in={property.listed_in} />
-      </TD>
-      <TD className="capitalize">
         <AgentLink agent={property.agent} />
       </TD>
       <TD className="capitalize">
@@ -147,7 +144,6 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
   const headList = [
     'listing title',
     'category',
-    'listed in',
     'agent',
     'status',
     'created_on',
