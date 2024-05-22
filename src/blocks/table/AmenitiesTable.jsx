@@ -1,10 +1,10 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import ActionDelete from '../../components/action-buttons/Delete';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AmenitiesContext } from '../../context/amenities/amenities-context';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
@@ -71,6 +71,9 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
 const AmenitiesTable = ({ className = '' }) => {
   const { amenities, setPageNumber, page_size, refetch } =
     useContext(AmenitiesContext);
+  const maxPerPage = 10;
+  const [URLSearchParams, setURLSearchParams] = useSearchParams();
+  const currentPage = URLSearchParams.get('page') || 1;
 
   if (!amenities) {
     return null;
@@ -94,6 +97,7 @@ const AmenitiesTable = ({ className = '' }) => {
             <TBody>
               {amenities
                 .sort((a, b) => new Date(b.updated_on) - new Date(a.updated_on))
+                .slice((currentPage - 1) * maxPerPage, currentPage * maxPerPage)
                 .map((amenities, i) => {
                   return (
                     <Fragment key={i}>
@@ -110,7 +114,7 @@ const AmenitiesTable = ({ className = '' }) => {
             totalPages={new Array(Math.ceil(amenities.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
-            currentPage={1}
+            currentPage={currentPage}
             setPageNumber={setPageNumber}
           />
           <TableSummary
