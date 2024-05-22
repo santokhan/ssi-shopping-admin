@@ -35,7 +35,7 @@ const Pagination = ({
             </Link>
           </li>
         ))}
-        {totalPages.length > 1 && (
+        {currentPage < totalPages.length && (
           <li>
             <Link
               to={`?page=${parseInt(currentPage + 1)}`}

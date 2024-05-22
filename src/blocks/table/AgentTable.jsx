@@ -3,7 +3,7 @@ import ActionEdit from '../../components/action-buttons/Edit';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import useAxios from '../../context/useAxios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal';
 import { AgentsContext } from '../../context/AgentsContext';
 import formatDate from '../../utils/formatDate';
@@ -12,6 +12,8 @@ import { twMerge } from 'tailwind-merge';
 import THead from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
 import { Call } from 'iconsax-react';
+import Pagination from '../../components/table/pagination/Pagination';
+import TableSummary from '../../components/table/agent/AgentDescFooter';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -127,6 +129,9 @@ const AgentTable = ({ setPageNumber, page_size }) => {
   const { agents } = useContext(AgentsContext);
   const [filteredAgents, setFilteredAgents] = useState([]);
   let agentsList = agents?.results;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const maxPerPage = 5;
 
   useEffect(() => {
     if (agentsList) {
@@ -183,6 +188,10 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                   .sort(
                     (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                   )
+                  .slice(
+                    maxPerPage * (currentPage - 1),
+                    maxPerPage * currentPage,
+                  )
                   .map((agent, i) => {
                     return (
                       <Fragment key={i}>
@@ -193,14 +202,14 @@ const AgentTable = ({ setPageNumber, page_size }) => {
               </TBody>
             </table>
           </div>
-          {/* <Pagination
-            totalPages={new Array(Math.ceil(agentsList.length / page_size))
+          <Pagination
+            totalPages={new Array(Math.ceil(agentsList.length / maxPerPage))
               .fill()
               .map((_, i) => i + 1)}
-            currentPage={1}
+            currentPage={currentPage}
             setPageNumber={setPageNumber}
-          /> */}
-          {/* <TableSummary totalData={filteredAgents.length} /> */}
+          />
+          <TableSummary totalData={filteredAgents.length} />
         </div>
       ) : (
         <p className="px-4">No records found</p>
