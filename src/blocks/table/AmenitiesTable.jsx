@@ -53,11 +53,11 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
         </h3>
       </TD>
       <TD>
-        <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
+        <div className="grid size-14 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
           <img
             src={amenities.icon}
             alt={amenities.icon}
-            className="w-full h-full object-cover rounded-full overflow-hidden"
+            className="w-full h-full object-cover overflow-hidden p-2"
           />
         </div>
       </TD>
@@ -92,16 +92,18 @@ const AmenitiesTable = ({ className = '' }) => {
               <THeadList headList={headList} />
             </THead>
             <TBody>
-              {amenities.map((amenities, i) => {
-                return (
-                  <Fragment key={i}>
-                    <AmenitiesTableRow
-                      amenities={amenities}
-                      refetch={refetch}
-                    />
-                  </Fragment>
-                );
-              })}
+              {amenities
+                .sort((a, b) => new Date(b.updated_on) - new Date(a.updated_on))
+                .map((amenities, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <AmenitiesTableRow
+                        amenities={amenities}
+                        refetch={refetch}
+                      />
+                    </Fragment>
+                  );
+                })}
             </TBody>
           </table>
           <Pagination
