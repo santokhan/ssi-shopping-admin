@@ -78,10 +78,14 @@ const QRCodeForm = ({ value, setValue }) => {
                 <Select
                   name="developer"
                   label="developer"
-                  options={developers.map(({ id, name }) => ({
-                    value: id,
-                    label: name,
-                  }))}
+                  options={
+                    Array.isArray(developers)
+                      ? developers.map(({ id, name }) => ({
+                          value: id,
+                          label: name,
+                        }))
+                      : []
+                  }
                   value={value.developer || ''}
                   onChange={assignInput}
                   required
