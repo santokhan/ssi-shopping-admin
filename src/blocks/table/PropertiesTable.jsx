@@ -96,7 +96,7 @@ const PropertiesTableRow = ({ property, refetch }) => {
   if (!property) return;
 
   return (
-    <tr className="bg-white text-gray-800">
+    <tr className="text-gray-800">
       <TD className="">
         <PropertiesTableDetailsField property={property} />
       </TD>

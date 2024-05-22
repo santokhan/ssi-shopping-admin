@@ -42,7 +42,7 @@ const FeaturesTableRow = ({ feature, refetch }) => {
   }
 
   return (
-    <tr className="bg-white">
+    <tr className="text-gray-900">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
           {feature.name}

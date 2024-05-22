@@ -24,7 +24,7 @@ const StatusIndicator = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex justify-center rounded-full px-4 py-2 text-sm font-semibold ${backgroundColor} ${textColor} hover:bg-${status}-200`}
+      className={`inline-flex justify-center rounded-full px-4 py-2 text-sm ${backgroundColor} ${textColor} hover:bg-${status}-200`}
     >
       {labelText}
     </span>

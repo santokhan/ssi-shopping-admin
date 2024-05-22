@@ -41,8 +41,8 @@ const FeaturesTableRow = ({ feature, refetch }) => {
     return null;
   } else {
     return (
-      <tr className="bg-white">
-        <TD className="font-medium text-gray-900">
+      <tr className="text-gray-900">
+        <TD className="font-medium">
           <h3 className="text-base font-semibold leading-relaxed">
             {feature.name}
           </h3>

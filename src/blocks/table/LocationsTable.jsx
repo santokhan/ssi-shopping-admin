@@ -55,7 +55,7 @@ const LocationsTableRow = ({ location, refetch }) => {
     return null;
   } else {
     return (
-      <tr className="bg-white">
+      <tr className="text-gray-900">
         <TD>
           <h3 className="text-base font-semibold leading-relaxed">
             {location.name}

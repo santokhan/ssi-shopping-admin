@@ -11,6 +11,7 @@ import StatusIndicator from '../../components/StatusIndicator';
 import { twMerge } from 'tailwind-merge';
 import THead from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
+import { Call } from 'iconsax-react';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -34,10 +35,13 @@ const AgentTableDetailsField = ({ agent }) => {
           {[agent.first_name, agent.last_name].filter(Boolean).join(' ')} (
           {agent.display_name})
         </h3>
-        <p className="text-sm text-gray-500 font-normal">{agent.location}</p>
-        <p className="text-sm font-medium mt-2">
-          <Link className="hover:underline" to={`tel:${agent.phone}`}>
-            {agent.phone}
+        <p className="text-sm">{agent.location}</p>
+        <p className="text-sm mt-2">
+          <Link
+            className="font-normal flex items-center gap-1 hover:underline"
+            to={`tel:${agent.phone}`}
+          >
+            <Call className="size-3" /> {agent.phone}
           </Link>
         </p>
       </div>
@@ -80,7 +84,7 @@ const AgentTableRow = ({ agent, SN = '' }) => {
 
   return (
     <tr className=" bg-white">
-      <td className="px-6 py-4 font-medium text-gray-900">
+      <td className="px-6 py-4 text-gray-900">
         <AgentTableDetailsField agent={agent} />
       </td>
       {/* created on */}

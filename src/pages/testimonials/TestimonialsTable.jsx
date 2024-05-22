@@ -46,7 +46,7 @@ const TestiTableRows = ({
 }) => {
   return (
     id && (
-      <tr className="bg-white text-gray-800">
+      <tr className="text-gray-800">
         <TD className="font-semibold" width="220">
           {title}
         </TD>

@@ -46,8 +46,8 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
   }
 
   return (
-    <tr className="bg-white">
-      <TD className="text-gray-900">
+    <tr className="text-gray-900">
+      <TD className="">
         <h3 className="text-base font-semibold leading-relaxed">
           {amenities.title}
         </h3>

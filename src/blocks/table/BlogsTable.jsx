@@ -3,12 +3,9 @@ import ActionEdit from '../../components/action-buttons/Edit';
 import TableSearch from './TableSearch';
 import AddButton from '../../components/table/AddButton';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../components/DeleteModal';
 import formatDate from '../../utils/formatDate';
-import StatusIndicator from '../../components/StatusIndicator';
 import { BlogsContext } from '../../context/BlogsContext';
-import Print from '../../components/Print';
 import THead from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
 import TH from '../../components/table/TH';
@@ -40,7 +37,6 @@ const DetailsColumn = ({ data }) => {
 
 const TableAction = ({ data }) => {
   const { api } = useAxios();
-  const navigate = useNavigate();
   const { refetch } = useContext(BlogsContext);
 
   function onDelete() {
@@ -66,14 +62,10 @@ const TableAction = ({ data }) => {
   }
 };
 
-const TableRow = ({ data, SN = '' }) => {
-  if (!data) {
-    return null;
-  }
-
-  return (
-    <>
-      <tr className="bg-white">
+const TableRow = ({ data }) => {
+  if (data) {
+    return (
+      <tr className="text-gray-900">
         <td className="px-6 py-4 font-medium text-gray-900 min-w-64">
           <DetailsColumn data={data} />
         </td>
@@ -87,8 +79,8 @@ const TableRow = ({ data, SN = '' }) => {
           <TableAction data={data} />
         </td>
       </tr>
-    </>
-  );
+    );
+  }
 };
 
 const TableTopSection = ({ onSearch = (needle = '') => {} }) => {
