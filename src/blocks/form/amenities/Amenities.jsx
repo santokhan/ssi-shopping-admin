@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AmenitiesContext } from '../../../context/amenities/amenities-context';
 import useAxios from '../../../context/useAxios';
 import { toast } from 'react-toastify';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Spinner from '../../../components/loader/Spinner';
 import BackAnchor from '../../../components/BackAnchor';
 import InputFileSingle from '../../../components/form/input/InputFileSingle';
@@ -120,7 +120,6 @@ export const EditAmenities = () => {
   const { api } = useAxios();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -160,9 +159,6 @@ export const EditAmenities = () => {
         // reset
         setValue(inputs.title, '');
         setValue(inputs.icon, '');
-
-        // redirect
-        navigate('/amenities');
       })
       .catch((err) => {
         const errors = err?.response?.data;
