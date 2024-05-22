@@ -2,9 +2,6 @@ import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// // Array containing page numbers
-// export const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const Pagination = ({
   totalPages,
   currentPage = 1,
@@ -17,10 +14,7 @@ const Pagination = ({
         {currentPage > 1 && (
           <li>
             <Link
-              // onClick={() => {
-              //   setPageNumber('prev');
-              // }}
-              to={`?page=${parseInt(currentPage + 1)}`}
+              to={`?page=${parseInt(currentPage - 1)}`}
               className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white hover:bg-dark-blue-500 hover:text-white shadow-lg rounded-full hover:text-gray-700"
             >
               <ArrowLeft2 className="w-4 h-4" />

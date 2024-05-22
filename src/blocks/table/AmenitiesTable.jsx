@@ -111,7 +111,7 @@ const AmenitiesTable = ({ className = '' }) => {
             </TBody>
           </table>
           <Pagination
-            totalPages={new Array(Math.ceil(amenities.length / page_size))
+            totalPages={new Array(Math.ceil(amenities.length / maxPerPage))
               .fill()
               .map((_, i) => i + 1)}
             currentPage={currentPage}
