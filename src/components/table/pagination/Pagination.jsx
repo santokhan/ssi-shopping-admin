@@ -38,7 +38,7 @@ const Pagination = ({
         {currentPage < totalPages.length && (
           <li>
             <Link
-              to={`?page=${parseInt(currentPage + 1)}`}
+              to={`?page=${parseInt(currentPage) + 1}`}
               className="p-2 min-w-12 min-h-12 flex-grow flex justify-center items-center leading-tight text-gray-500 bg-white hover:bg-dark-blue-500 hover:text-white shadow-lg rounded-full"
             >
               <ArrowRight2 className="w-4 h-4" />

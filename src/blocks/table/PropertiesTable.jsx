@@ -238,7 +238,11 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               currentPage={currentPage}
               setPageNumber={setPageNumber}
             />
-            <TableSummary totalData={properties.length} />
+            <TableSummary
+              totalData={properties.length}
+              dataPerPage={maxPerPage}
+              currentPage={currentPage}
+            />
           </div>
         ) : (
           <p className="px-4">No properties found</p>

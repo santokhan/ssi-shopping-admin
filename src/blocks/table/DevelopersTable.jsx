@@ -9,6 +9,7 @@ import DeleteModal from '../../components/DeleteModal';
 import TBody from '../../components/table/TBody';
 import THead, { THeadList } from '../../components/table/THead';
 import TD from '../../components/table/TD';
+import { useSearchParams } from 'react-router-dom';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
@@ -68,6 +69,9 @@ const DevelopersTable = ({ className = '' }) => {
   const { developers, setPageNumber, page_size, refetch } =
     useContext(DevelopersContext);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || 1;
+
   const headList = ['name', 'profile', 'action'];
 
   if (!developers) {
@@ -87,25 +91,28 @@ const DevelopersTable = ({ className = '' }) => {
                 <THeadList headList={headList} />
               </THead>
               <TBody>
-                {developers.map((feature, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <FeaturesTableRow feature={feature} refetch={refetch} />
-                    </Fragment>
-                  );
-                })}
+                {developers
+                  .slice(page_size * (currentPage - 1), page_size * currentPage)
+                  .map((feature, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <FeaturesTableRow feature={feature} refetch={refetch} />
+                      </Fragment>
+                    );
+                  })}
               </TBody>
             </table>
             <Pagination
               totalPages={new Array(Math.ceil(developers.length / page_size))
                 .fill()
                 .map((_, i) => i + 1)}
-              currentPage={1}
+              currentPage={currentPage}
               setPageNumber={setPageNumber}
             />
             <TableSummary
-              totalData={Math.ceil(developers.length / page_size)}
-              dataPerPage={10}
+              totalData={developers.length}
+              dataPerPage={page_size}
+              currentPage={currentPage}
             />
           </div>
         ) : (

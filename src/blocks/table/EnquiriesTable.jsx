@@ -3,7 +3,7 @@ import ActionDelete from '../../components/action-buttons/Delete';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { EnquiriesContext } from '../../context/enquiries/enquiries-context';
 import formatDate from '../../utils/formatDate';
@@ -196,6 +196,8 @@ const EnquiriesTable = ({
     'updated on',
     'action',
   ]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
 
   function changeColName(search = '', needle = '') {
     setHeadList((prev) =>
@@ -235,6 +237,7 @@ const EnquiriesTable = ({
             <EnquiryStatusProvider>
               {enquiries
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(page_size * (currentPage - 1), page_size * currentPage)
                 .map((_, i) => {
                   return (
                     <Fragment key={i}>
@@ -254,12 +257,13 @@ const EnquiriesTable = ({
           totalPages={new Array(Math.ceil(enquiries.length / page_size))
             .fill()
             .map((_, i) => i + 1)}
-          currentPage={1}
+          currentPage={currentPage}
           setPageNumber={setPageNumber}
         />
         <TableSummary
-          totalData={Math.ceil(enquiries.length / page_size)}
-          dataPerPage={10}
+          totalData={enquiries.length}
+          dataPerPage={page_size}
+          currentPage={currentPage}
         />
       </div>
     ) : (

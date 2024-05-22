@@ -5,9 +5,11 @@ import NoRecordsFound from '../../components/NoRecordsFound';
 import TD from '../../components/table/TD';
 import formatDate from '../../utils/formatDate';
 import Actions from '../../components/action-buttons/ActionFlex';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import THead, { THeadList } from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
+import Pagination from '../../components/table/pagination/Pagination';
+import TableSummary from '../../components/table/agent/AgentDescFooter';
 
 const TestiActions = ({ id, refetch }) => {
   const { api } = useAxios();
@@ -99,6 +101,8 @@ const TestimonialsTable = ({
   setPageNumber,
 }) => {
   const [filtered, setFiltered] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || 1;
 
   useEffect(() => {
     if (Array.isArray(testimonials) && testimonials.length > 0) {
@@ -144,25 +148,30 @@ const TestimonialsTable = ({
                 <THeadList headList={headList} />
               </THead>
               <TBody>
-                {filtered.map((_, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <TestiTableRows {..._} refetch={refetch} />
-                    </Fragment>
-                  );
-                })}
+                {filtered
+                  .slice(page_size * (currentPage - 1), page_size * currentPage)
+                  .map((_, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <TestiTableRows {..._} refetch={refetch} />
+                      </Fragment>
+                    );
+                  })}
               </TBody>
             </table>
           </div>
-          {/* <Pagination
+          <Pagination
             totalPages={new Array(Math.ceil(filtered.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
-            currentPage={1}
+            currentPage={currentPage}
             setPageNumber={setPageNumber}
-            isNextExist={Boolean(filtered.next)}
-          /> */}
-          {/* <TableSummary totalData={filtered.length} /> */}
+          />
+          <TableSummary
+            totalData={filtered.length}
+            dataPerPage={page_size}
+            currentPage={currentPage}
+          />
         </div>
       ) : (
         <NoRecordsFound />

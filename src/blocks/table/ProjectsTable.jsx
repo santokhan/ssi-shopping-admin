@@ -229,7 +229,11 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
               currentPage={currentPage}
               setPageNumber={setPageNumber}
             />
-            <TableSummary totalData={projects.length} />
+            <TableSummary
+              totalData={projects.length}
+              dataPerPage={maxPerPage}
+              currentPage={currentPage}
+            />
           </div>
         ) : (
           <NoRecordsFound />

@@ -9,6 +9,7 @@ import EllipseImagePreview from '../../components/EllipseImagePreview';
 import DeleteModal from '../../components/DeleteModal';
 import TBody from '../../components/table/TBody';
 import THead, { THeadList } from '../../components/table/THead';
+import { useSearchParams } from 'react-router-dom';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
@@ -62,6 +63,9 @@ const FeaturesTable = ({ className = '' }) => {
   const { features, setPageNumber, page_size, refetch } =
     useContext(FeaturesContext);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || 1;
+
   if (!features) {
     return null;
   }
@@ -82,25 +86,28 @@ const FeaturesTable = ({ className = '' }) => {
               <THeadList headList={headList} />
             </THead>
             <TBody>
-              {features.map((feature, i) => {
-                return (
-                  <Fragment key={i}>
-                    <FeaturesTableRow feature={feature} refetch={refetch} />
-                  </Fragment>
-                );
-              })}
+              {features
+                .slice(page_size * (currentPage - 1), page_size * currentPage)
+                .map((feature, i) => {
+                  return (
+                    <Fragment key={i}>
+                      <FeaturesTableRow feature={feature} refetch={refetch} />
+                    </Fragment>
+                  );
+                })}
             </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(features.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
-            currentPage={1}
+            currentPage={currentPage}
             setPageNumber={setPageNumber}
           />
           <TableSummary
-            totalData={Math.ceil(features.length / page_size)}
-            dataPerPage={10}
+            totalData={features.length}
+            dataPerPage={page_size}
+            currentPage={currentPage}
           />
         </div>
       ) : (

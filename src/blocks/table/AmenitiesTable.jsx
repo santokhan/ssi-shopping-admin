@@ -118,8 +118,9 @@ const AmenitiesTable = ({ className = '' }) => {
             setPageNumber={setPageNumber}
           />
           <TableSummary
-            totalData={Math.ceil(amenities.length / page_size)}
-            dataPerPage={10}
+            totalData={amenities.length}
+            dataPerPage={maxPerPage}
+            currentPage={currentPage}
           />
         </div>
       ) : (

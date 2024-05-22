@@ -131,7 +131,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
   let agentsList = agents?.results;
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
-  const maxPerPage = 5;
+  const maxPerPage = 10;
 
   useEffect(() => {
     if (agentsList) {
@@ -209,7 +209,11 @@ const AgentTable = ({ setPageNumber, page_size }) => {
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />
-          <TableSummary totalData={filteredAgents.length} />
+          <TableSummary
+            totalData={filteredAgents.length}
+            dataPerPage={maxPerPage}
+            currentPage={currentPage}
+          />
         </div>
       ) : (
         <p className="px-4">No records found</p>

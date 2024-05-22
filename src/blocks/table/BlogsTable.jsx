@@ -9,6 +9,7 @@ import { BlogsContext } from '../../context/BlogsContext';
 import THead from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
 import TH from '../../components/table/TH';
+import { useSearchParams } from 'react-router-dom';
 
 const DetailsColumn = ({ data }) => {
   if (!data) {
@@ -104,6 +105,9 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
   const [filtered, setFiltered] = useState([]);
   let blogList = data?.results;
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || 1;
+
   useEffect(() => {
     if (blogList) {
       setFiltered(blogList);
@@ -142,13 +146,15 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
                 </tr>
               </THead>
               <TBody>
-                {filtered.map((_, i) => {
-                  return (
-                    <Fragment key={i}>
-                      <TableRow data={_} SN={i + 1} />
-                    </Fragment>
-                  );
-                })}
+                {filtered
+                  .slice((currentPage - 1) * page_size, currentPage * page_size)
+                  .map((_, i) => {
+                    return (
+                      <Fragment key={i}>
+                        <TableRow data={_} SN={i + 1} />
+                      </Fragment>
+                    );
+                  })}
               </TBody>
             </table>
           </div>

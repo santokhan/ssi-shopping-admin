@@ -3,7 +3,7 @@ import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
 import useAxios from '../../context/useAxios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { LocationsContext } from '../../context/locations/locations-context';
 import DeleteModal from '../../components/DeleteModal';
@@ -83,6 +83,8 @@ const LocationsTableRow = ({ location, refetch }) => {
 const LocationsTable = ({ className = '' }) => {
   const { locations, setPageNumber, page_size, refetch } =
     useContext(LocationsContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
 
   if (!locations) {
     return null;
@@ -104,27 +106,30 @@ const LocationsTable = ({ className = '' }) => {
               <THeadList headList={headList} />
             </THead>
             <TBody>
-              {locations.map((location, i) => {
-                return (
-                  <LocationsTableRow
-                    key={i}
-                    location={location}
-                    refetch={refetch}
-                  />
-                );
-              })}
+              {locations
+                .slice(page_size * (currentPage - 1), page_size * currentPage)
+                .map((location, i) => {
+                  return (
+                    <LocationsTableRow
+                      key={i}
+                      location={location}
+                      refetch={refetch}
+                    />
+                  );
+                })}
             </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(locations.length / page_size))
               .fill()
               .map((_, i) => i + 1)}
-            currentPage={1}
+            currentPage={currentPage}
             setPageNumber={setPageNumber}
           />
           <TableSummary
             totalData={Math.ceil(locations.length / page_size)}
-            dataPerPage={10}
+            dataPerPage={page_size}
+            currentPage={currentPage}
           />
         </div>
       ) : (
