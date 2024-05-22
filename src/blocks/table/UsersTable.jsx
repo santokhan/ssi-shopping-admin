@@ -7,6 +7,8 @@ import useAxios from '../../context/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { UsersContext } from '../../context/users/UserContext';
+import TBody from '../../components/table/TBody';
+import THead, { THeadList } from '../../components/table/THead';
 
 const UsersTableAction = ({ user, refetch }) => {
   const { api } = useAxios();
@@ -45,9 +47,9 @@ const UsersTableRow = ({ user, refetch }) => {
   }
 
   return (
-    <tr className="border-b bg-white">
+    <tr className="bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
-        <h3 className="text-base font-semibold leading-relaxed">
+        <h3 className="text-base font-semibold leading-relaxed capitalize">
           {user.username}
         </h3>
       </td>
@@ -90,41 +92,10 @@ const UsersTable = ({ className = '' }) => {
           )}
         >
           <table className="w-full text-sm text-gray-500 rtl:text-right">
-            <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-              <tr>
-                <th
-                  scope="col"
-                  className="text-start whitespace-nowrap rounded-l-lg px-6 py-3"
-                >
-                  {headList[0]}
-                </th>
-                <th
-                  scope="col"
-                  className="text-start whitespace-nowrap px-6 py-3"
-                >
-                  {headList[1]}
-                </th>
-                <th
-                  scope="col"
-                  className="text-start whitespace-nowrap px-6 py-3"
-                >
-                  {headList[2]}
-                </th>
-                <th
-                  scope="col"
-                  className="text-start whitespace-nowrap px-6 py-3"
-                >
-                  {headList[3]}
-                </th>
-                <th
-                  scope="col"
-                  className="text-start whitespace-nowrap px-6 py-3"
-                >
-                  {headList[4]}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+            <THead>
+              <THeadList headList={headList} />
+            </THead>
+            <TBody>
               {users.map((user, i) => {
                 return (
                   <Fragment key={i}>
@@ -132,7 +103,7 @@ const UsersTable = ({ className = '' }) => {
                   </Fragment>
                 );
               })}
-            </tbody>
+            </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(users.length / page_size))

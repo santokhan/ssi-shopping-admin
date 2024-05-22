@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { AmenitiesContext } from '../../context/amenities/amenities-context';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
+import TBody from '../../components/table/TBody';
+import TD from '../../components/table/TD';
+import THead, { THeadList } from '../../components/table/THead';
 
 const AmenitiesTableAction = ({ amenities, refetch }) => {
   const { api } = useAxios();
@@ -43,13 +46,13 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
   }
 
   return (
-    <tr className="border-b bg-white">
-      <td className="px-6 py-4 font-medium text-gray-900">
+    <tr className="bg-white">
+      <TD className="text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
           {amenities.title}
         </h3>
-      </td>
-      <td className="px-6 py-4">
+      </TD>
+      <TD>
         <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
           <img
             src={amenities.icon}
@@ -57,10 +60,10 @@ const AmenitiesTableRow = ({ amenities, refetch }) => {
             className="w-full h-full object-cover rounded-full overflow-hidden"
           />
         </div>
-      </td>
-      <td className="px-6 py-4">
+      </TD>
+      <TD>
         <AmenitiesTableAction amenities={amenities} refetch={refetch} />
-      </td>
+      </TD>
     </tr>
   );
 };
@@ -85,20 +88,10 @@ const AmenitiesTable = ({ className = '' }) => {
           )}
         >
           <table className="w-full text-sm text-gray-500 rtl:text-right">
-            <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-              <tr>
-                <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                  {headList[0]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[1]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[2]}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+            <THead>
+              <THeadList headList={headList} />
+            </THead>
+            <TBody>
               {amenities.map((amenities, i) => {
                 return (
                   <Fragment key={i}>
@@ -109,7 +102,7 @@ const AmenitiesTable = ({ className = '' }) => {
                   </Fragment>
                 );
               })}
-            </tbody>
+            </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(amenities.length / page_size))

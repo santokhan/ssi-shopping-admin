@@ -44,6 +44,9 @@ import EnquiryStatusProvider, {
   EnquiryStatusContext,
 } from '../../context/enquiries/EnquiryStatusContext';
 import Print from '../../components/Print';
+import TD from '../../components/table/TD';
+import TBody from '../../components/table/TBody';
+import THead from '../../components/table/THead';
 
 const EnquiryStatus = ({ status, id }) => {
   const { statusFormIndex, setStatusFormIndex } =
@@ -136,41 +139,41 @@ const EnquiriesTableRow = ({ enquiry, refetch, id }) => {
     return null;
   } else {
     return (
-      <tr className="border-b bg-white">
-        <td className="px-6 py-4 font-medium text-gray-900" width={200}>
+      <tr className="bg-white">
+        <TD className="px-6 py-4 font-medium text-gray-900" width={200}>
           <h3 className="text-base font-semibold leading-relaxed capitalize">
             {enquiry.name}
           </h3>
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           <Link to={`mailto:${enquiry.email}`} className="hover:underline">
             {enquiry.email}
           </Link>
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           <Link to={`tel:${enquiry.phone}`} className="hover:underline">
             {enquiry.phone}
           </Link>
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           <Resource />
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           <EnquiryStatus id={id} status={enquiry.status} />
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           <span className="whitespace-nowrap">{formatDate(enquiry.date)}</span>
-        </td>
-        <td className="px-6 py-4" width={200}>
+        </TD>
+        <TD className="px-6 py-4" width={200}>
           {enquiry.updated_on && (
             <span className="whitespace-nowrap">
               {formatDate(enquiry.updated_on)}
             </span>
           )}
-        </td>
-        <td className="px-6 py-4">
+        </TD>
+        <TD className="px-6 py-4">
           <EnquiriesTableAction id={enquiry.id} refetch={refetch} />
-        </td>
+        </TD>
       </tr>
     );
   }
@@ -212,7 +215,7 @@ const EnquiriesTable = ({
         className={twMerge(className, 'bg-white p-4 space-y-4 overflow-x-auto')}
       >
         <table className="w-full text-sm text-gray-500 rtl:text-right">
-          <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+          <THead>
             <tr>
               {headList.map((_, i) => (
                 <th
@@ -227,8 +230,8 @@ const EnquiriesTable = ({
                 </th>
               ))}
             </tr>
-          </thead>
-          <tbody>
+          </THead>
+          <TBody>
             <EnquiryStatusProvider>
               {enquiries
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -245,7 +248,7 @@ const EnquiriesTable = ({
                   );
                 })}
             </EnquiryStatusProvider>
-          </tbody>
+          </TBody>
         </table>
         <Pagination
           totalPages={new Array(Math.ceil(enquiries.length / page_size))

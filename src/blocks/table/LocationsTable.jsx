@@ -1,5 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
-import ActionDelete from '../../components/action-buttons/Delete';
+import { useContext, useEffect, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -8,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { LocationsContext } from '../../context/locations/locations-context';
 import DeleteModal from '../../components/DeleteModal';
+import THead, { THeadList } from '../../components/table/THead';
+import TD from '../../components/table/TD';
+import TBody from '../../components/table/TBody';
 
 const LocationsTableAction = ({ location, refetch }) => {
   const { api } = useAxios();
@@ -53,13 +55,13 @@ const LocationsTableRow = ({ location, refetch }) => {
     return null;
   } else {
     return (
-      <tr className="border-b bg-white">
-        <td className="px-6 py-4 font-medium text-gray-900">
+      <tr className="bg-white">
+        <TD>
           <h3 className="text-base font-semibold leading-relaxed">
             {location.name}
           </h3>
-        </td>
-        <td className="px-6 py-4">
+        </TD>
+        <TD>
           <div className="grid size-12 flex-shrink-0 place-items-center rounded-xl bg-gray-50">
             <img
               src={location.icon}
@@ -67,17 +69,12 @@ const LocationsTableRow = ({ location, refetch }) => {
               className="w-full h-full object-cover rounded-full overflow-hidden"
             />
           </div>
-        </td>
-        <td className="px-6 py-4 font-medium text-gray-900">
-          {/* {location.city.country} */}
-          {country?.name}
-        </td>
-        <td className="px-6 py-4 font-medium text-gray-900">
-          {location.city.name}
-        </td>
-        <td className="px-6 py-4">
+        </TD>
+        <TD>{country?.name}</TD>
+        <TD>{location.city.name}</TD>
+        <TD>
           <LocationsTableAction location={location} refetch={refetch} />
-        </td>
+        </TD>
       </tr>
     );
   }
@@ -103,34 +100,20 @@ const LocationsTable = ({ className = '' }) => {
           )}
         >
           <table className="w-full text-sm text-gray-500 rtl:text-right">
-            <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-              <tr>
-                <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                  {headList[0]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[1]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[2]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[3]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[4]}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+            <THead>
+              <THeadList headList={headList} />
+            </THead>
+            <TBody>
               {locations.map((location, i) => {
                 return (
-                  <Fragment key={i}>
-                    <LocationsTableRow location={location} refetch={refetch} />
-                  </Fragment>
+                  <LocationsTableRow
+                    key={i}
+                    location={location}
+                    refetch={refetch}
+                  />
                 );
               })}
-            </tbody>
+            </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(locations.length / page_size))

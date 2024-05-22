@@ -9,6 +9,8 @@ import { AgentsContext } from '../../context/AgentsContext';
 import formatDate from '../../utils/formatDate';
 import StatusIndicator from '../../components/StatusIndicator';
 import { twMerge } from 'tailwind-merge';
+import THead from '../../components/table/THead';
+import TBody from '../../components/table/TBody';
 
 const AgentTableDetailsField = ({ agent }) => {
   if (!agent) {
@@ -162,17 +164,17 @@ const AgentTable = ({ setPageNumber, page_size }) => {
         <div className="bg-white p-4 space-y-4">
           <div className="w-full overflow-x-auto">
             <table className="w-full text-sm text-gray-500 rtl:text-right">
-              <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+              <THead>
                 <tr>
-                  <TH>Agent Name</TH>
+                  <TH className="rounded-l">Agent Name</TH>
                   <TH>Date Added</TH>
                   <TH>Date Updated</TH>
                   <TH>Status</TH>
                   <TH>Properties</TH>
-                  <TH className="rounded-r-lg">Action</TH>
+                  <TH className="rounded-r">Action</TH>
                 </tr>
-              </thead>
-              <tbody className="divide-y">
+              </THead>
+              <TBody>
                 {filteredAgents
                   .sort(
                     (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
@@ -184,7 +186,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                       </Fragment>
                     );
                   })}
-              </tbody>
+              </TBody>
             </table>
           </div>
           {/* <Pagination

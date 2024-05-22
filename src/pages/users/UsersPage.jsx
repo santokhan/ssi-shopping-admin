@@ -9,7 +9,6 @@ const UsersLayout = () => {
       <div className="space-y-4">
         <Page.Top>
           <Page.Title>Users</Page.Title>
-          {/* <Page.Desc>Add or edit locations</Page.Desc> */}
         </Page.Top>
 
         <div className="flex gap-6 flex-wrap items-start">

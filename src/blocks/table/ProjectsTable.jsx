@@ -9,15 +9,16 @@ import useAxios from '../../context/useAxios';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import DeleteModal from '../../components/DeleteModal';
-import { Link } from 'react-router-dom';
 import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
-import Print from '../../components/Print';
 import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
 import MountListedIn from '../../components/MountListedIn';
 import formatDate from '../../utils/formatDate';
 import AgentLink from '../../components/AgentLink';
+import TD from '../../components/table/TD';
+import TBody from '../../components/table/TBody';
+import THead from '../../components/table/THead';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -50,7 +51,7 @@ const ProjectsTableDetailsField = ({ property }) => {
           )}
         </div>
         <div>
-          <h3 className="text-base font-bold leading-relaxed capitalize">
+          <h3 className="text-base font-bold leading-relaxedcapitalize">
             {property.title}
           </h3>
           <CountryCityArea {...property} />
@@ -98,29 +99,25 @@ const ProjectTableRow = ({ property, refetch }) => {
   if (!property) return;
 
   return (
-    <tr className="border-b bg-white text-gray-800">
-      <td className="px-6 py-4">
+    <tr className="bg-white text-gray-800">
+      <TD className="">
         <ProjectsTableDetailsField property={property} />
-      </td>
-      <td className="px-6 py-4 capitalize">{property.category?.title}</td>
-      <td className="px-6 py-4 capitalize">
+      </TD>
+      <TD className="capitalize">{property.category?.title}</TD>
+      <TD className="capitalize">
         For <MountListedIn listed_in={property.listed_in} />
-      </td>
-      <td className="px-6 py-4 capitalize">
+      </TD>
+      <TD className="capitalize">
         <AgentLink agent={property.agent} />
-      </td>
-      <td className="px-6 py-4 capitalize">
+      </TD>
+      <TD className="capitalize">
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
-      </td>
-      <td className="px-6 py-4 capitalize">
-        {formatDate(property.created_on)}
-      </td>
-      <td className="px-6 py-4 capitalize">
-        {formatDate(property.updated_on)}
-      </td>
-      <td className="px-6 py-4 capitalize">
+      </TD>
+      <TD className="capitalize">{formatDate(property.created_on)}</TD>
+      <TD className="capitalize">{formatDate(property.updated_on)}</TD>
+      <TD className="capitalize">
         <ProjectTableActions property={property} refetch={refetch} />
-      </td>
+      </TD>
     </tr>
   );
 };
@@ -184,7 +181,7 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
           <div className="bg-white p-4 space-y-4">
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-gray-500 rtl:text-right">
-                <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+                <THead>
                   <tr>
                     {headList.map((head, i) => {
                       return (
@@ -202,8 +199,8 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
                       );
                     })}
                   </tr>
-                </thead>
-                <tbody>
+                </THead>
+                <TBody>
                   {filtered
                     .sort(
                       (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
@@ -218,7 +215,7 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
                         </Fragment>
                       );
                     })}
-                </tbody>
+                </TBody>
               </table>
             </div>
             <Pagination

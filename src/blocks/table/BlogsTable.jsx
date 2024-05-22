@@ -9,6 +9,9 @@ import formatDate from '../../utils/formatDate';
 import StatusIndicator from '../../components/StatusIndicator';
 import { BlogsContext } from '../../context/BlogsContext';
 import Print from '../../components/Print';
+import THead from '../../components/table/THead';
+import TBody from '../../components/table/TBody';
+import TH from '../../components/table/TH';
 
 const DetailsColumn = ({ data }) => {
   if (!data) {
@@ -77,7 +80,7 @@ const TableRow = ({ data, SN = '' }) => {
         <td className="px-6 py-4 min-w-80 max-w-sm">
           {data.description?.slice(0, 120)}
         </td>
-        <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
+        <td className="whitespace-nowrap text-gray-900">
           {formatDate(data.published_on)}
         </td>
         <td className="px-6 py-4">
@@ -138,23 +141,15 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
         <div className="bg-white p-4 space-y-4">
           <div className="w-full overflow-x-auto">
             <table className="w-full text-sm text-gray-500 rtl:text-right">
-              <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+              <THead>
                 <tr>
-                  <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                    Blog Name
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    Description
-                  </th>
-                  <th scope="col" className="text-start px-6 py-3">
-                    Date Added
-                  </th>
-                  <th scope="col" className="text-start rounded-r-lg px-6 py-3">
-                    Action
-                  </th>
+                  <TH className="rounded-l">Blog Name</TH>
+                  <TH className="">Description</TH>
+                  <TH className="">Date Added</TH>
+                  <TH className="rounded-r">Action</TH>
                 </tr>
-              </thead>
-              <tbody className="divide-y">
+              </THead>
+              <TBody>
                 {filtered.map((_, i) => {
                   return (
                     <Fragment key={i}>
@@ -162,7 +157,7 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
                     </Fragment>
                   );
                 })}
-              </tbody>
+              </TBody>
             </table>
           </div>
         </div>

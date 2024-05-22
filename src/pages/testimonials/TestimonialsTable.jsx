@@ -1,13 +1,13 @@
 import { Fragment, useEffect, useState } from 'react';
-import AddButton from '../../components/table/AddButton';
 import TableTitle from '../../components/table/TableTitle';
 import useAxios from '../../context/useAxios';
 import NoRecordsFound from '../../components/NoRecordsFound';
-import TH from '../../components/table/TH';
 import TD from '../../components/table/TD';
 import formatDate from '../../utils/formatDate';
 import Actions from '../../components/action-buttons/ActionFlex';
 import { useLocation } from 'react-router-dom';
+import THead, { THeadList } from '../../components/table/THead';
+import TBody from '../../components/table/TBody';
 
 const TestiActions = ({ id, refetch }) => {
   const { api } = useAxios();
@@ -47,19 +47,19 @@ const TestiTableRows = ({
   return (
     id && (
       <tr className="bg-white text-gray-800">
-        <TD className="font-medium" width="220">
+        <TD className="font-semibold" width="220">
           {title}
         </TD>
-        <TD className="font-medium capitalize" width="400">
+        <TD className="capitalize" width="400">
           {description}
         </TD>
-        <TD className="font-medium capitalize" width="80">
+        <TD className="capitalize" width="80">
           {rating}
         </TD>
-        <TD className="font-medium capitalize" width="160">
+        <TD className="capitalize" width="160">
           {author}
         </TD>
-        <TD className="" width="100">
+        <TD width="100">
           {image.includes('https') && (
             <img
               src={image}
@@ -68,10 +68,8 @@ const TestiTableRows = ({
             />
           )}
         </TD>
-        <TD className="" width="150">
-          {formatDate(added_on)}
-        </TD>
-        <TD className="" width="80">
+        <TD width="150">{formatDate(added_on)}</TD>
+        <TD width="80">
           <TestiActions id={id} refetch={refetch} />
         </TD>
       </tr>
@@ -142,18 +140,10 @@ const TestimonialsTable = ({
         <div className="bg-white p-4 space-y-4">
           <div className="w-full overflow-x-auto">
             <table className="w-full text-sm text-gray-500 rtl:text-right">
-              <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-                <tr>
-                  <TH className="rounded-l-lg">{headList[0]}</TH>
-                  <TH>{headList[1]}</TH>
-                  <TH>{headList[2]}</TH>
-                  <TH>{headList[3]}</TH>
-                  <TH>{headList[4]}</TH>
-                  <TH>{headList[5]}</TH>
-                  <TH className="rounded-r-lg">{headList[6]}</TH>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
+              <THead>
+                <THeadList headList={headList} />
+              </THead>
+              <TBody>
                 {filtered.map((_, i) => {
                   return (
                     <Fragment key={i}>
@@ -161,7 +151,7 @@ const TestimonialsTable = ({
                     </Fragment>
                   );
                 })}
-              </tbody>
+              </TBody>
             </table>
           </div>
           {/* <Pagination

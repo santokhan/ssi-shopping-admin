@@ -7,6 +7,8 @@ import { twMerge } from 'tailwind-merge';
 import { FeaturesContext } from '../../context/features/features-context';
 import EllipseImagePreview from '../../components/EllipseImagePreview';
 import DeleteModal from '../../components/DeleteModal';
+import TBody from '../../components/table/TBody';
+import THead, { THeadList } from '../../components/table/THead';
 
 const FeaturesTableAction = ({ feature, refetch }) => {
   const { api } = useAxios();
@@ -40,7 +42,7 @@ const FeaturesTableRow = ({ feature, refetch }) => {
   }
 
   return (
-    <tr className="border-b bg-white">
+    <tr className="bg-white">
       <td className="px-6 py-4 font-medium text-gray-900">
         <h3 className="text-base font-semibold leading-relaxed">
           {feature.name}
@@ -76,20 +78,10 @@ const FeaturesTable = ({ className = '' }) => {
           )}
         >
           <table className="w-full text-sm text-gray-500 rtl:text-right">
-            <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-              <tr>
-                <th scope="col" className="text-start rounded-l-lg px-6 py-3">
-                  {headList[0]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[1]}
-                </th>
-                <th scope="col" className="text-start px-6 py-3">
-                  {headList[2]}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+            <THead>
+              <THeadList headList={headList} />
+            </THead>
+            <TBody>
               {features.map((feature, i) => {
                 return (
                   <Fragment key={i}>
@@ -97,7 +89,7 @@ const FeaturesTable = ({ className = '' }) => {
                   </Fragment>
                 );
               })}
-            </tbody>
+            </TBody>
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(features.length / page_size))
