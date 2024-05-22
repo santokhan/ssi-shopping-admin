@@ -13,6 +13,7 @@ import DeleteModal from '../../components/DeleteModal';
 import { Link } from 'react-router-dom';
 import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
+import AgentLink from '../../components/AgentLink';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -34,7 +35,7 @@ const PropertiesTableDetailsField = ({ property }) => {
     const imageURL = image ? getImageURL(image.image) : '';
 
     return (
-      <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
+      <div className="flex w-96 flex-row items-center gap-4 rounded-lg text-gray-800">
         <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
           {property.images?.length > 0 && (
             <img
@@ -49,7 +50,7 @@ const PropertiesTableDetailsField = ({ property }) => {
             {property.title}
           </h3>
           <CountryCityArea {...property} />
-          <p className="text-sm font-semibold mt-2">
+          <p className="text-sm mt-2">
             AED {Intl.NumberFormat().format(property.price)}
           </p>
         </div>
@@ -92,37 +93,22 @@ const PropertiesTableAction = ({ property, refetch }) => {
 const PropertiesTableRow = ({ property, refetch }) => {
   if (!property) return;
 
-  const AgentLink = ({ agent = null }) => {
-    if (agent?.id) {
-      return (
-        <Link
-          to={'/agents/' + agent.id + '/'}
-          className="hover:text-blue-500 whitespace-nowrap"
-        >
-          {agent.display_name}
-        </Link>
-      );
-    }
-  };
-
   return (
     <tr className="border-b bg-white text-gray-800">
-      <td className="px-6 py-4 font-medium">
+      <td className="px-6 py-4">
         <PropertiesTableDetailsField property={property} />
       </td>
-      <td className="whitespace-nowrap px-6 py-4 font-medium">
+      <td className="whitespace-nowrap px-6 py-4">
         {formatDate(property.created_on)}
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
-        {property.category?.title}
-      </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">{property.category?.title}</td>
+      <td className="px-6 py-4 capitalize">
         {property.listed_in == 'sale' ? 'For Sale' : 'For Rent'}
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         <AgentLink agent={property.agent} />
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
       </td>
       <td className="px-6 py-4 capitalize">
@@ -201,17 +187,22 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               <table className="w-full text-sm text-gray-500 rtl:text-right">
                 <thead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                   <tr>
-                    <TH scope="col" className="rounded-l-lg">
-                      {headList[0]}
-                    </TH>
-                    <TH scope="col">{headList[1]}</TH>
-                    <TH scope="col">{headList[2]}</TH>
-                    <TH scope="col">{headList[3]}</TH>
-                    <TH scope="col">{headList[4]}</TH>
-                    <TH scope="col">{headList[5]}</TH>
-                    <TH scope="col" className="rounded-r-lg">
-                      {headList[6]}
-                    </TH>
+                    {headList.map((head, i) => {
+                      return (
+                        <TH
+                          scope="col"
+                          key={i}
+                          className={twMerge(
+                            'px-6 py-3',
+                            i == 0 || i == headList.length - 1
+                              ? 'rounded-l-lg'
+                              : '',
+                          )}
+                        >
+                          {head}
+                        </TH>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody>

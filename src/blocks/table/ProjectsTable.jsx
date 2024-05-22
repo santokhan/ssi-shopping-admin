@@ -17,6 +17,7 @@ import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
 import MountListedIn from '../../components/MountListedIn';
 import formatDate from '../../utils/formatDate';
+import AgentLink from '../../components/AgentLink';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -38,8 +39,8 @@ const ProjectsTableDetailsField = ({ property }) => {
     const imageURL = image ? getImageURL(image.image) : '';
 
     return (
-      <div className="flex w-72 flex-row items-center gap-4 rounded-lg text-gray-800">
-        <div className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
+      <div className="flex w-96 flex-row items-center gap-4 rounded-lg text-gray-800">
+        <div className="grid size-20 flex-shrink-0 place-items-center rounded-full bg-gray-50">
           {property.images?.length > 0 && (
             <img
               src={imageURL}
@@ -53,7 +54,7 @@ const ProjectsTableDetailsField = ({ property }) => {
             {property.title}
           </h3>
           <CountryCityArea {...property} />
-          <p className="text-sm font-semibold mt-2">
+          <p className="text-sm mt-2">
             AED {Intl.NumberFormat().format(property.price)}
           </p>
         </div>
@@ -96,40 +97,25 @@ const ProjectTableActions = ({ property, refetch }) => {
 const ProjectTableRow = ({ property, refetch }) => {
   if (!property) return;
 
-  const AgentLink = ({ agent = null }) => {
-    if (agent?.id) {
-      return (
-        <Link
-          to={'/agents/' + agent.id + '/'}
-          className="hover:text-blue-500 whitespace-nowrap"
-        >
-          {agent.display_name}
-        </Link>
-      );
-    }
-  };
-
   return (
     <tr className="border-b bg-white text-gray-800">
-      <td className="px-6 py-4 font-medium">
+      <td className="px-6 py-4">
         <ProjectsTableDetailsField property={property} />
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
-        {property.category?.title}
-      </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">{property.category?.title}</td>
+      <td className="px-6 py-4 capitalize">
         For <MountListedIn listed_in={property.listed_in} />
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         <AgentLink agent={property.agent} />
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         <StatusIndicator status={property.status ? 'active' : 'inactive'} />
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         {formatDate(property.created_on)}
       </td>
-      <td className="px-6 py-4 font-medium capitalize">
+      <td className="px-6 py-4 capitalize">
         {formatDate(property.updated_on)}
       </td>
       <td className="px-6 py-4 capitalize">
