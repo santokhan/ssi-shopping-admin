@@ -91,7 +91,7 @@ const RoadMapInputContainer = ({ value, setValue = (roadmap) => {} }) => {
         <ul className="flex flex-col items-start gap-2">
           {value.map(({ place, distance }, i) => {
             return (
-              <Fragment key={crypto.randomUUID()}>
+              <Fragment key={i}>
                 <li className="flex-grow flex items-end gap-4">
                   <RoadMapInput
                     label={'place'}

@@ -50,7 +50,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        {amenities.map((amenity) => {
+        {amenities.map((amenity,i) => {
           const checkExist = (list, n) =>
             list.some((id) => {
               if (typeof id == 'number' && typeof n == 'number') {
@@ -60,7 +60,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
 
           return (
             <CheckBoxContainer
-              key={crypto.randomUUID()}
+              key={i}
               amenity={amenity}
               onChange={() => {
                 if (checkExist(value, amenity.id)) {

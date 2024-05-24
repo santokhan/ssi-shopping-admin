@@ -77,9 +77,9 @@ const TagsInput = ({
   return (
     <InputLabel label={label} className={className}>
       <div className="border p-[8px] rounded-lg h-[46px] flex items-center gap-2">
-        {tags.map((tag) => (
+        {tags.map((tag, i) => (
           <div
-            key={crypto.randomUUID()}
+            key={i}
             className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1 "
           >
             <span className="px-2 flex-shrink-0">{tag}</span>

@@ -21,8 +21,8 @@ const Pagination = ({
             </Link>
           </li>
         )}
-        {totalPages.map((n) => (
-          <li key={crypto.randomUUID()}>
+        {totalPages.map((n, i) => (
+          <li key={i}>
             <Link
               to={`?page=${parseInt(n)}`}
               className={`p-2 min-w-12 min-h-12 flex-grow min-leading-tight rounded-full hover:bg-dark-blue-500 hover:text-white flex justify-center items-center ${
