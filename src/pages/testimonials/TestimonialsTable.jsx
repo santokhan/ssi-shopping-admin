@@ -147,6 +147,7 @@ const TestimonialsTable = ({ testimonials, refetch, setPageNumber }) => {
               <TBody>
                 {filtered
                   .slice(page_size * (currentPage - 1), page_size * currentPage)
+                  .sort((a, b) => new Date(b.added_on) - new Date(a.added_on))
                   .map((_, i) => {
                     return (
                       <Fragment key={i}>
