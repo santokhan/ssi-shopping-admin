@@ -10,6 +10,8 @@ import THead from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
 import TH from '../../components/table/TH';
 import { useSearchParams } from 'react-router-dom';
+import Pagination from '../../components/table/pagination/Pagination';
+import TableSummary from '../../components/table/agent/AgentDescFooter';
 
 const DetailsColumn = ({ data }) => {
   if (!data) {
@@ -116,7 +118,6 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
 
   function onSearch(needle) {
     if (needle && needle.length > 0) {
-      // console.log({ needle });
       setFiltered(
         blogList.filter((_) => {
           const target = _.display_name?.trim().toLowerCase();
@@ -148,6 +149,9 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
               <TBody>
                 {filtered
                   .slice((currentPage - 1) * page_size, currentPage * page_size)
+                  .sort(
+                    (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
+                  )
                   .map((_, i) => {
                     return (
                       <Fragment key={i}>
@@ -158,6 +162,18 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
               </TBody>
             </table>
           </div>
+          <Pagination
+            totalPages={new Array(Math.ceil(filtered.length / page_size))
+              .fill()
+              .map((_, i) => i + 1)}
+            currentPage={currentPage}
+            setPageNumber={setPageNumber}
+          />
+          <TableSummary
+            totalData={filtered.length}
+            dataPerPage={page_size}
+            currentPage={currentPage}
+          />
         </div>
       ) : (
         <p className="px-4">No records found</p>
