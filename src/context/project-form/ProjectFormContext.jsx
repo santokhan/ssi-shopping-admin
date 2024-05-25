@@ -26,7 +26,12 @@ function makeFormData(value) {
               }
             }
           }
-        } else if (['amenities', 'features'].includes(key)) {
+        } else if (
+          [
+            'amenities',
+            // 'features'
+          ].includes(key)
+        ) {
           if (Array.isArray(ele)) {
             ele.forEach((id) => {
               if (!isNaN(id)) {
@@ -100,6 +105,8 @@ const ProjectFormProvider = ({ children }) => {
     e.preventDefault();
 
     const formData = makeFormData(value);
+    // Temp
+    formData.delete('features');
 
     try {
       const res = await api.post('/projects/', formData, {
