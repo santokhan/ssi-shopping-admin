@@ -10,6 +10,7 @@ import THead, { THeadList } from '../../components/table/THead';
 import TBody from '../../components/table/TBody';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
+import Print from '../../components/Print';
 
 const TestiActions = ({ id, refetch }) => {
   const { api } = useAxios();
@@ -94,15 +95,11 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
   );
 };
 
-const TestimonialsTable = ({
-  testimonials,
-  refetch,
-  page_size,
-  setPageNumber,
-}) => {
+const TestimonialsTable = ({ testimonials, refetch, setPageNumber }) => {
   const [filtered, setFiltered] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || 1;
+  const page_size = 10;
 
   useEffect(() => {
     if (Array.isArray(testimonials) && testimonials.length > 0) {
