@@ -12,6 +12,7 @@ const InputFileSingle = ({
   accept = 'image/*',
   name = '',
   value = '',
+  onRemoveFromServer = () => {},
 }) => {
   return (
     <div className={twMerge('w-full space-y-6', className)}>
@@ -55,6 +56,7 @@ const InputFileSingle = ({
             src={imageSrcValidator(value)}
             onRemove={() => {
               setValue(name, '');
+              onRemoveFromServer();
             }}
           />
         </div>

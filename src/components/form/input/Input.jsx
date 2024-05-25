@@ -4,12 +4,17 @@ import InputBox from '../InputBox';
 import replace_ from '../../../utils/levelSplitter';
 import InputError from '../InputError';
 
-export const InputElement = ({ label, type = 'text', ...props }) => {
+export const InputElement = ({
+  label,
+  type = 'text',
+  className = '',
+  ...props
+}) => {
   return (
     <input
       type={type}
       {...props}
-      className="w-full border rounded-lg px-4 py-2.5"
+      className={twMerge('w-full border rounded-lg px-4 py-2.5', className)}
     />
   );
 };

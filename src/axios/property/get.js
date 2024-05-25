@@ -29,3 +29,12 @@ export async function getAmenities() {
         console.log(error);
     }
 }
+export async function getFeatures() {
+    try {
+        const res = await api.get('features/');
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}

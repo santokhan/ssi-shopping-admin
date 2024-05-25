@@ -38,6 +38,9 @@ const dataBridgeForProperties = (properties = {}) => {
             roadmap: Array.isArray(p.roadmap) ? p.roadmap : [Initial_Roadmap],
             // details
             size: p.size,
+            features: p.features || [
+                // 10
+            ],
             // QR Code 4 inputs
             project_number: p.project_number,
             permit_no: p.permit_no,

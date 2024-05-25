@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Input from '../../../components/form/input/Input';
 import Textarea from '../../../components/form/input/Textarea';
@@ -7,10 +7,26 @@ import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { formBack, formNext } from '../../../utils/form-steps';
 import { yesNoOptions } from '../../../utils/yes-no-options';
+import {
+  AmenitiesGrid,
+  CheckBoxContainer,
+  amenitiesReducer,
+} from './AmenitiesForm';
+import { getFeatures } from '../../../axios/property/get';
 
 const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const [features, setFeatures] = useState([{ label: '', value: '' }]);
+  useEffect(() => {
+    getFeatures().then((res) => {
+      if (res.data) {
+        const data = res.data;
+        setFeatures(data);
+      }
+    });
+  }, []);
 
   const inputs = [
     {
@@ -18,43 +34,6 @@ const DetailsForm = ({ value, setValue }) => {
       label: 'total area (in ft)',
       type: 'number',
     },
-    // {
-    //   name: 'built_up_size',
-    // eslint-disable-next-line no-irregular-whitespace
-    //   label: "Built Up Size (In FT)",
-    //   type: 'number',
-    // },
-    // {
-    //   name: 'bedrooms',
-    //   label: 'Bedrooms',
-    //   type: 'number',
-    // },
-    // {
-    //   name: 'bathrooms',
-    //   label: 'Bathrooms',
-    //   type: 'number',
-    // },
-    // {
-    //   name: 'parking',
-    //   label: 'Parking',
-    //   type: 'number',
-    // },
-    // {
-    //   name: 'garage_size',
-    //   label: 'Garage size',
-    //   type: 'number',
-    // },
-    // {
-    //   name: 'year_built',
-    //   label: 'Year built (numeric)',
-    //   type: 'number',
-    // },
-    // { name: 'basement', label: 'Basement', type: 'yes/no' },
-    // {
-    //   name: 'extra_detail',
-    //   label: 'Owner/ Agent notes (not visible on front end)',
-    //   type: 'textarea',
-    // },
   ];
 
   const options = {
@@ -166,7 +145,40 @@ const DetailsForm = ({ value, setValue }) => {
           );
         }
       })}
+      <AmenitiesGrid className="col-span-full">
+        {features.map((_) => {
+          // remove duplicates
+          const isExists = (list, n) => {
+            if (Array.isArray(list)) {
+              return list.some((id) => id == n);
+            }
+          };
+          let clone = amenitiesReducer(value.features);
+          console.log(clone);
 
+          return (
+            <CheckBoxContainer
+              key={_.id}
+              checkboxes={{
+                id: _.id,
+                icon: _.image,
+                title: _.name,
+              }}
+              onChange={() => {
+                if (isExists(clone, _.id)) {
+                  setValue(
+                    'features',
+                    clone.filter((e) => e != _.id),
+                  );
+                } else {
+                  setValue('features', [...clone, _.id]);
+                }
+              }}
+              checked={isExists(clone, _.id)}
+            />
+          );
+        })}
+      </AmenitiesGrid>
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );

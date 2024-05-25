@@ -4,7 +4,10 @@ import InputBox from '../../components/form/InputBox';
 import ResponsiveForm from '../../components/form/ResponsiveForm';
 import Textarea from '../../components/form/input/Textarea';
 import FormTitle from '../../components/form/FormTitle';
-import Input from '../../components/form/input/Input';
+import Input, {
+  InputElement,
+  InputLabel,
+} from '../../components/form/input/Input';
 import Select from '../../components/form/input/SelectOption';
 import SubmitButton from '../../components/form/SubmitButton';
 import AgentImageInput from '../../components/form/input/AgentImageInput';
@@ -21,6 +24,7 @@ import CategoriesProvider, {
 } from '../../context/CategoriesContext';
 import splitSpeaks from '../../utils/splitSpeaks';
 import { errorToast } from '../../components/ShowError';
+import InputError from '../../components/form/InputError';
 
 const inputs = {
   display_name: 'display_name',
@@ -185,6 +189,8 @@ const AgentForm = ({ agent = null }) => {
     }
   }, [agent]);
 
+  const [prefixWA, setPrefixWA] = useState('971');
+
   return (
     <div className="bg-white rounded-xl p-4 lg:p-6">
       <ResponsiveForm onSubmit={onSubmit} className="!mt-0">
@@ -268,24 +274,48 @@ const AgentForm = ({ agent = null }) => {
           }}
           error={error.last_name}
         />
-        <Input
-          label={inputs.whatsapp_number}
-          name={inputs.whatsapp_number}
-          type="text"
-          className=""
-          required={true}
-          pattern={patternPhone}
-          title="Enter a valid WhatsApp number"
-          value={formState.whatsapp_number}
-          maxLength={14}
-          onChange={(e) => {
-            setValue(
-              inputs.whatsapp_number,
-              e.target.value.replace(/\+/g, '').replace(/[^+\d]/g, ''),
-            );
-          }}
-          error={error.whatsapp_number}
-        />
+        <InputLabel label={inputs.whatsapp_number}>
+          <div className="flex items-center gap-2">
+            <InputElement
+              name={'prefix'}
+              type="text"
+              className="basis-[68px] flex-shrink-0"
+              required={true}
+              title="Enter a valid WhatsApp number"
+              value={prefixWA}
+              onChange={(e) => {
+                setPrefixWA(e.target.value.replace(/\D/g, ''));
+              }}
+              maxLength={4}
+            />
+            <InputElement
+              name={inputs.whatsapp_number}
+              type="text"
+              className="flex-grow"
+              required={true}
+              pattern={patternPhone}
+              title="Enter a valid WhatsApp number"
+              value={formState.whatsapp_number}
+              maxLength={14}
+              onChange={(e) => {
+                const value = e.target.value;
+                let formatedValue = value
+                  .replace(/\+/g, '')
+                  .replace(/[^+\d]/g, '');
+                if (formatedValue.startsWith('971') == false) {
+                  formatedValue = `971${formatedValue}`;
+                }
+                console.log(formatedValue);
+                setValue(e.target.name, formatedValue);
+              }}
+            />
+          </div>
+          <InputError
+            error={error.whatsapp_number}
+            className="absolute top-full left-0 px-2"
+          />
+        </InputLabel>
+
         <LanguageCodesProvider>
           <LanguageCodesContext.Consumer>
             {({ languageCodes }) => (

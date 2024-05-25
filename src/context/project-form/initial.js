@@ -40,15 +40,7 @@ const PROJECT_INPUTS = {
 
     // details
     size: '',
-    built_up_size: '',
-    bedrooms: '',
-    bathrooms: '',
-    parking: '',
-    garage_size: '',
-    year_built: '',
-    basement: '',
-    extra_detail: '',
-
+    features: [],
 
     // amenities
     amenities: [],
