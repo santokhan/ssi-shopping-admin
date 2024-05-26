@@ -106,7 +106,7 @@ const ProjectFormProvider = ({ children }) => {
 
     const formData = makeFormData(value);
     // Temp
-    formData.delete('features');
+    // formData.delete('features');
 
     try {
       const res = await api.post('/projects/', formData, {
