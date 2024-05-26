@@ -1,4 +1,4 @@
-import Notification from '../blocks/activities/RecentActivities';
+import RecentActivities from '../blocks/activities/RecentActivities';
 import StatusCard from '../blocks/status/StatusCard';
 
 const DashboardContent = () => {
@@ -14,7 +14,7 @@ const DashboardContent = () => {
       </div>
 
       <StatusCard />
-      <Notification />
+      <RecentActivities />
     </div>
   );
 };
