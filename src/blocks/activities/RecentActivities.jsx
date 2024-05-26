@@ -20,8 +20,8 @@ const Notification = () => {
   useEffect(() => {
     api
       .get('activities/')
-      .then((res) => res.json())
-      .then((data) => {
+      .then(({ data }) => {
+        console.log(data);
         if (data) {
           setActivities(data);
         }
@@ -37,15 +37,16 @@ const Notification = () => {
       <div className="relative">
         <aside className="border-l-2 absolute left-[5px] top-0 bottom-0 border-dark-blue-500/50"></aside>
         <ul className="space-y-3 relative">
-          {activities
-            .slice(0, 12)
-            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-            .map((_, i) => (
-              <li key={i} className="flex items-center space-x-3">
-                <div className="flex size-3 shrink-0 items-center justify-center rounded-lg border-2 bg-white border-dark-blue-500"></div>
-                <p className="text-gray-800">{_.action}</p>
-              </li>
-            ))}
+          {Array.isArray(activities.results) &&
+            activities.results
+              .slice(0, 12)
+              .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+              .map((_, i) => (
+                <li key={i} className="flex items-center space-x-3">
+                  <div className="flex size-3 shrink-0 items-center justify-center rounded-lg border-2 bg-white border-dark-blue-500"></div>
+                  <p className="text-gray-800">{_.action}</p>
+                </li>
+              ))}
         </ul>
       </div>
     </section>
