@@ -44,14 +44,20 @@ const InputBox = ({ children, className }) => {
 
 export const InputLabel = ({ label = '', children, className = '' }) => {
   return (
-    <InputBox className={twMerge('relative overflow-hidden', className)}>
-      <Label>
+    <div
+      className={twMerge(
+        'flex flex-col gap-2',
+        'relative overflow-hidden',
+        className,
+      )}
+    >
+      <div className="space-y-2">
         <span className="font-semibold capitalize block">
           {replace_(label)}
         </span>
         {children}
-      </Label>
-    </InputBox>
+      </div>
+    </div>
   );
 };
 
@@ -62,32 +68,28 @@ const TagsInput = ({
   label,
   name,
 }) => {
-  const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    if (Array.isArray(valueFromServer) && valueFromServer.length > 0) {
-      setContextValue((prev) => [...prev, ...valueFromServer]);
-    }
-  }, [valueFromServer]);
-
-  const handleRemoveTag = (tagToRemove) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
-
+  function setValue(value = []) {
+    setContextValue({
+      target: {
+        name,
+        value,
+      },
+    });
+  }
   return (
     <InputLabel label={label} className={className}>
       <div className="border p-[8px] rounded-lg h-[46px] flex items-center gap-2">
-        {tags.map((tag, i) => (
+        {valueFromServer.map((_, i) => (
           <div
             key={i}
             className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1 "
           >
-            <span className="px-2 flex-shrink-0">{tag}</span>
+            <span className="px-2 flex-shrink-0">{_}</span>
             <button
               onClick={() => {
-                handleRemoveTag(tag);
+                setValue(valueFromServer.filter((_) => _ !== _));
               }}
-              className="bg-white rounded-full size-5 flex justify-center items-center"
+              className="bg-white rounded-full size-5 flex justify-center items-center overflow-hidden"
             >
               <XMarkIcon className="size-4" />
             </button>
@@ -95,25 +97,11 @@ const TagsInput = ({
         ))}
         <Input
           setTags={(value) => {
-            if (tags.length > 0) {
-              if (tags.includes(value)) return;
-              const updated = [...tags, value];
-              setTags(updated);
-              setContextValue({
-                target: {
-                  name: name,
-                  value: updated,
-                },
-              });
+            if (valueFromServer.length > 0) {
+              if (valueFromServer.includes(value)) return;
+              setValue([...valueFromServer, value]);
             } else {
-              const updated = [value];
-              setTags(updated);
-              setContextValue({
-                target: {
-                  name: name,
-                  value: updated,
-                },
-              });
+              setValue([value]);
             }
           }}
         />

@@ -111,8 +111,6 @@ const BlogForm = () => {
     }
   }
 
-  // console.log(value);
-
   return (
     <div className={twMerge('w-full bg-white p-4 lg:p-6 space-y-4')}>
       <div className="flex items-center gap-2">
@@ -160,7 +158,7 @@ const BlogForm = () => {
             name="category"
             label="category"
             className="basis-96 sm:basis-[420px] flex-grow"
-            valueFromServer={value.categories}
+            valueFromServer={value.category}
             setContextValue={assignValue}
           />
           <TagsInput

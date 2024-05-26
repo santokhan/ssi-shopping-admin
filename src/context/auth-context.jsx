@@ -14,16 +14,19 @@ export const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const [token, setToken] = useState({
     access: null,
     refresh: null,
   });
   const [loading, setLoading] = useState(true);
 
-  const signin = (user, token, expiresIn = tokenAge) => {
-    setToken(token);
-    localStorage.setItem('refreshToken', token.refresh);
+  const signin = (user, token) => {
+    if (token) {
+      setToken(token);
+      localStorage.setItem('refreshToken', token.refresh);
+
+      console.log('Signed In');
+    }
   };
 
   // Automatically rotate token before expiry
