@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAxios from '../../context/useAxios';
+import formatDate from '../../utils/formatDate';
 
 const Notification = () => {
   const activitiesPlaceholder = [
@@ -44,7 +45,20 @@ const Notification = () => {
               .map((_, i) => (
                 <li key={i} className="flex items-center space-x-3">
                   <div className="flex size-3 shrink-0 items-center justify-center rounded-lg border-2 bg-white border-dark-blue-500"></div>
-                  <p className="text-gray-800">{_.action}</p>
+                  {_.action && (
+                    <p className="text-gray-800">
+                      <span>{_.action}</span>
+                      {_.user.first_name && (
+                        <span>
+                          {' '}
+                          by {_.user.first_name} {_.user.first_name}
+                        </span>
+                      )}
+                      {_.timestamp && (
+                        <time> on {formatDate(_.timestamp)}</time>
+                      )}
+                    </p>
+                  )}
                 </li>
               ))}
         </ul>
