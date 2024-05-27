@@ -1,7 +1,7 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
-import ImagePreview from '../ImagePreview';
+import ImagePreviewWithRemove from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
 import getImageURL from '../../../utils/getImageURL';
@@ -18,6 +18,7 @@ const MediaInput = ({
   onRemoveFromServer = (id) => {},
 }) => {
   name = name || inputName;
+  const isValue = Array.isArray(value) && value.length > 0;
 
   const onChangeFile = (e) => {
     const files = Array.from(e.target.files);
@@ -29,7 +30,7 @@ const MediaInput = ({
   };
 
   function onRemoveFromLocal(index) {
-    if (Array.isArray(value) && typeof index == 'number') {
+    if (isValue && typeof index == 'number') {
       setValue(
         name,
         value.filter((_, i) => i !== index),
@@ -49,15 +50,13 @@ const MediaInput = ({
           'relative',
         )}
       >
-        <div className="mb-6">
-          <MediaInputIcon />
-        </div>
+        <MediaInputIcon className="mb-6" />
         <div className="flex flex-col items-center">
           <div className="text-lg font-semibold mb-1">
             Drag and drop file{multiple ? 's' : ''} here
           </div>
           <div className="text-sm mb-6">File must be {accept} format</div>
-          <Button variant="outline" withIcon={true}>
+          <Button variant="outline" withIcon={true} disabled>
             Browse file{multiple ? 's' : ''}
           </Button>
         </div>
@@ -73,7 +72,7 @@ const MediaInput = ({
         />
       </label>
       <div className="flex gap-4 flex-wrap">
-        {Array.isArray(value) &&
+        {isValue &&
           value.map((_, i) => {
             let src = '';
 
@@ -85,7 +84,7 @@ const MediaInput = ({
             }
 
             return (
-              <ImagePreview
+              <ImagePreviewWithRemove
                 key={i}
                 src={src}
                 onRemove={() => {

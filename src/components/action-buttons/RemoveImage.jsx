@@ -7,7 +7,10 @@ const RemoveImage = ({ onRemove, className = '' }) => {
       type="button" // otherwise it will submit the form
       onClick={onRemove}
       className={twMerge(
-        'absolute top-1 sm:top-2 left-1 sm:left-2 w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-md flex justify-center items-center hover:text-red-500 border',
+        'absolute top-1 sm:top-2 left-1 sm:left-2',
+        'w-6 sm:w-8 h-6 sm:h-8',
+        'flex justify-center items-center',
+        'bg-white rounded-md hover:text-red-500 border',
         className,
       )}
     >

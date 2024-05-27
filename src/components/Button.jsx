@@ -7,6 +7,7 @@ const Button = ({
   children,
   withIcon = false,
   type = 'button',
+  ...props
 }) => {
   let commonClasses =
     'relative flex items-center justify-center gap-1 text-sm lg:text-base rounded-xl px-4 lg:px-5 py-2 lg:py-2.5 font-medium';
@@ -33,6 +34,7 @@ const Button = ({
       className={twMerge(buttonClassName, commonClasses)}
       onClick={onClick}
       type={type}
+      // {...props}
     >
       <span className="whitespace-nowrap">{children}</span>
       {withIcon && (
