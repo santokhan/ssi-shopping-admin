@@ -11,7 +11,6 @@ import InputFileSingle from '../../../components/form/input/InputFileSingle';
 import { BlogFormContext } from '../../../context/BlogsFormContext';
 import TagsInput from '../../../components/form/TagsInput';
 import MyCKEditor from '../../../components/form/input/MyCKEditor';
-import Print from '../../../components/Print';
 
 const BlogForm = () => {
   const { value, setFormValue } = useContext(BlogFormContext);
@@ -107,7 +106,7 @@ const BlogForm = () => {
 
   function assignValue(e) {
     if (e.target?.name) {
-      setFormValue(e.target.name, e.target?.value);
+      setFormValue(e.target.name, e.target.value);
     }
   }
 

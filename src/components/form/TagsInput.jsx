@@ -36,12 +36,6 @@ const Input = ({ setTags }) => {
   );
 };
 
-const InputBox = ({ children, className }) => {
-  return (
-    <div className={twMerge('flex flex-col gap-2', className)}>{children}</div>
-  );
-};
-
 export const InputLabel = ({ label = '', children, className = '' }) => {
   return (
     <div
@@ -76,32 +70,37 @@ const TagsInput = ({
       },
     });
   }
+
   return (
     <InputLabel label={label} className={className}>
       <div className="border p-[8px] rounded-lg h-[46px] flex items-center gap-2">
-        {valueFromServer.map((_, i) => (
+        {valueFromServer.filter(Boolean).map((_, i) => (
           <div
             key={i}
             className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1 "
           >
-            <span className="px-2 flex-shrink-0">{_}</span>
+            <span className="px-2">{_}</span>
             <button
+              type="button"
               onClick={() => {
-                setValue(valueFromServer.filter((_) => _ !== _));
+                const filtered = valueFromServer.filter((e) => e !== _);
+                setValue(filtered);
               }}
               className="bg-white rounded-full size-5 flex justify-center items-center overflow-hidden"
             >
-              <XMarkIcon className="size-4" />
+              <XMarkIcon className="size-4" aria-hidden="true" />
             </button>
           </div>
         ))}
         <Input
           setTags={(value) => {
-            if (valueFromServer.length > 0) {
-              if (valueFromServer.includes(value)) return;
-              setValue([...valueFromServer, value]);
-            } else {
+            if (valueFromServer.length == 0) {
               setValue([value]);
+            } else {
+              // if not exists
+              if (!valueFromServer.includes(value)) {
+                setValue([...valueFromServer, value]);
+              }
             }
           }}
         />
