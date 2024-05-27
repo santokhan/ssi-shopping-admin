@@ -24,8 +24,6 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       setToken(token);
       localStorage.setItem('refreshToken', token.refresh);
-
-      console.log('Signed In');
     }
   };
 

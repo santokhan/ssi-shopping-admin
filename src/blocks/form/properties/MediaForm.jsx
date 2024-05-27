@@ -61,6 +61,8 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
     }
   };
 
+  console.log(value);
+
   return (
     <ResponsiveForm
       onSubmit={(e) => {
@@ -70,7 +72,7 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
     >
       <MediaInput
         className="col-span-full"
-        value={value['images']}
+        value={value.images}
         setValue={setValue}
         onRemoveFromServer={onRemoveFromServer}
       />
