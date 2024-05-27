@@ -105,7 +105,7 @@ const MediaInput = ({
         />
       </label>
       <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" direction="horizontal" type="ROW">
           {(provided) => (
             <ul
               className="flex flex-wrap gap-4"
