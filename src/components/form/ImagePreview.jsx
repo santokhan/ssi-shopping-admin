@@ -2,7 +2,7 @@ import { User } from 'iconsax-react';
 import RemoveImage from '../action-buttons/RemoveImage';
 import { twMerge } from 'tailwind-merge';
 
-const ImagePreviewWithRemove = ({ src = '', onRemove = () => {} }) => {
+const ImagePreviewWithRemove = ({ src = '', onRemove = () => {}, ...rest }) => {
   if (src) {
     return (
       <div
@@ -11,14 +11,14 @@ const ImagePreviewWithRemove = ({ src = '', onRemove = () => {} }) => {
           'h-24 w-24 sm:h-40 sm:w-40 flex-shrink-0 overflow-hidden',
           'border rounded-xl text-gray-800',
         )}
-        draggable={true}
+        {...rest}
       >
         <RemoveImage onRemove={onRemove} />
         {src ? (
           <img
             src={src}
             alt={src}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
             draggable={false}
             title={src}
           />

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../Button';
 import ImagePreviewWithRemove from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
 import getImageURL from '../../../utils/getImageURL';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 
 const MediaInput = ({
   setValue = (key = '', value = []) => {},
@@ -19,6 +21,17 @@ const MediaInput = ({
 }) => {
   name = name || inputName;
   const isValue = Array.isArray(value) && value.length > 0;
+  const initialDragableList = useMemo(() => {
+    return isValue ? value.map((_) => ({ id: uuidv4(), content: _ })) : [];
+  }, [isValue, value]);
+
+  const [items, setItems] = useState([...initialDragableList]);
+
+  useEffect(() => {
+    if (isValue) {
+      setItems([...initialDragableList]);
+    }
+  }, [initialDragableList, isValue, value]);
 
   const onChangeFile = (e) => {
     const files = Array.from(e.target.files);
@@ -39,6 +52,26 @@ const MediaInput = ({
       console.log('Something went wrong', value, index);
     }
   }
+
+  const onDragEnd = (result) => {
+    const { destination, source } = result;
+
+    // If the item is dropped outside the list
+    if (!destination) {
+      return;
+    }
+
+    // If the item is dropped in the same position
+    if (destination.index === source.index) {
+      return;
+    }
+
+    const reorderedItems = Array.from(items);
+    const [removed] = reorderedItems.splice(source.index, 1);
+    reorderedItems.splice(destination.index, 0, removed);
+
+    setItems(reorderedItems);
+  };
 
   return (
     <div className={twMerge('w-full space-y-6', className)}>
@@ -71,33 +104,66 @@ const MediaInput = ({
           required={required}
         />
       </label>
-      <div className="flex gap-4 flex-wrap">
-        {isValue &&
-          value.map((_, i) => {
-            let src = '';
+      <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <ul
+              className="flex flex-wrap gap-4"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {items.map((item, i) => {
+                let src = '';
+                const content = item.content;
 
-            if (_ instanceof File) {
-              src = imageSrcValidator(_);
-            } else if (_.image) {
-              const path = imageSrcValidator(_.image);
-              src = getImageURL(path);
-            }
+                if (!content) return null;
 
-            return (
-              <ImagePreviewWithRemove
-                key={i}
-                src={src}
-                onRemove={() => {
-                  if (_ instanceof File) {
-                    onRemoveFromLocal(i);
-                  } else if (_.id) {
-                    onRemoveFromServer(_.id);
-                  }
-                }}
-              />
-            );
-          })}
-      </div>
+                if (content instanceof File) {
+                  src = imageSrcValidator(content);
+                } else if (content.image) {
+                  const path = imageSrcValidator(content.image);
+                  src = getImageURL(path);
+                } else if (typeof content === 'string') {
+                  src = content;
+                }
+
+                return (
+                  <Draggable key={item.id} draggableId={item.id} index={i}>
+                    {(provided) => (
+                      <li
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          minHeight: '50px',
+                          ...provided.draggableProps.style,
+                          cursor: 'grab',
+                        }}
+                        draggable={true}
+                      >
+                        <ImagePreviewWithRemove
+                          key={i}
+                          src={src}
+                          onRemove={() => {
+                            if (content instanceof File) {
+                              onRemoveFromLocal(i);
+                            } else if (content.id) {
+                              onRemoveFromServer(content.id);
+                            } else {
+                              onRemoveFromLocal(i);
+                            }
+                          }}
+                        />
+                      </li>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };

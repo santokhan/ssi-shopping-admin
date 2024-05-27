@@ -61,8 +61,6 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
     }
   };
 
-  console.log(value);
-
   return (
     <ResponsiveForm
       onSubmit={(e) => {
