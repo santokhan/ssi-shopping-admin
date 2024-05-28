@@ -13,7 +13,6 @@ import DevelopersProvider, {
 const QRCodeForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [error, setError] = useState({});
 
   const assignInput = (e) => {
     setValue(e.target.name, e.target.value);
@@ -51,11 +50,11 @@ const QRCodeForm = ({ value, setValue }) => {
     >
       <div className="space-y-4">
         <Input
+          name="name"
           label="properties/project name"
           value={value.title}
           onChange={assignInput}
           required
-          disabled
         />
         <Input
           name="project_number"
