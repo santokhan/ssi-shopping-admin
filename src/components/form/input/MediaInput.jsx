@@ -106,7 +106,11 @@ const MediaInput = ({
       </label>
       {/* https://codesandbox.io/p/sandbox/react-beautiful-dnd-grid-vypgtd?file=%2Fsrc%2Findex.js */}
       <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
-        <Droppable droppableId="droppable" direction="horizontal" type="ROW">
+        <Droppable
+          droppableId="droppable"
+          // direction="horizontal"
+          type="ROW"
+        >
           {(provided) => (
             <ul
               className="flex flex-wrap gap-4"

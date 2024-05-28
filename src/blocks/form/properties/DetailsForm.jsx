@@ -11,74 +11,6 @@ import { yesNoOptions } from '../../../utils/yes-no-options';
 const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [error, setError] = useState({});
-
-  const inputs = [
-    {
-      name: 'size',
-      label: 'total area (in ft)',
-      type: 'number',
-    },
-    {
-      name: 'built_up_size',
-      label: 'Built Up Size (In FT)',
-      type: 'number',
-    },
-    {
-      name: 'bedrooms',
-      label: 'Bedrooms',
-      type: 'number',
-    },
-    {
-      name: 'bathrooms',
-      label: 'Bathrooms',
-      type: 'number',
-    },
-    {
-      name: 'parking',
-      label: 'Parking',
-      type: 'number',
-    },
-    {
-      name: 'garage_size',
-      label: 'Garage size',
-      type: 'number',
-    },
-    {
-      name: 'year_built',
-      label: 'Year built (numeric)',
-      type: 'number',
-    },
-    { name: 'basement', label: 'Basement', type: 'yes/no' },
-    {
-      name: 'extra_detail',
-      label: 'Owner/ Agent notes (not visible on front end)',
-      type: 'textarea',
-    },
-  ];
-
-  const options = {
-    structure_type: [
-      {
-        label: 'Yes',
-        value: 'yes',
-      },
-      {
-        label: 'No',
-        value: 'no',
-      },
-    ],
-    floor_no: [
-      {
-        label: '5',
-        value: '5',
-      },
-      {
-        label: '10',
-        value: '10',
-      },
-    ],
-  };
 
   return (
     <ResponsiveForm
@@ -87,86 +19,93 @@ const DetailsForm = ({ value, setValue }) => {
         navigate(formNext(pathname));
       }}
     >
-      {inputs.map(({ name, label, type }) => {
-        if (['text', 'number'].includes(type)) {
-          return (
-            <Input
-              key={name}
-              type={type}
-              name={name}
-              label={label}
-              value={value[name]}
-              onChange={(e) => {
-                let v = e.target.value;
-                if (type === 'number') {
-                  v = parseInt(v);
-                }
-                setValue(name, v);
-              }}
-              required={
-                ['garage_size', 'year_built'].includes(name) ? false : true
-              }
-            />
-          );
-        }
-        if (type == 'date') {
-          return (
-            <Input
-              key={name}
-              type={type}
-              name={name}
-              label={label}
-              value={value[name]}
-              onChange={(e) => {
-                setValue(name, e.target.value);
-              }}
-              placeholder={type === 'date' && 'YYYY'}
-              min={(type = 'date' && 1900)}
-              max={(type = 'date' && 2100)}
-              step={(type = 'date' && 1)}
-              required
-            />
-          );
-        }
-        if (type === 'select') {
-          return (
-            <Select
-              key={name}
-              name={name}
-              label={label}
-              options={options[name]}
-              value={value[name]}
-              onChange={(e) => setValue(name, e.target.value)}
-              required
-            />
-          );
-        }
-        if (type === 'yes/no') {
-          return (
-            <Select
-              key={name}
-              name={name}
-              label={label}
-              options={yesNoOptions}
-              value={value[name]}
-              onChange={(e) => setValue(name, e.target.value)}
-            />
-          );
-        }
-        if (type === 'textarea') {
-          return (
-            <Textarea
-              key={name}
-              name={name}
-              label={label}
-              value={value[name]}
-              onChange={(e) => setValue(name, e.target.value)}
-              className="col-span-full"
-            />
-          );
-        }
-      })}
-
+      <Input
+        type="number"
+        name="size"
+        label="total area (in ft)"
+        value={value.size}
+        step="any"
+        onChange={(e) => {
+          setValue(e.target.name, parseFloat(e.target.value));
+        }}
+        required={true}
+      />
+      <Input
+        type="number"
+        name="built_up_size"
+        label="Built Up Size (In FT)"
+        value={value.built_up_size}
+        step="any"
+        onChange={(e) => {
+          setValue(e.target.name, parseFloat(e.target.value));
+        }}
+        required={true}
+      />
+      <Input
+        type="number"
+        name="bedrooms"
+        label="bedrooms"
+        value={value.bedrooms}
+        onChange={(e) => {
+          setValue(e.target.name, parseInt(e.target.value));
+        }}
+        required={true}
+      />
+      <Input
+        type="number"
+        name="bathrooms"
+        label="bathrooms"
+        value={value.bathrooms}
+        onChange={(e) => {
+          setValue(e.target.name, parseInt(e.target.value));
+        }}
+        required={true}
+      />
+      <Input
+        type="number"
+        name="parking"
+        label="parking"
+        value={value.parking}
+        onChange={(e) => {
+          setValue(e.target.name, parseInt(e.target.value));
+        }}
+      />
+      <Input
+        type="number"
+        name="garage_size"
+        label="garage_size"
+        value={value.garage_size}
+        onChange={(e) => {
+          setValue(e.target.name, parseInt(e.target.value));
+        }}
+      />
+      <Input
+        type="number"
+        name="year_built"
+        label="year_built (numeric)"
+        value={value.year_built}
+        onChange={(e) => {
+          setValue(e.target.name, parseInt(e.target.value));
+        }}
+        min={1900}
+        max={new Date().getFullYear()}
+      />
+      <Select
+        name={'basement'}
+        label={'basement'}
+        options={yesNoOptions}
+        value={value.basement}
+        onChange={(e) => {
+          setValue(e.target.name, e.target.value);
+        }}
+      />
+      <Textarea
+        name="extra_detail"
+        label="Owner/ Agent notes (not visible on front end)"
+        value={value.extra_detail}
+        onChange={(e) => setValue(e.target.name, e.target.value)}
+        className="col-span-full"
+      />
       <PrevAndNext back={formBack(pathname)} />
     </ResponsiveForm>
   );

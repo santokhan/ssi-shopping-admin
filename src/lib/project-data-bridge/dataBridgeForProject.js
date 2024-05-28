@@ -17,6 +17,7 @@ const dataBridgeForProperties = (properties = {}) => {
             price: p.price,
             featured: p.featured,
             images: p.images,
+            order: p.order,
             video_from: p.video_from,
             embed_video_id: p.embed_video_id,
             virtual_tour: p.virtual_tour,
