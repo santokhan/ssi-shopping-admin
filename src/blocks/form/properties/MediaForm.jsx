@@ -73,6 +73,12 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
         value={value.images}
         setValue={setValue}
         onRemoveFromServer={onRemoveFromServer}
+        reArrange={(lifted) => {
+          console.log(lifted);
+          api.post('update_gallery_order/', lifted).then((res) => {
+            console.log(res.data);
+          });
+        }}
       />
       <div className="col-span-full pt-3">
         <PropertiesFormTitle>Video Option</PropertiesFormTitle>

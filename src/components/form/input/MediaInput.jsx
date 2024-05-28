@@ -18,6 +18,7 @@ const MediaInput = ({
   name = '',
   value = '',
   onRemoveFromServer = (id) => {},
+  reArrange = () => {},
 }) => {
   name = name || inputName;
   const isValue = Array.isArray(value) && value.length > 0;
@@ -71,6 +72,19 @@ const MediaInput = ({
     reorderedItems.splice(destination.index, 0, removed);
 
     setItems(reorderedItems);
+    const onlyImages = reorderedItems.map((item) => item.content);
+    setValue(name, onlyImages);
+
+    reArrange(
+      onlyImages.map((item, i) => {
+        if (item.id) {
+          return {
+            id: item.id,
+            order: i,
+          };
+        }
+      }),
+    );
   };
 
   return (
@@ -106,14 +120,10 @@ const MediaInput = ({
       </label>
       {/* https://codesandbox.io/p/sandbox/react-beautiful-dnd-grid-vypgtd?file=%2Fsrc%2Findex.js */}
       <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
-        <Droppable
-          droppableId="droppable"
-          // direction="horizontal"
-          type="ROW"
-        >
+        <Droppable droppableId="droppable" direction="horizontal" type="ROW">
           {(provided) => (
             <ul
-              className="inline-flex flex-wrap gap-4"
+              className="w-full inline-flex flex-wrap+ gap-4 overflow-auto"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >

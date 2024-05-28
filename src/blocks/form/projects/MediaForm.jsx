@@ -75,6 +75,12 @@ const MediaForm = () => {
               console.error(error);
             });
         }}
+        reArrange={(lifted) => {
+          console.log(lifted);
+          api.post('update_project_gallery_order/', lifted).then((res) => {
+            console.log(res.data);
+          });
+        }}
       />
       <Select
         name={inputs.video_from}
