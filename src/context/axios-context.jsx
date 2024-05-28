@@ -13,7 +13,7 @@ function AxiosProvider({ children }) {
   // create axios api instance
   const api = axios.create({
     baseURL: API_URL,
-    timeout: 10000,
+    timeout: 100000,
   });
 
   api.interceptors.request.use(
