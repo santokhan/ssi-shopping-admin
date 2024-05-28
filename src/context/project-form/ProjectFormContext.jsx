@@ -27,7 +27,7 @@ function makeFormData(value) {
             }
           }
         } else if (['amenities', 'features'].includes(key)) {
-          if (Array.isArray(ele)) {
+          if (Array.isArray(ele) && ele.length > 0) {
             ele.forEach((id) => {
               if (!isNaN(id)) {
                 formData.append(key, parseInt(id));
