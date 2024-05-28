@@ -113,7 +113,7 @@ const MediaInput = ({
         >
           {(provided) => (
             <ul
-              className=""
+              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))]"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -140,6 +140,7 @@ const MediaInput = ({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={{
+                          userSelect: 'none',
                           minHeight: '50px',
                           ...provided.draggableProps.style,
                           cursor: 'grab',
