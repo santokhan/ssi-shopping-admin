@@ -38,6 +38,7 @@ const dataBridgeForProperties = (properties = {}) => {
             basement: p.basement,
             extra_detail: p.extra_detail,
             // QR Code 4 inputs
+            name: p.name,
             project_number: p.project_number,
             permit_no: p.permit_no,
             developer: p.developer?.id,

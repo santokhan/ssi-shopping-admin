@@ -52,7 +52,7 @@ const QRCodeForm = ({ value, setValue }) => {
         <Input
           name="name"
           label="properties/project name"
-          value={value.title}
+          value={value.name}
           onChange={assignInput}
           required
         />
