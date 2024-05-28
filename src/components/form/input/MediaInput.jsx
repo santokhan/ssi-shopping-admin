@@ -113,7 +113,7 @@ const MediaInput = ({
         >
           {(provided) => (
             <ul
-              className="flex flex-wrap gap-4"
+              className="inline-flex flex-wrap gap-4"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
