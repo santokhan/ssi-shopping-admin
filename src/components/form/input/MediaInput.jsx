@@ -5,12 +5,7 @@ import ImagePreviewWithRemove from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
 import getImageURL from '../../../utils/getImageURL';
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  GridDropZone,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
 const MediaInput = ({
@@ -113,12 +108,12 @@ const MediaInput = ({
       <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
         <Droppable
           droppableId="droppable"
-          direction="horizontal"
-          // type="ROW"
+          // direction="horizontal"
+          type="ROW"
         >
           {(provided) => (
             <ul
-              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-8"
+              className="inline-flex flex-wrap gap-4"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -145,17 +140,11 @@ const MediaInput = ({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={{
-                          userSelect: 'none',
                           minHeight: '50px',
                           ...provided.draggableProps.style,
                           cursor: 'grab',
                         }}
                         draggable={true}
-                        className={twMerge(
-                          'relative inline-block',
-                          'h-24 w-24 sm:h-40 sm:w-40 flex-shrink-0 overflow-hidden',
-                          'border rounded-xl text-gray-800',
-                        )}
                       >
                         <ImagePreviewWithRemove
                           key={i}
