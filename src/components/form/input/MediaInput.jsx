@@ -109,7 +109,7 @@ const MediaInput = ({
         <Droppable
           droppableId="droppable"
           // direction="horizontal"
-          type="ROW"
+          // type="ROW"
         >
           {(provided) => (
             <ul
@@ -145,6 +145,11 @@ const MediaInput = ({
                           cursor: 'grab',
                         }}
                         draggable={true}
+                        className={twMerge(
+                          'relative inline-block',
+                          'h-24 w-24 sm:h-40 sm:w-40 flex-shrink-0 overflow-hidden',
+                          'border rounded-xl text-gray-800',
+                        )}
                       >
                         <ImagePreviewWithRemove
                           key={i}
