@@ -108,12 +108,12 @@ const MediaInput = ({
       <DragDropContext onDragEnd={onDragEnd} onDragStart={console.log}>
         <Droppable
           droppableId="droppable"
-          // direction="horizontal"
+          direction="horizontal"
           // type="ROW"
         >
           {(provided) => (
             <ul
-              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))]"
+              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-8"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -149,7 +149,7 @@ const MediaInput = ({
                         className={twMerge(
                           'relative inline-block',
                           'h-24 w-24 sm:h-40 sm:w-40 flex-shrink-0 overflow-hidden',
-                          'border rounded-xl text-gray-800 m-4',
+                          'border rounded-xl text-gray-800',
                         )}
                       >
                         <ImagePreviewWithRemove
