@@ -5,7 +5,12 @@ import ImagePreviewWithRemove from '../ImagePreview';
 import MediaInputIcon from '../../icons/MediaInputIcon';
 import imageSrcValidator from '../../../lib/image/validateSrc';
 import getImageURL from '../../../utils/getImageURL';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  GridDropZone,
+} from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
 const MediaInput = ({

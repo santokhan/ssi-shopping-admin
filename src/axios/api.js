@@ -1,10 +1,7 @@
 import API_URL from '../utils/API_URL';
 import axios from 'axios';
 
-const api = axios.create({
-    baseURL: API_URL,
-    timeout: 100000,
-});
+const api = axios.create({ baseURL: API_URL });
 
 api.interceptors.request.use(
     (config) => {
