@@ -175,7 +175,7 @@ const DescriptionForm = ({ value, setValue }) => {
         onChange={(e) => {
           setValue(inputs.price, parseInt(e.target.value));
         }}
-        value={value.price || 0}
+        value={value.price || ''}
         error={error.price}
         min={1}
         required
