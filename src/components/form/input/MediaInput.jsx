@@ -113,7 +113,7 @@ const MediaInput = ({
         >
           {(provided) => (
             <ul
-              className="inline-flex flex-wrap gap-4"
+              className=""
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -148,7 +148,7 @@ const MediaInput = ({
                         className={twMerge(
                           'relative inline-block',
                           'h-24 w-24 sm:h-40 sm:w-40 flex-shrink-0 overflow-hidden',
-                          'border rounded-xl text-gray-800',
+                          'border rounded-xl text-gray-800 m-4',
                         )}
                       >
                         <ImagePreviewWithRemove
