@@ -34,14 +34,6 @@ function encode(value) {
           if (ele instanceof File) {
             formData.append(key, ele);
           }
-        } else if (key == 'amenities') {
-          if (Array.isArray(ele) && ele.length > 0) {
-            ele.forEach((id) => {
-              if (!isNaN(id)) {
-                formData.append(key, parseInt(id));
-              }
-            });
-          }
         } else {
           formData.append(key, ele);
         }
