@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -13,7 +13,6 @@ import StatusIndicator from '../../components/StatusIndicator';
 import getImageURL from '../../utils/getImageURL';
 import NoRecordsFound from '../../components/NoRecordsFound';
 import TH from '../../components/table/TH';
-import MountListedIn from '../../components/MountListedIn';
 import formatDate from '../../utils/formatDate';
 import AgentLink from '../../components/AgentLink';
 import TD from '../../components/table/TD';
@@ -138,12 +137,17 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
   );
 };
 
-const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
+const ProjectsTable = ({ projects, refetch }) => {
+  const count = projects.count;
   projects = projects?.results;
-  const [filtered, setFiltered] = useState(projects);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [filtered, setFiltered] = useState([]);
+  const [searchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const maxPerPage = 10;
+
+  useEffect(() => {
+    setFiltered(projects);
+  }, [projects]);
 
   const headList = [
     'listing title',
@@ -205,10 +209,6 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
                     .sort(
                       (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                     )
-                    .slice(
-                      maxPerPage * (currentPage - 1),
-                      currentPage * maxPerPage,
-                    )
                     .map((property, i) => {
                       return (
                         <Fragment key={i}>
@@ -223,14 +223,13 @@ const ProjectsTable = ({ projects, refetch, page_size, setPageNumber }) => {
               </table>
             </div>
             <Pagination
-              totalPages={new Array(Math.ceil(projects.length / maxPerPage))
+              totalPages={new Array(Math.ceil(count / maxPerPage))
                 .fill()
                 .map((_, i) => i + 1)}
               currentPage={currentPage}
-              setPageNumber={setPageNumber}
             />
             <TableSummary
-              totalData={projects.length}
+              totalData={count}
               dataPerPage={maxPerPage}
               currentPage={currentPage}
             />

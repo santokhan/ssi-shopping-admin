@@ -1,30 +1,19 @@
 import { useEffect, useState } from 'react';
 import api from '../../axios/api';
 import Spinner from '../../components/loader/Spinner';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import filterListById from '../../utils/filterList';
 import ProjectsTable from '../../blocks/table/ProjectsTable';
 
 const ProjectPage = () => {
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const page_size = 10;
   const params = useParams();
+  const [usp] = useSearchParams();
+  const currentPage = parseInt(usp.get('page')) || 1;
 
-  function setPageNumber(numOrIndex = page) {
-    if (numOrIndex === 'next') {
-      setPage((prev) => prev + 1);
-    }
-    if (numOrIndex === 'prev') {
-      setPage((prev) => prev - 1);
-    }
-    if (typeof numOrIndex === 'number') {
-      setPage(numOrIndex);
-    }
-  }
-
-  function fetchData() {
+  function fetchData(page) {
     setLoading(true);
     api
       .get('projects/', {
@@ -54,8 +43,10 @@ const ProjectPage = () => {
   }
 
   useEffect(() => {
-    fetchData();
-  }, [page]);
+    if (currentPage) {
+      fetchData(parseInt(currentPage));
+    }
+  }, [currentPage]);
 
   return (
     <>
@@ -64,9 +55,9 @@ const ProjectPage = () => {
       ) : (
         <ProjectsTable
           projects={projects}
-          refetch={fetchData}
-          page_size={page_size}
-          setPageNumber={setPageNumber}
+          refetch={() => {
+            fetchData(currentPage);
+          }}
         />
       )}
     </>

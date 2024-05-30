@@ -2,29 +2,20 @@ import { useEffect, useState } from 'react';
 import PropertiesTable from '../../blocks/table/PropertiesTable';
 import api from '../../axios/api';
 import Spinner from '../../components/loader/Spinner';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import filterListById from '../../utils/filterList';
 
 const Agents = () => {
   const [properties, setProperties] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const page_size = 10;
   const params = useParams();
+  const [usp] = useSearchParams();
+  const currentPage = parseInt(usp.get('page')) || 1;
 
-  function setPageNumber(numOrIndex = page) {
-    if (numOrIndex === 'next') {
-      setPage((prev) => prev + 1);
-    }
-    if (numOrIndex === 'prev') {
-      setPage((prev) => prev - 1);
-    }
-    if (typeof numOrIndex === 'number') {
-      setPage(numOrIndex);
-    }
-  }
+  function fetchData(page) {
+    if (!page) return;
 
-  function fetchData() {
     setLoading(true);
     api
       .get('properties/', {
@@ -36,7 +27,6 @@ const Agents = () => {
       .then((res) => {
         if (typeof res.data === 'object') {
           const data = res.data;
-
           if (params.id && Array.isArray(data.results)) {
             data.results = filterListById(data.results, params.id);
             setProperties(data);
@@ -54,8 +44,10 @@ const Agents = () => {
   }
 
   useEffect(() => {
-    fetchData();
-  }, [page]);
+    if (currentPage) {
+      fetchData(parseInt(currentPage));
+    }
+  }, [currentPage]);
 
   return (
     <>
@@ -64,9 +56,9 @@ const Agents = () => {
       ) : (
         <PropertiesTable
           properties={properties}
-          refetch={fetchData}
-          page_size={page_size}
-          setPageNumber={setPageNumber}
+          refetch={() => {
+            fetchData(currentPage);
+          }}
         />
       )}
     </>

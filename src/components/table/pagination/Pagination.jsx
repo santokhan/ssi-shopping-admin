@@ -2,12 +2,7 @@ import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Pagination = ({
-  totalPages,
-  currentPage = 1,
-  setPageNumber,
-  isNextExist,
-}) => {
+const Pagination = ({ totalPages, currentPage = 1 }) => {
   return (
     <div className="w-full flex justify-center">
       <ul className="flex gap-1 font-medium">

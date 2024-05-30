@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import ActionEdit from '../../components/action-buttons/Edit';
 import Pagination from '../../components/table/pagination/Pagination';
 import TableSummary from '../../components/table/agent/AgentDescFooter';
@@ -17,6 +17,7 @@ import TD from '../../components/table/TD';
 import TBody from '../../components/table/TBody';
 import THead from '../../components/table/THead';
 import { useSearchParams } from 'react-router-dom';
+import Print from '../../components/Print';
 
 function CountryCityArea(country, city, area) {
   if (typeof country === 'string' && typeof city === 'string') {
@@ -137,10 +138,12 @@ const TableTopSection = ({ onSearch = (needle) => {} }) => {
   );
 };
 
-const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
+const PropertiesTable = ({ properties, refetch }) => {
+  const count = properties?.count || 0;
   properties = properties?.results;
-  const [filteredProperties, setFilteredProperties] = useState(properties);
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [filteredProperties, setFilteredProperties] = useState([]);
+  const [searchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const maxPerPage = 10;
 
@@ -180,6 +183,10 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
     }
   }
 
+  useEffect(() => {
+    setFilteredProperties(properties);
+  }, [properties]);
+
   return (
     <div className="space-y-4">
       <TableTopSection onSearch={onSearch} />
@@ -214,10 +221,6 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
                     .sort(
                       (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                     )
-                    .slice(
-                      maxPerPage * (currentPage - 1),
-                      maxPerPage * currentPage,
-                    )
                     .map((property, i) => {
                       return (
                         <Fragment key={i}>
@@ -232,14 +235,13 @@ const PropertiesTable = ({ properties, refetch, page_size, setPageNumber }) => {
               </table>
             </div>
             <Pagination
-              totalPages={new Array(Math.ceil(properties.length / maxPerPage))
+              totalPages={new Array(Math.ceil(count / maxPerPage))
                 .fill()
                 .map((_, i) => i + 1)}
               currentPage={currentPage}
-              setPageNumber={setPageNumber}
             />
             <TableSummary
-              totalData={properties.length}
+              totalData={count}
               dataPerPage={maxPerPage}
               currentPage={currentPage}
             />
