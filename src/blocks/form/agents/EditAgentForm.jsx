@@ -260,7 +260,6 @@ const EditAgentForm = () => {
         <LanguageCodesProvider>
           <LanguageCodesContext.Consumer>
             {({ languageCodes }) => {
-              console.log(formState.speaks);
               return (
                 languageCodes.length > 0 && (
                   <MultipleSelect

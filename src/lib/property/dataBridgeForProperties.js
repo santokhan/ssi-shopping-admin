@@ -1,6 +1,5 @@
 import validateCoordinate from "../../utils/coordinates";
 import checkFalsyValue from "../../utils/filterFalsyValue";
-import { INPUT_NAME as inn } from "../../utils/properties/inputName";
 
 const dataBridgeForProperties = (properties = {}) => {
     const p = properties
@@ -23,9 +22,9 @@ const dataBridgeForProperties = (properties = {}) => {
             floor_plan: p.floor_plan,
             floor_plan_thumbnail: p.floor_plan_thumbnail || '',
             address: p.address,
-            country: p.country.id,
-            city: p.city.id,
-            area: p.area.id,
+            country: p.country?.id,
+            city: p.city?.id,
+            area: p.area?.id,
             latitude: validateCoordinate(p.latitude),
             longitude: validateCoordinate(p.longitude),
             size: p.size,

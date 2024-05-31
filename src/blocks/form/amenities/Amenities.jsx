@@ -57,8 +57,6 @@ export const CreateAmenities = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(encode(value));
-
     api
       .post('amenities/', encode(value), {
         header: {
