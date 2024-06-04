@@ -67,7 +67,7 @@ const SignInForm = () => {
         <form className="w-full" onSubmit={handleSignIn}>
           <div className="mb-5 space-y-2">
             <label htmlFor="username" className="text-start font-medium block">
-              Email
+              Username
             </label>
             <input
               type="text"
