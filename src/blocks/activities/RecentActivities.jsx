@@ -22,7 +22,6 @@ const Notification = () => {
     api
       .get('activities/')
       .then(({ data }) => {
-        console.log(data);
         if (data) {
           setActivities(data);
         }
@@ -48,7 +47,7 @@ const Notification = () => {
                   {_.action && (
                     <p className="text-gray-800">
                       <span>{_.action}</span>
-                      {_.user.first_name && (
+                      {_.user?.first_name && (
                         <span>
                           {' '}
                           by {_.user.first_name} {_.user.first_name}
