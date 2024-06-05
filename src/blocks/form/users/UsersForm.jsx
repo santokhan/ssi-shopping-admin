@@ -33,11 +33,11 @@ const UserForm = () => {
       api.get(`users/${id}/`).then((res) => {
         if (res.data) {
           const data = res.data;
-          setValue('email', data.email);
-          setValue('username', data.username);
-          setValue('first_name', data.first_name);
-          setValue('last_name', data.last_name);
-          setValue('role', data.role);
+          setValue('email', data.email || '');
+          setValue('username', data.username || '');
+          setValue('first_name', data.first_name || '');
+          setValue('last_name', data.last_name || '');
+          setValue('role', data.role || '');
         }
       });
     }
