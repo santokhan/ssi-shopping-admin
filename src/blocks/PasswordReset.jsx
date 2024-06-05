@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Logo from '../components/Logo';
 import { toast } from 'react-toastify';
 import api from '../axios/api';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/auth-context';
 import Print from '../components/Print';
 
@@ -14,6 +14,8 @@ const PasswordReset = () => {
     isLoading: false,
   };
   const [state, setState] = useState(initialState);
+  const [searchParams] = useSearchParams();
+  const resetToken = searchParams.get('token');
 
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -29,21 +31,20 @@ const PasswordReset = () => {
       return;
     } else {
       api
-        .post('users/set-new-password/', {
+        .post('users/set-new-password/?token=' + resetToken, {
           new_password: state.confirm_password,
         })
         .then((res) => {
           setState({ ...state, isLoading: false });
 
           if (res.data) {
+            toast('Password reset successful');
             navigate('/signin');
           }
         })
         .catch((err) => {
           toast(err.message);
           console.log(err);
-        })
-        .finally(() => {
           setState({ ...state, isLoading: false });
         });
     }
