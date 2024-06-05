@@ -46,14 +46,13 @@ const UsersTableRow = ({ user, refetch }) => {
 
   return (
     <tr className="text-gray-900">
-      <td className="px-6 py-4 font-medium text-gray-900">
-        <h3 className="text-base font-semibold leading-relaxed capitalize">
-          {user.username}
-        </h3>
-      </td>
       <td className="px-6 py-4">{user.first_name}</td>
       <td className="px-6 py-4">{user.last_name}</td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 text-gray-900">
+        <h3 className="text-base leading-relaxed">{user.username}</h3>
+      </td>
+      <td className="px-6 py-4 text-gray-900">{user.email}</td>
+      <td className="px-6 py-4 whitespace-nowrap">
         {user.is_staff && 'Stuff'} {user.is_staff && 'Super User'}
       </td>
       <td className="px-6 py-4">
@@ -73,9 +72,10 @@ const UsersTable = ({ className = '' }) => {
   }
 
   const headList = [
-    'Username',
     'first name',
     'last name',
+    'Username',
+    'email',
     'stuff status',
     'action',
   ];

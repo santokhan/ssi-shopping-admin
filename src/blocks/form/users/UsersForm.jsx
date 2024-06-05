@@ -12,14 +12,6 @@ import Print from '../../../components/Print';
 import { toast } from 'react-toastify';
 import showError from '../../../components/ShowError';
 
-const inputs = {
-  email: 'email',
-  username: 'username',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  role: 'role',
-};
-
 const UserForm = () => {
   const { value, setValue, refetch } = useContext(UsersContext);
   const { api } = useAxios();
@@ -37,7 +29,20 @@ const UserForm = () => {
           setValue('username', data.username || '');
           setValue('first_name', data.first_name || '');
           setValue('last_name', data.last_name || '');
-          setValue('role', data.role || '');
+          // set role
+          if (data.role) {
+            setValue('role', data.role || '');
+          } else {
+            if (data.is_staff) {
+              setValue('role', 'stuff');
+            }
+            if (data.is_admin) {
+              setValue('role', 'admin');
+            }
+            if (data.is_superuser) {
+              setValue('role', 'super-user');
+            }
+          }
         }
       });
     }
@@ -58,14 +63,12 @@ const UserForm = () => {
             type: 'success',
           });
 
-          setValue({
-            email: '',
-            username: '',
-            password: '',
-            first_name: '',
-            last_name: '',
-            role: '',
-          });
+          // reset
+          setValue('email', '');
+          setValue('username', '');
+          setValue('first_name', '');
+          setValue('last_name', '');
+          setValue('role', '');
 
           navigate('/users');
         })
@@ -89,14 +92,11 @@ const UserForm = () => {
           refetch();
 
           // reset
-          setValue({
-            email: '',
-            username: '',
-            password: '',
-            first_name: '',
-            last_name: '',
-            role: '',
-          });
+          setValue('email', '');
+          setValue('username', '');
+          setValue('first_name', '');
+          setValue('last_name', '');
+          setValue('role', '');
         })
         .catch((err) => {
           showError({ err });
@@ -107,6 +107,7 @@ const UserForm = () => {
 
   return (
     <div className={twMerge('bg-white p-4 lg:p-6 space-y-4 max-w-xl')}>
+      {/* <Print data={value} /> */}
       <div className="flex items-center gap-2">
         {id && <BackAnchor to="/users" />}
         <FormTitle>{id ? 'Edit User' : 'Create User'}</FormTitle>
