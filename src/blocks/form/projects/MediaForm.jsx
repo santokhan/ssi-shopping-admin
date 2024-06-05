@@ -122,6 +122,22 @@ const MediaForm = () => {
             name={inputs.interior_images}
             value={value.interior_images}
             setValue={setFormValue}
+            onRemoveFromServer={(id) => {
+              // // remove from server
+              // api
+              //   .delete(`project_galleries/${id}/`)
+              //   .then((res) => {
+              //     if (res) {
+              //       setFormValue(
+              //         'images',
+              //         value[inputs.images].filter((_) => _.id !== id),
+              //       );
+              //     }
+              //   })
+              //   .catch((error) => {
+              //     console.error(error);
+              //   });
+            }}
           />
           <h5 className={'font-semibold'}>Interior Description</h5>
           <Textarea
@@ -130,6 +146,22 @@ const MediaForm = () => {
             value={value.interior_description}
             onChange={(e) => {
               setFormValue('interior_description', e.target.value);
+            }}
+            onRemoveFromServer={(id) => {
+              // // remove from server
+              // api
+              //   .delete(`project_galleries/${id}/`)
+              //   .then((res) => {
+              //     if (res) {
+              //       setFormValue(
+              //         'images',
+              //         value[inputs.images].filter((_) => _.id !== id),
+              //       );
+              //     }
+              //   })
+              //   .catch((error) => {
+              //     console.error(error);
+              //   });
             }}
           />
         </Box>

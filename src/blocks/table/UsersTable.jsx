@@ -25,9 +25,7 @@ const UsersTableAction = ({ user, refetch }) => {
   function onDelete() {
     api
       .delete(`users/${user.id}/`)
-      .then((res) => {
-        refetch();
-      })
+      .then(refetch)
       .catch((err) => {
         console.log(err);
       });
@@ -67,7 +65,7 @@ const UsersTableRow = ({ user, refetch }) => {
 
 const UsersTable = ({ className = '' }) => {
   const { users, setPageNumber, page_size, refetch } = useContext(UsersContext);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || 1;
 
   if (!users) {

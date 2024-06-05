@@ -8,6 +8,9 @@ import Select from '../../../components/form/input/SelectOption';
 import { UsersContext } from '../../../context/users/UserContext';
 import FormTitle from '../../../components/form/FormTitle';
 import BackAnchor from '../../../components/BackAnchor';
+import Print from '../../../components/Print';
+import { toast } from 'react-toastify';
+import showError from '../../../components/ShowError';
 
 const inputs = {
   email: 'email',
@@ -29,31 +32,33 @@ const UserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // api
-    //   .post('users/', new FormData(e.target), {
-    //     header: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((res) => {
-    //     toast(`Added`, {
-    //       type: 'success',
-    //     });
+    api
+      .post('users/create/', new FormData(e.target), {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        toast(`New user added`, {
+          type: 'success',
+        });
 
-    //     // refetch table
-    //     refetch();
+        // refetch table
+        refetch();
 
-    //     // reset
-    //     setValue(inputs.name, '');
-    //     setValue(inputs.image, '');
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+        // reset
+        setValue(inputs.name, '');
+        setValue(inputs.image, '');
+      })
+      .catch((err) => {
+        showError({ err });
+        console.log(err);
+      });
   };
 
   return (
     <div className={twMerge('bg-white p-4 lg:p-6 space-y-4')}>
+      {/* <Print data={value} /> */}
       <div className="flex items-center gap-2">
         {id && <BackAnchor to="/users" />}
         <FormTitle>{id ? 'Edit User' : 'Create User'}</FormTitle>
@@ -90,17 +95,6 @@ const UserForm = () => {
           value={value[inputs.last_name]}
           name={inputs.last_name}
         />
-        <Input
-          label={inputs.email}
-          type="text"
-          className="w-full"
-          onChange={(e) => {
-            setValue(inputs.email, e.target.value);
-          }}
-          value={value[inputs.email]}
-          name={inputs.email}
-          required
-        />
         <Select
           name={inputs.role}
           label={inputs.role}
@@ -113,6 +107,28 @@ const UserForm = () => {
           onChange={(e) => {
             setValue(inputs.role, e.target.value);
           }}
+          required
+        />
+        <Input
+          label={inputs.email}
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(inputs.email, e.target.value);
+          }}
+          value={value[inputs.email]}
+          name={inputs.email}
+          required
+        />
+        <Input
+          label="password"
+          type="text"
+          className="w-full"
+          onChange={(e) => {
+            setValue(e.target.name, e.target.value);
+          }}
+          value={value.password}
+          name="password"
           required
         />
         <div className="">

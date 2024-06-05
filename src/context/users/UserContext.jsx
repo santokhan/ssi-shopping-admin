@@ -9,8 +9,12 @@ const UsersProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [value, setValue] = useState({
-    title: '',
-    images: '',
+    email: '',
+    username: '',
+    password: '',
+    first_name: '',
+    last_name: '',
+    role: '',
   });
   const { api } = useAxios();
   const page_size = 10;

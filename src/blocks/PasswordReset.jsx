@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 import api from '../axios/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth-context';
+import Print from '../components/Print';
 
-const ForgotForm = () => {
+const PasswordReset = () => {
   const initialState = {
-    email: '',
+    new_password: '',
+    confirm_password: '',
     isLoading: false,
   };
   const [state, setState] = useState(initialState);
@@ -19,23 +21,37 @@ const ForgotForm = () => {
   function handleForgot(e) {
     e.preventDefault();
 
-    // start loading
-    setState((prev) => ({ ...prev, isLoading: true }));
+    setState({ ...state, isLoading: true });
 
-    if (state.email) {
+    if (state.new_password !== state.confirm_password) {
+      toast('Passwords do not match');
+      setState({ ...state, isLoading: false });
+      return;
+    } else {
       api
-        .post('users/forgot-password/', { email: state.email })
+        .post('users/set-new-password/', {
+          new_password: state.confirm_password,
+        })
         .then((res) => {
-          setState(initialState);
-          toast('Reset link sent to your email', {
-            type: 'success',
-          });
+          setState({ ...state, isLoading: false });
+
+          if (res.data) {
+            navigate('/signin');
+          }
         })
         .catch((err) => {
           toast(err.message);
-          setState(initialState);
+          console.log(err);
+        })
+        .finally(() => {
+          setState({ ...state, isLoading: false });
         });
     }
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setState((prev) => ({ ...prev, [name]: value }));
   }
 
   useEffect(() => {
@@ -50,25 +66,27 @@ const ForgotForm = () => {
         <Link to="/" className="flex justify-center">
           <Logo />
         </Link>
-        <form className="space-y-4" onSubmit={handleForgot}>
-          <h5 className="text-xl font-semibold">Forgot password</h5>
+        <form className="mt-4 space-y-4" onSubmit={handleForgot}>
+          <h5 className="text-xl font-semibold">Set new password</h5>
           <input
-            type="text"
-            name="email"
-            id="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-            placeholder="your.email@gmail.com"
-            onChange={(e) => {
-              setState((prev) => ({
-                ...prev,
-                [e.target.name]: e.target.value,
-              }));
-            }}
+            type="password"
+            name="new_password"
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
+            placeholder="New password"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="confirm_password"
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
+            placeholder="Confirm password"
+            onChange={handleChange}
             required
           />
           <div className="">
             <button className="w-full rounded-md bg-dark-blue-500 hover:bg-dark-blue-400 px-12 py-3 text-sm font-medium text-white transition hover:bg-opacity-90 lg:text-base">
-              Get reset link
+              Reset
               <ArrowUpRightIcon className="inline-block ml-2 h-5 w-5" />
             </button>
           </div>
@@ -87,4 +105,4 @@ const ForgotForm = () => {
   );
 };
 
-export default ForgotForm;
+export default PasswordReset;

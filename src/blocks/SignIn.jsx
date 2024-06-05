@@ -1,5 +1,5 @@
 import api from '../axios/api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth-context';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -55,37 +55,27 @@ const SignInForm = () => {
   return (
     <div className="bg-white relative grid w-full max-w-md place-items-center lg:flex-shrink-0 shadow p-4 lg:p-10 rounded-xl">
       <div className="w-full space-y-8">
-        <div className="flex justify-center">
+        <Link to="/" className="flex justify-center">
           <Logo />
-        </div>
+        </Link>
         <div>
           <h5 className="text-xl font-semibold text-center">Sign in</h5>
           <p className="text-center mt-1 text-sm">
             Sign in with this account across the following sites.
           </p>
         </div>
-        <form className="w-full" onSubmit={handleSignIn}>
+        <form className="w-full space-y-5" onSubmit={handleSignIn}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md px-4 py-2.5 border text-sm outline-none focus-visible:shadow-none lg:text-base block"
+            spellCheck="false"
+            required
+          />
           <div className="mb-5 space-y-2">
-            <label htmlFor="username" className="text-start font-medium block">
-              Username
-            </label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Enter Username"
-              className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md px-4 py-2.5 border text-sm outline-none focus-visible:shadow-none lg:text-base"
-              spellCheck="false"
-              required
-            />
-          </div>
-          <div className="mb-5 space-y-2">
-            <label htmlFor="password" className="text-start font-medium block">
-              Password
-            </label>
             <input
               type="password"
-              id="password"
               name="password"
               placeholder="Enter Password"
               className="placeholder-text-blue text-blue focus:border-blue w-full rounded-md px-4 py-2.5 border text-sm outline-none focus-visible:shadow-none lg:text-base"

@@ -59,6 +59,8 @@ import BlogsPage from '../pages/blogs/BlogsPage.jsx';
 import BlogFormProvider from '../context/BlogsFormContext.jsx';
 import BlogForm from '../blocks/form/blog/BlogForm.jsx';
 import EnquiriesProvider from '../context/enquiries/enquiries-context.jsx';
+import PasswordReset from '../blocks/PasswordReset.jsx';
+import AuthLayout from '../pages/auth/AuthLayout.jsx';
 
 const authRoutes = [
   {
@@ -66,16 +68,17 @@ const authRoutes = [
     element: <SignInPage />,
   },
   {
-    path: 'signup',
-    element: <Index />,
-  },
-  {
-    path: 'verify',
-    element: <Index />,
-  },
-  {
     path: 'forgot',
     element: <ForgotPage />,
+  },
+  {
+    path: 'reset-password',
+
+    element: (
+      <AuthLayout>
+        <PasswordReset />
+      </AuthLayout>
+    ),
   },
 ];
 
