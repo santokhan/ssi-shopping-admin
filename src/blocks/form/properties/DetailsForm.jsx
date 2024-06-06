@@ -7,6 +7,7 @@ import ResponsiveForm from '../../../components/form/ResponsiveForm';
 import PrevAndNext from '../../../components/form/CancelOrSubmit';
 import { formBack, formNext } from '../../../utils/form-steps';
 import { yesNoOptions } from '../../../utils/yes-no-options';
+import { bedroomOptions } from '../../../utils/bedrooms';
 
 const DetailsForm = ({ value, setValue }) => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const DetailsForm = ({ value, setValue }) => {
       <Input
         type="number"
         name="built_up_size"
-        label="Built Up Size (In FT)"
+        label="Built Up Size (In FT)"
         value={value.built_up_size}
         step="any"
         onChange={(e) => {
@@ -41,13 +42,13 @@ const DetailsForm = ({ value, setValue }) => {
         }}
         required={true}
       />
-      <Input
-        type="number"
+      <Select
         name="bedrooms"
         label="bedrooms"
-        value={value.bedrooms}
+        options={bedroomOptions.map((b) => ({ label: b, value: b }))}
+        value={value.bedrooms || ''}
         onChange={(e) => {
-          setValue(e.target.name, parseInt(e.target.value));
+          setValue(e.target.name, e.target.value);
         }}
         required={true}
       />
