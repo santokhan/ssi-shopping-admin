@@ -6,6 +6,10 @@ import api from '../axios/api';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/auth-context';
 import Print from '../components/Print';
+import { getPasswordWarnings, passwordPattern } from '../utils/pattern';
+import PasswordWarnings from '../components/form/input/PasswordWarnings';
+import filterSpecialCharacters from '../utils/filterSpecialCharacters';
+import Input from '../components/form/input/Input';
 
 const PasswordReset = () => {
   const initialState = {
@@ -20,7 +24,7 @@ const PasswordReset = () => {
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  function handleForgot(e) {
+  function setNewPassword(e) {
     e.preventDefault();
 
     setState({ ...state, isLoading: true });
@@ -52,7 +56,9 @@ const PasswordReset = () => {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setState((prev) => ({ ...prev, [name]: value }));
+    const filtered = filterSpecialCharacters(value);
+    console.log(filtered);
+    setState((prev) => ({ ...prev, [name]: filtered }));
   }
 
   useEffect(() => {
@@ -67,23 +73,26 @@ const PasswordReset = () => {
         <Link to="/" className="flex justify-center">
           <Logo />
         </Link>
-        <form className="mt-4 space-y-4" onSubmit={handleForgot}>
+        <form className="mt-4 space-y-4" onSubmit={setNewPassword}>
           <h5 className="text-xl font-semibold">Set new password</h5>
-          <input
+          <Input
             type="password"
             name="new_password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
-            placeholder="New password"
+            value={state.new_password}
             onChange={handleChange}
+            placeholder="New Password"
             required
+            pattern={passwordPattern}
           />
-          <input
+          <PasswordWarnings password={state.new_password} />
+          <Input
             type="password"
             name="confirm_password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
-            placeholder="Confirm password"
+            value={state.confirm_password}
             onChange={handleChange}
+            placeholder="Confirm password"
             required
+            pattern={passwordPattern}
           />
           <div className="">
             <button className="w-full rounded-md bg-dark-blue-500 hover:bg-dark-blue-400 px-12 py-3 text-sm font-medium text-white transition hover:bg-opacity-90 lg:text-base">
