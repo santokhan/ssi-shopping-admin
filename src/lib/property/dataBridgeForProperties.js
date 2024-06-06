@@ -28,7 +28,6 @@ const dataBridgeForProperties = (properties = {}) => {
             latitude: validateCoordinate(p.latitude),
             longitude: validateCoordinate(p.longitude),
             // details
-            launch_date: p.launch_date,
             size: p.size,
             built_up_size: p.built_up_size,
             bedrooms: p.bedrooms,

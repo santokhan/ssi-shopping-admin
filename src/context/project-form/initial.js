@@ -41,6 +41,7 @@ const PROJECT_INPUTS = {
     // details
     size: '',
     features: [],
+    launch_date: '',
 
     // amenities
     amenities: [],

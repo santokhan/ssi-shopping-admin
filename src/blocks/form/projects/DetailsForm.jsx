@@ -34,6 +34,16 @@ const DetailsForm = ({ value, setValue }) => {
       }}
     >
       <Input
+        type="date"
+        name="launch_date"
+        label="launch_date"
+        value={value.launch_date || ''}
+        onChange={(e) => {
+          setValue(e.target.name, e.target.value);
+        }}
+        required={true}
+      />
+      <Input
         type="number"
         name="size"
         label="total area (in ft)"

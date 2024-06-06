@@ -33,7 +33,9 @@ const dataBridgeForProperties = (properties = {}) => {
             brochure_thumbnail: p.brochure_thumbnail,
             country: p.country?.id,
             city: p.city?.id,
-            area: p.area?.id,
+            // details
+            launch_date: p.launch_date || "",
+            area: p.area?.id || '',
             latitude: validateCoordinate(p.latitude),
             longitude: validateCoordinate(p.longitude),
             roadmap: Array.isArray(p.roadmap) ? p.roadmap : [Initial_Roadmap],
