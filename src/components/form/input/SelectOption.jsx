@@ -25,11 +25,17 @@ const Select = ({
           <option value="" disabled>
             Choose {replace_(label)}
           </option>
-          {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          {options
+            .sort((a, b) => {
+              if (typeof a.label === 'string' && typeof b.label === 'string') {
+                return a.label.localeCompare(b.label);
+              }
+            })
+            .map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
         </select>
       </Label>
       <InputError error={error} />
