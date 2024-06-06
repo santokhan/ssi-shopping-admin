@@ -11,6 +11,8 @@ const Select = ({
   value = '',
   ...props
 }) => {
+  value = value || '';
+
   return (
     <InputBox>
       <Label>

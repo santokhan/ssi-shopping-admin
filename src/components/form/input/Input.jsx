@@ -32,7 +32,15 @@ export const InputLabel = ({ label = '', children, className = '' }) => {
   );
 };
 
-const Input = ({ label = '', error = '', className = '', ...props }) => {
+const Input = ({
+  label = '',
+  error = '',
+  className = '',
+  value = '',
+  ...props
+}) => {
+  value = value || '';
+
   return (
     <InputBox className={twMerge('relative', className)}>
       <Label>
