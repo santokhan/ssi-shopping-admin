@@ -18,7 +18,7 @@ export function CheckBoxContainer({
     return null;
   }
   return (
-    <div className="flex justify-start">
+    <div className="flex justify-start" key={checkboxes.id}>
       <label key={checkboxes.id} className="inline-flex gap-x-2 items-center">
         <input
           name={checkboxes.id}
