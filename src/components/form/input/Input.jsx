@@ -45,7 +45,7 @@ const Input = ({
     <InputBox className={twMerge('relative', className)}>
       <Label>
         <span className="font-semibold capitalize">{replace_(label)}</span>
-        <InputElement label={label} {...props} />
+        <InputElement label={label} {...props} value={value} />
       </Label>
       <InputError error={error} className="absolute top-full left-0 px-2" />
     </InputBox>

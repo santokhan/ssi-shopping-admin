@@ -37,7 +37,11 @@ const DetailsForm = ({ value, setValue }) => {
         type="date"
         name="launch_date"
         label="launch_date"
-        value={value.launch_date || ''}
+        value={
+          value.launch_date
+            ? new Date(value.launch_date).toISOString().slice(0, 10)
+            : ''
+        }
         onChange={(e) => {
           setValue(e.target.name, e.target.value);
         }}
