@@ -68,6 +68,7 @@ const INITIAL_VALUES = {
     longitude: '', // number
 
     // details
+    launch_date: '',
     size: '', // number
     built_up_size: '', // number
     bedrooms: '', // number

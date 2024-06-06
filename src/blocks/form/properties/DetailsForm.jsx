@@ -21,10 +21,20 @@ const DetailsForm = ({ value, setValue }) => {
       }}
     >
       <Input
+        type="date"
+        name="launch_date"
+        label="launch_date"
+        value={value.launch_date || ''}
+        onChange={(e) => {
+          setValue(e.target.name, e.target.value);
+        }}
+        required={true}
+      />
+      <Input
         type="number"
         name="size"
         label="total area (in ft)"
-        value={value.size}
+        value={value.size || ''}
         step="any"
         onChange={(e) => {
           setValue(e.target.name, parseFloat(e.target.value));
@@ -57,6 +67,7 @@ const DetailsForm = ({ value, setValue }) => {
         name="bathrooms"
         label="bathrooms"
         value={value.bathrooms}
+        min={0}
         onChange={(e) => {
           setValue(e.target.name, parseInt(e.target.value));
         }}
@@ -67,6 +78,7 @@ const DetailsForm = ({ value, setValue }) => {
         name="parking"
         label="parking"
         value={value.parking}
+        min={0}
         onChange={(e) => {
           setValue(e.target.name, parseInt(e.target.value));
         }}
