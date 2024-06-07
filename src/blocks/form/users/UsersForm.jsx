@@ -11,6 +11,8 @@ import BackAnchor from '../../../components/BackAnchor';
 import Print from '../../../components/Print';
 import { toast } from 'react-toastify';
 import showError from '../../../components/ShowError';
+import PasswordWarnings from '../../../components/form/input/PasswordWarnings';
+import { getPasswordWarnings } from '../../../utils/pattern';
 
 const UserForm = () => {
   const { value, setValue, refetch } = useContext(UsersContext);
@@ -77,31 +79,33 @@ const UserForm = () => {
           console.log(err);
         });
     } else {
-      api
-        .post('users/create/', new FormData(e.target), {
-          header: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-          toast(`New user added`, {
-            type: 'success',
+      if (getPasswordWarnings(value.password).length == 0) {
+        api
+          .post('users/create/', new FormData(e.target), {
+            header: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((res) => {
+            toast(`New user added`, {
+              type: 'success',
+            });
+
+            // refetch table
+            refetch();
+
+            // reset
+            setValue('email', '');
+            setValue('username', '');
+            setValue('first_name', '');
+            setValue('last_name', '');
+            setValue('role', '');
+          })
+          .catch((err) => {
+            showError({ err });
+            console.log(err);
           });
-
-          // refetch table
-          refetch();
-
-          // reset
-          setValue('email', '');
-          setValue('username', '');
-          setValue('first_name', '');
-          setValue('last_name', '');
-          setValue('role', '');
-        })
-        .catch((err) => {
-          showError({ err });
-          console.log(err);
-        });
+      }
     }
   };
 
@@ -171,17 +175,20 @@ const UserForm = () => {
           disabled={!!id}
         />
         {id ? null : (
-          <Input
-            label="password"
-            type="text"
-            className="w-full"
-            onChange={(e) => {
-              setValue(e.target.name, e.target.value);
-            }}
-            value={value.password}
-            name="password"
-            required
-          />
+          <>
+            <Input
+              label="password"
+              type="text"
+              className="w-full"
+              onChange={(e) => {
+                setValue(e.target.name, e.target.value);
+              }}
+              value={value.password}
+              name="password"
+              required
+            />
+            <PasswordWarnings password={value.password} />
+          </>
         )}
         <div className="">
           <SubmitButton type="submit" className="" />
