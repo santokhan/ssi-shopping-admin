@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import capitalize from '../utils/capitalize';
 
-export const errorToast = (errorObject) => {
+const errorToast = (errorObject) => {
   if (typeof errorObject == 'object') {
     for (const key in errorObject) {
       if (Object.hasOwnProperty.call(errorObject, key)) {
@@ -27,11 +27,32 @@ export const errorToast = (errorObject) => {
   }
 };
 
+// // Example
+// const errorObject = {
+//   username: ['This field must be unique.'],
+// };
+// console.log(errorToast(errorObject));
+
 const showError = ({ err }) => {
-  if (err.response.data) {
-    const messages = err.response.data;
-    errorToast(messages);
+  if (typeof err === 'string') {
+    toast(err, { type: 'Failed' });
+  } else if (typeof err === 'object') {
+    if (err.response) {
+      const messages = err.response.data;
+      errorToast(messages);
+    } else {
+      // For object like { error: 'Wrong password!' }
+      for (const key in err) {
+        if (Object.hasOwnProperty.call(err, key)) {
+          const element = err[key];
+          if (typeof element == 'string') {
+            toast(element, { type: 'Failed' });
+          }
+        }
+      }
+    }
   }
 };
 
 export default showError;
+export { errorToast };
