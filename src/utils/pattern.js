@@ -1,10 +1,10 @@
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[!@#$%^&*()]).{8,}$/;
 
 const getPasswordWarnings = (password = '') => {
     const checks = [
         { regex: /(?=.*[a-z])/, message: "At least one lowercase letter." },
         { regex: /(?=.*[A-Z])/, message: "At least one uppercase letter." },
         { regex: /(?=.*\d)/, message: "At least one number." },
+        { regex: /(?=.*[^a-zA-Z\d])/, message: "At least one special character." },
         { regex: /.{8,}/, message: "At least 8 characters long." },
     ];
 
@@ -13,4 +13,4 @@ const getPasswordWarnings = (password = '') => {
         .map(({ message }) => message);
 };
 
-export { passwordPattern, getPasswordWarnings }
+export { getPasswordWarnings }

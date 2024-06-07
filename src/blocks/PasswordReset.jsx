@@ -6,7 +6,7 @@ import api from '../axios/api';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/auth-context';
 import Print from '../components/Print';
-import { getPasswordWarnings, passwordPattern } from '../utils/pattern';
+import { getPasswordWarnings } from '../utils/pattern';
 import PasswordWarnings from '../components/form/input/PasswordWarnings';
 import filterSpecialCharacters from '../utils/filterSpecialCharacters';
 import Input from '../components/form/input/Input';
@@ -29,36 +29,36 @@ const PasswordReset = () => {
 
     setState({ ...state, isLoading: true });
 
-    if (state.new_password !== state.confirm_password) {
-      toast('Passwords do not match');
-      setState({ ...state, isLoading: false });
-      return;
-    } else {
-      api
-        .post('users/set-new-password/?token=' + resetToken, {
-          new_password: state.confirm_password,
-        })
-        .then((res) => {
-          setState({ ...state, isLoading: false });
+    if (getPasswordWarnings(state.new_password).length == 0) {
+      if (state.new_password !== state.confirm_password) {
+        toast('Passwords do not match');
+        setState({ ...state, isLoading: false });
+        return;
+      } else {
+        api
+          .post('users/set-new-password/?token=' + resetToken, {
+            new_password: state.confirm_password,
+          })
+          .then((res) => {
+            setState({ ...state, isLoading: false });
 
-          if (res.data) {
-            toast('Password reset successful');
-            navigate('/signin');
-          }
-        })
-        .catch((err) => {
-          toast(err.message);
-          console.log(err);
-          setState({ ...state, isLoading: false });
-        });
+            if (res.data) {
+              toast('Password reset successful');
+              navigate('/signin');
+            }
+          })
+          .catch((err) => {
+            toast(err.message);
+            console.log(err);
+            setState({ ...state, isLoading: false });
+          });
+      }
     }
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
-    const filtered = filterSpecialCharacters(value);
-    console.log(filtered);
-    setState((prev) => ({ ...prev, [name]: filtered }));
+    setState((prev) => ({ ...prev, [name]: value }));
   }
 
   useEffect(() => {
@@ -82,7 +82,6 @@ const PasswordReset = () => {
             onChange={handleChange}
             placeholder="New Password"
             required
-            pattern={passwordPattern}
           />
           <PasswordWarnings password={state.new_password} />
           <Input
@@ -92,7 +91,6 @@ const PasswordReset = () => {
             onChange={handleChange}
             placeholder="Confirm password"
             required
-            pattern={passwordPattern}
           />
           <div className="">
             <button className="w-full rounded-md bg-dark-blue-500 hover:bg-dark-blue-400 px-12 py-3 text-sm font-medium text-white transition hover:bg-opacity-90 lg:text-base">
