@@ -12,8 +12,8 @@ const UsersLayout = () => {
         </Page.Top>
 
         <div className="flex gap-6 flex-wrap items-start">
-          <UsersTable className="flex-grow lg:flex-1" />
-          <div className="flex-grow lg:flex-1">
+          <UsersTable className="flex-grow" />
+          <div className="w-full max-w-lg">
             <Outlet />
           </div>
         </div>
