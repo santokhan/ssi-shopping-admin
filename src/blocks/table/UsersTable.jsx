@@ -55,9 +55,11 @@ const UsersTableRow = ({ user, refetch }) => {
       <td className="px-6 py-4 whitespace-nowrap">
         {user.is_staff && 'Stuff'} {user.is_staff && 'Super User'}
       </td>
-      <td className="px-6 py-4">
-        <UsersTableAction user={user} refetch={refetch} />
-      </td>
+      {user.username.toLowerCase() !== 'admin' && (
+        <td className="px-6 py-4">
+          <UsersTableAction user={user} refetch={refetch} />
+        </td>
+      )}
     </tr>
   );
 };
