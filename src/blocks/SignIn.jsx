@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Logo from '../components/Logo';
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
+import showError from '../components/ShowError';
 
 const SignInForm = () => {
   const [state, setState] = useState({
@@ -38,11 +39,9 @@ const SignInForm = () => {
         }
       })
       .catch((err) => {
-        toast(err.message);
-        console.log(err);
-      })
-      .finally(() => {
+        showError(err);
         setState({ ...state, isLoading: false });
+        console.log(err);
       });
   }
 
