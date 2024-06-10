@@ -123,20 +123,20 @@ const MediaForm = () => {
             value={value.interior_images}
             setValue={setFormValue}
             onRemoveFromServer={(id) => {
-              // // remove from server
-              // api
-              //   .delete(`project_galleries/${id}/`)
-              //   .then((res) => {
-              //     if (res) {
-              //       setFormValue(
-              //         'images',
-              //         value[inputs.images].filter((_) => _.id !== id),
-              //       );
-              //     }
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //   });
+              // remove from server
+              api
+                .delete(`project-interior-images/${id}/delete/`)
+                .then((res) => {
+                  if (res) {
+                    setFormValue(
+                      'images',
+                      value.interior_images.filter((_) => _.id !== id),
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
             }}
           />
           <h5 className={'font-semibold'}>Interior Description</h5>
@@ -147,22 +147,6 @@ const MediaForm = () => {
             onChange={(e) => {
               setFormValue('interior_description', e.target.value);
             }}
-            onRemoveFromServer={(id) => {
-              // // remove from server
-              // api
-              //   .delete(`project_galleries/${id}/`)
-              //   .then((res) => {
-              //     if (res) {
-              //       setFormValue(
-              //         'images',
-              //         value[inputs.images].filter((_) => _.id !== id),
-              //       );
-              //     }
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //   });
-            }}
           />
         </Box>
         <Box>
@@ -171,6 +155,22 @@ const MediaForm = () => {
             name={'exterior_images'}
             value={value.exterior_images}
             setValue={setFormValue}
+            onRemoveFromServer={(id) => {
+              // remove from server
+              api
+                .delete(`project-exterior-images/${id}/delete/`)
+                .then((res) => {
+                  if (res) {
+                    setFormValue(
+                      'images',
+                      value.exterior_images.filter((_) => _.id !== id),
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            }}
           />
           <h5 className={'font-semibold'}>Exterior Description</h5>
           <Textarea
