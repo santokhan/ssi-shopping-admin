@@ -128,7 +128,7 @@ const MediaForm = () => {
                 .delete(`project-interior-images/${id}/delete/`)
                 .then(() => {
                   setFormValue(
-                    'images',
+                    'interior_images',
                     value.interior_images.filter((_) => _.id !== id),
                   );
                 })
@@ -159,7 +159,7 @@ const MediaForm = () => {
                 .delete(`project-exterior-images/${id}/delete/`)
                 .then((res) => {
                   setFormValue(
-                    'images',
+                    'exterior_images',
                     value.exterior_images.filter((_) => _.id !== id),
                   );
                 })
