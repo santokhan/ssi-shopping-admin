@@ -126,13 +126,11 @@ const MediaForm = () => {
               // remove from server
               api
                 .delete(`project-interior-images/${id}/delete/`)
-                .then((res) => {
-                  if (res) {
-                    setFormValue(
-                      'images',
-                      value.interior_images.filter((_) => _.id !== id),
-                    );
-                  }
+                .then(() => {
+                  setFormValue(
+                    'images',
+                    value.interior_images.filter((_) => _.id !== id),
+                  );
                 })
                 .catch((error) => {
                   console.error(error);
@@ -160,12 +158,10 @@ const MediaForm = () => {
               api
                 .delete(`project-exterior-images/${id}/delete/`)
                 .then((res) => {
-                  if (res) {
-                    setFormValue(
-                      'images',
-                      value.exterior_images.filter((_) => _.id !== id),
-                    );
-                  }
+                  setFormValue(
+                    'images',
+                    value.exterior_images.filter((_) => _.id !== id),
+                  );
                 })
                 .catch((error) => {
                   console.error(error);
