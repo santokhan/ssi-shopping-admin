@@ -74,7 +74,7 @@ const TagsInput = ({
   return (
     <InputLabel label={label} className={className}>
       <div className="border p-[8px] rounded-lg h-[46px] flex items-center gap-2">
-        {valueFromServer.filter(Boolean).map((_, i) => (
+        {valueFromServer?.filter(Boolean)?.map((_, i) => (
           <div
             key={i}
             className="bg-gray-100 p-[5px] rounded-full inline-flex items-center gap-1 "
@@ -83,7 +83,7 @@ const TagsInput = ({
             <button
               type="button"
               onClick={() => {
-                const filtered = valueFromServer.filter((e) => e !== _);
+                const filtered = valueFromServer?.filter((e) => e !== _);
                 setValue(filtered);
               }}
               className="bg-white rounded-full size-5 flex justify-center items-center overflow-hidden"

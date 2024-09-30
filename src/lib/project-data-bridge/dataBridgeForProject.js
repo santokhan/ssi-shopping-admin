@@ -51,14 +51,14 @@ const dataBridgeForProperties = (properties = {}) => {
             developer: p.developer?.id,
             qr_code: p.qr_code,
             // amenities
-            amenities: p.amenities.map(e => {
+            amenities: p.amenities?.map(e => {
                 if (typeof e === 'object' && e.amenity) {
                     return e.amenity
                 }
                 if (typeof e === 'number') {
                     return e
                 }
-            }).filter(e => e),
+            })?.filter(e => e),
         }
         return checkFalsyValue(converted)
     } else {

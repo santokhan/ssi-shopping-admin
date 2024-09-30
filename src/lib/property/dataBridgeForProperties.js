@@ -44,7 +44,7 @@ const dataBridgeForProperties = (properties = {}) => {
             developer: p.developer?.id,
             qr_code: p.qr_code,
             // amenities
-            amenities: p.amenities.map(e => {
+            amenities: p.amenities?.map(e => {
                 if (typeof e === 'object' && e.id) {
                     return e.id
                 }

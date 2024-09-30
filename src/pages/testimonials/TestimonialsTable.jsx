@@ -80,7 +80,7 @@ const TestiTableRows = ({
   );
 };
 
-const tableTitle = 'All Testimonials';
+const tableTitle = 'All Reviews';
 
 const TableTopSection = ({ onSearch = (needle) => {} }) => {
   return (
@@ -122,7 +122,7 @@ const TestimonialsTable = ({ testimonials, refetch, setPageNumber }) => {
       // console.log({ needle });
       setFiltered(
         /** Filter agents not already filtered items filteredAgents */
-        testimonials.filter((property) => {
+        testimonials?.filter((property) => {
           const target = property.title.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -146,9 +146,12 @@ const TestimonialsTable = ({ testimonials, refetch, setPageNumber }) => {
               </THead>
               <TBody>
                 {filtered
-                  .slice(page_size * (currentPage - 1), page_size * currentPage)
-                  .sort((a, b) => new Date(b.added_on) - new Date(a.added_on))
-                  .map((_, i) => {
+                  ?.slice(
+                    page_size * (currentPage - 1),
+                    page_size * currentPage,
+                  )
+                  ?.sort((a, b) => new Date(b.added_on) - new Date(a.added_on))
+                  ?.map((_, i) => {
                     return (
                       <Fragment key={i}>
                         <TestiTableRows {..._} refetch={refetch} />
@@ -160,8 +163,8 @@ const TestimonialsTable = ({ testimonials, refetch, setPageNumber }) => {
           </div>
           <Pagination
             totalPages={new Array(Math.ceil(filtered.length / page_size))
-              .fill()
-              .map((_, i) => i + 1)}
+              ?.fill()
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

@@ -201,7 +201,7 @@ const EnquiriesTable = ({
 
   function changeColName(search = '', needle = '') {
     setHeadList((prev) =>
-      prev.map((item) => {
+      prev?.map((item) => {
         if (item.toLowerCase() === needle.toLowerCase()) {
           return search;
         } else {
@@ -219,7 +219,7 @@ const EnquiriesTable = ({
         <table className="w-full text-sm text-gray-500 rtl:text-right">
           <THead>
             <tr>
-              {headList.map((_, i) => (
+              {headList?.map((_, i) => (
                 <th
                   scope="col"
                   className={`text-start px-6 py-3 ${
@@ -236,9 +236,9 @@ const EnquiriesTable = ({
           <TBody>
             <EnquiryStatusProvider>
               {enquiries
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(page_size * (currentPage - 1), page_size * currentPage)
-                .map((_, i) => {
+                ?.sort((a, b) => new Date(b.date) - new Date(a.date))
+                ?.slice(page_size * (currentPage - 1), page_size * currentPage)
+                ?.map((_, i) => {
                   return (
                     <Fragment key={i}>
                       <EnquiriesTableRow
@@ -255,8 +255,8 @@ const EnquiriesTable = ({
         </table>
         <Pagination
           totalPages={new Array(Math.ceil(enquiries.length / page_size))
-            .fill()
-            .map((_, i) => i + 1)}
+            ?.fill()
+            ?.map((_, i) => i + 1)}
           currentPage={currentPage}
           setPageNumber={setPageNumber}
         />

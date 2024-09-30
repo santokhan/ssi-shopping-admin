@@ -119,7 +119,7 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
   function onSearch(needle) {
     if (needle && needle.length > 0) {
       setFiltered(
-        blogList.filter((_) => {
+        blogList?.filter((_) => {
           const target = _.display_name?.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -148,11 +148,11 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
               </THead>
               <TBody>
                 {filtered
-                  .slice((currentPage - 1) * page_size, currentPage * page_size)
+                  ?.slice((currentPage - 1) * page_size, currentPage * page_size)
                   .sort(
                     (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                   )
-                  .map((_, i) => {
+                  ?.map((_, i) => {
                     return (
                       <Fragment key={i}>
                         <TableRow data={_} SN={i + 1} />
@@ -165,7 +165,7 @@ const BlogsTable = ({ setPageNumber, page_size }) => {
           <Pagination
             totalPages={new Array(Math.ceil(filtered.length / page_size))
               .fill()
-              .map((_, i) => i + 1)}
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

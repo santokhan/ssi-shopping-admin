@@ -72,7 +72,7 @@ const AgentForm = ({ agent = null }) => {
     }
   }
 
-  let nationalityOptions = nationalityList.map((item) => {
+  let nationalityOptions = nationalityList?.map((item) => {
     return {
       label: item.nationality,
       value: item.nationality.toLowerCase(),
@@ -168,18 +168,18 @@ const AgentForm = ({ agent = null }) => {
         first_name: agent.first_name,
         last_name: agent.last_name,
         whatsapp_number: agent.whatsapp_number,
-        speaks: splitSpeaks(JSON.parse(agent.speaks)).map((s) => ({
+        speaks: splitSpeaks(JSON.parse(agent.speaks))?.map((s) => ({
           label: s.label,
           value: s.value,
         })),
         location: agent.location,
         years_of_expertise: agent.years_of_expertise,
         category: JSON.parse(agent.category)
-          .map((c) => ({
+          ?.map((c) => ({
             label: c.label,
             value: c.value,
           }))
-          .filter((e) => Boolean(e.value)),
+          ?.filter((e) => Boolean(e.value)),
         nationality: agent.nationality,
         about: agent.about || '',
         photo: agent.photo,
@@ -322,7 +322,7 @@ const AgentForm = ({ agent = null }) => {
               <MultipleSelect
                 label={inputs.speaks}
                 name={inputs.speaks}
-                options={languageCodes.map(({ language }) => ({
+                options={languageCodes?.map(({ language }) => ({
                   value: language.toLowerCase(),
                   label: language,
                 }))}
@@ -366,7 +366,7 @@ const AgentForm = ({ agent = null }) => {
               <MultipleSelect
                 label={inputs.category}
                 name={inputs.category}
-                options={categories.map(({ title, id }) => ({
+                options={categories?.map(({ title, id }) => ({
                   value: id,
                   label: title,
                 }))}

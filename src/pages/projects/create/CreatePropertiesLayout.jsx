@@ -13,15 +13,15 @@ const Tabs = () => {
   const pathName = location.pathname;
   let pathList = [];
   if (pathName.includes('/edit')) {
-    pathList = pathName.split('/edit')[1].split('/').filter(Boolean);
+    pathList = pathName.split('/edit')[1].split('/')?.filter(Boolean);
   }
   if (pathName.includes('/create')) {
-    pathList = pathName.split('/create')[1].split('/').filter(Boolean);
+    pathList = pathName.split('/create')[1].split('/')?.filter(Boolean);
   }
 
   return (
     <div className="items-center bg-white flex gap-6 lg:gap-12 px-4 lg:px-6 overflow-x-auto">
-      {tabList.map((tab, index) => (
+      {tabList?.map((tab, index) => (
         <Link
           key={index}
           to={devMode ? tab.to : ''}

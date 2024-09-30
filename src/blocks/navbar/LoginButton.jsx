@@ -7,7 +7,7 @@ export const LoginButton = () => {
   const { isAuthenticated, signout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  return isAuthenticated ? (
+  return true ? (
     <button
       type="button"
       onClick={() => {

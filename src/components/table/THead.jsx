@@ -18,7 +18,7 @@ const THead = ({ className = '', children }) => {
 export const THeadList = ({ headList, className = '' }) => {
   return (
     <tr>
-      {headList.map((head, i) => {
+      {headList?.map((head, i) => {
         return (
           <TH
             key={i}

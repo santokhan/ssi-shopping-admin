@@ -66,7 +66,7 @@ const FeaturesTable = ({ className = '' }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || 1;
 
-  if (!features) {
+  if (!Array.isArray(features) || features.length == 0) {
     return null;
   }
 
@@ -74,7 +74,7 @@ const FeaturesTable = ({ className = '' }) => {
 
   return (
     <>
-      {features.length > 0 ? (
+      {features?.length > 0 ? (
         <div
           className={twMerge(
             className,
@@ -87,8 +87,8 @@ const FeaturesTable = ({ className = '' }) => {
             </THead>
             <TBody>
               {features
-                .slice(page_size * (currentPage - 1), page_size * currentPage)
-                .map((feature, i) => {
+                ?.slice(page_size * (currentPage - 1), page_size * currentPage)
+                ?.map((feature, i) => {
                   return (
                     <Fragment key={i}>
                       <FeaturesTableRow feature={feature} refetch={refetch} />
@@ -99,8 +99,8 @@ const FeaturesTable = ({ className = '' }) => {
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(features.length / page_size))
-              .fill()
-              .map((_, i) => i + 1)}
+              ?.fill()
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

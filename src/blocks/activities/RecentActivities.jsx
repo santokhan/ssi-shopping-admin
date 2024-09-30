@@ -38,8 +38,8 @@ const Notification = () => {
         <aside className="border-l-2 absolute left-[5px] top-0 bottom-0 border-dark-blue-500/50"></aside>
         <ul className="space-y-3 relative">
           {Array.isArray(activities.results) &&
-            activities.results
-              .slice(0, 12)
+            activities?.results
+              ?.slice(0, 12)
               .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
               .map((_, i) => (
                 <li key={i} className="flex items-center space-x-3">

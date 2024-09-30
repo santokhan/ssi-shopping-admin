@@ -45,7 +45,7 @@ const DetailsForm = ({ value, setValue }) => {
       <Select
         name="bedrooms"
         label="bedrooms"
-        options={bedroomOptions.map((b) => ({ label: b, value: b }))}
+        options={bedroomOptions?.map((b) => ({ label: b, value: b }))}
         value={value.bedrooms || ''}
         onChange={(e) => {
           setValue(e.target.name, e.target.value);

@@ -20,7 +20,7 @@ const EnquiriesLayout = () => {
   function onSearch(needle) {
     if (needle && needle.length > 0) {
       setFiltered(
-        enquiries.filter((_) => {
+        enquiries?.filter((_) => {
           const target = _.name.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           return target.includes(value);

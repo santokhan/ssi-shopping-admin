@@ -32,12 +32,6 @@ const ForgotForm = () => {
           });
           if (res.data) {
             const data = res.data;
-            // Response
-            // {
-            //   "success": "Password reset email sent",
-            //   "frontend_verification_url": "https://admin.bsmproperty.ae/reset-password?token=vZlNKr6bYBMWQ0i7QuG5gVWhd4ErpVRu5Rozy6L1WXWZ1rMVZTFQ3tpWBI5AXrNA0xGdMFKqD8veucDJcpuV7z08XumIYFxM6clSrQPRtwNLmzLnYPEFXYeuU1E1hcxb",
-            //   "backend_verification_url": "/api/users/set-new-password/?token=vZlNKr6bYBMWQ0i7QuG5gVWhd4ErpVRu5Rozy6L1WXWZ1rMVZTFQ3tpWBI5AXrNA0xGdMFKqD8veucDJcpuV7z08XumIYFxM6clSrQPRtwNLmzLnYPEFXYeuU1E1hcxb"
-            // }
             if (data?.frontend_verification_url) {
               const url = new URL(data.frontend_verification_url);
               navigate(url.pathname + url.search);
@@ -86,7 +80,7 @@ const ForgotForm = () => {
             </button>
           </div>
           <p className="font-medium text-gray-800 flex justify-end gap-2">
-            Go to
+            Go to{' '}
             <a
               href="/signin"
               className="text-dark-blue-500 hover:text-dark-blue-400 inline-block text-base hover:underline"

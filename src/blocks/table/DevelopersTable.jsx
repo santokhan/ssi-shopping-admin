@@ -16,7 +16,7 @@ const FeaturesTableAction = ({ feature, refetch }) => {
 
   function onDelete() {
     api
-      .delete(`developers/${feature.id}/`)
+      ?.delete(`developers/${feature.id}/`)
       .then((res) => {
         refetch();
       })
@@ -68,61 +68,48 @@ const FeaturesTableRow = ({ feature, refetch }) => {
 const DevelopersTable = ({ className = '' }) => {
   const { developers, setPageNumber, page_size, refetch } =
     useContext(DevelopersContext);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || 1;
-
   const headList = ['name', 'profile', 'action'];
-
-  if (!developers) {
-    return null;
-  } else {
+  if (!Array.isArray(developers) || developers.length == 0) {
     return (
-      <>
-        {developers.length > 0 ? (
-          <div
-            className={twMerge(
-              className,
-              'bg-white p-4 space-y-4 overflow-x-auto',
-            )}
-          >
-            <table className="w-full text-sm text-gray-500 rtl:text-right">
-              <THead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
-                <THeadList headList={headList} />
-              </THead>
-              <TBody>
-                {developers
-                  .slice(page_size * (currentPage - 1), page_size * currentPage)
-                  .map((feature, i) => {
-                    return (
-                      <Fragment key={i}>
-                        <FeaturesTableRow feature={feature} refetch={refetch} />
-                      </Fragment>
-                    );
-                  })}
-              </TBody>
-            </table>
-            <Pagination
-              totalPages={new Array(Math.ceil(developers.length / page_size))
-                .fill()
-                .map((_, i) => i + 1)}
-              currentPage={currentPage}
-              setPageNumber={setPageNumber}
-            />
-            <TableSummary
-              totalData={developers.length}
-              dataPerPage={page_size}
-              currentPage={currentPage}
-            />
-          </div>
-        ) : (
-          <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
-            No developers found
-          </p>
-        )}
-      </>
+      <p className={twMerge(className, 'p-4 bg-white rounded-lg')}>
+        No developers found
+      </p>
     );
   }
+  return (
+    <div
+      className={twMerge(className, 'bg-white p-4 space-y-4 overflow-x-auto')}
+    >
+      <table className="w-full text-sm text-gray-500 rtl:text-right">
+        <THead className="bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+          <THeadList headList={headList} />
+        </THead>
+        <TBody>
+          {developers?.map((feature, i) => {
+            return (
+              <Fragment key={i}>
+                <FeaturesTableRow feature={feature} refetch={refetch} />
+              </Fragment>
+            );
+          })}
+        </TBody>
+      </table>
+      <Pagination
+        totalPages={new Array(Math.ceil(developers.length / page_size))
+          ?.fill()
+          ?.map((_, i) => i + 1)}
+        currentPage={currentPage}
+        setPageNumber={setPageNumber}
+      />
+      <TableSummary
+        totalData={developers?.length}
+        dataPerPage={page_size}
+        currentPage={currentPage}
+      />
+    </div>
+  );
 };
 
 export default DevelopersTable;

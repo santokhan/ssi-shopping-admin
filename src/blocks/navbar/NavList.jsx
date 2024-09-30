@@ -7,7 +7,7 @@ export const NavList = () => {
         <>
             <ul className="flex items-center justify-center gap-1">
                 {
-                    navList.map((nav, i) => {
+                    navList?.map((nav, i) => {
                         const { label, to, children } = nav;
                         if (children) {
                             return (

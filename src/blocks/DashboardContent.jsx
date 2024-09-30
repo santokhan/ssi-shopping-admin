@@ -5,6 +5,7 @@ import { AuthContext } from '../context/auth-context';
 import { jwtDecode } from 'jwt-decode';
 
 const DashboardContent = () => {
+  return;
   const { token } = useContext(AuthContext);
   const access = token?.access || '';
   const decoded = jwtDecode(access);

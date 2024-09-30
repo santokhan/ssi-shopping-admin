@@ -16,7 +16,7 @@ const Pagination = ({ totalPages, currentPage = 1 }) => {
             </Link>
           </li>
         )}
-        {totalPages.map((n, i) => (
+        {totalPages?.map((n, i) => (
           <li key={i}>
             <Link
               to={`?page=${parseInt(n)}`}

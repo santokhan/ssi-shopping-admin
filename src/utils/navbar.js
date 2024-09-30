@@ -15,8 +15,8 @@ export const navList = [
         icon: '',
     },
     {
-        label: 'News',
-        to: 'news',
+        label: 'blogs',
+        to: 'blogs',
         icon: '',
     },
     {

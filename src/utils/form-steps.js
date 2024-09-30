@@ -29,7 +29,7 @@ const formSteps = [
 ];
 
 function formBack(pathname,) {
-    const pathList = pathname.split('/').filter(Boolean)
+    const pathList = pathname.split('/')?.filter(Boolean)
     const removed = pathList.pop()
     const idx = formSteps.findIndex(({ to }) => removed === to)
     const prevStep = formSteps[idx - 1]
@@ -40,7 +40,7 @@ function formBack(pathname,) {
 // console.log(output)
 
 function formNext(pathname) {
-    const pathList = pathname.split('/').filter(Boolean)
+    const pathList = pathname.split('/')?.filter(Boolean)
     const removed = pathList.pop()
     const idx = formSteps.findIndex(({ to }) => removed === to)
     const prevStep = formSteps[idx + 1]

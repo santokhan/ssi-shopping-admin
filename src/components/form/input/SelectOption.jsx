@@ -31,7 +31,7 @@ const Select = ({
                 return a.label.localeCompare(b.label);
               }
             })
-            .map((option, index) => (
+            ?.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
               </option>

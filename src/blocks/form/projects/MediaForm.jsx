@@ -67,7 +67,7 @@ const MediaForm = () => {
               if (res) {
                 setFormValue(
                   'images',
-                  value[inputs.images].filter((_) => _.id !== id),
+                  value[inputs.images]?.filter((_) => _.id !== id),
                 );
               }
             })
@@ -129,7 +129,7 @@ const MediaForm = () => {
                 .then(() => {
                   setFormValue(
                     'interior_images',
-                    value.interior_images.filter((_) => _.id !== id),
+                    value.interior_images?.filter((_) => _.id !== id),
                   );
                 })
                 .catch((error) => {
@@ -160,7 +160,7 @@ const MediaForm = () => {
                 .then((res) => {
                   setFormValue(
                     'exterior_images',
-                    value.exterior_images.filter((_) => _.id !== id),
+                    value.exterior_images?.filter((_) => _.id !== id),
                   );
                 })
                 .catch((error) => {

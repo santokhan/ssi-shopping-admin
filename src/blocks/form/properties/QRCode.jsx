@@ -79,7 +79,7 @@ const QRCodeForm = ({ value, setValue }) => {
                   label="developer"
                   options={
                     Array.isArray(developers)
-                      ? developers.map(({ id, name }) => ({
+                      ? developers?.map(({ id, name }) => ({
                           value: id,
                           label: name,
                         }))

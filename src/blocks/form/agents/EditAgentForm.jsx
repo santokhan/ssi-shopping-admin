@@ -68,7 +68,7 @@ const EditAgentForm = () => {
     setError((prev) => ({ ...prev, [key]: '' }));
   }
 
-  let nationalityOptions = nationalityList.map((item) => {
+  let nationalityOptions = nationalityList?.map((item) => {
     return {
       label: item.nationality,
       value: item.nationality.toLowerCase(),
@@ -137,13 +137,13 @@ const EditAgentForm = () => {
             first_name: data.first_name,
             last_name: data.last_name,
             whatsapp_number: data.whatsapp_number,
-            speaks: data.speaks.split(',').map((item) => ({
+            speaks: data.speaks.split(',')?.map((item) => ({
               label: item.trim(),
               value: item.trim().toLowerCase(),
             })),
             location: data.location,
             years_of_expertise: data.years_of_expertise,
-            category: data.category.split(',').map((item) => ({
+            category: data.category.split(',')?.map((item) => ({
               label: item.trim(),
               value: item.trim().toLowerCase(),
             })),
@@ -265,7 +265,7 @@ const EditAgentForm = () => {
                   <MultipleSelect
                     label={inputs.speaks}
                     name={inputs.speaks}
-                    options={languageCodes.map(({ language, code }) => ({
+                    options={languageCodes?.map(({ language, code }) => ({
                       value: code,
                       label: language,
                     }))}
@@ -313,7 +313,7 @@ const EditAgentForm = () => {
                   <MultipleSelect
                     label={inputs.category}
                     name={inputs.category}
-                    options={categories.map(({ title, id }) => ({
+                    options={categories?.map(({ title, id }) => ({
                       value: id,
                       label: title,
                     }))}

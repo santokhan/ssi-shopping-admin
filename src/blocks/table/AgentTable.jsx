@@ -34,7 +34,7 @@ const AgentTableDetailsField = ({ agent }) => {
           className="text-base font-semibold leading-relaxed"
           title="Firstname Lastname (Display name)"
         >
-          {[agent.first_name, agent.last_name].filter(Boolean).join(' ')} (
+          {[agent.first_name, agent.last_name]?.filter(Boolean).join(' ')} (
           {agent.display_name})
         </h3>
         <p className="text-sm">{agent.location}</p>
@@ -144,7 +144,7 @@ const AgentTable = ({ setPageNumber, page_size }) => {
       // console.log({ needle });
       setFilteredAgents(
         /** Filter agents not already filtered items filteredAgents */
-        agentsList.filter((agent) => {
+        agentsList?.filter((agent) => {
           const target = agent.display_name.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -188,11 +188,11 @@ const AgentTable = ({ setPageNumber, page_size }) => {
                   .sort(
                     (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                   )
-                  .slice(
+                  ?.slice(
                     maxPerPage * (currentPage - 1),
                     maxPerPage * currentPage,
                   )
-                  .map((agent, i) => {
+                  ?.map((agent, i) => {
                     return (
                       <Fragment key={i}>
                         <AgentTableRow agent={agent} SN={i + 1} />
@@ -204,8 +204,8 @@ const AgentTable = ({ setPageNumber, page_size }) => {
           </div>
           <Pagination
             totalPages={new Array(Math.ceil(agentsList.length / maxPerPage))
-              .fill()
-              .map((_, i) => i + 1)}
+              ?.fill()
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

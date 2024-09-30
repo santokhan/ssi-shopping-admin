@@ -166,7 +166,7 @@ export const EditFeatures = () => {
         setValue(inputs.name, '');
         setValue(inputs.image, '');
 
-        navigate('/features');
+        navigate('/categories');
       })
       .catch((err) => {
         const errors = err?.response?.data;

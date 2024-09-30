@@ -9,8 +9,8 @@ const getPasswordWarnings = (password = '') => {
     ];
 
     return checks
-        .filter(({ regex }) => !regex.test(password))
-        .map(({ message }) => message);
+        ?.filter(({ regex }) => !regex.test(password))
+        ?.map(({ message }) => message);
 };
 
 export { getPasswordWarnings }

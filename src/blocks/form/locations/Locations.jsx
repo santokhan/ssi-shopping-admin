@@ -29,7 +29,7 @@ const SharedForm = ({ onSubmit }) => {
             return (
               <Select
                 name={'country'}
-                options={countries.map((c) => ({
+                options={countries?.map((c) => ({
                   label: c.name,
                   value: c.id,
                 }))}
@@ -51,10 +51,10 @@ const SharedForm = ({ onSubmit }) => {
               <Select
                 name={'city'}
                 options={cities
-                  .filter(
+                  ?.filter(
                     (c) => parseInt(c.country.id) === parseInt(value.country),
                   )
-                  .map((c) => ({
+                  ?.map((c) => ({
                     label: c.name,
                     value: c.id,
                   }))}

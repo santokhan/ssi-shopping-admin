@@ -6,7 +6,7 @@
  */
 function trimAmenities(amenities) {
     if (Array.isArray(amenities)) {
-        return amenities.map(({ id }) => id).flat();
+        return amenities?.map(({ id }) => id).flat();
     } else {
         return [];
     }

@@ -1,6 +1,6 @@
 const splitSpeaks = (speaks) => {
     if (typeof speaks === 'string' && speaks.includes(',')) {
-        const split = speaks.split(',').filter(s => s).map((s) => {
+        const split = speaks.split(',')?.filter(s => s)?.map((s) => {
             return {
                 label: split,
                 value: s.trim().toLowerCase(),

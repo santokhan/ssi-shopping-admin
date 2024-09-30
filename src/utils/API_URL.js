@@ -1,4 +1,4 @@
-const API_URL = 'https://api.demo.bsmproperty.ae/api/';
+const API_URL = '';
 
 export default API_URL;
 

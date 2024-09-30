@@ -23,7 +23,7 @@ const MediaInput = ({
   name = name || inputName;
   const isValue = Array.isArray(value) && value.length > 0;
   const initialDragableList = useMemo(() => {
-    return isValue ? value.map((_) => ({ id: uuidv4(), content: _ })) : [];
+    return isValue ? value?.map((_) => ({ id: uuidv4(), content: _ })) : [];
   }, [isValue, value]);
 
   const [items, setItems] = useState([...initialDragableList]);
@@ -72,11 +72,11 @@ const MediaInput = ({
     reorderedItems.splice(destination.index, 0, removed);
 
     setItems(reorderedItems);
-    const onlyImages = reorderedItems.map((item) => item.content);
+    const onlyImages = reorderedItems?.map((item) => item.content);
     setValue(name, onlyImages);
 
     reArrange(
-      onlyImages.map((item, i) => {
+      onlyImages?.map((item, i) => {
         if (item.id) {
           return {
             id: item.id,
@@ -127,7 +127,7 @@ const MediaInput = ({
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {items.map((item, i) => {
+              {items?.map((item, i) => {
                 let src = '';
                 const content = item.content;
 

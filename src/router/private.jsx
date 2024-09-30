@@ -7,7 +7,6 @@ const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
 
   if (!isAuthenticated) {
-    console.log(`Private Route`, isAuthenticated);
     return <Navigate to="/signin" replace />;
   } else {
     return children;

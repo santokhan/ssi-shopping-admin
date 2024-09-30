@@ -19,7 +19,7 @@ const Sidebar = ({ onSidebarToggle }) => {
 
   return (
     <ul className="space-y-1">
-      {sidebarNavs.map((item, index) => {
+      {sidebarNavs?.map((item, index) => {
         const { label, to } = item;
         return (
           <li key={index}>
@@ -27,7 +27,7 @@ const Sidebar = ({ onSidebarToggle }) => {
               to={to}
               onClick={onSidebarToggle}
               className={twMerge(
-                'block py-2.5 px-4 rounded-lg font-semibold',
+                'block py-2.5 px-4 rounded-lg font-semibold capitalize',
                 matcher(to)
                   ? 'bg-gray-800 text-gray-50'
                   : 'text-gray-800 hover:bg-gray-100',

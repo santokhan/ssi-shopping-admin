@@ -96,9 +96,9 @@ const AmenitiesTable = ({ className = '' }) => {
             </THead>
             <TBody>
               {amenities
-                .sort((a, b) => new Date(b.updated_on) - new Date(a.updated_on))
-                .slice((currentPage - 1) * maxPerPage, currentPage * maxPerPage)
-                .map((amenities, i) => {
+                ?.sort((a, b) => new Date(b.updated_on) - new Date(a.updated_on))
+                ?.slice((currentPage - 1) * maxPerPage, currentPage * maxPerPage)
+                ?.map((amenities, i) => {
                   return (
                     <Fragment key={i}>
                       <AmenitiesTableRow
@@ -112,8 +112,8 @@ const AmenitiesTable = ({ className = '' }) => {
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(amenities.length / maxPerPage))
-              .fill()
-              .map((_, i) => i + 1)}
+              ?.fill()
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

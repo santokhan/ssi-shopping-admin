@@ -52,7 +52,7 @@ const LocationForm = ({ value, setValue }) => {
             return (
               <Select
                 name={inputs.country}
-                options={countries.map((c) => ({
+                options={countries?.map((c) => ({
                   label: c.name,
                   value: c.id,
                 }))}
@@ -74,8 +74,8 @@ const LocationForm = ({ value, setValue }) => {
               <Select
                 name={inputs.city}
                 options={cities
-                  .filter((city) => city.country.id === parseInt(value.country))
-                  .map((c) => ({
+                  ?.filter((city) => city.country.id === parseInt(value.country))
+                  ?.map((c) => ({
                     label: c.name,
                     value: c.id,
                   }))}
@@ -97,8 +97,8 @@ const LocationForm = ({ value, setValue }) => {
               <Select
                 name={inputs.area}
                 options={areas
-                  .filter((area) => area.city.id === parseInt(value.city))
-                  .map((c) => ({
+                  ?.filter((area) => area.city.id === parseInt(value.city))
+                  ?.map((c) => ({
                     label: c.name,
                     value: c.id,
                   }))}

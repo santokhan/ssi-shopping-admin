@@ -51,7 +51,7 @@ const MediaForm = ({ value, setValue = (key = '', value = []) => {} }) => {
           if (Array.isArray(images)) {
             setValue(
               'images',
-              images.filter((_) => _.id !== id),
+              images?.filter((_) => _.id !== id),
             );
           }
         }

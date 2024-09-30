@@ -29,7 +29,7 @@ function MultipleSelect({
               if (
                 filtered.some((selected) => selected.value === option.value)
               ) {
-                filtered = filtered.filter(
+                filtered = filtered?.filter(
                   (selected) => selected.value !== option.value,
                 );
               } else {
@@ -52,7 +52,7 @@ function MultipleSelect({
             <ChevronUpDownIcon className="w-5 h-5 flex-shrink-0" />
           </Listbox.Button>
           <Listbox.Options className="absolute z-10 w-full bg-white max-h-60 overflow-y-auto border rounded-lg">
-            {options.map((option, index) => (
+            {options?.map((option, index) => (
               <Listbox.Option
                 key={index}
                 value={option}

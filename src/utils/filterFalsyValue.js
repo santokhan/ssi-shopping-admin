@@ -6,7 +6,7 @@
  */
 const checkFalsyValue = obj =>
     Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => ([key, value ? value : '']))
+        Object.entries(obj)?.map(([key, value]) => ([key, value ? value : '']))
     );
 
 // // Example object

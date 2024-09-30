@@ -108,7 +108,7 @@ const LocationsTable = ({ className = '' }) => {
             <TBody>
               {locations
                 .slice(page_size * (currentPage - 1), page_size * currentPage)
-                .map((location, i) => {
+                ?.map((location, i) => {
                   return (
                     <LocationsTableRow
                       key={i}
@@ -122,7 +122,7 @@ const LocationsTable = ({ className = '' }) => {
           <Pagination
             totalPages={new Array(Math.ceil(locations.length / page_size))
               .fill()
-              .map((_, i) => i + 1)}
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

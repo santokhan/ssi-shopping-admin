@@ -164,7 +164,7 @@ const ProjectsTable = ({ projects, refetch }) => {
       // console.log({ needle });
       setFiltered(
         /** Filter agents not already filtered items filteredAgents */
-        projects.filter((property) => {
+        projects?.filter((property) => {
           const target = property.title.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -209,7 +209,7 @@ const ProjectsTable = ({ projects, refetch }) => {
                     .sort(
                       (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                     )
-                    .map((property, i) => {
+                    ?.map((property, i) => {
                       return (
                         <Fragment key={i}>
                           <ProjectTableRow
@@ -225,7 +225,7 @@ const ProjectsTable = ({ projects, refetch }) => {
             <Pagination
               totalPages={new Array(Math.ceil(count / maxPerPage))
                 .fill()
-                .map((_, i) => i + 1)}
+                ?.map((_, i) => i + 1)}
               currentPage={currentPage}
             />
             <TableSummary

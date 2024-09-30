@@ -87,11 +87,11 @@ export const routes = [
     path: '/',
     element: (
       // All children's are wrapped by PrivateRoute
-      <PrivateRoute>
-        <DashboardLayout />
-      </PrivateRoute>
+      // <PrivateRoute>
+      //   <DashboardLayout />
+      // </PrivateRoute>
+      <DashboardLayout />
     ),
-    // All children's are wrapped by PrivateRoute
     children: [
       {
         path: '',
@@ -99,36 +99,7 @@ export const routes = [
         index: true,
       },
       {
-        path: 'agents',
-        element: <AgentLayout />,
-        children: [
-          {
-            path: '',
-            element: <Agents />,
-            index: true,
-          },
-          {
-            path: 'create',
-            element: <CreateAgent />,
-          },
-          {
-            path: ':id',
-            children: [
-              {
-                path: '',
-                element: <Agents />,
-                index: true,
-              },
-              {
-                path: 'edit',
-                element: <EditAgent />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: 'properties',
+        path: 'products',
         element: <PropertiesLayout />,
         children: [
           {
@@ -203,39 +174,7 @@ export const routes = [
         ],
       },
       {
-        path: 'amenities',
-        element: <AmenitiesLayout />,
-        children: [
-          {
-            path: '',
-            element: <CreateAmenities />,
-            index: true,
-          },
-          {
-            path: ':id/edit',
-            element: <EditAmenities />,
-            index: true,
-          },
-        ],
-      },
-      {
-        path: 'locations',
-        element: <LocationsLayout />,
-        children: [
-          {
-            path: '',
-            element: <CreateLocations />,
-            index: true,
-          },
-          {
-            path: ':id/edit',
-            element: <EditLocations />,
-            index: true,
-          },
-        ],
-      },
-      {
-        path: 'features',
+        path: 'categories',
         element: <FeaturesLayout />,
         children: [
           {
@@ -251,7 +190,7 @@ export const routes = [
         ],
       },
       {
-        path: 'enquiries',
+        path: 'orders',
         element: (
           <EnquiriesProvider>
             <EnquiriesLayout />
@@ -274,81 +213,6 @@ export const routes = [
         ],
       },
       {
-        path: 'projects',
-        element: (
-          <ProjectFormProvider>
-            <ProjectLayout />
-          </ProjectFormProvider>
-        ),
-        children: [
-          {
-            path: '',
-            element: <ProjectPage />,
-            index: true,
-          },
-          {
-            path: 'create',
-            element: <CreateProjectsLayout />,
-            children: [
-              {
-                path: 'description',
-                element: <ProjectDesc />,
-              },
-              {
-                path: 'details',
-                element: <ProjectDetails />,
-              },
-              {
-                path: 'location',
-                element: <ProjectLocation />,
-              },
-              {
-                path: 'media',
-                element: <ProjectMedia />,
-              },
-              {
-                path: 'qr-code',
-                element: <QRCodeTab />,
-              },
-              {
-                path: 'amenities',
-                element: <ProjectAmenities />,
-              },
-            ],
-          },
-          {
-            path: ':id/edit',
-            element: <CreateProjectsLayout />,
-            children: [
-              {
-                path: 'description',
-                element: <ProjectDesc />,
-              },
-              {
-                path: 'details',
-                element: <ProjectDetails />,
-              },
-              {
-                path: 'location',
-                element: <ProjectLocation />,
-              },
-              {
-                path: 'media',
-                element: <ProjectMedia />,
-              },
-              {
-                path: 'qr-code',
-                element: <ProjectQRCodeTab />,
-              },
-              {
-                path: 'amenities',
-                element: <ProjectAmenities type="edit" />,
-              },
-            ],
-          },
-        ],
-      },
-      {
         path: 'users',
         element: <UsersLayout />,
         children: [
@@ -363,7 +227,7 @@ export const routes = [
         ],
       },
       {
-        path: 'news',
+        path: 'blogs',
         element: <BlogsLayout />,
         children: [
           {
@@ -390,7 +254,61 @@ export const routes = [
         ],
       },
       {
-        path: 'testimonials',
+        path: 'reviews',
+        element: <LayoutTestimonials />,
+        children: [
+          {
+            path: '',
+            element: <TestimonialsPage />,
+            index: true,
+          },
+          {
+            path: 'create',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
+          {
+            path: ':id/edit',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'gifts',
+        element: <LayoutTestimonials />,
+        children: [
+          {
+            path: '',
+            element: <TestimonialsPage />,
+            index: true,
+          },
+          {
+            path: 'create',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
+          {
+            path: ':id/edit',
+            element: (
+              <TestiFormContextProvider>
+                <FormTestimonials />
+              </TestiFormContextProvider>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'points',
         element: <LayoutTestimonials />,
         children: [
           {
@@ -417,7 +335,6 @@ export const routes = [
         ],
       },
     ],
-    // All children's are wrapped by PrivateRoute
   },
   ...authRoutes,
   {

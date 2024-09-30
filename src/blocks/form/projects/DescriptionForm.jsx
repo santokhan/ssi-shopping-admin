@@ -67,7 +67,7 @@ const DescriptionForm = ({ value, setValue }) => {
     getCategories().then((res) => {
       if (res.data) {
         const data = res.data;
-        const trimmed = data.map((c) => ({
+        const trimmed = data?.map((c) => ({
           value: c.id,
           label: c.title,
         }));
@@ -122,7 +122,7 @@ const DescriptionForm = ({ value, setValue }) => {
       <Select
         name={inputs.agent}
         label={inputs.agent}
-        options={agents.map((a) => ({
+        options={agents?.map((a) => ({
           value: a.id,
           label: [a.first_name, a.last_name].join(' '),
         }))}

@@ -100,7 +100,7 @@ const FormTestimonials = () => {
   return (
     <div className={twMerge('w-full bg-white p-4 lg:p-6 space-y-4 max-w-2xl')}>
       <div className="flex items-center gap-2">
-        {id && <BackAnchor to="/testimonials" />}
+        {id && <BackAnchor to="/reviews" />}
         <FormTitle className="capitalize">
           {id ? 'edit' : 'create'} testimonial
         </FormTitle>

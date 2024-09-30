@@ -1,58 +1,46 @@
 export const sidebarNavs = [
     {
-        label: "Dashboard",
+        label: "dashboard",
         to: "/"
     },
     {
-        label: "Agents",
-        to: "agents"
+        label: "products",
+        to: "products"
     },
     {
-        label: "Properties",
-        to: "properties"
+        label: "categories",
+        to: "categories"
     },
     {
-        label: "Amenities",
-        to: "amenities"
+        label: "orders",
+        to: "orders"
     },
     {
-        label: "Locations",
-        to: "locations"
-    },
-    {
-        label: "Features",
-        to: "features"
-    },
-    {
-        label: "Enquiries",
-        to: "enquiries"
-    },
-    {
-        label: "Developers",
+        label: "developers",
         to: "developers"
     },
     {
-        label: "Projects",
-        to: "projects"
+        label: "blogs",
+        to: "blogs"
     },
     {
-        label: "Static Pages",
-        to: "static pages"
+        label: "reviews",
+        to: "reviews"
     },
     {
-        label: "News",
-        to: "news"
+        label: "gifts",
+        to: "/gifts"
     },
     {
-        label: "Testimonials",
-        to: "testimonials"
+        label: "orders",
+        to: "/orders"
     },
     {
-        label: "Users",
+        label: "points",
+        to: "/points"
+    },
+    {
+        label: "users",
         to: "users"
-    },
-    {
-        label: "Settings",
-        to: "settings"
     }
-]
+];

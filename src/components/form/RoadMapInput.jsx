@@ -74,7 +74,7 @@ const RoadMapInputContainer = ({ value, setValue = (roadmap) => {} }) => {
   const [focusIndex, setFocusIndex] = useState({ index: null, name: '' });
 
   const setInput = (name, inputValue, i) => {
-    const updated = value.map((e, idx) => {
+    const updated = value?.map((e, idx) => {
       if (idx === i) {
         e[name] = inputValue;
       }
@@ -89,7 +89,7 @@ const RoadMapInputContainer = ({ value, setValue = (roadmap) => {} }) => {
       <div className="col-span-full space-y-2">
         <FormTitle>Roadmap</FormTitle>
         <ul className="flex flex-col items-start gap-2">
-          {value.map(({ place, distance }, i) => {
+          {value?.map(({ place, distance }, i) => {
             return (
               <Fragment key={i}>
                 <li className="flex-grow flex items-end gap-4">
@@ -136,7 +136,7 @@ const RoadMapInputContainer = ({ value, setValue = (roadmap) => {} }) => {
                     <AddRemove
                       onClick={() => {
                         setValue(
-                          value.filter((e, idx) => {
+                          value?.filter((e, idx) => {
                             return idx !== i;
                           }),
                         );

@@ -7,7 +7,7 @@ function formatDate(str) {
     let month = d.toLocaleDateString('default', { month: 'long' });
 
     // Format the date
-    var formattedDate = `${month.slice(0, 3)} ${day}, ${year}`;
+    var formattedDate = `${month?.slice(0, 3)} ${day}, ${year}`;
 
     return formattedDate;
 }

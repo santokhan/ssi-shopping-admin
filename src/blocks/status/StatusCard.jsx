@@ -82,7 +82,7 @@ const StatusCard = () => {
 
   return (
     <div className="flex flex-wrap gap-4 mt-6 lg:mt-10">
-      {items.map((property, index) => (
+      {items?.map((property, index) => (
         <Card key={index} property={property} />
       ))}
     </div>

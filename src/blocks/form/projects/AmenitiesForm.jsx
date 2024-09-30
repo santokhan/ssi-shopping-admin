@@ -92,7 +92,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
     return (
       <form onSubmit={onSubmit}>
         <AmenitiesGrid>
-          {amenities.map((_) => {
+          {amenities?.map((_) => {
             // remove duplicates
             let clone = amenitiesReducer(value);
 
@@ -102,7 +102,7 @@ const AmenitiesForm = ({ value, setValue, onSubmit }) => {
                 checkboxes={_}
                 onChange={() => {
                   if (isExists(clone, _.id)) {
-                    setValue(clone.filter((e) => e != _.id));
+                    setValue(clone?.filter((e) => e != _.id));
                   } else {
                     setValue([...clone, _.id]);
                   }

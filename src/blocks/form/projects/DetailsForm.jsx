@@ -39,7 +39,7 @@ const DetailsForm = ({ value, setValue }) => {
         label="launch_date"
         value={
           value.launch_date
-            ? new Date(value.launch_date).toISOString().slice(0, 10)
+            ? new Date(value.launch_date).toISOString()?.slice(0, 10)
             : ''
         }
         onChange={(e) => {
@@ -59,7 +59,7 @@ const DetailsForm = ({ value, setValue }) => {
         required={true}
       />
       <AmenitiesGrid className="col-span-full">
-        {features.map((_) => {
+        {features?.map((_) => {
           // remove duplicates
           const isExists = (list, n) => {
             if (Array.isArray(list)) {
@@ -79,11 +79,11 @@ const DetailsForm = ({ value, setValue }) => {
               onChange={() => {
                 if (isExists(clone, _.id)) {
                   setValue(
-                    'features',
-                    clone.filter((e) => e != _.id),
+                    'categories',
+                    clone?.filter((e) => e != _.id),
                   );
                 } else {
-                  setValue('features', [...clone, _.id]);
+                  setValue('categories', [...clone, _.id]);
                 }
               }}
               checked={isExists(clone, _.id)}

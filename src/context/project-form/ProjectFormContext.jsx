@@ -26,7 +26,7 @@ function makeFormData(value) {
               }
             }
           }
-        } else if (['amenities', 'features'].includes(key)) {
+        } else if (['amenities', 'categories'].includes(key)) {
           if (Array.isArray(ele) && ele.length > 0) {
             ele.forEach((id) => {
               if (!isNaN(id)) {
@@ -49,7 +49,7 @@ function makeFormData(value) {
           }
         } else if (key == 'roadmap') {
           if (Array.isArray(ele)) {
-            const roadmap = ele.filter((o) => o.place);
+            const roadmap = ele?.filter((o) => o.place);
 
             // don't sent []
             if (roadmap.length > 0) {

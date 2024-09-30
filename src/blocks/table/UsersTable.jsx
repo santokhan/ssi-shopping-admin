@@ -97,8 +97,8 @@ const UsersTable = ({ className = '' }) => {
             </THead>
             <TBody>
               {users
-                .slice(page_size * (currentPage - 1), page_size * currentPage)
-                .map((user, i) => {
+                ?.slice(page_size * (currentPage - 1), page_size * currentPage)
+                ?.map((user, i) => {
                   return (
                     <Fragment key={i}>
                       <UsersTableRow user={user} refetch={refetch} />
@@ -109,8 +109,8 @@ const UsersTable = ({ className = '' }) => {
           </table>
           <Pagination
             totalPages={new Array(Math.ceil(users.length / page_size))
-              .fill()
-              .map((_, i) => i + 1)}
+              ?.fill()
+              ?.map((_, i) => i + 1)}
             currentPage={currentPage}
             setPageNumber={setPageNumber}
           />

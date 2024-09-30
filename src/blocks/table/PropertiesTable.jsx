@@ -171,7 +171,7 @@ const PropertiesTable = ({ properties, refetch }) => {
       // console.log({ needle });
       setFilteredProperties(
         /** Filter agents not already filtered items filteredAgents */
-        properties.filter((property) => {
+        properties?.filter((property) => {
           const target = property.title.trim().toLowerCase();
           const value = needle.trim().toLowerCase();
           console.log({ target, value, result: target.includes(value) });
@@ -198,7 +198,7 @@ const PropertiesTable = ({ properties, refetch }) => {
               <table className="w-full text-sm text-gray-500 rtl:text-right">
                 <THead>
                   <tr>
-                    {headList.map((head, i) => {
+                    {headList?.map((head, i) => {
                       return (
                         <TH
                           scope="col"
@@ -218,10 +218,10 @@ const PropertiesTable = ({ properties, refetch }) => {
                 </THead>
                 <TBody>
                   {filteredProperties
-                    .sort(
+                    ?.sort(
                       (a, b) => new Date(b.updated_on) - new Date(a.updated_on),
                     )
-                    .map((property, i) => {
+                    ?.map((property, i) => {
                       return (
                         <Fragment key={i}>
                           <PropertiesTableRow
@@ -236,8 +236,8 @@ const PropertiesTable = ({ properties, refetch }) => {
             </div>
             <Pagination
               totalPages={new Array(Math.ceil(count / maxPerPage))
-                .fill()
-                .map((_, i) => i + 1)}
+                ?.fill()
+                ?.map((_, i) => i + 1)}
               currentPage={currentPage}
             />
             <TableSummary
