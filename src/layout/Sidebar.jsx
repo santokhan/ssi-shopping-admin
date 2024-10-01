@@ -29,7 +29,7 @@ const Sidebar = ({ onSidebarToggle }) => {
               className={twMerge(
                 'block py-2.5 px-4 rounded-lg font-semibold capitalize',
                 matcher(to)
-                  ? 'bg-gray-800 text-gray-50'
+                  ? 'bg-[#6CB93B] text-gray-50'
                   : 'text-gray-800 hover:bg-gray-100',
               )}
             >
